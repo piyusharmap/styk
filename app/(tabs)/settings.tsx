@@ -1,12 +1,13 @@
 import { StyleSheet } from "react-native";
 import UIView from "../../components/ui/UIView";
-import { Link } from "expo-router";
+import { useHabitStore } from "../../store/habitStore";
+import UIButton from "../../components/ui/UIButton";
 
 const SettingsTab = () => {
+	const reset = useHabitStore((s) => s.reset);
 	return (
 		<UIView style={styles.container} isTopSafe>
-			<Link href="/login">Login</Link>
-			<Link href="/register">Register</Link>
+			<UIButton title="Reset All Data" onPress={reset} />
 		</UIView>
 	);
 };

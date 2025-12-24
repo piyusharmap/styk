@@ -1,4 +1,4 @@
-import { StyleProp, Text, TextStyle } from "react-native";
+import { StyleProp, Text, TextProps, TextStyle } from "react-native";
 import useThemeColor from "../../theme/useThemeColor";
 
 const UIText = ({
@@ -6,7 +6,7 @@ const UIText = ({
 	isSecondary,
 	style,
 	...props
-}: {
+}: TextProps & {
 	children: React.ReactNode;
 	isSecondary?: boolean;
 	style?: StyleProp<TextStyle>;

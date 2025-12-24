@@ -1,6 +1,5 @@
-import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
+import { View, StyleProp, ViewStyle, ViewProps } from "react-native";
 import React from "react";
-import { Colors } from "../../theme/colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useThemeColor from "../../theme/useThemeColor";
 
@@ -10,7 +9,7 @@ const UIView = ({
 	isBottomSafe = false,
 	style,
 	...props
-}: {
+}: ViewProps & {
 	children: React.ReactNode;
 	isTopSafe?: boolean;
 	isBottomSafe?: boolean;

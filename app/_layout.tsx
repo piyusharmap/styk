@@ -27,7 +27,11 @@ const RootLayout = () => {
 
 					<Stack.Screen
 						name="(auth)"
-						options={{ title: "", headerShown: true }}
+						options={{
+							title: "",
+							headerShown: true,
+							animation: "slide_from_right",
+						}}
 					/>
 				</Stack>
 			</UIView>
