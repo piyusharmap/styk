@@ -1,16 +1,11 @@
 import { StyleSheet, View } from "react-native";
 import UIView from "../../components/ui/UIView";
 import { PageHeader, PageHeading } from "../../components/layout/PageHeader";
-import { useState } from "react";
 import AddHabitButton from "../../screens/habits/components/AddHabitButton";
-import AddHabitModal from "../../screens/habits/components/AddHabitModal";
-import { useHabitStore } from "../../store/habitStore";
-import HabitListCard from "../../screens/habits/components/HabitListCard";
+import { useRouter } from "expo-router";
 
 const HabitsTab = () => {
-	const [showModal, setShowModal] = useState<boolean>(false);
-
-	const habits = useHabitStore((s) => s.habits);
+	const router = useRouter();
 
 	return (
 		<UIView style={styles.container} isTopSafe>
@@ -18,20 +13,11 @@ const HabitsTab = () => {
 				<PageHeading>Your Habits</PageHeading>
 			</PageHeader>
 
-			<View style={styles.habitsContainer}>
-				{habits.map((habit) => {
-					return <HabitListCard key={habit.id} habit={habit} />;
-				})}
-			</View>
-
 			<View style={styles.actionContainer}>
-				<AddHabitButton onPress={() => setShowModal(true)} />
+				<AddHabitButton
+					onPress={() => router.navigate("create/page")}
+				/>
 			</View>
-
-			<AddHabitModal
-				visible={showModal}
-				onClose={() => setShowModal(false)}
-			/>
 		</UIView>
 	);
 };

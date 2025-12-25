@@ -13,6 +13,8 @@ export type Theme = {
 	text?: string;
 	textSecondary?: string;
 
+	button?: string;
+
 	navBackground?: string;
 	navText?: string;
 
@@ -20,18 +22,17 @@ export type Theme = {
 	tabIconActive?: string;
 	tabIconInactive?: string;
 
-	neutralLight?: string;
-	neutralDark?: string;
+	neutral?: string;
 };
 
 export const Colors: Record<string, Theme> = {
 	light: {
-		primary: "#018790",
+		primary: "#03929C",
 		secondary: "#01AFBA",
 		accent: "#EF9343",
 
-		danger: "#B82C2C",
-		success: "#039E2C",
+		danger: "#CE4343",
+		success: "#10B13B",
 		info: "#C79F02",
 
 		background: "#F9F9F9",
@@ -41,6 +42,8 @@ export const Colors: Record<string, Theme> = {
 		text: "#0E0E0E",
 		textSecondary: "#4D4D4D",
 
+		button: "#CACACA",
+
 		navBackground: "#F9F9F9",
 		navText: "#0E0E0E",
 
@@ -48,8 +51,7 @@ export const Colors: Record<string, Theme> = {
 		tabIconActive: "#000000",
 		tabIconInactive: "#4D4D4D",
 
-		neutralLight: "#FFFFFF",
-		neutralDark: "#000000",
+		neutral: "#070707",
 	},
 
 	dark: {
@@ -63,10 +65,12 @@ export const Colors: Record<string, Theme> = {
 
 		background: "#0E0E0E",
 		foreground: "#222222",
-		border: "#343434",
+		border: "#3D3D3D",
 
 		text: "#F2F2F2",
 		textSecondary: "#D4D4D4",
+
+		button: "#444343",
 
 		navBackground: "#0E0E0E",
 		navText: "#F2F2F2",
@@ -75,7 +79,6 @@ export const Colors: Record<string, Theme> = {
 		tabIconActive: "#FFFFFF",
 		tabIconInactive: "#AAAAAA",
 
-		neutralLight: "#FFFFFF",
-		neutralDark: "#000000",
+		neutral: "#F3F3F3",
 	},
 };

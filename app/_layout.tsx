@@ -33,6 +33,15 @@ const RootLayout = () => {
 							animation: "slide_from_right",
 						}}
 					/>
+
+					<Stack.Screen
+						name="create/page"
+						options={{
+							title: "Create Habit",
+							headerShown: true,
+							animation: "slide_from_right",
+						}}
+					/>
 				</Stack>
 			</UIView>
 		</>

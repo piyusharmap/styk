@@ -15,7 +15,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 		>
 			<UIText style={styles.habitName}>{habit.name}</UIText>
 			<UIText style={styles.habitFreq} isSecondary>
-				Occurs {habit.frequency}
+				Occurs {habit.target.frequency}
 			</UIText>
 		</View>
 	);
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16,
 		paddingVertical: 12,
 		borderWidth: 1,
-		borderRadius: 8,
+		borderRadius: 10,
 		gap: 2,
 	},
 

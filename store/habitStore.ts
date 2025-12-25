@@ -1,20 +1,22 @@
 import { create } from "zustand";
-import { Habit, HabitFrequency, HabitLog } from "../types/habitTypes";
-import { getTodayString } from "../utils/date";
+import { Habit, HabitLog, HabitTarget } from "../types/habitTypes";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getTodayString } from "./utils/timeWindow";
 
 type HabitStore = {
 	habits: Habit[];
 	logs: HabitLog[];
 
-	addHabit: (name: string, frequency: HabitFrequency, color: string) => void;
-	toggleHabitForToday: (habitId: string) => void;
+	addHabit: (name: string, target: HabitTarget, color: string) => void;
+	markHabitForToday: (habitId: string) => void;
+	unmarkHabitForToday: (habitID: string) => void;
 
-	isHabitDoneToday: (habitId: string) => boolean;
-	getTodayHabits: () => Habit[];
+	isHabitSuccessful: (habitId: string) => boolean;
 	getStreak: (habitId: string) => number;
 
+	getAllHabits: () => Habit[];
+	getTodayHabits: () => Habit[];
 	reset: () => void;
 };
 
@@ -24,7 +26,7 @@ export const useHabitStore = create<HabitStore>()(
 			habits: [],
 			logs: [],
 
-			addHabit: (name, frequency, color) => {
+			addHabit: (name, target, color) => {
 				const today = getTodayString();
 
 				set((state) => ({
@@ -34,26 +36,28 @@ export const useHabitStore = create<HabitStore>()(
 							id: `${state.habits.length + 1}`,
 							name: name,
 							color: color,
-							frequency: frequency,
+							target: target,
 							createdAt: today,
+							updatedAt: today,
 						},
 					],
 				}));
 			},
 
-			toggleHabitForToday: (habitId) => {
+			markHabitForToday: (habitId) => {
 				const today = getTodayString();
 				const logs = get().logs;
 
 				const existingLog = logs.find(
 					(log) => log.habitId === habitId && log.date === today
 				);
+				if (!existingLog) return;
 
 				if (existingLog) {
 					set({
 						logs: logs.map((log) =>
-							log === existingLog
-								? { ...log, completed: true }
+							log.id === existingLog.id
+								? { ...log, value: log.value + 1 }
 								: log
 						),
 					});
@@ -62,54 +66,54 @@ export const useHabitStore = create<HabitStore>()(
 						logs: [
 							...state.logs,
 							{
+								id: `${state.logs.length + 1}`,
 								habitId: habitId,
 								date: today,
-								completed: true,
+								value: 1,
 							},
 						],
 					}));
 				}
 			},
 
-			isHabitDoneToday: (habitId) => {
+			unmarkHabitForToday: (habitId) => {
 				const today = getTodayString();
+				const logs = get().logs;
 
-				const isDone = !!get().logs.find(
-					(log) =>
-						log.habitId === habitId &&
-						log.date === today &&
-						log.completed
+				const existingLog = logs.find(
+					(log) => log.habitId === habitId && log.date === today
 				);
+				if (!existingLog) return;
 
-				return isDone;
+				if (existingLog.value > 1) {
+					set({
+						logs: logs.map((log) =>
+							log.id === existingLog.id
+								? { ...log, value: log.value - 1 }
+								: log
+						),
+					});
+				} else {
+					set({
+						logs: logs.filter((log) => log.id !== existingLog.id),
+					});
+				}
+			},
+
+			isHabitSuccessful: (habitId) => {
+				return false;
+			},
+
+			getStreak: (habitId) => {
+				return 0;
+			},
+
+			getAllHabits: () => {
+				return get().habits;
 			},
 
 			getTodayHabits: () => {
 				return get().habits;
-			},
-
-			getStreak: (habitId) => {
-				const logs = get()
-					.logs.filter(
-						(log) => log.habitId === habitId && log.completed
-					)
-					.sort((a, b) => (a.date < b.date ? 1 : -1));
-
-				let streak = 0;
-				let currentDate = getTodayString();
-
-				for (const log of logs) {
-					if (log.date === currentDate) {
-						streak++;
-						const date = new Date(currentDate);
-						date.setDate(date.getDate() - 1);
-						currentDate = date.toISOString().split("T")[0];
-					} else {
-						break;
-					}
-				}
-
-				return streak;
 			},
 
 			reset: () => set({ habits: [], logs: [] }),
