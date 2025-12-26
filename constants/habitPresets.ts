@@ -18,10 +18,10 @@ export const PresetOptions = [
 		description: "Habits you want to do more of",
 		habits: [
 			{
-				name: "Go for a walk",
+				name: "Cardio",
 				target: {
 					type: "count",
-					frequency: "daily",
+					frequency: "weekly",
 					count: 1,
 				},
 				color: "#4CAF50",

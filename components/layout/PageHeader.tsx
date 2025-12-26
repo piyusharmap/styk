@@ -19,14 +19,13 @@ export const PageHeader = ({ children }: { children: React.ReactNode }) => {
 const styles = StyleSheet.create({
 	// container styles
 	container: {
-		paddingHorizontal: 20,
+		paddingHorizontal: 16,
 		paddingVertical: 16,
-		gap: 2,
 	},
 
 	// text styles
 	heading: {
-		fontSize: 24,
+		fontSize: 20,
 		fontWeight: "600",
 	},
 });

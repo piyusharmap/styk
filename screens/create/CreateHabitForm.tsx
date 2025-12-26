@@ -6,7 +6,12 @@ import {
 } from "../../components/ui/UIInput";
 import { useState } from "react";
 import { ColorOptions } from "../../constants/habit";
-import { CountUnit, HabitFrequency, HabitType } from "../../types/habitTypes";
+import {
+	CountUnit,
+	HabitFrequency,
+	HabitTarget,
+	HabitType,
+} from "../../types/habitTypes";
 
 import ColorSelector from "./components/ColorSelector";
 import TypeSelector from "./components/TypeSelector";
@@ -14,6 +19,8 @@ import UnitSelector from "./components/UnitSelector";
 import HabitCounter from "./components/HabitCounter";
 import FrequencySelector from "./components/FrequencySelector";
 import UIButton from "../../components/ui/UIButton";
+import { useHabitStore } from "../../store/habitStore";
+import { getTodayString } from "../../store/utils/timeWindow";
 
 const CreateHabitForm = () => {
 	const [habitName, setHabitName] = useState("");
@@ -24,6 +31,8 @@ const CreateHabitForm = () => {
 	const [habitFrequency, setHabitFrequency] =
 		useState<HabitFrequency>("daily");
 
+	const addHabit = useHabitStore((s) => s.addHabit);
+
 	const handleResetHabit = () => {
 		setHabitName("");
 		setHabitColor(ColorOptions[0]);
@@ -33,7 +42,7 @@ const CreateHabitForm = () => {
 	};
 
 	const handleSaveHabit = () => {
-		let habitTarget = {};
+		let habitTarget: HabitTarget;
 
 		if (habitType === "count") {
 			habitTarget = {
@@ -45,17 +54,18 @@ const CreateHabitForm = () => {
 		} else {
 			habitTarget = {
 				type: habitType,
-				frequency: habitFrequency,
+				startDate: getTodayString(),
+				frequency: "daily",
 			};
 		}
 
-		const habit = {
+		const newHabit = {
 			name: habitName.trim(),
 			color: habitColor,
 			target: habitTarget,
 		};
 
-		console.log(habit);
+		addHabit(newHabit.name, newHabit.color, newHabit.target);
 	};
 
 	return (
@@ -69,7 +79,7 @@ const CreateHabitForm = () => {
 					<UIInput
 						value={habitName}
 						onChangeInput={setHabitName}
-						placeholder="e.g. Study, Run, Read"
+						placeholder="e.g. Exercise, Running, Reading"
 					/>
 				</UIInputContainer>
 
@@ -107,6 +117,12 @@ const CreateHabitForm = () => {
 								onPress={setHabitFrequency}
 							/>
 						</View>
+					</UIInputContainer>
+				) : null}
+
+				{habitType === "quit" ? (
+					<UIInputContainer>
+						<UIInputLabel label="Started on" />
 					</UIInputContainer>
 				) : null}
 			</ScrollView>

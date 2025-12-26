@@ -5,12 +5,13 @@ import UIText from "../../../components/ui/UIText";
 import { Dispatch, SetStateAction } from "react";
 import useThemeColor from "../../../theme/useThemeColor";
 import { Ionicons } from "@expo/vector-icons";
+import { IonIconType } from "../../../types/iconTypes";
 
 export type TypeOption = {
 	label: string;
 	description: string;
 	value: HabitType;
-	icon: keyof typeof Ionicons.glyphMap;
+	icon: IonIconType;
 };
 
 const TypeCard = ({

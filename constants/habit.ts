@@ -1,5 +1,20 @@
 import { TypeOption } from "../screens/create/components/TypeSelector";
 import { CountUnit, HabitFrequency, HabitType } from "../types/habitTypes";
+import { IonIconType } from "../types/iconTypes";
+
+export const HabitTypeDetails: Record<
+	HabitType,
+	{ label: string; icon: IonIconType }
+> = {
+	count: {
+		label: "Build",
+		icon: "trending-up",
+	},
+	quit: {
+		label: "Quit",
+		icon: "ban",
+	},
+};
 
 export const ColorOptions = [
 	"#2556A5",
@@ -8,8 +23,8 @@ export const ColorOptions = [
 	"#8B5CF6",
 	"#A855F7",
 	"#EE2D36",
-	"#EC4899",
-	"#EC75B1",
+	"#E64545",
+	"#EC69AB",
 	"#F59E0B",
 	"#EEBE3A",
 	"#22C55E",
@@ -32,7 +47,7 @@ export const FrequencyOptions: { label: string; value: HabitFrequency }[] = [
 		value: "monthly",
 	},
 	{
-		label: "Yearly",
+		label: "Annually",
 		value: "yearly",
 	},
 ];
@@ -42,7 +57,7 @@ export const TypeOptions: TypeOption[] = [
 		label: "Build",
 		description: "Create a positive habit over time.",
 		value: "count",
-		icon: "trending-up-sharp",
+		icon: "trending-up",
 	},
 	{
 		label: "Quit",

@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 	},
 	createForm: {
 		flex: 1,
-		paddingHorizontal: 20,
+		paddingHorizontal: 16,
 		paddingVertical: 10,
 	},
 });

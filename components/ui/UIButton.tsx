@@ -10,6 +10,7 @@ import UIText from "./UIText";
 import { Ionicons } from "@expo/vector-icons";
 import useThemeColor from "../../theme/useThemeColor";
 import UILoader from "./UILoader";
+import { IonIconType } from "../../types/iconTypes";
 
 type ButtonVariant = "default" | "primary" | "secondary" | "danger" | "success";
 type ButtonSize = "sm" | "md" | "lg";
@@ -27,7 +28,7 @@ const UIButton = ({
 	title: string;
 	variant?: ButtonVariant;
 	size?: ButtonSize;
-	iconName?: keyof typeof Ionicons.glyphMap;
+	iconName?: IonIconType;
 	isLoading?: boolean;
 	isDisabled?: boolean;
 	style?: StyleProp<ViewStyle>;

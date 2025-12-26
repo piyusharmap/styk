@@ -10,11 +10,22 @@ export type HabitTarget =
 			count: number;
 			frequency: HabitFrequency;
 			unit: CountUnit;
+			milestones?: HabitMilestone[];
 	  }
 	| {
 			type: "quit";
+			startDate: string;
 			frequency: "daily";
+			milestones?: HabitMilestone[];
 	  };
+
+export type HabitMilestone = {
+	id: string;
+	label: string;
+	value: number;
+	unit: CountUnit;
+	reachedAt: string;
+};
 
 export type Habit = {
 	id: string;

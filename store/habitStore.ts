@@ -8,7 +8,7 @@ type HabitStore = {
 	habits: Habit[];
 	logs: HabitLog[];
 
-	addHabit: (name: string, target: HabitTarget, color: string) => void;
+	addHabit: (name: string, color: string, target: HabitTarget) => void;
 	markHabitForToday: (habitId: string) => void;
 	unmarkHabitForToday: (habitID: string) => void;
 
@@ -26,7 +26,7 @@ export const useHabitStore = create<HabitStore>()(
 			habits: [],
 			logs: [],
 
-			addHabit: (name, target, color) => {
+			addHabit: (name, color, target) => {
 				const today = getTodayString();
 
 				set((state) => ({

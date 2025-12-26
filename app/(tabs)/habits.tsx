@@ -1,17 +1,35 @@
-import { StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import UIView from "../../components/ui/UIView";
-import { PageHeader, PageHeading } from "../../components/layout/PageHeader";
 import AddHabitButton from "../../screens/habits/components/AddHabitButton";
 import { useRouter } from "expo-router";
+import { useHabitStore } from "../../store/habitStore";
+import HabitListCard from "../../screens/habits/components/HabitListCard";
+import UIText from "../../components/ui/UIText";
 
 const HabitsTab = () => {
 	const router = useRouter();
 
+	const habits = useHabitStore((s) => s.getAllHabits());
+
 	return (
 		<UIView style={styles.container} isTopSafe>
-			<PageHeader>
-				<PageHeading>Your Habits</PageHeading>
-			</PageHeader>
+			<FlatList
+				data={habits}
+				keyExtractor={(item) => item.id}
+				contentContainerStyle={styles.habitsContainer}
+				ListHeaderComponent={() => {
+					return (
+						<View style={styles.listHeader}>
+							<UIText style={styles.listHeading}>
+								Your Habits
+							</UIText>
+						</View>
+					);
+				}}
+				renderItem={({ item }) => {
+					return <HabitListCard key={item.id} habit={item} />;
+				}}
+			/>
 
 			<View style={styles.actionContainer}>
 				<AddHabitButton
@@ -31,14 +49,24 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	habitsContainer: {
-		paddingHorizontal: 20,
-		paddingVertical: 10,
+		paddingHorizontal: 16,
+		paddingVertical: 20,
 		gap: 8,
+	},
+	listHeader: {
+		paddingHorizontal: 2,
+		paddingVertical: 6,
 	},
 	actionContainer: {
 		position: "absolute",
 		padding: 12,
 		bottom: 0,
 		right: 0,
+	},
+
+	// text styles
+	listHeading: {
+		fontSize: 20,
+		fontWeight: "600",
 	},
 });
