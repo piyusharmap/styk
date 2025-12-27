@@ -19,6 +19,16 @@ export const UIInputLabel = ({ label }: { label: string }) => {
 	);
 };
 
+export const UIInputError = ({ error }: { error: string }) => {
+	const colors = useThemeColor();
+
+	return (
+		<UIText style={[{ color: colors.danger }, styles.error]}>
+			{error}
+		</UIText>
+	);
+};
+
 export const UIInput = ({
 	value,
 	onChangeInput,
@@ -75,7 +85,7 @@ export const UIInputContainer = ({
 const styles = StyleSheet.create({
 	// container styles
 	inputContainer: {
-		gap: 10,
+		gap: 6,
 	},
 
 	// text styles
@@ -88,7 +98,12 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 	},
 	label: {
-		paddingHorizontal: 4,
+		paddingHorizontal: 2,
+		paddingBottom: 4,
 		fontSize: 14,
+	},
+	error: {
+		paddingHorizontal: 2,
+		fontSize: 12,
 	},
 });

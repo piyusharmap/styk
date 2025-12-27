@@ -4,6 +4,8 @@ export type HabitType = "count" | "quit";
 
 export type CountUnit = "times" | "minutes" | "hours";
 
+export type HabitWindow = { start: string; end: string };
+
 export type HabitTarget =
 	| {
 			type: "count";

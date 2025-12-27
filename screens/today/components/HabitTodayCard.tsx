@@ -3,46 +3,90 @@ import UIText from "../../../components/ui/UIText";
 import { Habit } from "../../../types/habitTypes";
 import useThemeColor from "../../../theme/useThemeColor";
 import HabitToggleButton from "./HabitToggleButton";
+import { useHabitStore } from "../../../store/habitStore";
+import { Ionicons } from "@expo/vector-icons";
 
 const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 	const colors = useThemeColor();
+
+	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(habit.id));
+	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
 
 	return (
 		<View
 			style={[
 				{
-					backgroundColor: habit.color + "20",
-					borderColor: habit.color,
+					backgroundColor: colors.foreground + "80",
+					borderColor: colors.border,
 				},
 				styles.habitCard,
 			]}
 		>
-			<View style={styles.habitInfo}>
-				<UIText style={styles.habitName}>{habit.name}</UIText>
+			<View style={styles.habitSection}>
+				<View style={styles.habitInfo}>
+					<UIText style={styles.habitName}>{habit.name}</UIText>
 
-				<View style={styles.habitDetails}>
-					{habit.target.type === "count" ? (
-						<>
-							<UIText style={styles.habitDetail} isSecondary>
-								Pending:{" "}
-								<Text style={{ color: colors.text }}>
-									0/{habit.target.count} {habit.target.unit}
-								</Text>
-							</UIText>
-						</>
+					<View style={styles.habitDetails}>
+						{habit.target.type === "count" ? (
+							<>
+								<UIText style={styles.habitDetail} isSecondary>
+									{isHabitLocked ? "Completed" : "Pending"}:{" "}
+									<Text style={{ color: colors.text }}>
+										{countValue}/{habit.target.count}{" "}
+										{habit.target.unit}
+									</Text>
+								</UIText>
+							</>
+						) : (
+							<>
+								<UIText style={styles.habitDetail} isSecondary>
+									Clean Today
+								</UIText>
+							</>
+						)}
+					</View>
+				</View>
+
+				<View style={styles.actionContainer}>
+					{isHabitLocked && habit.target.type === "count" ? (
+						<View style={styles.iconContainer}>
+							<Ionicons
+								name="checkmark-circle"
+								size={32}
+								color={habit.color}
+							/>
+						</View>
 					) : (
-						<>
-							<UIText style={styles.habitDetail} isSecondary>
-								Clean Today
-							</UIText>
-						</>
+						<HabitToggleButton
+							habit={habit}
+							isDisabled={isHabitLocked}
+						/>
 					)}
 				</View>
 			</View>
 
-			<View style={styles.actionContainer}>
-				<HabitToggleButton habit={habit} isCompleted={false} />
-			</View>
+			{habit.target.type === "count" && (
+				<View
+					style={[
+						{
+							backgroundColor: habit.color + "50",
+						},
+						styles.progressBarTrack,
+					]}
+				>
+					<View
+						style={[
+							{
+								width: `${
+									(countValue / habit.target.count) * 100
+								}%`,
+								backgroundColor: habit.color,
+							},
+							styles.progressBar,
+						]}
+					/>
+				</View>
+			)}
 		</View>
 	);
 };
@@ -53,14 +97,17 @@ const styles = StyleSheet.create({
 	// container styles
 	habitCard: {
 		padding: 12,
+		gap: 12,
+		borderRadius: 10,
+		borderWidth: 1,
+		borderStyle: "dashed",
+		overflow: "hidden",
+	},
+	habitSection: {
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
 		gap: 10,
-		borderRadius: 10,
-		borderWidth: 0.5,
-		borderStyle: "dashed",
-		overflow: "hidden",
 	},
 	habitCardPressed: {
 		opacity: 0.8,
@@ -72,7 +119,23 @@ const styles = StyleSheet.create({
 	habitDetails: {
 		alignItems: "flex-start",
 	},
+	progressBarTrack: {
+		width: "100%",
+		height: 4,
+		borderRadius: 2,
+		overflow: "hidden",
+	},
+	progressBar: {
+		minWidth: 4,
+		height: "100%",
+	},
 	actionContainer: {
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	iconContainer: {
+		height: 40,
+		width: 40,
 		justifyContent: "center",
 		alignItems: "center",
 	},

@@ -29,6 +29,13 @@ const HabitsTab = () => {
 				renderItem={({ item }) => {
 					return <HabitListCard key={item.id} habit={item} />;
 				}}
+				ListEmptyComponent={
+					<View style={styles.messageContainer}>
+						<UIText style={styles.message} isSecondary>
+							Create your first habit to begin
+						</UIText>
+					</View>
+				}
 			/>
 
 			<View style={styles.actionContainer}>
@@ -55,7 +62,12 @@ const styles = StyleSheet.create({
 	},
 	listHeader: {
 		paddingHorizontal: 2,
-		paddingVertical: 6,
+		paddingBottom: 2,
+	},
+	messageContainer: {
+		padding: 20,
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	actionContainer: {
 		position: "absolute",
@@ -66,7 +78,10 @@ const styles = StyleSheet.create({
 
 	// text styles
 	listHeading: {
-		fontSize: 20,
+		fontSize: 16,
 		fontWeight: "600",
+	},
+	message: {
+		fontSize: 12,
 	},
 });

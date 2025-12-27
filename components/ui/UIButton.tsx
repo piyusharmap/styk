@@ -36,11 +36,26 @@ const UIButton = ({
 	const colors = useThemeColor();
 
 	const variantColors = {
-		default: colors.button,
-		primary: colors.primary,
-		secondary: colors.secondary,
-		danger: colors.danger,
-		success: colors.success,
+		default: {
+			background: colors.button,
+			text: colors.text,
+		},
+		primary: {
+			background: colors.primary,
+			text: colors.neutralWhite,
+		},
+		secondary: {
+			background: colors.secondary,
+			text: colors.neutralWhite,
+		},
+		danger: {
+			background: colors.danger,
+			text: colors.neutralWhite,
+		},
+		success: {
+			background: colors.success,
+			text: colors.neutralWhite,
+		},
 	};
 
 	const variantSizes = {
@@ -58,7 +73,7 @@ const UIButton = ({
 				{
 					height: variantSize.height,
 					paddingHorizontal: variantSize.paddingH,
-					backgroundColor: variantColor,
+					backgroundColor: variantColor.background,
 				},
 				styles.button,
 				pressed && !isDisabled && styles.buttonPressed,
@@ -68,18 +83,24 @@ const UIButton = ({
 			{...props}
 		>
 			{isLoading ? (
-				<UILoader size={variantSize.icon} color={colors.text} />
+				<UILoader size={variantSize.icon} color={variantColor.text} />
 			) : (
 				<>
 					{iconName && (
 						<Ionicons
 							name={iconName}
 							size={variantSize.icon}
-							color={colors.text}
+							color={variantColor.text}
 						/>
 					)}
 					<UIText
-						style={[{ fontSize: variantSize.font }, styles.title]}
+						style={[
+							{
+								fontSize: variantSize.font,
+								color: variantColor.text,
+							},
+							styles.title,
+						]}
 					>
 						{title}
 					</UIText>

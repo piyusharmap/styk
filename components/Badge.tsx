@@ -37,7 +37,7 @@ const Badge = ({
 			]}
 			{...props}
 		>
-			{icon && <Ionicons name={icon} size={14} color={colors.neutral} />}
+			{icon && <Ionicons name={icon} size={14} color={colors.text} />}
 			<UIText style={styles.title}>{title}</UIText>
 		</Pressable>
 	);
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		gap: 4,
 		borderWidth: 0.5,
-		borderRadius: 8,
+		borderRadius: 6,
 	},
 	badgePressed: {
 		opacity: 0.8,

@@ -15,8 +15,8 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: habit.color + "20",
-					borderColor: habit.color,
+					backgroundColor: colors.foreground + "80",
+					borderColor: colors.border,
 				},
 				styles.habitCard,
 				pressed && styles.habitCardPressed,
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
 		padding: 12,
 		gap: 10,
 		borderRadius: 10,
-		borderWidth: 0.5,
+		borderWidth: 1,
 		borderStyle: "dashed",
 		overflow: "hidden",
 	},

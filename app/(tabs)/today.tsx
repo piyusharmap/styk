@@ -3,12 +3,17 @@ import UIView from "../../components/ui/UIView";
 import { useHabitStore } from "../../store/habitStore";
 import HabitTodayCard from "../../screens/today/components/HabitTodayCard";
 import UIText from "../../components/ui/UIText";
+import GreetingCard from "../../screens/today/components/GreetingCard";
 
 const TodayTab = () => {
 	const habits = useHabitStore((s) => s.getTodayHabits());
 
 	return (
 		<UIView style={styles.container} isTopSafe>
+			<View style={styles.greetingContainer}>
+				<GreetingCard />
+			</View>
+
 			<FlatList
 				data={habits}
 				keyExtractor={(item) => item.id}
@@ -25,6 +30,13 @@ const TodayTab = () => {
 				renderItem={({ item }) => {
 					return <HabitTodayCard key={item.id} habit={item} />;
 				}}
+				ListEmptyComponent={
+					<View style={styles.messageContainer}>
+						<UIText style={styles.message} isSecondary>
+							No habits for today.
+						</UIText>
+					</View>
+				}
 			/>
 		</UIView>
 	);
@@ -36,15 +48,26 @@ const styles = StyleSheet.create({
 	// container styles
 	container: {
 		flex: 1,
+		gap: 12,
+	},
+	greetingContainer: {
+		paddingHorizontal: 12,
+		paddingTop: 20,
+		paddingBottom: 10,
 	},
 	habitsContainer: {
 		paddingHorizontal: 16,
-		paddingVertical: 20,
+		paddingBottom: 20,
 		gap: 8,
 	},
 	listHeader: {
 		paddingHorizontal: 2,
-		paddingVertical: 6,
+		paddingBottom: 2,
+	},
+	messageContainer: {
+		padding: 20,
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	actionContainer: {
 		position: "absolute",
@@ -55,7 +78,10 @@ const styles = StyleSheet.create({
 
 	// text styles
 	listHeading: {
-		fontSize: 20,
+		fontSize: 16,
 		fontWeight: "600",
+	},
+	message: {
+		fontSize: 12,
 	},
 });

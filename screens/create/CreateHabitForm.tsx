@@ -2,6 +2,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import {
 	UIInput,
 	UIInputContainer,
+	UIInputError,
 	UIInputLabel,
 } from "../../components/ui/UIInput";
 import { useState } from "react";
@@ -20,7 +21,7 @@ import HabitCounter from "./components/HabitCounter";
 import FrequencySelector from "./components/FrequencySelector";
 import UIButton from "../../components/ui/UIButton";
 import { useHabitStore } from "../../store/habitStore";
-import { getTodayString } from "../../store/utils/timeWindow";
+import { getTodayString } from "../../utils/time";
 
 const CreateHabitForm = () => {
 	const [habitName, setHabitName] = useState("");
@@ -30,6 +31,8 @@ const CreateHabitForm = () => {
 	const [habitCount, setHabitCount] = useState<number>(1);
 	const [habitFrequency, setHabitFrequency] =
 		useState<HabitFrequency>("daily");
+
+	const [formError, setFormError] = useState<string>("");
 
 	const addHabit = useHabitStore((s) => s.addHabit);
 
@@ -43,6 +46,11 @@ const CreateHabitForm = () => {
 
 	const handleSaveHabit = () => {
 		let habitTarget: HabitTarget;
+
+		if (habitName.length > 40) {
+			setFormError("Name should not exceed 40 characters.");
+			return;
+		}
 
 		if (habitType === "count") {
 			habitTarget = {
@@ -81,6 +89,7 @@ const CreateHabitForm = () => {
 						onChangeInput={setHabitName}
 						placeholder="e.g. Exercise, Running, Reading"
 					/>
+					{formError && <UIInputError error={formError} />}
 				</UIInputContainer>
 
 				<UIInputContainer>

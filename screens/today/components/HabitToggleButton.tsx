@@ -7,15 +7,14 @@ import { useHabitStore } from "../../../store/habitStore";
 
 const HabitToggleButton = ({
 	habit,
-	isCompleted,
+	isDisabled,
 }: {
 	habit: Habit;
-	isCompleted: boolean;
+	isDisabled: boolean;
 }) => {
-	const markHabitForToday = useHabitStore((s) => s.markHabitForToday);
-
 	const icon: IonIconType = habit.target.type === "count" ? "add" : "refresh";
 
+	const markHabitForToday = useHabitStore((s) => s.markHabitForToday);
 	const handleMarkHabit = () => {
 		markHabitForToday(habit.id);
 	};
@@ -24,22 +23,18 @@ const HabitToggleButton = ({
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: habit.color + "50",
+					// backgroundColor: habit.color + "20",
 					borderColor: habit.color,
-					borderStyle: isCompleted ? "solid" : "dashed",
+					borderStyle: "dashed",
 				},
 				styles.button,
 				pressed && styles.buttonPressed,
-				isCompleted && styles.buttonDisabled,
+				isDisabled && styles.buttonDisabled,
 			]}
-			// onPress={handleMarkHabit}
-			disabled={isCompleted}
+			onPress={handleMarkHabit}
+			disabled={isDisabled}
 		>
-			{isCompleted ? (
-				<Ionicons name="checkmark" size={20} color={habit.color} />
-			) : (
-				<Ionicons name={icon} size={20} color={habit.color} />
-			)}
+			<Ionicons name={icon} size={24} color={habit.color} />
 		</Pressable>
 	);
 };
@@ -53,7 +48,7 @@ const styles = StyleSheet.create({
 		width: 40,
 		justifyContent: "center",
 		alignItems: "center",
-		borderRadius: 10,
+		borderRadius: 6,
 		borderWidth: 1,
 	},
 	buttonPressed: {

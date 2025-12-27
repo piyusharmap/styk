@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 	colorView: {
 		height: "100%",
 		width: "100%",
-		borderRadius: 8,
+		borderRadius: 10,
 	},
 	colorViewTransform: {
 		transform: [{ scale: 0.9 }],

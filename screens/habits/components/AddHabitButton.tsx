@@ -17,7 +17,7 @@ const AddHabitButton = ({
 			]}
 			onPress={onPress}
 		>
-			<Ionicons name="add" size={32} color={colors.background} />
+			<Ionicons name="add" size={32} color={colors.neutralWhite} />
 		</Pressable>
 	);
 };

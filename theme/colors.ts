@@ -23,6 +23,9 @@ export type Theme = {
 	tabIconInactive?: string;
 
 	neutral?: string;
+
+	neutralWhite?: string;
+	neutralBlack?: string;
 };
 
 export const Colors: Record<string, Theme> = {
@@ -52,6 +55,9 @@ export const Colors: Record<string, Theme> = {
 		tabIconInactive: "#4D4D4D",
 
 		neutral: "#070707",
+
+		neutralWhite: "#FFFFFF",
+		neutralBlack: "#000000",
 	},
 
 	dark: {
@@ -80,5 +86,8 @@ export const Colors: Record<string, Theme> = {
 		tabIconInactive: "#AAAAAA",
 
 		neutral: "#F3F3F3",
+
+		neutralWhite: "#FFFFFF",
+		neutralBlack: "#000000",
 	},
 };
