@@ -20,7 +20,7 @@ const UILoader = ({
 		<ActivityIndicator
 			size={size}
 			style={style}
-			color={colors.secondary}
+			color={colors.neutral}
 			{...props}
 		/>
 	);

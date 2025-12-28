@@ -7,7 +7,12 @@ const SettingsTab = () => {
 	const reset = useHabitStore((s) => s.reset);
 	return (
 		<UIView style={styles.container} isTopSafe>
-			<UIButton title="Reset All Data" onPress={reset} />
+			<UIButton
+				variant="danger"
+				size="sm"
+				title="Reset All Data"
+				onPress={reset}
+			/>
 		</UIView>
 	);
 };

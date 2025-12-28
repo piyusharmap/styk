@@ -5,8 +5,9 @@ import {
 	StyleProp,
 	TextStyle,
 	View,
+	ViewStyle,
 } from "react-native";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import useThemeColor from "../../theme/useThemeColor";
 import UIText from "./UIText";
 
@@ -14,6 +15,16 @@ export const UIInputLabel = ({ label }: { label: string }) => {
 	return (
 		<UIText style={styles.label} isSecondary>
 			{label}
+		</UIText>
+	);
+};
+
+export const UIInputError = ({ error }: { error: string }) => {
+	const colors = useThemeColor();
+
+	return (
+		<UIText style={[{ color: colors.danger }, styles.error]}>
+			{error}
 		</UIText>
 	);
 };
@@ -28,7 +39,16 @@ export const UIInput = ({
 	onChangeInput: Dispatch<SetStateAction<string>>;
 	style?: StyleProp<TextStyle>;
 }) => {
+	const [isFocused, setIsFocused] = useState<boolean>(false);
+
 	const colors = useThemeColor();
+
+	const handleOnFocus = () => {
+		setIsFocused(true);
+	};
+	const handleOnBlur = () => {
+		setIsFocused(false);
+	};
 
 	return (
 		<TextInput
@@ -41,9 +61,12 @@ export const UIInput = ({
 					color: colors.text,
 					borderColor: colors.border,
 				},
+				isFocused && { borderColor: colors.neutral },
 				styles.input,
 				style,
 			]}
+			onFocus={handleOnFocus}
+			onBlur={handleOnBlur}
 			{...props}
 		/>
 	);
@@ -51,29 +74,36 @@ export const UIInput = ({
 
 export const UIInputContainer = ({
 	children,
+	style,
 }: {
 	children: React.ReactNode;
+	style?: StyleProp<ViewStyle>;
 }) => {
-	return <View style={styles.inputContainer}>{children}</View>;
+	return <View style={[styles.inputContainer, style]}>{children}</View>;
 };
 
 const styles = StyleSheet.create({
 	// container styles
 	inputContainer: {
-		gap: 8,
+		gap: 6,
 	},
 
 	// text styles
 	input: {
 		width: "100%",
-		height: 42,
-		borderRadius: 4,
-		borderWidth: 1,
 		paddingHorizontal: 12,
-		fontSize: 16,
+		height: 42,
+		fontSize: 14,
+		borderRadius: 10,
+		borderWidth: 1,
 	},
 	label: {
-		paddingHorizontal: 4,
+		paddingHorizontal: 2,
+		paddingBottom: 4,
 		fontSize: 14,
+	},
+	error: {
+		paddingHorizontal: 2,
+		fontSize: 12,
 	},
 });

@@ -12,6 +12,20 @@ export const PageHeading = ({
 	return <UIText style={[styles.heading, style]}>{children}</UIText>;
 };
 
+export const PageSubHeading = ({
+	children,
+	style,
+}: {
+	children: React.ReactNode;
+	style?: StyleProp<TextStyle>;
+}) => {
+	return (
+		<UIText style={[styles.subHeading, style]} isSecondary>
+			{children}
+		</UIText>
+	);
+};
+
 export const PageHeader = ({ children }: { children: React.ReactNode }) => {
 	return <View style={styles.container}>{children}</View>;
 };
@@ -19,14 +33,16 @@ export const PageHeader = ({ children }: { children: React.ReactNode }) => {
 const styles = StyleSheet.create({
 	// container styles
 	container: {
-		paddingHorizontal: 20,
+		paddingHorizontal: 16,
 		paddingVertical: 16,
-		gap: 2,
 	},
 
 	// text styles
 	heading: {
-		fontSize: 24,
+		fontSize: 20,
 		fontWeight: "600",
+	},
+	subHeading: {
+		fontSize: 14,
 	},
 });

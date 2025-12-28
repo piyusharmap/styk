@@ -1,37 +1,48 @@
-import { StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import UIView from "../../components/ui/UIView";
-import { PageHeader, PageHeading } from "../../components/layout/PageHeader";
-import { useState } from "react";
 import AddHabitButton from "../../screens/habits/components/AddHabitButton";
-import AddHabitModal from "../../screens/habits/components/AddHabitModal";
+import { useRouter } from "expo-router";
 import { useHabitStore } from "../../store/habitStore";
 import HabitListCard from "../../screens/habits/components/HabitListCard";
+import UIText from "../../components/ui/UIText";
 
 const HabitsTab = () => {
-	const [showModal, setShowModal] = useState<boolean>(false);
+	const router = useRouter();
 
-	const habits = useHabitStore((s) => s.habits);
+	const habits = useHabitStore((s) => s.getAllHabits());
 
 	return (
 		<UIView style={styles.container} isTopSafe>
-			<PageHeader>
-				<PageHeading>Your Habits</PageHeading>
-			</PageHeader>
-
-			<View style={styles.habitsContainer}>
-				{habits.map((habit) => {
-					return <HabitListCard key={habit.id} habit={habit} />;
-				})}
-			</View>
+			<FlatList
+				data={habits}
+				keyExtractor={(item) => item.id}
+				contentContainerStyle={styles.habitsContainer}
+				ListHeaderComponent={() => {
+					return (
+						<View style={styles.listHeader}>
+							<UIText style={styles.listHeading}>
+								Your Habits
+							</UIText>
+						</View>
+					);
+				}}
+				renderItem={({ item }) => {
+					return <HabitListCard key={item.id} habit={item} />;
+				}}
+				ListEmptyComponent={
+					<View style={styles.messageContainer}>
+						<UIText style={styles.message} isSecondary>
+							Create your first habit to begin
+						</UIText>
+					</View>
+				}
+			/>
 
 			<View style={styles.actionContainer}>
-				<AddHabitButton onPress={() => setShowModal(true)} />
+				<AddHabitButton
+					onPress={() => router.navigate("create/page")}
+				/>
 			</View>
-
-			<AddHabitModal
-				visible={showModal}
-				onClose={() => setShowModal(false)}
-			/>
 		</UIView>
 	);
 };
@@ -45,14 +56,32 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	habitsContainer: {
-		paddingHorizontal: 20,
-		paddingVertical: 10,
+		paddingHorizontal: 16,
+		paddingVertical: 20,
 		gap: 8,
+	},
+	listHeader: {
+		paddingHorizontal: 2,
+		paddingBottom: 2,
+	},
+	messageContainer: {
+		padding: 20,
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	actionContainer: {
 		position: "absolute",
 		padding: 12,
 		bottom: 0,
 		right: 0,
+	},
+
+	// text styles
+	listHeading: {
+		fontSize: 16,
+		fontWeight: "600",
+	},
+	message: {
+		fontSize: 12,
 	},
 });

@@ -1,6 +1,4 @@
 import {
-	View,
-	Text,
 	PressableProps,
 	StyleProp,
 	ViewStyle,
@@ -12,8 +10,9 @@ import UIText from "./UIText";
 import { Ionicons } from "@expo/vector-icons";
 import useThemeColor from "../../theme/useThemeColor";
 import UILoader from "./UILoader";
+import { IonIconType } from "../../types/iconTypes";
 
-type ButtonVariant = "default" | "secondary" | "danger" | "success" | "info";
+type ButtonVariant = "default" | "primary" | "secondary" | "danger" | "success";
 type ButtonSize = "sm" | "md" | "lg";
 
 const UIButton = ({
@@ -29,7 +28,7 @@ const UIButton = ({
 	title: string;
 	variant?: ButtonVariant;
 	size?: ButtonSize;
-	iconName?: keyof typeof Ionicons.glyphMap;
+	iconName?: IonIconType;
 	isLoading?: boolean;
 	isDisabled?: boolean;
 	style?: StyleProp<ViewStyle>;
@@ -37,17 +36,32 @@ const UIButton = ({
 	const colors = useThemeColor();
 
 	const variantColors = {
-		default: colors.primary,
-		secondary: colors.secondary,
-		danger: colors.danger,
-		success: colors.success,
-		info: colors.info,
+		default: {
+			background: colors.button,
+			text: colors.text,
+		},
+		primary: {
+			background: colors.primary,
+			text: colors.neutralWhite,
+		},
+		secondary: {
+			background: colors.secondary,
+			text: colors.neutralWhite,
+		},
+		danger: {
+			background: colors.danger,
+			text: colors.neutralWhite,
+		},
+		success: {
+			background: colors.success,
+			text: colors.neutralWhite,
+		},
 	};
 
 	const variantSizes = {
-		sm: { paddingH: 12, paddingV: 8, font: 14, icon: 16 },
-		md: { paddingH: 16, paddingV: 12, font: 16, icon: 20 },
-		lg: { paddingH: 18, paddingV: 16, font: 18, icon: 24 },
+		sm: { height: 42, paddingH: 12, font: 14, icon: 16 },
+		md: { height: 46, paddingH: 16, font: 16, icon: 20 },
+		lg: { height: 50, paddingH: 18, font: 18, icon: 24 },
 	};
 
 	const variantColor = variantColors[variant];
@@ -57,10 +71,9 @@ const UIButton = ({
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: variantColor + "55",
+					height: variantSize.height,
 					paddingHorizontal: variantSize.paddingH,
-					paddingVertical: variantSize.paddingV,
-					borderColor: variantColor,
+					backgroundColor: variantColor.background,
 				},
 				styles.button,
 				pressed && !isDisabled && styles.buttonPressed,
@@ -70,19 +83,22 @@ const UIButton = ({
 			{...props}
 		>
 			{isLoading ? (
-				<UILoader size={variantSize.icon} color={variantColor} />
+				<UILoader size={variantSize.icon} color={variantColor.text} />
 			) : (
 				<>
 					{iconName && (
 						<Ionicons
 							name={iconName}
 							size={variantSize.icon}
-							color={variantColor}
+							color={variantColor.text}
 						/>
 					)}
 					<UIText
 						style={[
-							{ fontSize: variantSize.font, color: variantColor },
+							{
+								fontSize: variantSize.font,
+								color: variantColor.text,
+							},
 							styles.title,
 						]}
 					>
@@ -100,11 +116,10 @@ const styles = StyleSheet.create({
 	// container styles
 	button: {
 		flexDirection: "row",
-		gap: 8,
 		justifyContent: "center",
 		alignItems: "center",
-		borderRadius: 4,
-		borderWidth: 1,
+		gap: 8,
+		borderRadius: 10,
 	},
 	buttonPressed: {
 		opacity: 0.8,

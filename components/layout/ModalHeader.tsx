@@ -19,7 +19,7 @@ export const ModalHeader = ({ children }: { children: React.ReactNode }) => {
 const styles = StyleSheet.create({
 	// container styles
 	container: {
-		paddingHorizontal: 20,
+		paddingHorizontal: 16,
 		paddingVertical: 16,
 		gap: 2,
 	},
