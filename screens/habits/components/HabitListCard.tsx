@@ -5,9 +5,11 @@ import useThemeColor from "../../../theme/useThemeColor";
 import Badge from "../../../components/Badge";
 import { HabitTypeDetails } from "../../../constants/habit";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 const HabitListCard = ({ habit }: { habit: Habit }) => {
 	const colors = useThemeColor();
+	const router = useRouter();
 
 	const typeDetails = HabitTypeDetails[habit.target.type];
 
@@ -21,6 +23,9 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 				styles.habitCard,
 				pressed && styles.habitCardPressed,
 			]}
+			onPress={() => {
+				router.navigate(`/habit/${habit.id}`);
+			}}
 		>
 			<View style={styles.habitInfo}>
 				<UIText style={styles.habitName}>{habit.name}</UIText>
@@ -56,8 +61,6 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 			</View>
 
 			<View style={styles.badgesContainer}>
-				<Ionicons name="ellipse" size={12} color={habit.color} />
-
 				<Badge
 					title={typeDetails.label}
 					style={{
@@ -75,6 +78,8 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					}}
 					icon="flame"
 				/>
+
+				<Ionicons name="ellipse" size={12} color={habit.color} />
 			</View>
 		</Pressable>
 	);

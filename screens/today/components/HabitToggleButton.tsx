@@ -23,9 +23,8 @@ const HabitToggleButton = ({
 		<Pressable
 			style={({ pressed }) => [
 				{
-					// backgroundColor: habit.color + "20",
+					backgroundColor: habit.color + "20",
 					borderColor: habit.color,
-					borderStyle: "dashed",
 				},
 				styles.button,
 				pressed && styles.buttonPressed,
@@ -50,6 +49,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		borderRadius: 6,
 		borderWidth: 1,
+		borderStyle: "dashed",
 	},
 	buttonPressed: {
 		transform: [{ scale: 0.95 }],

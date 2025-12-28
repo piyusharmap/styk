@@ -11,7 +11,7 @@ export const getGreeting = (): { greet: string; message: string } => {
 	if (hour < 17) {
 		return {
 			greet: "Good Afternoon",
-			message: "You're halfway there — keep going.",
+			message: "You're halfway there - keep going.",
 		};
 	}
 

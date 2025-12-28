@@ -5,6 +5,7 @@ import useThemeColor from "../../../theme/useThemeColor";
 import HabitToggleButton from "./HabitToggleButton";
 import { useHabitStore } from "../../../store/habitStore";
 import { Ionicons } from "@expo/vector-icons";
+import ProgressBar from "./ProgressBar";
 
 const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 	const colors = useThemeColor();
@@ -30,7 +31,10 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 						{habit.target.type === "count" ? (
 							<>
 								<UIText style={styles.habitDetail} isSecondary>
-									{isHabitLocked ? "Completed" : "Pending"}:{" "}
+									{isHabitLocked
+										? "Completed"
+										: "In Progress"}
+									:{" "}
 									<Text style={{ color: colors.text }}>
 										{countValue}/{habit.target.count}{" "}
 										{habit.target.unit}
@@ -65,28 +69,7 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 				</View>
 			</View>
 
-			{habit.target.type === "count" && (
-				<View
-					style={[
-						{
-							backgroundColor: habit.color + "50",
-						},
-						styles.progressBarTrack,
-					]}
-				>
-					<View
-						style={[
-							{
-								width: `${
-									(countValue / habit.target.count) * 100
-								}%`,
-								backgroundColor: habit.color,
-							},
-							styles.progressBar,
-						]}
-					/>
-				</View>
-			)}
+			<ProgressBar habit={habit} />
 		</View>
 	);
 };
@@ -109,25 +92,12 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		gap: 10,
 	},
-	habitCardPressed: {
-		opacity: 0.8,
-	},
 	habitInfo: {
 		flexShrink: 1,
 		gap: 4,
 	},
 	habitDetails: {
 		alignItems: "flex-start",
-	},
-	progressBarTrack: {
-		width: "100%",
-		height: 4,
-		borderRadius: 2,
-		overflow: "hidden",
-	},
-	progressBar: {
-		minWidth: 4,
-		height: "100%",
 	},
 	actionContainer: {
 		justifyContent: "center",
