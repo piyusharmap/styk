@@ -144,7 +144,7 @@ const CreateHabitForm = () => {
 
 				{habitType === "quit" ? (
 					<UIInputContainer>
-						<UIInputLabel label="Started on" />
+						<UIInputLabel label="Quit date" />
 						<QuitDatePicker
 							selectedValue={habitStartDate}
 							onChange={setHabitStartDate}

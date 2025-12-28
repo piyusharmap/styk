@@ -101,7 +101,6 @@ const UIButton = ({
 									fontSize: variantSize.font,
 									color: variantColor.text,
 								},
-								styles.title,
 							]}
 						>
 							{title}
@@ -129,10 +128,5 @@ const styles = StyleSheet.create({
 	},
 	buttonDisabled: {
 		opacity: 0.5,
-	},
-
-	// text styles
-	title: {
-		fontWeight: "600",
 	},
 });
