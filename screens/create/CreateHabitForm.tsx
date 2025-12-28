@@ -13,7 +13,6 @@ import {
 	HabitTarget,
 	HabitType,
 } from "../../types/habitTypes";
-
 import ColorSelector from "./components/ColorSelector";
 import TypeSelector from "./components/TypeSelector";
 import UnitSelector from "./components/UnitSelector";
@@ -21,7 +20,9 @@ import HabitCounter from "./components/HabitCounter";
 import FrequencySelector from "./components/FrequencySelector";
 import UIButton from "../../components/ui/UIButton";
 import { useHabitStore } from "../../store/habitStore";
-import { getTodayString } from "../../utils/time";
+import { toDateString } from "../../utils/time";
+import QuitDatePicker from "./components/StartDatePicker";
+import { useRouter } from "expo-router";
 
 const CreateHabitForm = () => {
 	const [habitName, setHabitName] = useState("");
@@ -31,21 +32,30 @@ const CreateHabitForm = () => {
 	const [habitCount, setHabitCount] = useState<number>(1);
 	const [habitFrequency, setHabitFrequency] =
 		useState<HabitFrequency>("daily");
-
+	const [habitStartDate, setHabitStartDate] = useState<Date>(new Date());
 	const [formError, setFormError] = useState<string>("");
 
+	const router = useRouter();
 	const addHabit = useHabitStore((s) => s.addHabit);
 
-	const handleResetHabit = () => {
+	const resetForm = () => {
+		setFormError("");
+
 		setHabitName("");
 		setHabitColor(ColorOptions[0]);
 		setHabitUnit("times");
 		setHabitCount(1);
 		setHabitFrequency("daily");
+		setHabitStartDate(new Date());
 	};
 
 	const handleSaveHabit = () => {
 		let habitTarget: HabitTarget;
+
+		if (habitName.length < 5) {
+			setFormError("Name should be at least 5 characters long.");
+			return;
+		}
 
 		if (habitName.length > 40) {
 			setFormError("Name should not exceed 40 characters.");
@@ -62,7 +72,7 @@ const CreateHabitForm = () => {
 		} else {
 			habitTarget = {
 				type: habitType,
-				startDate: getTodayString(),
+				startDate: toDateString(habitStartDate),
 				frequency: "daily",
 			};
 		}
@@ -73,7 +83,10 @@ const CreateHabitForm = () => {
 			target: habitTarget,
 		};
 
+		resetForm();
 		addHabit(newHabit.name, newHabit.color, newHabit.target);
+
+		router.navigate("(tabs)/habits");
 	};
 
 	return (
@@ -132,6 +145,10 @@ const CreateHabitForm = () => {
 				{habitType === "quit" ? (
 					<UIInputContainer>
 						<UIInputLabel label="Started on" />
+						<QuitDatePicker
+							selectedValue={habitStartDate}
+							onChange={setHabitStartDate}
+						/>
 					</UIInputContainer>
 				) : null}
 			</ScrollView>
@@ -139,7 +156,7 @@ const CreateHabitForm = () => {
 			<View style={styles.actionContainer}>
 				<UIButton
 					title="Reset"
-					onPress={handleResetHabit}
+					onPress={resetForm}
 					iconName="refresh"
 					style={styles.actionButton}
 				/>

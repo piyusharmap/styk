@@ -1,4 +1,4 @@
-import { View, Pressable, StyleSheet } from "react-native";
+import { View, Pressable, StyleSheet, PressableProps } from "react-native";
 import { HabitType } from "../../../types/habitTypes";
 import { TypeOptions } from "../../../constants/habit";
 import UIText from "../../../components/ui/UIText";
@@ -18,7 +18,8 @@ const TypeCard = ({
 	type,
 	isSelected,
 	onPress,
-}: {
+	...props
+}: PressableProps & {
 	type: TypeOption;
 	isSelected: boolean;
 	onPress: () => void;
@@ -36,6 +37,7 @@ const TypeCard = ({
 				isSelected && { borderColor: colors.neutral },
 			]}
 			onPress={onPress}
+			{...props}
 		>
 			<View style={styles.labelContainer}>
 				<Ionicons name={type.icon} size={16} color={colors.accent} />

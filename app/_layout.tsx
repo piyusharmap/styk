@@ -30,7 +30,7 @@ const RootLayout = () => {
 						options={{
 							title: "",
 							headerShown: true,
-							animation: "slide_from_right",
+							animation: "default",
 						}}
 					/>
 
@@ -39,7 +39,7 @@ const RootLayout = () => {
 						options={{
 							title: "Create Habit",
 							headerShown: true,
-							animation: "slide_from_right",
+							animation: "default",
 						}}
 					/>
 
@@ -48,7 +48,7 @@ const RootLayout = () => {
 						options={{
 							title: "Habit Details",
 							headerShown: true,
-							animation: "slide_from_left",
+							animation: "slide_from_right",
 						}}
 					/>
 				</Stack>

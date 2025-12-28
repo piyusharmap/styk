@@ -6,6 +6,14 @@ export type CountUnit = "times" | "minutes" | "hours";
 
 export type HabitWindow = { start: string; end: string };
 
+export type HabitMilestone = {
+	id: string;
+	label: string;
+	value: number;
+	unit: CountUnit;
+	reachedAt: string;
+};
+
 export type HabitTarget =
 	| {
 			type: "count";
@@ -20,14 +28,6 @@ export type HabitTarget =
 			frequency: "daily";
 			milestones?: HabitMilestone[];
 	  };
-
-export type HabitMilestone = {
-	id: string;
-	label: string;
-	value: number;
-	unit: CountUnit;
-	reachedAt: string;
-};
 
 export type Habit = {
 	id: string;
