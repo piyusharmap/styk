@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import React from "react";
 import UIView from "../../components/ui/UIView";
 import UIText from "../../components/ui/UIText";

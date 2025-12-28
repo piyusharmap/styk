@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
 
 	// text styles
 	input: {
-		width: "100%",
 		paddingHorizontal: 12,
 		height: 42,
 		fontSize: 14,

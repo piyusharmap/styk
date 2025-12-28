@@ -29,24 +29,20 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 
 					<View style={styles.habitDetails}>
 						{habit.target.type === "count" ? (
-							<>
-								<UIText style={styles.habitDetail} isSecondary>
-									{isHabitLocked
-										? "Completed"
-										: "In Progress"}
-									:{" "}
-									<Text style={{ color: colors.text }}>
-										{countValue}/{habit.target.count}{" "}
-										{habit.target.unit}
-									</Text>
-								</UIText>
-							</>
+							<UIText style={styles.habitDetail} isSecondary>
+								{isHabitLocked ? "Completed" : "In Progress"}:{" "}
+								<Text style={{ color: colors.text }}>
+									{countValue}/{habit.target.count}{" "}
+									{habit.target.unit}
+								</Text>
+							</UIText>
 						) : (
-							<>
-								<UIText style={styles.habitDetail} isSecondary>
-									Clean Today
-								</UIText>
-							</>
+							<UIText style={styles.habitDetail} isSecondary>
+								Clean since:{" "}
+								<Text style={{ color: colors.text }}>
+									{habit.target.startDate}
+								</Text>
+							</UIText>
 						)}
 					</View>
 				</View>

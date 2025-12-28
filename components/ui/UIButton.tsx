@@ -93,17 +93,20 @@ const UIButton = ({
 							color={variantColor.text}
 						/>
 					)}
-					<UIText
-						style={[
-							{
-								fontSize: variantSize.font,
-								color: variantColor.text,
-							},
-							styles.title,
-						]}
-					>
-						{title}
-					</UIText>
+
+					{title && (
+						<UIText
+							style={[
+								{
+									fontSize: variantSize.font,
+									color: variantColor.text,
+								},
+								styles.title,
+							]}
+						>
+							{title}
+						</UIText>
+					)}
 				</>
 			)}
 		</Pressable>

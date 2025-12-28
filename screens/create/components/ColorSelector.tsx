@@ -53,16 +53,16 @@ const styles = StyleSheet.create({
 	colorOption: {
 		height: 40,
 		width: 40,
-		borderRadius: 10,
+		borderRadius: "100%",
 		overflow: "hidden",
 		borderWidth: 0,
 	},
 	colorView: {
 		height: "100%",
 		width: "100%",
-		borderRadius: 10,
+		borderRadius: "100%",
 	},
 	colorViewTransform: {
-		transform: [{ scale: 0.9 }],
+		transform: [{ scale: 0.8 }],
 	},
 });
