@@ -28,7 +28,13 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 			}}
 		>
 			<View style={styles.habitInfo}>
-				<UIText style={styles.habitName}>{habit.name}</UIText>
+				<View style={styles.nameContainer}>
+					<Ionicons name="ellipse" size={10} color={habit.color} />
+
+					<UIText style={styles.habitName} numberOfLines={1}>
+						{habit.name}
+					</UIText>
+				</View>
 
 				<View style={styles.habitDetails}>
 					{habit.target.type === "count" ? (
@@ -78,8 +84,6 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					}}
 					icon="flame"
 				/>
-
-				<Ionicons name="ellipse" size={12} color={habit.color} />
 			</View>
 		</Pressable>
 	);
@@ -104,6 +108,12 @@ const styles = StyleSheet.create({
 		flexShrink: 1,
 		gap: 4,
 	},
+	nameContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 4,
+		overflow: "hidden",
+	},
 	habitDetails: {
 		alignItems: "flex-start",
 	},
@@ -116,6 +126,7 @@ const styles = StyleSheet.create({
 
 	// text styles
 	habitName: {
+		flexShrink: 1,
 		fontSize: 18,
 		fontWeight: "600",
 	},

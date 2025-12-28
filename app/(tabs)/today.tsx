@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
 	// text styles
 	listHeading: {
 		fontSize: 16,
-		fontWeight: "600",
 	},
 	message: {
 		fontSize: 12,

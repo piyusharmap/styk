@@ -1,12 +1,21 @@
 import React from "react";
-import { Stack } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import UIView from "../components/ui/UIView";
 import useThemeColor from "../theme/useThemeColor";
 import { StyleSheet } from "react-native";
+import { useAppFonts } from "../fonts/useFonts";
+
+SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
 	const colors = useThemeColor();
+
+	const [loaded] = useAppFonts();
+
+	if (!loaded) return null;
+
+	SplashScreen.hideAsync();
 
 	return (
 		<>

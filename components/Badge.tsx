@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 	// container styles
 	badge: {
 		paddingHorizontal: 8,
-		paddingVertical: 2,
+		paddingVertical: 3,
 		flexDirection: "row",
 		justifyContent: "center",
 		alignItems: "center",
