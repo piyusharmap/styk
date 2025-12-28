@@ -29,7 +29,7 @@ The app is **free to use** and does **not require any login or registration**, m
     -   No login or registration required.
     -   Works offline and keeps all your data locally on your device.
 
-## ⚙️Tech Stack
+### ⚙️Tech Stack
 
 -   **React Native** – for cross-platform mobile development.
 -   **Expo Router** – for navigation and routing.
