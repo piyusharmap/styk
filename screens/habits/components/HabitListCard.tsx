@@ -42,7 +42,10 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 							<UIText style={styles.habitDetail} isSecondary>
 								Count:{" "}
 								<Text style={{ color: colors.text }}>
-									{habit.target.count} {habit.target.unit}
+									{habit.target.count}{" "}
+									{`${habit.target.unit}${
+										habit.target.count > 1 ? "s" : ""
+									}`}
 								</Text>
 							</UIText>
 

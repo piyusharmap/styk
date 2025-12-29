@@ -1,4 +1,4 @@
-import { View, Pressable, StyleSheet } from "react-native";
+import { View, Pressable, StyleSheet, FlatList } from "react-native";
 import { HabitFrequency } from "../../../types/habitTypes";
 import { FrequencyOptions } from "../../../constants/habit";
 import UIText from "../../../components/ui/UIText";
@@ -46,18 +46,22 @@ const FrequencySelector = ({
 	onPress: Dispatch<SetStateAction<HabitFrequency>>;
 }) => {
 	return (
-		<View style={styles.freqSelector}>
-			{FrequencyOptions.map((freq) => {
+		<FlatList
+			data={FrequencyOptions}
+			keyExtractor={(item) => item.value}
+			horizontal
+			showsHorizontalScrollIndicator={false}
+			contentContainerStyle={styles.freqSelector}
+			renderItem={({ item }) => {
 				return (
 					<FrequencyBadge
-						key={freq.value}
-						frequency={freq}
-						isSelected={selectedFrequency === freq.value}
-						onPress={() => onPress(freq.value)}
+						frequency={item}
+						isSelected={selectedFrequency === item.value}
+						onPress={() => onPress(item.value)}
 					/>
 				);
-			})}
-		</View>
+			}}
+		/>
 	);
 };
 

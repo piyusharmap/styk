@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
 		paddingBottom: 2,
 	},
 	messageContainer: {
-		padding: 20,
+		paddingHorizontal: 20,
+		paddingVertical: 40,
 		justifyContent: "center",
 		alignItems: "center",
 	},
