@@ -1,4 +1,4 @@
-import { View, Pressable, StyleSheet, FlatList } from "react-native";
+import { Pressable, StyleSheet, FlatList } from "react-native";
 import { CountUnit } from "../../../types/habitTypes";
 import { UnitOptions } from "../../../constants/habit";
 import UIText from "../../../components/ui/UIText";

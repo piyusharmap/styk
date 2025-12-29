@@ -1,4 +1,4 @@
-import { View, Pressable, StyleSheet, FlatList } from "react-native";
+import { Pressable, StyleSheet, FlatList } from "react-native";
 import { HabitFrequency } from "../../../types/habitTypes";
 import { FrequencyOptions } from "../../../constants/habit";
 import UIText from "../../../components/ui/UIText";

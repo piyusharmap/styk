@@ -27,7 +27,7 @@ const TodayTab = () => {
 	return (
 		<UIView style={styles.container} isTopSafe>
 			<View style={styles.dateContainer}>
-				<Badge title={todayDate} icon="today" />
+				<Badge title={todayDate} />
 			</View>
 
 			<PageHeader style={{ paddingTop: 0 }}>

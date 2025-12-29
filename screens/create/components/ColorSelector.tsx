@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 	colorOption: {
 		height: 40,
 		width: 40,
-		borderRadius: "100%",
+		borderRadius: 20,
 		overflow: "hidden",
 		borderWidth: 0,
 	},
