@@ -11,7 +11,10 @@ const AddHabitButton = ({
 	return (
 		<Pressable
 			style={({ pressed }) => [
-				{ backgroundColor: colors.primary },
+				{
+					backgroundColor: colors.secondary,
+					borderColor: colors.primary,
+				},
 				styles.button,
 				pressed && styles.buttonPressed,
 			]}
@@ -27,11 +30,12 @@ export default AddHabitButton;
 const styles = StyleSheet.create({
 	// container styles
 	button: {
-		height: 60,
-		width: 60,
+		height: 64,
+		width: 64,
 		justifyContent: "center",
 		alignItems: "center",
-		borderRadius: 30,
+		borderRadius: "100%",
+		borderWidth: 1,
 	},
 	buttonPressed: {
 		transform: [{ scale: 0.95 }],

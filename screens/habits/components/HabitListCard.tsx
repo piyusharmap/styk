@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
 	habitName: {
 		flexShrink: 1,
 		fontSize: 18,
-		fontWeight: "600",
+		fontWeight: "500",
 	},
 	habitDetail: {
 		fontSize: 12,

@@ -1,29 +1,18 @@
-export const getGreeting = (): { greet: string; message: string } => {
+import {
+	AFTERNOON_GREET_MSG,
+	EVENING_GREET_MSG,
+	MORNING_GREET_MSG,
+	NIGHT_GREET_MSG,
+} from "../constants/messages";
+
+export const getGreeting = (): string => {
 	const hour = new Date().getHours();
 
-	if (hour < 12) {
-		return {
-			greet: "Good Morning",
-			message: "Let's start the day strong.",
-		};
-	}
+	if (hour < 12) return MORNING_GREET_MSG;
 
-	if (hour < 17) {
-		return {
-			greet: "Good Afternoon",
-			message: "You're halfway there - keep going.",
-		};
-	}
+	if (hour < 17) return AFTERNOON_GREET_MSG;
 
-	if (hour < 21) {
-		return {
-			greet: "Good Evening",
-			message: "Great time to finish what you started.",
-		};
-	}
+	if (hour < 21) return EVENING_GREET_MSG;
 
-	return {
-		greet: "Good Night",
-		message: "One small win before the day ends.",
-	};
+	return NIGHT_GREET_MSG;
 };

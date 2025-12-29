@@ -2,6 +2,8 @@ import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import useThemeColor from "../../theme/useThemeColor";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import NavigationHeading from "../../components/heading/NavigationHeading";
+import TabBarLabel from "../../components/heading/TabBarLabel";
 
 const TabsLayout = () => {
 	const colors = useThemeColor();
@@ -29,7 +31,15 @@ const TabsLayout = () => {
 			<Tabs.Screen
 				name="today"
 				options={{
-					title: "Today",
+					title: "",
+					tabBarLabel: (props) => {
+						return (
+							<TabBarLabel
+								label="Today"
+								style={{ color: props.color }}
+							/>
+						);
+					},
 					tabBarIcon: ({ focused }) => (
 						<Ionicons
 							size={24}
@@ -47,7 +57,15 @@ const TabsLayout = () => {
 			<Tabs.Screen
 				name="habits"
 				options={{
-					title: "Habits",
+					title: "",
+					tabBarLabel: (props) => {
+						return (
+							<TabBarLabel
+								label="Habits"
+								style={{ color: props.color }}
+							/>
+						);
+					},
 					tabBarIcon: ({ focused }) => (
 						<Ionicons
 							size={24}
@@ -65,7 +83,15 @@ const TabsLayout = () => {
 			<Tabs.Screen
 				name="settings"
 				options={{
-					title: "Settings",
+					title: "",
+					tabBarLabel: (props) => {
+						return (
+							<TabBarLabel
+								label="Settings"
+								style={{ color: props.color }}
+							/>
+						);
+					},
 					tabBarIcon: ({ focused }) => (
 						<Ionicons
 							size={24}

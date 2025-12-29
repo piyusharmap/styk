@@ -1,4 +1,10 @@
-import { View, StyleSheet, StyleProp, TextStyle } from "react-native";
+import {
+	View,
+	StyleSheet,
+	StyleProp,
+	TextStyle,
+	ViewStyle,
+} from "react-native";
 import React from "react";
 import UIText from "../ui/UIText";
 
@@ -26,23 +32,31 @@ export const PageSubHeading = ({
 	);
 };
 
-export const PageHeader = ({ children }: { children: React.ReactNode }) => {
-	return <View style={styles.container}>{children}</View>;
+export const PageHeader = ({
+	children,
+	style,
+}: {
+	children: React.ReactNode;
+	style?: StyleProp<ViewStyle>;
+}) => {
+	return <View style={[styles.container, style]}>{children}</View>;
 };
 
 const styles = StyleSheet.create({
 	// container styles
 	container: {
 		paddingHorizontal: 16,
-		paddingVertical: 16,
+		paddingTop: 10,
+		paddingBottom: 16,
 	},
 
 	// text styles
 	heading: {
-		fontSize: 20,
-		fontWeight: "600",
+		fontSize: 36,
+		fontWeight: "500",
 	},
 	subHeading: {
 		fontSize: 14,
+		fontWeight: "500",
 	},
 });

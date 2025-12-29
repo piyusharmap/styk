@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
 	// text styles
 	habitName: {
 		fontSize: 18,
-		fontWeight: "600",
+		fontWeight: "500",
 	},
 	habitDetail: {
 		fontSize: 12,

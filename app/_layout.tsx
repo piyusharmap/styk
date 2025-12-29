@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import UIView from "../components/ui/UIView";
 import useThemeColor from "../theme/useThemeColor";
 import { StyleSheet } from "react-native";
 import { useAppFonts } from "../fonts/useFonts";
+import NavigationHeading from "../components/heading/NavigationHeading";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -13,9 +14,9 @@ const RootLayout = () => {
 
 	const [loaded] = useAppFonts();
 
-	if (!loaded) return null;
-
 	SplashScreen.hideAsync();
+
+	if (!loaded) return null;
 
 	return (
 		<>
@@ -39,25 +40,32 @@ const RootLayout = () => {
 						options={{
 							title: "",
 							headerShown: true,
-							animation: "default",
 						}}
 					/>
 
 					<Stack.Screen
 						name="create/page"
 						options={{
-							title: "Create Habit",
+							title: "",
+							headerTitle: (props) => {
+								return (
+									<NavigationHeading title="Create Habit" />
+								);
+							},
 							headerShown: true,
-							animation: "default",
 						}}
 					/>
 
 					<Stack.Screen
 						name="habit/[id]"
 						options={{
-							title: "Habit Details",
+							title: "",
+							headerTitle: (props) => {
+								return (
+									<NavigationHeading title="Habit Details" />
+								);
+							},
 							headerShown: true,
-							animation: "slide_from_right",
 						}}
 					/>
 				</Stack>

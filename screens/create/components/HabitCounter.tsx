@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
 
 	// text styles
 	count: {
-		fontSize: 40,
+		fontSize: 44,
 		fontWeight: "600",
 	},
 });
