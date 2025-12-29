@@ -1,4 +1,4 @@
-import { View, Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, FlatList } from "react-native";
 import { CountUnit } from "../../../types/habitTypes";
 import { UnitOptions } from "../../../constants/habit";
 import UIText from "../../../components/ui/UIText";
@@ -46,18 +46,22 @@ const UnitSelector = ({
 	onPress: Dispatch<SetStateAction<CountUnit>>;
 }) => {
 	return (
-		<View style={styles.unitSelector}>
-			{UnitOptions.map((unit) => {
+		<FlatList
+			data={UnitOptions}
+			keyExtractor={(item) => item.value}
+			horizontal
+			showsHorizontalScrollIndicator={false}
+			contentContainerStyle={styles.unitSelector}
+			renderItem={({ item }) => {
 				return (
 					<UnitBadge
-						key={unit.value}
-						unit={unit}
-						isSelected={selectedUnit === unit.value}
-						onPress={() => onPress(unit.value)}
+						unit={item}
+						isSelected={selectedUnit === item.value}
+						onPress={() => onPress(item.value)}
 					/>
 				);
-			})}
-		</View>
+			}}
+		/>
 	);
 };
 

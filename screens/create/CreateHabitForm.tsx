@@ -23,12 +23,13 @@ import { useHabitStore } from "../../store/habitStore";
 import { toDateString } from "../../utils/time";
 import QuitDatePicker from "./components/StartDatePicker";
 import { useRouter } from "expo-router";
+import { HABIT_NAME_PLACEHOLDER } from "../../constants/messages";
 
 const CreateHabitForm = () => {
 	const [habitName, setHabitName] = useState("");
 	const [habitColor, setHabitColor] = useState(ColorOptions[0]);
 	const [habitType, setHabitType] = useState<HabitType>("count");
-	const [habitUnit, setHabitUnit] = useState<CountUnit>("times");
+	const [habitUnit, setHabitUnit] = useState<CountUnit>("time");
 	const [habitCount, setHabitCount] = useState<number>(1);
 	const [habitFrequency, setHabitFrequency] =
 		useState<HabitFrequency>("daily");
@@ -43,7 +44,7 @@ const CreateHabitForm = () => {
 
 		setHabitName("");
 		setHabitColor(ColorOptions[0]);
-		setHabitUnit("times");
+		setHabitUnit("time");
 		setHabitCount(1);
 		setHabitFrequency("daily");
 		setHabitStartDate(new Date());
@@ -100,7 +101,7 @@ const CreateHabitForm = () => {
 					<UIInput
 						value={habitName}
 						onChangeInput={setHabitName}
-						placeholder="e.g. Exercise, Running, Reading"
+						placeholder={HABIT_NAME_PLACEHOLDER}
 					/>
 					{formError && <UIInputError error={formError} />}
 				</UIInputContainer>

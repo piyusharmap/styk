@@ -69,15 +69,23 @@ export const TypeOptions: TypeOption[] = [
 
 export const UnitOptions: { label: string; value: CountUnit }[] = [
 	{
-		label: "Times",
-		value: "times",
+		label: "Time",
+		value: "time",
 	},
 	{
-		label: "Hours",
-		value: "hours",
+		label: "Hour",
+		value: "hour",
 	},
 	{
-		label: "Minutes",
-		value: "minutes",
+		label: "Minute",
+		value: "minute",
+	},
+	{
+		label: "Kilometer",
+		value: "kilometer",
+	},
+	{
+		label: "Meter",
+		value: "meter",
 	},
 ];

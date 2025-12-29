@@ -5,6 +5,8 @@ import UIView from "../components/ui/UIView";
 import useThemeColor from "../theme/useThemeColor";
 import { StyleSheet } from "react-native";
 import { useAppFonts } from "../fonts/useFonts";
+import NavigationHeading from "../components/heading/NavigationHeading";
+import { ThemeProvider } from "../contexts/ThemeContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -13,60 +15,71 @@ const RootLayout = () => {
 
 	const [loaded] = useAppFonts();
 
-	if (!loaded) return null;
-
 	SplashScreen.hideAsync();
 
+	if (!loaded) return null;
+
 	return (
-		<>
-			<UIView style={styles.container}>
-				<StatusBar style="auto" />
+		<UIView style={styles.container}>
+			<StatusBar style="auto" />
 
-				<Stack
-					screenOptions={{
-						headerStyle: { backgroundColor: colors.navBackground },
-						headerShadowVisible: false,
-						headerTintColor: colors.navText,
+			<Stack
+				screenOptions={{
+					headerStyle: {
+						backgroundColor: colors.navBackground,
+					},
+					headerShadowVisible: false,
+					headerTintColor: colors.navText,
+				}}
+			>
+				<Stack.Screen
+					name="(tabs)"
+					options={{ title: "", headerShown: false }}
+				/>
+
+				<Stack.Screen
+					name="(auth)"
+					options={{
+						title: "",
+						headerShown: true,
 					}}
-				>
-					<Stack.Screen
-						name="(tabs)"
-						options={{ title: "", headerShown: false }}
-					/>
+				/>
 
-					<Stack.Screen
-						name="(auth)"
-						options={{
-							title: "",
-							headerShown: true,
-							animation: "default",
-						}}
-					/>
+				<Stack.Screen
+					name="create/page"
+					options={{
+						title: "",
+						headerTitle: (props) => {
+							return <NavigationHeading title="Create Habit" />;
+						},
+						headerShown: true,
+					}}
+				/>
 
-					<Stack.Screen
-						name="create/page"
-						options={{
-							title: "Create Habit",
-							headerShown: true,
-							animation: "default",
-						}}
-					/>
-
-					<Stack.Screen
-						name="habit/[id]"
-						options={{
-							title: "Habit Details",
-							headerShown: true,
-							animation: "slide_from_right",
-						}}
-					/>
-				</Stack>
-			</UIView>
-		</>
+				<Stack.Screen
+					name="habit/[id]"
+					options={{
+						title: "",
+						headerTitle: (props) => {
+							return <NavigationHeading title="Habit Details" />;
+						},
+						headerShown: true,
+					}}
+				/>
+			</Stack>
+		</UIView>
 	);
 };
 
-export default RootLayout;
+const App = () => {
+	return (
+		<ThemeProvider>
+			<RootLayout />
+		</ThemeProvider>
+	);
+};
+
+export default App;
 
 const styles = StyleSheet.create({
 	// container styles

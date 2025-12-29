@@ -4,7 +4,17 @@ import AddHabitButton from "../../screens/habits/components/AddHabitButton";
 import { useRouter } from "expo-router";
 import { useHabitStore } from "../../store/habitStore";
 import HabitListCard from "../../screens/habits/components/HabitListCard";
-import UIText from "../../components/ui/UIText";
+import {
+	PageHeader,
+	PageHeading,
+	PageSubHeading,
+} from "../../components/layout/PageHeader";
+import ListHeader from "../../components/list/ListHeader";
+import ListEmpty from "../../components/list/ListEmpty";
+import {
+	EMPTY_HABITS_LIST_MSG,
+	HABITS_PAGE_SUBHEADING,
+} from "../../constants/messages";
 
 const HabitsTab = () => {
 	const router = useRouter();
@@ -13,28 +23,21 @@ const HabitsTab = () => {
 
 	return (
 		<UIView style={styles.container} isTopSafe>
+			<PageHeader>
+				<PageHeading>Habits</PageHeading>
+				<PageSubHeading>{HABITS_PAGE_SUBHEADING}</PageSubHeading>
+			</PageHeader>
+
 			<FlatList
 				data={habits}
 				keyExtractor={(item) => item.id}
 				contentContainerStyle={styles.habitsContainer}
-				ListHeaderComponent={() => {
-					return (
-						<View style={styles.listHeader}>
-							<UIText style={styles.listHeading}>
-								Your Habits
-							</UIText>
-						</View>
-					);
-				}}
+				ListHeaderComponent={<ListHeader heading="Your Habits" />}
 				renderItem={({ item }) => {
 					return <HabitListCard key={item.id} habit={item} />;
 				}}
 				ListEmptyComponent={
-					<View style={styles.messageContainer}>
-						<UIText style={styles.message} isSecondary>
-							Create your first habit to begin
-						</UIText>
-					</View>
+					<ListEmpty message={EMPTY_HABITS_LIST_MSG} />
 				}
 			/>
 
@@ -57,30 +60,13 @@ const styles = StyleSheet.create({
 	},
 	habitsContainer: {
 		paddingHorizontal: 16,
-		paddingVertical: 20,
+		paddingVertical: 10,
 		gap: 8,
-	},
-	listHeader: {
-		paddingHorizontal: 2,
-		paddingBottom: 2,
-	},
-	messageContainer: {
-		padding: 20,
-		justifyContent: "center",
-		alignItems: "center",
 	},
 	actionContainer: {
 		position: "absolute",
 		padding: 12,
 		bottom: 0,
 		right: 0,
-	},
-
-	// text styles
-	listHeading: {
-		fontSize: 16,
-	},
-	message: {
-		fontSize: 12,
 	},
 });

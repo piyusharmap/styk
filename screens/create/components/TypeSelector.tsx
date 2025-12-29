@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 	// text styles
 	label: {
 		fontSize: 16,
-		fontWeight: "600",
+		fontWeight: "500",
 	},
 	description: {
 		fontSize: 12,

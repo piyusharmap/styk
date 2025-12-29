@@ -33,7 +33,10 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 								{isHabitLocked ? "Completed" : "In Progress"}:{" "}
 								<Text style={{ color: colors.text }}>
 									{countValue}/{habit.target.count}{" "}
-									{habit.target.unit}
+									{`${habit.target.unit}${
+										habit.target.count > 1 ? "s" : ""
+									}`}{" "}
+									{`(${habit.target.frequency})`}
 								</Text>
 							</UIText>
 						) : (
@@ -109,7 +112,7 @@ const styles = StyleSheet.create({
 	// text styles
 	habitName: {
 		fontSize: 18,
-		fontWeight: "600",
+		fontWeight: "500",
 	},
 	habitDetail: {
 		fontSize: 12,

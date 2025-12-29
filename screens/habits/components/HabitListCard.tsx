@@ -42,7 +42,10 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 							<UIText style={styles.habitDetail} isSecondary>
 								Count:{" "}
 								<Text style={{ color: colors.text }}>
-									{habit.target.count} {habit.target.unit}
+									{habit.target.count}{" "}
+									{`${habit.target.unit}${
+										habit.target.count > 1 ? "s" : ""
+									}`}
 								</Text>
 							</UIText>
 
@@ -128,7 +131,7 @@ const styles = StyleSheet.create({
 	habitName: {
 		flexShrink: 1,
 		fontSize: 18,
-		fontWeight: "600",
+		fontWeight: "500",
 	},
 	habitDetail: {
 		fontSize: 12,
