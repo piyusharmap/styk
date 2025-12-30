@@ -5,7 +5,6 @@ import {
 	TextStyle,
 	ViewStyle,
 } from "react-native";
-import React from "react";
 import UIText from "../ui/UIText";
 
 export const PageHeading = ({
@@ -45,7 +44,7 @@ export const PageHeader = ({
 const styles = StyleSheet.create({
 	// container styles
 	container: {
-		paddingHorizontal: 16,
+		paddingHorizontal: 12,
 		paddingTop: 10,
 		paddingBottom: 16,
 	},

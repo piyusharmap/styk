@@ -34,7 +34,7 @@ const HabitsTab = () => {
 				contentContainerStyle={styles.habitsContainer}
 				ListHeaderComponent={<ListHeader heading="Your Habits" />}
 				renderItem={({ item }) => {
-					return <HabitListCard key={item.id} habit={item} />;
+					return <HabitListCard habit={item} />;
 				}}
 				ListEmptyComponent={
 					<ListEmpty message={EMPTY_HABITS_LIST_MSG} />
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	habitsContainer: {
-		paddingHorizontal: 16,
+		paddingHorizontal: 12,
 		paddingVertical: 10,
 		gap: 8,
 	},

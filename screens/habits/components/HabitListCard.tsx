@@ -24,7 +24,12 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 				pressed && styles.habitCardPressed,
 			]}
 			onPress={() => {
-				router.navigate(`/habit/${habit.id}`);
+				router.navigate({
+					pathname: `/habit/${habit.id}`,
+					params: {
+						color: habit.color,
+					},
+				});
 			}}
 		>
 			<View style={styles.habitInfo}>

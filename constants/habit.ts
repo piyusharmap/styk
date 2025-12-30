@@ -17,14 +17,14 @@ export const HabitTypeDetails: Record<
 };
 
 export const ColorOptions = [
-	"#3363AF",
 	"#3B82F6",
+	"#4F90FA",
 	"#6366F1",
 	"#8B5CF6",
 	"#A855F7",
+	"#EC69AB",
 	"#D4323A",
 	"#E64545",
-	"#EC69AB",
 	"#F59E0B",
 	"#EEBE3A",
 	"#22C55E",

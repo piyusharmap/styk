@@ -53,7 +53,7 @@ const CreateHabitForm = () => {
 	const handleSaveHabit = () => {
 		let habitTarget: HabitTarget;
 
-		if (habitName.length < 5) {
+		if (habitName.length < 3) {
 			setFormError("Name should be at least 5 characters long.");
 			return;
 		}
@@ -179,14 +179,18 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: "space-between",
+		gap: 10,
 	},
 	formContainer: {
 		gap: 16,
+		paddingTop: 10,
+		paddingBottom: 40,
 	},
 	countDetails: {
 		gap: 10,
 	},
 	actionContainer: {
+		paddingBottom: 10,
 		flexDirection: "row",
 		gap: 8,
 	},

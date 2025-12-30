@@ -41,7 +41,7 @@ const TodayTab = () => {
 				contentContainerStyle={styles.habitsContainer}
 				ListHeaderComponent={<ListHeader heading="Today's Tasks" />}
 				renderItem={({ item }) => {
-					return <HabitTodayCard key={item.id} habit={item} />;
+					return <HabitTodayCard habit={item} />;
 				}}
 				ListEmptyComponent={
 					<ListEmpty message={EMPTY_TODAY_LIST_MSG} />
@@ -59,14 +59,14 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	dateContainer: {
-		paddingHorizontal: 16,
+		paddingHorizontal: 12,
 		paddingVertical: 8,
 		flexDirection: "row",
 		justifyContent: "flex-end",
 		alignItems: "center",
 	},
 	habitsContainer: {
-		paddingHorizontal: 16,
+		paddingHorizontal: 12,
 		paddingVertical: 10,
 		gap: 8,
 	},

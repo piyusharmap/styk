@@ -5,7 +5,6 @@ import {
 	Pressable,
 	StyleSheet,
 } from "react-native";
-import React from "react";
 import UIText from "./UIText";
 import { Ionicons } from "@expo/vector-icons";
 import useThemeColor from "../../theme/useThemeColor";

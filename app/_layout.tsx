@@ -1,4 +1,3 @@
-import React from "react";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import UIView from "../components/ui/UIView";
@@ -6,12 +5,14 @@ import useThemeColor from "../theme/useThemeColor";
 import { StyleSheet } from "react-native";
 import { useAppFonts } from "../fonts/useFonts";
 import NavigationHeading from "../components/heading/NavigationHeading";
-import { ThemeProvider } from "../contexts/ThemeContext";
+import { ThemeProvider, useTheme } from "../contexts/ThemeContext";
+import NavigationBackButton from "../components/layout/NavigationBackButton";
 
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
 	const colors = useThemeColor();
+	const theme = useTheme();
 
 	const [loaded] = useAppFonts();
 
@@ -21,20 +22,30 @@ const RootLayout = () => {
 
 	return (
 		<UIView style={styles.container}>
-			<StatusBar style="auto" />
+			<StatusBar style={theme.mode === "dark" ? "light" : "dark"} />
 
 			<Stack
 				screenOptions={{
+					headerLeft: ({ canGoBack }) => {
+						if (!canGoBack) return;
+
+						return <NavigationBackButton />;
+					},
+					headerBackVisible: false,
 					headerStyle: {
 						backgroundColor: colors.navBackground,
 					},
+					headerTitleAlign: "center",
 					headerShadowVisible: false,
-					headerTintColor: colors.navText,
 				}}
 			>
 				<Stack.Screen
 					name="(tabs)"
-					options={{ title: "", headerShown: false }}
+					options={{
+						title: "",
+						headerShown: false,
+						animation: "fade",
+					}}
 				/>
 
 				<Stack.Screen
@@ -42,6 +53,7 @@ const RootLayout = () => {
 					options={{
 						title: "",
 						headerShown: true,
+						animation: "fade",
 					}}
 				/>
 
@@ -53,6 +65,7 @@ const RootLayout = () => {
 							return <NavigationHeading title="Create Habit" />;
 						},
 						headerShown: true,
+						animation: "fade",
 					}}
 				/>
 
@@ -64,6 +77,7 @@ const RootLayout = () => {
 							return <NavigationHeading title="Habit Details" />;
 						},
 						headerShown: true,
+						animation: "fade",
 					}}
 				/>
 			</Stack>

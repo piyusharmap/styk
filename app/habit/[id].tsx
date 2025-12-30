@@ -1,16 +1,23 @@
 import { StyleSheet } from "react-native";
-import React from "react";
 import UIView from "../../components/ui/UIView";
 import UIText from "../../components/ui/UIText";
-import { useLocalSearchParams } from "expo-router/build/hooks";
+import { Stack, useLocalSearchParams } from "expo-router";
 
 const HabitDetailsPage = () => {
-	const { id } = useLocalSearchParams<{ id: string }>();
+	const { id, color } = useLocalSearchParams<{
+		id: string;
+		color?: string;
+	}>();
 
 	return (
-		<UIView style={styles.container} isBottomSafe>
-			<UIText>{id}</UIText>
-		</UIView>
+		<>
+			<Stack.Screen
+				options={{ headerStyle: { backgroundColor: color } }}
+			/>
+			<UIView style={styles.container} isBottomSafe>
+				<UIText>{id}</UIText>
+			</UIView>
+		</>
 	);
 };
 

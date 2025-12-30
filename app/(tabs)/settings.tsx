@@ -1,4 +1,4 @@
-import { StyleSheet, Switch, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import UIView from "../../components/ui/UIView";
 import { useHabitStore } from "../../store/habitStore";
 import UIButton from "../../components/ui/UIButton";
@@ -9,10 +9,12 @@ import {
 } from "../../components/layout/PageHeader";
 import { SETTINGS_PAGE_SUBHEADING } from "../../constants/messages";
 import { useTheme } from "../../contexts/ThemeContext";
-import UIText from "../../components/ui/UIText";
+import UISwitch from "../../components/ui/UISwitch";
+import SettingOption from "../../screens/settings/components/SettingOption";
+import SettingsSection from "../../screens/settings/components/SettingsSection";
 
 const SettingsTab = () => {
-	const { mode, setMode, theme } = useTheme();
+	const { mode, setMode } = useTheme();
 	const reset = useHabitStore((s) => s.reset);
 
 	return (
@@ -22,22 +24,38 @@ const SettingsTab = () => {
 				<PageSubHeading>{SETTINGS_PAGE_SUBHEADING}</PageSubHeading>
 			</PageHeader>
 
-			<View style={styles.themeContainer}>
-				<UIText>Dark Mode</UIText>
-				<Switch
-					value={mode === "dark"}
-					onValueChange={(value) => setMode(value ? "dark" : "light")}
-				/>
-			</View>
+			<ScrollView style={styles.settingsContainer}>
+				<SettingsSection title="Application">
+					<SettingOption title="Dark Mode">
+						<UISwitch
+							value={mode === "dark"}
+							onChange={(value) =>
+								setMode(value ? "dark" : "light")
+							}
+						/>
+					</SettingOption>
 
-			<View style={styles.actionContainer}>
-				<UIButton
-					variant="danger"
-					size="sm"
-					title="Reset All Data"
-					onPress={reset}
-				/>
-			</View>
+					<SettingOption title="Week Start">
+						<></>
+					</SettingOption>
+
+					<SettingOption title="Timer Default">
+						<></>
+					</SettingOption>
+				</SettingsSection>
+
+				<SettingsSection title="Account">
+					<SettingOption title="Reset All Data">
+						<UIButton
+							variant="danger"
+							size="sm"
+							title="Reset Data"
+							onPress={reset}
+							isDisabled
+						/>
+					</SettingOption>
+				</SettingsSection>
+			</ScrollView>
 		</UIView>
 	);
 };
@@ -48,15 +66,8 @@ const styles = StyleSheet.create({
 	// container styles
 	container: {
 		flex: 1,
-		justifyContent: "space-between",
 	},
-	themeContainer: {
-		flex: 1,
-		paddingHorizontal: 16,
-		paddingVertical: 16,
-	},
-	actionContainer: {
-		paddingHorizontal: 16,
-		paddingVertical: 10,
+	settingsContainer: {
+		gap: 2,
 	},
 });

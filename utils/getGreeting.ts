@@ -10,9 +10,9 @@ export const getGreeting = (): string => {
 
 	if (hour < 12) return MORNING_GREET_MSG;
 
-	if (hour < 17) return AFTERNOON_GREET_MSG;
+	if (hour < 18) return AFTERNOON_GREET_MSG;
 
-	if (hour < 21) return EVENING_GREET_MSG;
+	if (hour < 22) return EVENING_GREET_MSG;
 
 	return NIGHT_GREET_MSG;
 };
