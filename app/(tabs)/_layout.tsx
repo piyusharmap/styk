@@ -68,7 +68,33 @@ const TabsLayout = () => {
 					tabBarIcon: ({ focused }) => (
 						<Ionicons
 							size={24}
-							name={focused ? "checkbox" : "checkbox-outline"}
+							name={focused ? "calendar" : "calendar-outline"}
+							color={
+								focused
+									? colors.tabIconActive
+									: colors.tabIconInactive
+							}
+						/>
+					),
+				}}
+			/>
+
+			<Tabs.Screen
+				name="measure"
+				options={{
+					title: "",
+					tabBarLabel: (props) => {
+						return (
+							<TabBarLabel
+								label="Measure"
+								style={{ color: props.color }}
+							/>
+						);
+					},
+					tabBarIcon: ({ focused }) => (
+						<Ionicons
+							size={24}
+							name={focused ? "scale" : "scale-outline"}
 							color={
 								focused
 									? colors.tabIconActive

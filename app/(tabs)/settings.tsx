@@ -24,8 +24,8 @@ const SettingsTab = () => {
 				<PageSubHeading>{SETTINGS_PAGE_SUBHEADING}</PageSubHeading>
 			</PageHeader>
 
-			<ScrollView style={styles.settingsContainer}>
-				<SettingsSection title="Application">
+			<ScrollView contentContainerStyle={styles.settingsContainer}>
+				<SettingsSection title="Preferences">
 					<SettingOption title="Dark Mode">
 						<UISwitch
 							value={mode === "dark"}
@@ -55,6 +55,16 @@ const SettingsTab = () => {
 						/>
 					</SettingOption>
 				</SettingsSection>
+
+				<SettingsSection title="App Info">
+					<SettingOption title="Version">
+						<></>
+					</SettingOption>
+
+					<SettingOption title="Rate Us">
+						<></>
+					</SettingOption>
+				</SettingsSection>
 			</ScrollView>
 		</UIView>
 	);
@@ -68,6 +78,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	settingsContainer: {
-		gap: 2,
+		gap: 4,
 	},
 });

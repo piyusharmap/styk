@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 	// container styles
 	section: {
 		paddingHorizontal: 12,
-		paddingVertical: 10,
+		paddingVertical: 4,
 	},
 	headingContainer: {
 		paddingHorizontal: 4,
