@@ -1,5 +1,6 @@
 import { StyleProp, StyleSheet, TextStyle } from "react-native";
 import UIText from "../ui/UIText";
+import useThemeColor from "../../theme/useThemeColor";
 
 const NavigationHeading = ({
 	title,
@@ -8,7 +9,13 @@ const NavigationHeading = ({
 	title: string;
 	style?: StyleProp<TextStyle>;
 }) => {
-	return <UIText style={[styles.title, style]}>{title}</UIText>;
+	const colors = useThemeColor();
+
+	return (
+		<UIText style={[{ color: colors.navText }, styles.title, style]}>
+			{title}
+		</UIText>
+	);
 };
 
 export default NavigationHeading;

@@ -1,5 +1,5 @@
 import { PressableProps, Pressable, StyleSheet } from "react-native";
-import React, { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import useThemeColor from "../../../theme/useThemeColor";
 

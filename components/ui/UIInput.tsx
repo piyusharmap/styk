@@ -7,7 +7,7 @@ import {
 	View,
 	ViewStyle,
 } from "react-native";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import useThemeColor from "../../theme/useThemeColor";
 import UIText from "./UIText";
 

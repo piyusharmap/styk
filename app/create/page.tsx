@@ -1,5 +1,4 @@
 import { View, StyleSheet } from "react-native";
-import React from "react";
 import UIView from "../../components/ui/UIView";
 import CreateHabitForm from "../../screens/create/CreateHabitForm";
 
@@ -22,7 +21,6 @@ const styles = StyleSheet.create({
 	},
 	createForm: {
 		flex: 1,
-		paddingHorizontal: 16,
-		paddingVertical: 10,
+		paddingHorizontal: 12,
 	},
 });

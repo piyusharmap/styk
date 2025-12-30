@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet } from "react-native";
-import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { Habit } from "../../../types/habitTypes";
 import { IonIconType } from "../../../types/iconTypes";
