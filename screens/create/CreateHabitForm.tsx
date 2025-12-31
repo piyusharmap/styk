@@ -24,6 +24,7 @@ import { toDateString } from "../../utils/time";
 import QuitDatePicker from "./components/StartDatePicker";
 import { useRouter } from "expo-router";
 import { HABIT_NAME_PLACEHOLDER } from "../../constants/messages";
+import useThemeColor from "../../theme/useThemeColor";
 
 const CreateHabitForm = () => {
 	const [habitName, setHabitName] = useState("");
@@ -36,6 +37,7 @@ const CreateHabitForm = () => {
 	const [habitStartDate, setHabitStartDate] = useState<Date>(new Date());
 	const [formError, setFormError] = useState<string>("");
 
+	const colors = useThemeColor();
 	const router = useRouter();
 	const addHabit = useHabitStore((s) => s.addHabit);
 
@@ -131,10 +133,12 @@ const CreateHabitForm = () => {
 								count={habitCount}
 								onChange={setHabitCount}
 							/>
+
 							<UnitSelector
 								selectedUnit={habitUnit}
 								onPress={setHabitUnit}
 							/>
+
 							<FrequencySelector
 								selectedFrequency={habitFrequency}
 								onPress={setHabitFrequency}
@@ -154,7 +158,9 @@ const CreateHabitForm = () => {
 				) : null}
 			</ScrollView>
 
-			<View style={styles.actionContainer}>
+			<View
+				style={[{ borderColor: colors.border }, styles.actionContainer]}
+			>
 				<UIButton
 					title="Reset"
 					onPress={resetForm}
@@ -178,11 +184,11 @@ const styles = StyleSheet.create({
 	// container styles
 	container: {
 		flex: 1,
-		justifyContent: "space-between",
-		gap: 10,
 	},
 	formContainer: {
+		flex: 1,
 		gap: 16,
+		paddingHorizontal: 12,
 		paddingTop: 10,
 		paddingBottom: 40,
 	},
@@ -190,9 +196,11 @@ const styles = StyleSheet.create({
 		gap: 10,
 	},
 	actionContainer: {
-		paddingBottom: 10,
+		paddingHorizontal: 12,
+		paddingVertical: 10,
 		flexDirection: "row",
 		gap: 8,
+		borderTopWidth: 1,
 	},
 	actionButton: {
 		flex: 1,

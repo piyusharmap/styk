@@ -15,6 +15,7 @@ import {
 	EMPTY_HABITS_LIST_MSG,
 	HABITS_PAGE_SUBHEADING,
 } from "../../constants/messages";
+import ListContainer from "../../components/list/ListContainer";
 
 const HabitsTab = () => {
 	const router = useRouter();
@@ -28,18 +29,21 @@ const HabitsTab = () => {
 				<PageSubHeading>{HABITS_PAGE_SUBHEADING}</PageSubHeading>
 			</PageHeader>
 
-			<FlatList
-				data={habits}
-				keyExtractor={(item) => item.id}
-				contentContainerStyle={styles.habitsContainer}
-				ListHeaderComponent={<ListHeader heading="Your Habits" />}
-				renderItem={({ item }) => {
-					return <HabitListCard habit={item} />;
-				}}
-				ListEmptyComponent={
-					<ListEmpty message={EMPTY_HABITS_LIST_MSG} />
-				}
-			/>
+			<ListContainer>
+				<ListHeader heading="Your Habits" />
+
+				<FlatList
+					data={habits}
+					keyExtractor={(item) => item.id}
+					contentContainerStyle={styles.habitsContainer}
+					renderItem={({ item }) => {
+						return <HabitListCard habit={item} />;
+					}}
+					ListEmptyComponent={
+						<ListEmpty message={EMPTY_HABITS_LIST_MSG} />
+					}
+				/>
+			</ListContainer>
 
 			<View style={styles.actionContainer}>
 				<AddHabitButton
@@ -57,6 +61,7 @@ const styles = StyleSheet.create({
 	container: {
 		position: "relative",
 		flex: 1,
+		gap: 4,
 	},
 	habitsContainer: {
 		paddingHorizontal: 12,

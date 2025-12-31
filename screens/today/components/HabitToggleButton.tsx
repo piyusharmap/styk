@@ -13,16 +13,17 @@ const HabitToggleButton = ({
 }) => {
 	const icon: IonIconType = habit.target.type === "count" ? "add" : "refresh";
 
-	const markHabitForToday = useHabitStore((s) => s.markHabitForToday);
+	const performHabitAction = useHabitStore((s) => s.performHabitAction);
+
 	const handleMarkHabit = () => {
-		markHabitForToday(habit.id);
+		performHabitAction(habit.id, "mark");
 	};
 
 	return (
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: habit.color + "20",
+					backgroundColor: habit.color + "50",
 					borderColor: habit.color,
 				},
 				styles.button,
@@ -30,7 +31,6 @@ const HabitToggleButton = ({
 				isDisabled && styles.buttonDisabled,
 			]}
 			onPress={handleMarkHabit}
-			disabled={isDisabled}
 		>
 			<Ionicons name={icon} size={24} color={habit.color} />
 		</Pressable>

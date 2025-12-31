@@ -15,18 +15,34 @@ type HabitStore = {
 	logs: HabitLog[];
 
 	addHabit: (name: string, color: string, target: HabitTarget) => void;
-	markHabitForToday: (habitId: string) => void;
-	unmarkHabitForToday: (habitID: string) => void;
 
+	// habit log actions
+	performHabitAction: (
+		habitId: string,
+		actionType?: "mark" | "unmark"
+	) => void;
+
+	// count habit log actions
+	incrementCountHabit: (habit: Habit) => void;
+	decrementCountHabit: (habit: Habit) => void;
+
+	// quit habit log actions
+	recordQuitRelapse: (habit: Habit) => void;
+
+	// habit status actions
 	isHabitSuccessful: (habitId: string) => boolean;
 	isHabitLocked: (habitId: string) => boolean;
 	getStreak: (habitId: string) => number;
 
+	// habit info actions
+	getHabitDetails: (habitId: string) => Habit | undefined;
 	getCountValue: (habitId: string) => number;
 
 	getAllHabits: () => Habit[];
 	getTodayHabits: () => Habit[];
-	reset: () => void;
+
+	// habit reset actions
+	resetData: () => void;
 };
 
 export const useHabitStore = create<HabitStore>()(
@@ -35,6 +51,7 @@ export const useHabitStore = create<HabitStore>()(
 			habits: [],
 			logs: [],
 
+			// to add a new habit
 			addHabit: (name, color, target) => {
 				const today = getTodayString();
 
@@ -42,7 +59,7 @@ export const useHabitStore = create<HabitStore>()(
 					habits: [
 						...state.habits,
 						{
-							id: `${state.habits.length + 1}`,
+							id: `${Date.now()}`,
 							name: name,
 							color: color,
 							target: target,
@@ -53,31 +70,48 @@ export const useHabitStore = create<HabitStore>()(
 				}));
 			},
 
-			markHabitForToday: (habitId) => {
+			// to perform habit log actions
+			performHabitAction: (habitId, actionType) => {
 				const habit = get().habits.find(
 					(habit) => habit.id === habitId
 				);
 
 				if (!habit) return;
 
-				const today = getTodayString();
-				const logs = get().logs;
+				const type = habit.target.type;
 
-				if (habit.target.type === "count") {
-					const window = getCurrentTimeWindow(habit.target.frequency);
+				switch (type) {
+					case "count":
+						if (actionType === "mark") {
+							get().incrementCountHabit(habit);
+						} else {
+							get().decrementCountHabit(habit);
+						}
 
-					const locked = isHabitLockedForWindow(
-						habit,
-						getHabitLogs(habitId, logs),
-						window
-					);
-
-					if (locked) return;
+						break;
+					case "quit":
+						if (actionType === "mark") {
+							get().recordQuitRelapse(habit);
+						}
+						break;
 				}
+			},
 
-				const existingLog = logs.find(
-					(log) => log.habitId === habitId && log.date === today
-				);
+			// to perform count habit log actions
+			incrementCountHabit: (habit) => {
+				if (habit.target.type !== "count") return;
+
+				const today = getTodayString();
+
+				const window = getCurrentTimeWindow(habit.target.frequency);
+
+				const logs = get().logs;
+				const habitLogs = getHabitLogs(habit.id, logs);
+				const locked = isHabitLockedForWindow(habit, habitLogs, window);
+
+				if (locked) return;
+
+				const existingLog = habitLogs.find((log) => log.date === today);
 
 				if (existingLog) {
 					set({
@@ -92,8 +126,8 @@ export const useHabitStore = create<HabitStore>()(
 						logs: [
 							...state.logs,
 							{
-								id: `${state.logs.length + 1}`,
-								habitId: habitId,
+								id: `${habit.id}_${today}`,
+								habitId: habit.id,
 								date: today,
 								value: 1,
 							},
@@ -102,23 +136,20 @@ export const useHabitStore = create<HabitStore>()(
 				}
 			},
 
-			unmarkHabitForToday: (habitId) => {
-				const habit = get().habits.find(
-					(habit) => habit.id === habitId
-				);
+			decrementCountHabit: (habit) => {
+				if (habit.target.type !== "count") return;
 
-				if (!habit) return;
+				const today = getTodayString();
 
 				const window = getCurrentTimeWindow(habit.target.frequency);
 
-				if (isHabitLockedForWindow(habit, get().logs, window)) return;
-
-				const today = getTodayString();
 				const logs = get().logs;
+				const habitLogs = getHabitLogs(habit.id, logs);
+				const locked = isHabitLockedForWindow(habit, habitLogs, window);
 
-				const existingLog = logs.find(
-					(log) => log.habitId === habitId && log.date === today
-				);
+				if (locked) return;
+
+				const existingLog = habitLogs.find((log) => log.date === today);
 
 				if (!existingLog) return;
 
@@ -137,6 +168,48 @@ export const useHabitStore = create<HabitStore>()(
 				}
 			},
 
+			// to perform quit habit log actions
+			recordQuitRelapse: (habit) => {
+				if (habit.target.type !== "quit") return;
+
+				const today = getTodayString();
+
+				const logs = get().logs;
+				const habitLogs = getHabitLogs(habit.id, logs);
+
+				const existingLog = habitLogs.find((log) => log.date === today);
+
+				if (existingLog) return;
+
+				set((state) => ({
+					logs: [
+						...state.logs,
+						{
+							id: `${habit.id}_${today}`,
+							habitId: habit.id,
+							date: today,
+							value: 1,
+						},
+					],
+				}));
+
+				set((state) => ({
+					habits: state.habits.map((habitItem) =>
+						habitItem.id === habit.id
+							? {
+									...habitItem,
+									target: {
+										...habitItem.target,
+										startDate: today,
+									},
+									updatedAt: today,
+							  }
+							: habitItem
+					),
+				}));
+			},
+
+			// to perform habit status actions
 			isHabitSuccessful: (habitId) => {
 				const habit = get().habits.find(
 					(habit) => habit.id === habitId
@@ -177,12 +250,23 @@ export const useHabitStore = create<HabitStore>()(
 				return 0;
 			},
 
+			// to perform habit info actions
+			getHabitDetails: (habitId) => {
+				const habit = get().habits.find(
+					(habit) => habit.id === habitId
+				);
+
+				if (!habit) return undefined;
+				else return habit;
+			},
+
 			getCountValue: (habitId) => {
 				const habit = get().habits.find(
 					(habit) => habit.id === habitId
 				);
 
 				if (!habit) return 0;
+
 				if (habit.target.type !== "count") return 0;
 
 				const window = getCurrentTimeWindow(habit.target.frequency);
@@ -203,7 +287,8 @@ export const useHabitStore = create<HabitStore>()(
 				return get().habits;
 			},
 
-			reset: () => set({ habits: [], logs: [] }),
+			// to perform habit reset actions
+			resetData: () => set({ habits: [], logs: [] }),
 		}),
 		{
 			name: "habit-store",

@@ -12,6 +12,7 @@ import {
 } from "../../components/layout/PageHeader";
 import Badge from "../../components/Badge";
 import { EMPTY_TODAY_LIST_MSG } from "../../constants/messages";
+import ListContainer from "../../components/list/ListContainer";
 
 const TodayTab = () => {
 	const habits = useHabitStore((s) => s.getTodayHabits());
@@ -26,27 +27,30 @@ const TodayTab = () => {
 
 	return (
 		<UIView style={styles.container} isTopSafe>
-			<View style={styles.dateContainer}>
-				<Badge title={todayDate} />
-			</View>
-
-			<PageHeader style={{ paddingTop: 0 }}>
+			<PageHeader>
 				<PageHeading>Today</PageHeading>
 				<PageSubHeading>{greeting}</PageSubHeading>
 			</PageHeader>
 
-			<FlatList
-				data={habits}
-				keyExtractor={(item) => item.id}
-				contentContainerStyle={styles.habitsContainer}
-				ListHeaderComponent={<ListHeader heading="Today's Tasks" />}
-				renderItem={({ item }) => {
-					return <HabitTodayCard habit={item} />;
-				}}
-				ListEmptyComponent={
-					<ListEmpty message={EMPTY_TODAY_LIST_MSG} />
-				}
-			/>
+			<View style={styles.dateContainer}>
+				<Badge title={todayDate} icon="calendar-clear-outline" />
+			</View>
+
+			<ListContainer>
+				<ListHeader heading="Today's Tasks" />
+
+				<FlatList
+					data={habits}
+					keyExtractor={(item) => item.id}
+					contentContainerStyle={styles.habitsContainer}
+					renderItem={({ item }) => {
+						return <HabitTodayCard habit={item} />;
+					}}
+					ListEmptyComponent={
+						<ListEmpty message={EMPTY_TODAY_LIST_MSG} />
+					}
+				/>
+			</ListContainer>
 		</UIView>
 	);
 };
@@ -57,10 +61,11 @@ const styles = StyleSheet.create({
 	// container styles
 	container: {
 		flex: 1,
+		gap: 4,
 	},
 	dateContainer: {
 		paddingHorizontal: 12,
-		paddingVertical: 8,
+		paddingVertical: 2,
 		flexDirection: "row",
 		justifyContent: "flex-end",
 		alignItems: "center",

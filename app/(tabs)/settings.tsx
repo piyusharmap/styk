@@ -12,10 +12,13 @@ import { useTheme } from "../../contexts/ThemeContext";
 import UISwitch from "../../components/ui/UISwitch";
 import SettingOption from "../../screens/settings/components/SettingOption";
 import SettingsSection from "../../screens/settings/components/SettingsSection";
+import { useUserStore } from "../../store/userStore";
 
 const SettingsTab = () => {
 	const { mode, setMode } = useTheme();
-	const reset = useHabitStore((s) => s.reset);
+
+	const resetPreferences = useUserStore((s) => s.resetPreferences);
+	const resetData = useHabitStore((s) => s.resetData);
 
 	return (
 		<UIView style={styles.container} isTopSafe>
@@ -35,33 +38,31 @@ const SettingsTab = () => {
 						/>
 					</SettingOption>
 
-					<SettingOption title="Week Start">
-						<></>
-					</SettingOption>
-
-					<SettingOption title="Timer Default">
-						<></>
+					<SettingOption title="Reset Preferences">
+						<UIButton
+							variant="secondary"
+							size="sm"
+							title="Reset"
+							iconName="refresh"
+							onPress={resetPreferences}
+						/>
 					</SettingOption>
 				</SettingsSection>
 
 				<SettingsSection title="Account">
-					<SettingOption title="Reset All Data">
+					<SettingOption title="Delete All Data">
 						<UIButton
 							variant="danger"
 							size="sm"
-							title="Reset Data"
-							onPress={reset}
-							isDisabled
+							title="Delete"
+							iconName="trash"
+							onPress={resetData}
 						/>
 					</SettingOption>
 				</SettingsSection>
 
 				<SettingsSection title="App Info">
 					<SettingOption title="Version">
-						<></>
-					</SettingOption>
-
-					<SettingOption title="Rate Us">
 						<></>
 					</SettingOption>
 				</SettingsSection>
@@ -76,8 +77,10 @@ const styles = StyleSheet.create({
 	// container styles
 	container: {
 		flex: 1,
+		gap: 4,
 	},
 	settingsContainer: {
 		gap: 4,
+		paddingBottom: 40,
 	},
 });

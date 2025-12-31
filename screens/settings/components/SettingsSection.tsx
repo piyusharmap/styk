@@ -25,8 +25,8 @@ const SettingsSection = ({
 
 				<Ionicons
 					name={showOptions ? "chevron-down" : "chevron-forward"}
-					size={16}
-					color={colors.textSecondary}
+					size={14}
+					color={colors.accent}
 				/>
 			</Pressable>
 
@@ -46,9 +46,10 @@ const styles = StyleSheet.create({
 		paddingVertical: 4,
 	},
 	headingContainer: {
-		paddingHorizontal: 4,
+		paddingHorizontal: 2,
 		paddingVertical: 10,
 		flexDirection: "row",
+		justifyContent: "space-between",
 		alignItems: "center",
 		gap: 10,
 	},

@@ -21,6 +21,5 @@ const styles = StyleSheet.create({
 	},
 	createForm: {
 		flex: 1,
-		paddingHorizontal: 12,
 	},
 });

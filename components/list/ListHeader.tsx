@@ -26,10 +26,11 @@ export default ListHeader;
 const styles = StyleSheet.create({
 	// container styles
 	listHeader: {
+		paddingHorizontal: 13,
+		paddingVertical: 2,
 		flexDirection: "row",
 		alignItems: "center",
 		gap: 4,
-		paddingLeft: 1,
 	},
 
 	// text styles
