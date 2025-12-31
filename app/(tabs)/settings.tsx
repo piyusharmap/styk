@@ -51,17 +51,12 @@ const SettingsTab = () => {
 							size="sm"
 							title="Reset Data"
 							onPress={reset}
-							isDisabled
 						/>
 					</SettingOption>
 				</SettingsSection>
 
 				<SettingsSection title="App Info">
 					<SettingOption title="Version">
-						<></>
-					</SettingOption>
-
-					<SettingOption title="Rate Us">
 						<></>
 					</SettingOption>
 				</SettingsSection>
@@ -76,6 +71,7 @@ const styles = StyleSheet.create({
 	// container styles
 	container: {
 		flex: 1,
+		gap: 4,
 	},
 	settingsContainer: {
 		gap: 4,
