@@ -82,6 +82,7 @@ const TabsLayout = () => {
 			<Tabs.Screen
 				name="measure"
 				options={{
+					href: null, // remove after implementing measure functionality
 					title: "",
 					tabBarLabel: (props) => {
 						return (

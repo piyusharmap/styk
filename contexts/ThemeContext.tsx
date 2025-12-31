@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { Colors, Theme } from "../theme/colors";
-
-type ThemeMode = "light" | "dark";
+import { ThemeMode } from "../types/userTypes";
+import { useUserStore } from "../store/userStore";
 
 interface ThemeContextType {
 	theme: Theme;
@@ -12,8 +12,14 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-	const [mode, setMode] = useState<ThemeMode>("light");
+	const mode = useUserStore((s) => s.preferences.themeMode);
+	const setPreferences = useUserStore((s) => s.setPreferences);
+
 	const theme = Colors[mode];
+
+	const setMode = (mode: ThemeMode) => {
+		setPreferences({ themeMode: mode });
+	};
 
 	return (
 		<ThemeContext.Provider value={{ theme, mode, setMode }}>

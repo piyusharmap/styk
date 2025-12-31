@@ -42,7 +42,7 @@ type HabitStore = {
 	getTodayHabits: () => Habit[];
 
 	// habit reset actions
-	reset: () => void;
+	resetData: () => void;
 };
 
 export const useHabitStore = create<HabitStore>()(
@@ -288,7 +288,7 @@ export const useHabitStore = create<HabitStore>()(
 			},
 
 			// to perform habit reset actions
-			reset: () => set({ habits: [], logs: [] }),
+			resetData: () => set({ habits: [], logs: [] }),
 		}),
 		{
 			name: "habit-store",
