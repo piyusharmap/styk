@@ -3,6 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Habit } from "../../../types/habitTypes";
 import { IonIconType } from "../../../types/iconTypes";
 import { useHabitStore } from "../../../store/habitStore";
+import { getTodayString } from "../../../utils/time";
 
 const HabitToggleButton = ({
 	habit,
@@ -16,7 +17,7 @@ const HabitToggleButton = ({
 	const performHabitAction = useHabitStore((s) => s.performHabitAction);
 
 	const handleMarkHabit = () => {
-		performHabitAction(habit.id, "mark");
+		performHabitAction(habit.id, getTodayString(), "mark");
 	};
 
 	return (

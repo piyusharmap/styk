@@ -76,6 +76,7 @@ const CreateHabitForm = () => {
 			habitTarget = {
 				type: habitType,
 				startDate: toDateString(habitStartDate),
+				initialStartDate: toDateString(habitStartDate),
 				frequency: "daily",
 			};
 		}

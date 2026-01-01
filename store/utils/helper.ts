@@ -88,7 +88,10 @@ export const isHabitSuccessfulInWindow = (
 ): boolean => {
 	if (habit.target.type === "count") {
 		const logsInWindow = logs.filter(
-			(log) => log.date >= window.start && log.date <= window.end
+			(log) =>
+				log.habitId === habit.id &&
+				log.date >= window.start &&
+				log.date <= window.end
 		);
 
 		const totalValue = logsInWindow.reduce(
@@ -130,9 +133,4 @@ const getEffectiveWindow = (start: string, end: string, startDate?: string) => {
 		start: getMaxDate(start, startDate),
 		end,
 	};
-};
-
-// to get the logs based on habit id
-export const getHabitLogs = (habitId: string, logs: HabitLog[]) => {
-	return logs.filter((log) => log.habitId === habitId);
 };

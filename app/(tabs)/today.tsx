@@ -18,6 +18,8 @@ const TodayTab = () => {
 	const habits = useHabitStore((s) => s.getTodayHabits());
 	const greeting = getGreeting();
 
+	const logs = useHabitStore((s) => s.logs);
+
 	const todayDate = new Date().toLocaleDateString("en-US", {
 		weekday: "long",
 		month: "short",

@@ -7,6 +7,11 @@ import { useAppFonts } from "../fonts/useFonts";
 import NavigationHeading from "../components/heading/NavigationHeading";
 import { ThemeProvider, useTheme } from "../contexts/ThemeContext";
 import NavigationBackButton from "../components/layout/NavigationBackButton";
+import { SQLiteProvider } from "expo-sqlite";
+import { initializeDb } from "../db";
+import { useHabitStore } from "../store/habitStore";
+import { useEffect } from "react";
+import { DB_NAME } from "../constants/db";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,7 +21,11 @@ const RootLayout = () => {
 
 	const [loaded] = useAppFonts();
 
-	SplashScreen.hideAsync();
+	useEffect(() => {
+		if (loaded) {
+			SplashScreen.hideAsync();
+		}
+	}, [loaded]);
 
 	if (!loaded) return null;
 
@@ -85,10 +94,28 @@ const RootLayout = () => {
 	);
 };
 
+const DBBootstrap = ({ children }: { children: React.ReactNode }) => {
+	const loadFromDB = useHabitStore((s) => s.loadFromDB);
+
+	useEffect(() => {
+		loadFromDB();
+	}, []);
+
+	return <>{children}</>;
+};
+
 const App = () => {
 	return (
 		<ThemeProvider>
-			<RootLayout />
+			<SQLiteProvider
+				databaseName={DB_NAME}
+				onInit={initializeDb}
+				useSuspense
+			>
+				<DBBootstrap>
+					<RootLayout />
+				</DBBootstrap>
+			</SQLiteProvider>
 		</ThemeProvider>
 	);
 };
