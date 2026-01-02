@@ -16,5 +16,7 @@ export const getDb = (): SQLiteDatabase => {
 
 export const initializeDb = async (db: SQLiteDatabase) => {
 	setDb(db);
+
+	await db.execAsync("PRAGMA foreign_keys = ON;");
 	await db.execAsync(CREATE_TABLE);
 };

@@ -4,11 +4,10 @@ import {
 	getCurrentTimeWindow,
 	isHabitLockedForWindow,
 	isHabitSuccessfulInWindow,
-} from "./utils/helper";
+} from "./utils";
 import { getTodayString } from "../utils/time";
 import { HabitService } from "../services/habitService";
 import { HabitLogService } from "../services/habitLogService";
-import { getDb } from "../db";
 
 type HabitStore = {
 	habits: Habit[];
@@ -48,6 +47,7 @@ type HabitStore = {
 
 	// habit reset actions
 	resetData: () => void;
+	deleteHabit: (habitId: string) => Promise<void>;
 
 	// db sync
 	loadFromDB: () => Promise<void>;
@@ -304,10 +304,22 @@ export const useHabitStore = create<HabitStore>()((set, get) => ({
 	// to perform habit reset actions
 	resetData: async () => {
 		try {
-			await HabitLogService.deleteAllLogs();
 			await HabitService.deleteAllHabits();
 
 			set({ habits: [], logs: [] });
+		} catch (error) {
+			console.error("Failed to reset all data:", error);
+		}
+	},
+
+	deleteHabit: async (habitId) => {
+		try {
+			await HabitService.deleteHabit(habitId);
+
+			set((state) => ({
+				habits: state.habits.filter((h) => h.id !== habitId),
+				logs: state.logs.filter((l) => l.habitId !== habitId),
+			}));
 		} catch (error) {
 			console.error("Failed to reset all data:", error);
 		}

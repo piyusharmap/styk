@@ -3,8 +3,8 @@ import {
 	HabitFrequency,
 	HabitLog,
 	HabitWindow,
-} from "../../types/habitTypes";
-import { getMaxDate, toDateString } from "../../utils/time";
+} from "../types/habitTypes";
+import { getMaxDate, toDateString } from "../utils/time";
 
 // get current time window based on frequency
 export const getCurrentTimeWindow = (
@@ -122,6 +122,8 @@ export const isHabitLockedForWindow = (
 	logs: HabitLog[],
 	window: { start: string; end: string }
 ): boolean => {
+	if (habit.target.type === "quit") return false;
+
 	return isHabitSuccessfulInWindow(habit, logs, window);
 };
 

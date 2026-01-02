@@ -4,7 +4,7 @@ import { useHabitStore } from "../../store/habitStore";
 import HabitTodayCard from "../../screens/today/components/HabitTodayCard";
 import ListEmpty from "../../components/list/ListEmpty";
 import ListHeader from "../../components/list/ListHeader";
-import { getGreeting } from "../../utils/getGreeting";
+import { getGreeting } from "../../utils/greeting";
 import {
 	PageHeader,
 	PageHeading,
@@ -17,8 +17,6 @@ import ListContainer from "../../components/list/ListContainer";
 const TodayTab = () => {
 	const habits = useHabitStore((s) => s.getTodayHabits());
 	const greeting = getGreeting();
-
-	const logs = useHabitStore((s) => s.logs);
 
 	const todayDate = new Date().toLocaleDateString("en-US", {
 		weekday: "long",
