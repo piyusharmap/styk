@@ -5,19 +5,19 @@ import useThemeColor from "../theme/useThemeColor";
 import { StyleSheet } from "react-native";
 import { useAppFonts } from "../fonts/useFonts";
 import NavigationHeading from "../components/heading/NavigationHeading";
-import { ThemeProvider, useTheme } from "../contexts/ThemeContext";
 import NavigationBackButton from "../components/layout/NavigationBackButton";
 import { SQLiteProvider } from "expo-sqlite";
 import { initializeDb } from "../db";
 import { useHabitStore } from "../store/habitStore";
 import { useEffect } from "react";
 import { DB_NAME } from "../constants/db";
+import { useUserStore } from "../store/userStore";
 
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
 	const colors = useThemeColor();
-	const theme = useTheme();
+	const mode = useUserStore((s) => s.preferences.themeMode);
 
 	const [loaded] = useAppFonts();
 
@@ -31,7 +31,7 @@ const RootLayout = () => {
 
 	return (
 		<UIView style={styles.container}>
-			<StatusBar style={theme.mode === "dark" ? "light" : "dark"} />
+			<StatusBar style={mode === "dark" ? "light" : "dark"} />
 
 			<Stack
 				screenOptions={{
@@ -106,17 +106,15 @@ const DBBootstrap = ({ children }: { children: React.ReactNode }) => {
 
 const App = () => {
 	return (
-		<ThemeProvider>
-			<SQLiteProvider
-				databaseName={DB_NAME}
-				onInit={initializeDb}
-				useSuspense
-			>
-				<DBBootstrap>
-					<RootLayout />
-				</DBBootstrap>
-			</SQLiteProvider>
-		</ThemeProvider>
+		<SQLiteProvider
+			databaseName={DB_NAME}
+			onInit={initializeDb}
+			useSuspense
+		>
+			<DBBootstrap>
+				<RootLayout />
+			</DBBootstrap>
+		</SQLiteProvider>
 	);
 };
 

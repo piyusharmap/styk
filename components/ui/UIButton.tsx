@@ -79,6 +79,7 @@ const UIButton = ({
 				isDisabled && styles.buttonDisabled,
 				style,
 			]}
+			disabled={isDisabled}
 			{...props}
 		>
 			{isLoading ? (

@@ -8,14 +8,19 @@ import {
 	PageSubHeading,
 } from "../../components/layout/PageHeader";
 import { SETTINGS_PAGE_SUBHEADING } from "../../constants/messages";
-import { useTheme } from "../../contexts/ThemeContext";
 import UISwitch from "../../components/ui/UISwitch";
 import SettingOption from "../../screens/settings/components/SettingOption";
 import SettingsSection from "../../screens/settings/components/SettingsSection";
 import { useUserStore } from "../../store/userStore";
+import { ThemeMode } from "../../types/userTypes";
 
 const SettingsTab = () => {
-	const { mode, setMode } = useTheme();
+	const setPreferences = useUserStore((s) => s.setPreferences);
+	const mode = useUserStore((s) => s.preferences.themeMode);
+
+	const setMode = (newMode: ThemeMode) => {
+		setPreferences({ themeMode: newMode });
+	};
 
 	const resetPreferences = useUserStore((s) => s.resetPreferences);
 	const resetData = useHabitStore((s) => s.resetData);

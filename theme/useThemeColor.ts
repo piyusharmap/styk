@@ -1,8 +1,10 @@
-import { Theme } from "./colors";
-import { useTheme } from "../contexts/ThemeContext";
+import { Colors, Theme } from "./colors";
+import { useUserStore } from "../store/userStore";
 
 const useThemeColor = (): Theme => {
-	const { theme } = useTheme();
+	const mode = useUserStore((s) => s.preferences.themeMode);
+
+	const theme = Colors[mode];
 
 	return theme;
 };

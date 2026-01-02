@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, View } from "react-native";
 import {
 	UIInput,
 	UIInputContainer,
@@ -36,6 +36,7 @@ const CreateHabitForm = () => {
 		useState<HabitFrequency>("daily");
 	const [habitStartDate, setHabitStartDate] = useState<Date>(new Date());
 	const [formError, setFormError] = useState<string>("");
+	const [isSaving, setIsSaving] = useState<boolean>(false);
 
 	const colors = useThemeColor();
 	const router = useRouter();
@@ -52,19 +53,18 @@ const CreateHabitForm = () => {
 		setHabitStartDate(new Date());
 	};
 
-	const handleSaveHabit = () => {
-		let habitTarget: HabitTarget;
-
-		if (habitName.length < 3) {
+	const handleSaveHabit = async () => {
+		if (habitName.trim().length < 3) {
 			setFormError("Name should be at least 5 characters long.");
 			return;
 		}
 
-		if (habitName.length > 40) {
+		if (habitName.trim().length > 40) {
 			setFormError("Name should not exceed 40 characters.");
 			return;
 		}
 
+		let habitTarget: HabitTarget;
 		if (habitType === "count") {
 			habitTarget = {
 				type: habitType,
@@ -81,16 +81,20 @@ const CreateHabitForm = () => {
 			};
 		}
 
-		const newHabit = {
-			name: habitName.trim(),
-			color: habitColor,
-			target: habitTarget,
-		};
+		setIsSaving(true);
+		try {
+			await addHabit(habitName.trim(), habitColor, habitTarget);
 
-		resetForm();
-		addHabit(newHabit.name, newHabit.color, newHabit.target);
-
-		router.navigate("(tabs)/habits");
+			resetForm();
+			router.navigate("(tabs)/habits");
+		} catch (error) {
+			Alert.alert(
+				"Operation Failed",
+				"We couldn't save your habit. Please try again."
+			);
+		} finally {
+			setIsSaving(false);
+		}
 	};
 
 	return (
@@ -167,12 +171,15 @@ const CreateHabitForm = () => {
 					onPress={resetForm}
 					iconName="refresh"
 					style={styles.actionButton}
+					isDisabled={isSaving}
 				/>
 				<UIButton
 					title="Save Habit"
 					variant="primary"
 					onPress={handleSaveHabit}
 					style={styles.actionButton}
+					isLoading={isSaving}
+					isDisabled={isSaving}
 				/>
 			</View>
 		</View>

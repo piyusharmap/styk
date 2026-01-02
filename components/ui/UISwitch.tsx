@@ -17,7 +17,7 @@ const UISwitch = ({
 			onValueChange={onChange}
 			trackColor={{
 				false: colors.secondary + "50",
-				true: colors.secondary,
+				true: colors.secondary + "80",
 			}}
 			thumbColor={colors.primary}
 			style={styles.switch}
