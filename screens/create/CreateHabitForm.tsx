@@ -24,7 +24,7 @@ import { toDateString } from "../../utils/time";
 import QuitDatePicker from "./components/StartDatePicker";
 import { useRouter } from "expo-router";
 import { HABIT_NAME_PLACEHOLDER } from "../../constants/messages";
-import useThemeColor from "../../theme/useThemeColor";
+import useTheme from "../../theme/useTheme";
 
 const CreateHabitForm = () => {
 	const [habitName, setHabitName] = useState("");
@@ -38,7 +38,7 @@ const CreateHabitForm = () => {
 	const [formError, setFormError] = useState<string>("");
 	const [isSaving, setIsSaving] = useState<boolean>(false);
 
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 	const router = useRouter();
 	const addHabit = useHabitStore((s) => s.addHabit);
 
@@ -82,6 +82,7 @@ const CreateHabitForm = () => {
 		}
 
 		setIsSaving(true);
+
 		try {
 			await addHabit(habitName.trim(), habitColor, habitTarget);
 
@@ -90,7 +91,7 @@ const CreateHabitForm = () => {
 		} catch (error) {
 			Alert.alert(
 				"Operation Failed",
-				"We couldn't save your habit. Please try again."
+				"Failed to save habit. Please try again."
 			);
 		} finally {
 			setIsSaving(false);

@@ -1,14 +1,14 @@
 import { View, StyleSheet, Pressable, Text } from "react-native";
 import UIText from "../../../components/ui/UIText";
 import { Habit } from "../../../types/habitTypes";
-import useThemeColor from "../../../theme/useThemeColor";
+import useTheme from "../../../theme/useTheme";
 import Badge from "../../../components/Badge";
 import { HabitTypeDetails } from "../../../constants/habit";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 const HabitListCard = ({ habit }: { habit: Habit }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 	const router = useRouter();
 
 	const typeDetails = HabitTypeDetails[habit.target.type];

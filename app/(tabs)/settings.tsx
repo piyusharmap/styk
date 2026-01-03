@@ -1,7 +1,5 @@
 import { ScrollView, StyleSheet } from "react-native";
 import UIView from "../../components/ui/UIView";
-import { useHabitStore } from "../../store/habitStore";
-import UIButton from "../../components/ui/UIButton";
 import {
 	PageHeader,
 	PageHeading,
@@ -11,19 +9,12 @@ import { SETTINGS_PAGE_SUBHEADING } from "../../constants/messages";
 import UISwitch from "../../components/ui/UISwitch";
 import SettingOption from "../../screens/settings/components/SettingOption";
 import SettingsSection from "../../screens/settings/components/SettingsSection";
-import { useUserStore } from "../../store/userStore";
-import { ThemeMode } from "../../types/userTypes";
+import ResetDataButton from "../../screens/settings/components/ResetDataButton";
+import ResetPrefsButton from "../../screens/settings/components/ResetPrefsButton";
+import useTheme from "../../theme/useTheme";
 
 const SettingsTab = () => {
-	const setPreferences = useUserStore((s) => s.setPreferences);
-	const mode = useUserStore((s) => s.preferences.themeMode);
-
-	const setMode = (newMode: ThemeMode) => {
-		setPreferences({ themeMode: newMode });
-	};
-
-	const resetPreferences = useUserStore((s) => s.resetPreferences);
-	const resetData = useHabitStore((s) => s.resetData);
+	const { mode, setMode } = useTheme();
 
 	return (
 		<UIView style={styles.container} isTopSafe>
@@ -44,25 +35,13 @@ const SettingsTab = () => {
 					</SettingOption>
 
 					<SettingOption title="Reset Preferences">
-						<UIButton
-							variant="secondary"
-							size="sm"
-							title="Reset"
-							iconName="refresh"
-							onPress={resetPreferences}
-						/>
+						<ResetPrefsButton />
 					</SettingOption>
 				</SettingsSection>
 
 				<SettingsSection title="Account">
 					<SettingOption title="Delete All Data">
-						<UIButton
-							variant="danger"
-							size="sm"
-							title="Delete"
-							iconName="trash"
-							onPress={resetData}
-						/>
+						<ResetDataButton />
 					</SettingOption>
 				</SettingsSection>
 

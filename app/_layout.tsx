@@ -1,7 +1,7 @@
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import UIView from "../components/ui/UIView";
-import useThemeColor from "../theme/useThemeColor";
+import useTheme from "../theme/useTheme";
 import { StyleSheet } from "react-native";
 import { useAppFonts } from "../fonts/useFonts";
 import NavigationHeading from "../components/heading/NavigationHeading";
@@ -16,7 +16,7 @@ import { useUserStore } from "../store/userStore";
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 	const mode = useUserStore((s) => s.preferences.themeMode);
 
 	const [loaded] = useAppFonts();

@@ -8,7 +8,7 @@ import {
 	ViewStyle,
 } from "react-native";
 import { Dispatch, SetStateAction, useState } from "react";
-import useThemeColor from "../../theme/useThemeColor";
+import useTheme from "../../theme/useTheme";
 import UIText from "./UIText";
 
 export const UIInputLabel = ({ label }: { label: string }) => {
@@ -20,7 +20,7 @@ export const UIInputLabel = ({ label }: { label: string }) => {
 };
 
 export const UIInputError = ({ error }: { error: string }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	return (
 		<UIText style={[{ color: colors.danger }, styles.error]}>
@@ -41,7 +41,7 @@ export const UIInput = ({
 }) => {
 	const [isFocused, setIsFocused] = useState<boolean>(false);
 
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	const handleOnFocus = () => {
 		setIsFocused(true);

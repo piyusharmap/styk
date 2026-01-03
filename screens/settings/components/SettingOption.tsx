@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import UIText from "../../../components/ui/UIText";
-import useThemeColor from "../../../theme/useThemeColor";
+import useTheme from "../../../theme/useTheme";
 
 const SettingOption = ({
 	title,
@@ -9,7 +9,7 @@ const SettingOption = ({
 	title: string;
 	children: React.ReactNode;
 }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	return (
 		<View

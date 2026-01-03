@@ -1,7 +1,7 @@
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import UIText from "../ui/UIText";
 import { Ionicons } from "@expo/vector-icons";
-import useThemeColor from "../../theme/useThemeColor";
+import useTheme from "../../theme/useTheme";
 
 const ListHeader = ({
 	heading,
@@ -10,7 +10,7 @@ const ListHeader = ({
 	heading: string;
 	style?: StyleProp<ViewStyle>;
 }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	return (
 		<View style={[styles.listHeader, style]}>

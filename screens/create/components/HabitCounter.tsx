@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import UIText from "../../../components/ui/UIText";
 import { Dispatch, SetStateAction } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import useThemeColor from "../../../theme/useThemeColor";
+import useTheme from "../../../theme/useTheme";
 
 const HabitCounter = ({
 	count,
@@ -11,7 +11,7 @@ const HabitCounter = ({
 	count: number;
 	onChange: Dispatch<SetStateAction<number>>;
 }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	const handleCountIncrement = () => {
 		onChange(count + 1);

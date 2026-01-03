@@ -3,7 +3,7 @@ import { CountUnit } from "../../../types/habitTypes";
 import { UnitOptions } from "../../../constants/habit";
 import UIText from "../../../components/ui/UIText";
 import { Dispatch, SetStateAction } from "react";
-import useThemeColor from "../../../theme/useThemeColor";
+import useTheme from "../../../theme/useTheme";
 
 export type UnitOption = {
 	label: string;
@@ -19,7 +19,7 @@ const UnitBadge = ({
 	isSelected: boolean;
 	onPress: () => void;
 }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	return (
 		<Pressable

@@ -1,10 +1,10 @@
 import { StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import useThemeColor from "../../theme/useThemeColor";
+import useTheme from "../../theme/useTheme";
 
 const NavigationBackButton = () => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	const navigation = useNavigation();
 

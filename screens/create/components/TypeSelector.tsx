@@ -3,7 +3,7 @@ import { HabitType } from "../../../types/habitTypes";
 import { TypeOptions } from "../../../constants/habit";
 import UIText from "../../../components/ui/UIText";
 import { Dispatch, SetStateAction } from "react";
-import useThemeColor from "../../../theme/useThemeColor";
+import useTheme from "../../../theme/useTheme";
 import { Ionicons } from "@expo/vector-icons";
 import { IonIconType } from "../../../types/iconTypes";
 
@@ -24,7 +24,7 @@ const TypeCard = ({
 	isSelected: boolean;
 	onPress: () => void;
 }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	return (
 		<Pressable

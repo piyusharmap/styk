@@ -1,12 +1,12 @@
 import { PressableProps, Pressable, StyleSheet } from "react-native";
 import { Dispatch, SetStateAction } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import useThemeColor from "../../../theme/useThemeColor";
+import useTheme from "../../../theme/useTheme";
 
 const AddHabitButton = ({
 	onPress,
 }: PressableProps & { onPress: Dispatch<SetStateAction<boolean>> }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	return (
 		<Pressable

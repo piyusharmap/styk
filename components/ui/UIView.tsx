@@ -1,6 +1,6 @@
 import { View, StyleProp, ViewStyle, ViewProps } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import useThemeColor from "../../theme/useThemeColor";
+import useTheme from "../../theme/useTheme";
 
 const UIView = ({
 	children,
@@ -14,7 +14,7 @@ const UIView = ({
 	isBottomSafe?: boolean;
 	style?: StyleProp<ViewStyle>;
 }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	const insets = useSafeAreaInsets();
 
