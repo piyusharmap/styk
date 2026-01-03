@@ -13,7 +13,13 @@ const NavigationBackButton = () => {
 	}
 
 	return (
-		<Pressable style={styles.button} onPress={() => navigation.goBack()}>
+		<Pressable
+			style={({ pressed }) => [
+				styles.button,
+				pressed && styles.buttonPressed,
+			]}
+			onPress={() => navigation.goBack()}
+		>
 			<Ionicons name="arrow-back" size={20} color={colors.navText} />
 		</Pressable>
 	);
@@ -27,5 +33,8 @@ const styles = StyleSheet.create({
 		padding: 0,
 		justifyContent: "center",
 		alignItems: "center",
+	},
+	buttonPressed: {
+		opacity: 0.8,
 	},
 });

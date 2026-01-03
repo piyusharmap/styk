@@ -45,7 +45,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					{habit.target.type === "count" ? (
 						<>
 							<UIText style={styles.habitDetail} isSecondary>
-								Count:{" "}
+								Target:{" "}
 								<Text style={{ color: colors.text }}>
 									{habit.target.count}{" "}
 									{`${habit.target.unit}${
@@ -55,7 +55,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 							</UIText>
 
 							<UIText style={styles.habitDetail} isSecondary>
-								Frequency:{" "}
+								Routine:{" "}
 								<Text style={{ color: colors.text }}>
 									{habit.target.frequency}
 								</Text>
@@ -64,9 +64,16 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					) : (
 						<>
 							<UIText style={styles.habitDetail} isSecondary>
-								Started:{" "}
+								Relapsed on:{" "}
 								<Text style={{ color: colors.text }}>
 									{habit.target.startDate}
+								</Text>
+							</UIText>
+
+							<UIText style={styles.habitDetail} isSecondary>
+								Started on:{" "}
+								<Text style={{ color: colors.text }}>
+									{habit.target.initialStartDate}
 								</Text>
 							</UIText>
 						</>

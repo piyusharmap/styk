@@ -4,12 +4,13 @@ import { executeSQL, querySQL, transactionSQL } from "../db/utils";
 
 export const HabitService = {
 	loadHabits: async (): Promise<Habit[]> => {
-		const query = `SELECT h.*, t.type, t.frequency, t.count, t.unit, t.start_date
+		const query = `SELECT h.*, t.type, t.frequency, t.count, t.unit, t.start_date, t.initial_start_date
 		FROM habits h
 		LEFT JOIN habit_targets t ON h.id = t.habit_id
 		WHERE h.archived != 1;`;
 
 		const rows = await querySQL<any>(query, []);
+
 		return rows.map(mapHabit);
 	},
 
@@ -40,12 +41,13 @@ export const HabitService = {
 				);
 			} else if (habit.target.type === "quit") {
 				await db.runAsync(
-					`INSERT INTO habit_targets (habit_id, type, frequency, start_date) VALUES (?, ?, ?, ?);`,
+					`INSERT INTO habit_targets (habit_id, type, frequency, start_date, initial_start_date) VALUES (?, ?, ?, ?, ?);`,
 					[
 						habit.id,
 						habit.target.type,
 						"daily",
 						habit.target.startDate,
+						habit.target.initialStartDate,
 					]
 				);
 			}

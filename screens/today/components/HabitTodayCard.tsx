@@ -40,12 +40,21 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 								</Text>
 							</UIText>
 						) : (
-							<UIText style={styles.habitDetail} isSecondary>
-								Clean since:{" "}
-								<Text style={{ color: colors.text }}>
-									{habit.target.startDate}
-								</Text>
-							</UIText>
+							<>
+								<UIText style={styles.habitDetail} isSecondary>
+									Clean since:{" "}
+									<Text style={{ color: colors.text }}>
+										{habit.target.startDate}
+									</Text>
+								</UIText>
+
+								<UIText style={styles.habitDetail} isSecondary>
+									Started on:{" "}
+									<Text style={{ color: colors.text }}>
+										{habit.target.initialStartDate}
+									</Text>
+								</UIText>
+							</>
 						)}
 					</View>
 				</View>
