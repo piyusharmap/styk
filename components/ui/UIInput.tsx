@@ -7,7 +7,7 @@ import {
 	View,
 	ViewStyle,
 } from "react-native";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import useTheme from "../../theme/useTheme";
 import UIText from "./UIText";
 
@@ -36,7 +36,7 @@ export const UIInput = ({
 	...props
 }: TextInputProps & {
 	value: string;
-	onChangeInput: Dispatch<SetStateAction<string>>;
+	onChangeInput: (value: string) => void;
 	style?: StyleProp<TextStyle>;
 }) => {
 	const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 	label: {
 		paddingHorizontal: 2,
 		paddingBottom: 4,
-		fontSize: 14,
+		fontSize: 13,
 	},
 	error: {
 		paddingHorizontal: 2,

@@ -54,7 +54,44 @@ export const HabitService = {
 		});
 	},
 
-	updateHabit: async (updatedHabit: Habit) => {},
+	updateHabit: async (updatedHabit: Habit) => {
+		return transactionSQL(async (db) => {
+			await db.runAsync(
+				`UPDATE habits SET name = ?, color = ?, updated_at = ? WHERE id = ?;`,
+				[
+					updatedHabit.name,
+					updatedHabit.color,
+					updatedHabit.updatedAt,
+					updatedHabit.id,
+				]
+			);
+
+			if (updatedHabit.target.type === "count") {
+				await db.runAsync(
+					`UPDATE habit_targets 
+					 SET frequency = ?, count = ?, unit = ? 
+					 WHERE habit_id = ?;`,
+					[
+						updatedHabit.target.frequency,
+						updatedHabit.target.count,
+						updatedHabit.target.unit,
+						updatedHabit.id,
+					]
+				);
+			} else if (updatedHabit.target.type === "quit") {
+				await db.runAsync(
+					`UPDATE habit_targets 
+					 SET start_date = ?, initial_start_date = ? 
+					 WHERE habit_id = ?;`,
+					[
+						updatedHabit.target.startDate,
+						updatedHabit.target.initialStartDate,
+						updatedHabit.id,
+					]
+				);
+			}
+		});
+	},
 
 	updateQuitStartDate: async (habitId: string, newStartDate: string) => {
 		const query = `UPDATE habit_targets SET start_date = ? WHERE habit_id = ?;`;

@@ -1,11 +1,10 @@
 import { View, Pressable, StyleSheet, PressableProps } from "react-native";
-import { HabitType } from "../../../types/habitTypes";
-import { TypeOptions } from "../../../constants/habit";
-import UIText from "../../../components/ui/UIText";
-import { Dispatch, SetStateAction } from "react";
-import useTheme from "../../../theme/useTheme";
 import { Ionicons } from "@expo/vector-icons";
-import { IonIconType } from "../../../types/iconTypes";
+import { IonIconType } from "../../types/iconTypes";
+import { HabitType } from "../../types/habitTypes";
+import useTheme from "../../theme/useTheme";
+import UIText from "../ui/UIText";
+import { TypeOptions } from "../../constants/habit";
 
 export type TypeOption = {
 	label: string;
@@ -56,7 +55,7 @@ const TypeSelector = ({
 	onPress,
 }: {
 	selectedType: HabitType;
-	onPress: Dispatch<SetStateAction<HabitType>>;
+	onPress: (value: HabitType) => void;
 }) => {
 	return (
 		<View style={styles.typeSelector}>

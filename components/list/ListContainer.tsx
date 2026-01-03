@@ -10,5 +10,6 @@ const styles = StyleSheet.create({
 	// container styles
 	listContainer: {
 		flex: 1,
+		gap: 4,
 	},
 });

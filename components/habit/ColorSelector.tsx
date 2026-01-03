@@ -1,14 +1,13 @@
 import { Pressable, StyleSheet, View } from "react-native";
-import { ColorOptions } from "../../../constants/habit";
-import { Dispatch, SetStateAction } from "react";
-import useTheme from "../../../theme/useTheme";
+import { ColorOptions } from "../../constants/habit";
+import useTheme from "../../theme/useTheme";
 
 const ColorSelector = ({
 	selectedColor,
 	onPress,
 }: {
 	selectedColor: string;
-	onPress: Dispatch<SetStateAction<string>>;
+	onPress: (value: string) => void;
 }) => {
 	const { colors } = useTheme();
 

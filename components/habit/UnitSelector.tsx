@@ -1,21 +1,20 @@
 import { Pressable, StyleSheet, FlatList } from "react-native";
-import { HabitFrequency } from "../../../types/habitTypes";
-import { FrequencyOptions } from "../../../constants/habit";
-import UIText from "../../../components/ui/UIText";
-import { Dispatch, SetStateAction } from "react";
-import useTheme from "../../../theme/useTheme";
+import { CountUnit } from "../../types/habitTypes";
+import useTheme from "../../theme/useTheme";
+import UIText from "../ui/UIText";
+import { UnitOptions } from "../../constants/habit";
 
-export type FrequencyOption = {
+export type UnitOption = {
 	label: string;
-	value: HabitFrequency;
+	value: CountUnit;
 };
 
-const FrequencyBadge = ({
-	frequency,
+const UnitBadge = ({
+	unit,
 	isSelected,
 	onPress,
 }: {
-	frequency: FrequencyOption;
+	unit: UnitOption;
 	isSelected: boolean;
 	onPress: () => void;
 }) => {
@@ -28,35 +27,35 @@ const FrequencyBadge = ({
 					backgroundColor: colors.foreground + "80",
 					borderColor: colors.border,
 				},
-				styles.freqBadge,
+				styles.unitBadge,
 				isSelected && { borderColor: colors.neutral },
 			]}
 			onPress={onPress}
 		>
-			<UIText style={styles.label}>{frequency.label}</UIText>
+			<UIText style={styles.label}>{unit.label}</UIText>
 		</Pressable>
 	);
 };
 
-const FrequencySelector = ({
-	selectedFrequency,
+const UnitSelector = ({
+	selectedUnit,
 	onPress,
 }: {
-	selectedFrequency: HabitFrequency;
-	onPress: Dispatch<SetStateAction<HabitFrequency>>;
+	selectedUnit: CountUnit;
+	onPress: (value: CountUnit) => void;
 }) => {
 	return (
 		<FlatList
-			data={FrequencyOptions}
+			data={UnitOptions}
 			keyExtractor={(item) => item.value}
 			horizontal
 			showsHorizontalScrollIndicator={false}
-			contentContainerStyle={styles.freqSelector}
+			contentContainerStyle={styles.unitSelector}
 			renderItem={({ item }) => {
 				return (
-					<FrequencyBadge
-						frequency={item}
-						isSelected={selectedFrequency === item.value}
+					<UnitBadge
+						unit={item}
+						isSelected={selectedUnit === item.value}
 						onPress={() => onPress(item.value)}
 					/>
 				);
@@ -65,16 +64,16 @@ const FrequencySelector = ({
 	);
 };
 
-export default FrequencySelector;
+export default UnitSelector;
 
 const styles = StyleSheet.create({
 	// container styles
-	freqSelector: {
+	unitSelector: {
 		flexDirection: "row",
 		alignItems: "center",
 		gap: 8,
 	},
-	freqBadge: {
+	unitBadge: {
 		paddingHorizontal: 12,
 		paddingVertical: 8,
 		borderRadius: 10,

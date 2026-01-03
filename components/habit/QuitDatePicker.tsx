@@ -1,18 +1,18 @@
 import { View, StyleSheet, Platform } from "react-native";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import DateTimePicker, {
 	DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
-import UIButton from "../../../components/ui/UIButton";
-import { UIInput } from "../../../components/ui/UIInput";
-import { toDateString } from "../../../utils/time";
+import { UIInput } from "../ui/UIInput";
+import UIButton from "../ui/UIButton";
+import { toDateString } from "../../utils/time";
 
-const StartDatePicker = ({
+const QuitDatePicker = ({
 	selectedValue,
 	onChange,
 }: {
 	selectedValue: Date;
-	onChange: Dispatch<SetStateAction<Date>>;
+	onChange: (value: Date) => void;
 }) => {
 	const [showPicker, setShowPicker] = useState<boolean>(false);
 
@@ -63,7 +63,7 @@ const StartDatePicker = ({
 	);
 };
 
-export default StartDatePicker;
+export default QuitDatePicker;
 
 const styles = StyleSheet.create({
 	// container styles

@@ -25,7 +25,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 			]}
 			onPress={() => {
 				router.navigate({
-					pathname: `/habit/${habit.id}`,
+					pathname: `habit/${habit.id}`,
 					params: {
 						color: habit.color,
 					},

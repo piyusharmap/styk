@@ -71,11 +71,11 @@ const RootLayout = () => {
 				/>
 
 				<Stack.Screen
-					name="create/index"
+					name="habit/[id]"
 					options={{
 						title: "",
 						headerTitle: (props) => {
-							return <NavigationHeading title="Create Habit" />;
+							return <NavigationHeading title="Habit Details" />;
 						},
 						headerShown: true,
 						animation: "fade",
@@ -83,11 +83,23 @@ const RootLayout = () => {
 				/>
 
 				<Stack.Screen
-					name="habit/[id]"
+					name="edit/[id]"
 					options={{
 						title: "",
 						headerTitle: (props) => {
-							return <NavigationHeading title="Habit Details" />;
+							return <NavigationHeading title="Update Habit" />;
+						},
+						headerShown: true,
+						animation: "fade",
+					}}
+				/>
+
+				<Stack.Screen
+					name="create/index"
+					options={{
+						title: "",
+						headerTitle: (props) => {
+							return <NavigationHeading title="Create Habit" />;
 						},
 						headerShown: true,
 						animation: "fade",

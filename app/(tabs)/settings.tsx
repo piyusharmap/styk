@@ -7,10 +7,10 @@ import {
 } from "../../components/layout/PageHeader";
 import { SETTINGS_PAGE_SUBHEADING } from "../../constants/messages";
 import UISwitch from "../../components/ui/UISwitch";
-import SettingOption from "../../screens/settings/components/SettingOption";
-import SettingsSection from "../../screens/settings/components/SettingsSection";
-import ResetDataButton from "../../screens/settings/components/ResetDataButton";
-import ResetPrefsButton from "../../screens/settings/components/ResetPrefsButton";
+import SettingOption from "../../screens/settingsTab/components/SettingOption";
+import SettingsSection from "../../screens/settingsTab/components/SettingsSection";
+import ResetDataButton from "../../screens/settingsTab/components/ResetDataButton";
+import ResetPrefsButton from "../../screens/settingsTab/components/ResetPrefsButton";
 import useTheme from "../../theme/useTheme";
 
 const SettingsTab = () => {

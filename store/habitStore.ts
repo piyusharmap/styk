@@ -19,6 +19,12 @@ type HabitStore = {
 		color: string,
 		target: HabitTarget
 	) => Promise<void>;
+	updateHabit: (
+		habitId: string,
+		name: string,
+		color: string,
+		target: HabitTarget
+	) => Promise<void>;
 	performHabitAction: (
 		habitId: string,
 		date: string,
@@ -87,6 +93,34 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 				set((state) => ({
 					habits: [...state.habits, habit],
+				}));
+			});
+		},
+
+		updateHabit: async (habitId, name, color, target) => {
+			await executeAsync("failed to update habit", async () => {
+				const habit = get().habits.find(
+					(habit) => habit.id === habitId
+				);
+				if (!habit) return;
+
+				const today = getTodayString();
+
+				const updatedHabit: Habit = {
+					id: `${Date.now()}`,
+					name: name,
+					color: color,
+					target: target,
+					createdAt: habit.createdAt,
+					updatedAt: today,
+				};
+
+				await HabitService.updateHabit(habit);
+
+				set((state) => ({
+					habits: state.habits.map((habit) =>
+						habit.id === habit.id ? updatedHabit : habit
+					),
 				}));
 			});
 		},

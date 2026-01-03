@@ -1,9 +1,7 @@
 import { FlatList, StyleSheet, View } from "react-native";
 import UIView from "../../components/ui/UIView";
-import AddHabitButton from "../../screens/habits/components/AddHabitButton";
 import { useRouter } from "expo-router";
 import { useHabitStore } from "../../store/habitStore";
-import HabitListCard from "../../screens/habits/components/HabitListCard";
 import {
 	PageHeader,
 	PageHeading,
@@ -16,6 +14,8 @@ import {
 	HABITS_PAGE_SUBHEADING,
 } from "../../constants/messages";
 import ListContainer from "../../components/list/ListContainer";
+import HabitListCard from "../../screens/habitsTab/components/HabitListCard";
+import AddHabitButton from "../../screens/habitsTab/components/AddHabitButton";
 
 const HabitsTab = () => {
 	const router = useRouter();
@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
 	},
 	habitsContainer: {
 		paddingHorizontal: 12,
-		paddingVertical: 10,
+		paddingTop: 4,
+		paddingBottom: 100,
 		gap: 8,
 	},
 	actionContainer: {

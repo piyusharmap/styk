@@ -1,4 +1,4 @@
-import { TypeOption } from "../screens/create/components/TypeSelector";
+import { TypeOption } from "../components/habit/TypeSelector";
 import { CountUnit, HabitFrequency, HabitType } from "../types/habitTypes";
 import { IonIconType } from "../types/iconTypes";
 
@@ -32,6 +32,14 @@ export const ColorOptions = [
 	"#75B318",
 	"#84CC16",
 ];
+
+export const InitialTarget = {
+	type: "count" as HabitType,
+	unit: "time" as CountUnit,
+	count: 1,
+	frequency: "daily" as HabitFrequency,
+	startDate: new Date(),
+};
 
 export const FrequencyOptions: { label: string; value: HabitFrequency }[] = [
 	{
