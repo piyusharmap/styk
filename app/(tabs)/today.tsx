@@ -4,7 +4,7 @@ import { useHabitStore } from "../../store/habitStore";
 import HabitTodayCard from "../../screens/today/components/HabitTodayCard";
 import ListEmpty from "../../components/list/ListEmpty";
 import ListHeader from "../../components/list/ListHeader";
-import { getGreeting } from "../../utils/getGreeting";
+import { getGreeting } from "../../utils/greeting";
 import {
 	PageHeader,
 	PageHeading,

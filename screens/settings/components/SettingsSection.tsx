@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import UIText from "../../../components/ui/UIText";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import useThemeColor from "../../../theme/useThemeColor";
+import useTheme from "../../../theme/useTheme";
 
 const SettingsSection = ({
 	title,
@@ -13,7 +13,7 @@ const SettingsSection = ({
 }) => {
 	const [showOptions, setShowOptions] = useState<boolean>(true);
 
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	return (
 		<View style={styles.section}>

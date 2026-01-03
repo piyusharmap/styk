@@ -4,7 +4,7 @@ import {
 	StyleProp,
 	ViewStyle,
 } from "react-native";
-import useThemeColor from "../../theme/useThemeColor";
+import useTheme from "../../theme/useTheme";
 
 const UILoader = ({
 	size = 18,
@@ -14,7 +14,7 @@ const UILoader = ({
 	size?: number;
 	style?: StyleProp<ViewStyle>;
 }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	return (
 		<ActivityIndicator

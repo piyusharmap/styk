@@ -1,104 +1,126 @@
 import { create } from "zustand";
 import { Habit, HabitLog, HabitTarget } from "../types/habitTypes";
-import { createJSONStorage, persist } from "zustand/middleware";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
 	getCurrentTimeWindow,
-	getHabitLogs,
 	isHabitLockedForWindow,
 	isHabitSuccessfulInWindow,
-} from "./utils/helper";
+} from "./utils";
 import { getTodayString } from "../utils/time";
+import { HabitService } from "../services/habitService";
+import { HabitLogService } from "../services/habitLogService";
 
 type HabitStore = {
 	habits: Habit[];
 	logs: HabitLog[];
 
-	addHabit: (name: string, color: string, target: HabitTarget) => void;
-
-	// habit log actions
+	// general actions
+	addHabit: (
+		name: string,
+		color: string,
+		target: HabitTarget
+	) => Promise<void>;
 	performHabitAction: (
 		habitId: string,
+		date: string,
 		actionType?: "mark" | "unmark"
-	) => void;
+	) => Promise<void>;
 
-	// count habit log actions
-	incrementCountHabit: (habit: Habit) => void;
-	decrementCountHabit: (habit: Habit) => void;
+	// count habit actions
+	incrementCountHabit: (habitId: string) => Promise<void>;
+	decrementCountHabit: (habitId: string) => Promise<void>;
 
-	// quit habit log actions
-	recordQuitRelapse: (habit: Habit) => void;
+	// quit habit actions
+	recordQuitRelapse: (habitId: string, relapseDate: string) => Promise<void>;
 
-	// habit status actions
+	// habit details action
 	isHabitSuccessful: (habitId: string) => boolean;
 	isHabitLocked: (habitId: string) => boolean;
-	getStreak: (habitId: string) => number;
 
-	// habit info actions
-	getHabitDetails: (habitId: string) => Habit | undefined;
+	getStreak: (habitId: string) => number;
 	getCountValue: (habitId: string) => number;
 
 	getAllHabits: () => Habit[];
 	getTodayHabits: () => Habit[];
+	getHabitDetails: (habitId: string) => Habit | undefined;
 
-	// habit reset actions
-	resetData: () => void;
+	// reset/delete actions
+	resetData: () => Promise<void>;
+	deleteHabit: (habitId: string) => Promise<void>;
+
+	// db actions
+	loadFromDB: () => Promise<void>;
 };
 
-export const useHabitStore = create<HabitStore>()(
-	persist(
-		(set, get) => ({
-			habits: [],
-			logs: [],
+export const useHabitStore = create<HabitStore>()((set, get) => {
+	const executeAsync = async (
+		errorMessage: string,
+		fn: () => Promise<void>
+	) => {
+		try {
+			await fn();
+		} catch (error) {
+			console.error(`[Store Error] ${errorMessage}:`, error);
+			// Optionally: set a global error state here for UI alerts
+			throw error;
+		}
+	};
 
-			// to add a new habit
-			addHabit: (name, color, target) => {
+	return {
+		habits: [],
+		logs: [],
+
+		// general actions
+		addHabit: async (name, color, target) => {
+			await executeAsync("failed to add habit", async () => {
 				const today = getTodayString();
 
-				set((state) => ({
-					habits: [
-						...state.habits,
-						{
-							id: `${Date.now()}`,
-							name: name,
-							color: color,
-							target: target,
-							createdAt: today,
-							updatedAt: today,
-						},
-					],
-				}));
-			},
+				const habit: Habit = {
+					id: `${Date.now()}`,
+					name: name,
+					color: color,
+					target: target,
+					createdAt: today,
+					updatedAt: today,
+				};
 
-			// to perform habit log actions
-			performHabitAction: (habitId, actionType) => {
+				await HabitService.createHabit(habit);
+
+				set((state) => ({
+					habits: [...state.habits, habit],
+				}));
+			});
+		},
+
+		performHabitAction: async (habitId, date, actionType) => {
+			const habit = get().habits.find((habit) => habit.id === habitId);
+			if (!habit) return;
+
+			const type = habit.target.type;
+
+			switch (type) {
+				case "count":
+					if (actionType === "mark") {
+						await get().incrementCountHabit(habit.id);
+					} else {
+						await get().decrementCountHabit(habit.id);
+					}
+					break;
+				case "quit":
+					if (actionType === "mark") {
+						await get().recordQuitRelapse(habit.id, date);
+					}
+					break;
+			}
+		},
+
+		// count habit actions
+		incrementCountHabit: async (habitId) => {
+			await executeAsync("Failed to increment habit count", async () => {
 				const habit = get().habits.find(
 					(habit) => habit.id === habitId
 				);
-
 				if (!habit) return;
 
-				const type = habit.target.type;
-
-				switch (type) {
-					case "count":
-						if (actionType === "mark") {
-							get().incrementCountHabit(habit);
-						} else {
-							get().decrementCountHabit(habit);
-						}
-
-						break;
-					case "quit":
-						if (actionType === "mark") {
-							get().recordQuitRelapse(habit);
-						}
-						break;
-				}
-			},
-
-			// to perform count habit log actions
-			incrementCountHabit: (habit) => {
 				if (habit.target.type !== "count") return;
 
 				const today = getTodayString();
@@ -106,37 +128,51 @@ export const useHabitStore = create<HabitStore>()(
 				const window = getCurrentTimeWindow(habit.target.frequency);
 
 				const logs = get().logs;
-				const habitLogs = getHabitLogs(habit.id, logs);
-				const locked = isHabitLockedForWindow(habit, habitLogs, window);
+				const locked = isHabitLockedForWindow(habit, logs, window);
 
 				if (locked) return;
 
-				const existingLog = habitLogs.find((log) => log.date === today);
+				const existingLog = logs.find(
+					(log) => log.habitId === habit.id && log.date === today
+				);
 
 				if (existingLog) {
+					const updatedLog = {
+						...existingLog,
+						value: existingLog.value + 1,
+					};
+
+					await HabitLogService.upsertLog(updatedLog);
+
 					set({
 						logs: logs.map((log) =>
-							log.id === existingLog.id
-								? { ...log, value: log.value + 1 }
-								: log
+							log.id === updatedLog.id ? updatedLog : log
 						),
 					});
 				} else {
+					const newLog = {
+						id: `${habit.id}_${today}`,
+						habitId: habit.id,
+						date: today,
+						value: 1,
+					};
+
+					await HabitLogService.upsertLog(newLog);
+
 					set((state) => ({
-						logs: [
-							...state.logs,
-							{
-								id: `${habit.id}_${today}`,
-								habitId: habit.id,
-								date: today,
-								value: 1,
-							},
-						],
+						logs: [...state.logs, newLog],
 					}));
 				}
-			},
+			});
+		},
 
-			decrementCountHabit: (habit) => {
+		decrementCountHabit: async (habitId) => {
+			await executeAsync("Failed to decrement habit count", async () => {
+				const habit = get().habits.find(
+					(habit) => habit.id === habitId
+				);
+				if (!habit) return;
+
 				if (habit.target.type !== "count") return;
 
 				const today = getTodayString();
@@ -144,155 +180,184 @@ export const useHabitStore = create<HabitStore>()(
 				const window = getCurrentTimeWindow(habit.target.frequency);
 
 				const logs = get().logs;
-				const habitLogs = getHabitLogs(habit.id, logs);
-				const locked = isHabitLockedForWindow(habit, habitLogs, window);
+				const locked = isHabitLockedForWindow(habit, logs, window);
 
 				if (locked) return;
 
-				const existingLog = habitLogs.find((log) => log.date === today);
+				const existingLog = logs.find(
+					(log) => log.habitId === habit.id && log.date === today
+				);
 
 				if (!existingLog) return;
 
 				if (existingLog.value > 1) {
+					const updatedLog = {
+						...existingLog,
+						value: existingLog.value - 1,
+					};
+
+					await HabitLogService.upsertLog(updatedLog);
+
 					set({
 						logs: logs.map((log) =>
-							log.id === existingLog.id
-								? { ...log, value: log.value - 1 }
-								: log
+							log.id === updatedLog.id ? updatedLog : log
 						),
 					});
 				} else {
+					await HabitLogService.deleteLog(existingLog.id);
+
 					set({
 						logs: logs.filter((log) => log.id !== existingLog.id),
 					});
 				}
-			},
+			});
+		},
 
-			// to perform quit habit log actions
-			recordQuitRelapse: (habit) => {
+		// quit habit actions
+		recordQuitRelapse: async (habitId, date) => {
+			await executeAsync("Failed to record habit relapse", async () => {
+				const habit = get().habits.find(
+					(habit) => habit.id === habitId
+				);
+				if (!habit) return;
+
 				if (habit.target.type !== "quit") return;
 
 				const today = getTodayString();
 
 				const logs = get().logs;
-				const habitLogs = getHabitLogs(habit.id, logs);
 
-				const existingLog = habitLogs.find((log) => log.date === today);
+				const existingLog = logs.find(
+					(log) => log.habitId === habit.id && log.date === today
+				);
 
 				if (existingLog) return;
 
-				set((state) => ({
-					logs: [
-						...state.logs,
-						{
-							id: `${habit.id}_${today}`,
-							habitId: habit.id,
-							date: today,
-							value: 1,
-						},
-					],
-				}));
+				const newLog = {
+					id: `${habit.id}_${today}`,
+					habitId: habit.id,
+					date: today,
+					value: 1,
+				};
+
+				const updatedHabit: Habit = {
+					...habit,
+					target: {
+						...habit.target,
+						startDate: date,
+					},
+					updatedAt: today,
+				};
+
+				await HabitLogService.upsertLog(newLog);
+				await HabitService.updateQuitStartDate(habit.id, date);
 
 				set((state) => ({
+					logs: [...state.logs, newLog],
 					habits: state.habits.map((habitItem) =>
-						habitItem.id === habit.id
-							? {
-									...habitItem,
-									target: {
-										...habitItem.target,
-										startDate: today,
-									},
-									updatedAt: today,
-							  }
-							: habitItem
+						habitItem.id === habit.id ? updatedHabit : habitItem
 					),
 				}));
-			},
+			});
+		},
 
-			// to perform habit status actions
-			isHabitSuccessful: (habitId) => {
-				const habit = get().habits.find(
-					(habit) => habit.id === habitId
-				);
+		// habit details actions
+		isHabitSuccessful: (habitId) => {
+			const habit = get().habits.find((habit) => habit.id === habitId);
 
-				if (!habit) return false;
+			if (!habit) return false;
 
-				const window = getCurrentTimeWindow(habit.target.frequency);
+			const window = getCurrentTimeWindow(habit.target.frequency);
 
-				const logs = get().logs;
+			const logs = get().logs;
 
-				return isHabitSuccessfulInWindow(
-					habit,
-					getHabitLogs(habitId, logs),
-					window
-				);
-			},
+			return isHabitSuccessfulInWindow(habit, logs, window);
+		},
 
-			isHabitLocked: (habitId) => {
-				const habit = get().habits.find(
-					(habit) => habit.id === habitId
-				);
+		isHabitLocked: (habitId) => {
+			const habit = get().habits.find((habit) => habit.id === habitId);
 
-				if (!habit) return false;
+			if (!habit) return false;
 
-				const window = getCurrentTimeWindow(habit.target.frequency);
+			const window = getCurrentTimeWindow(habit.target.frequency);
 
-				const logs = get().logs;
+			const logs = get().logs;
 
-				return isHabitLockedForWindow(
-					habit,
-					getHabitLogs(habitId, logs),
-					window
-				);
-			},
+			return isHabitLockedForWindow(habit, logs, window);
+		},
 
-			getStreak: (habitId) => {
-				return 0;
-			},
+		getStreak: (habitId) => {
+			return 0;
+		},
 
-			// to perform habit info actions
-			getHabitDetails: (habitId) => {
-				const habit = get().habits.find(
-					(habit) => habit.id === habitId
-				);
+		getCountValue: (habitId) => {
+			const habit = get().habits.find((habit) => habit.id === habitId);
 
-				if (!habit) return undefined;
-				else return habit;
-			},
+			if (!habit) return 0;
 
-			getCountValue: (habitId) => {
-				const habit = get().habits.find(
-					(habit) => habit.id === habitId
-				);
+			if (habit.target.type !== "count") return 0;
 
-				if (!habit) return 0;
+			const window = getCurrentTimeWindow(habit.target.frequency);
+			const logs = get().logs;
 
-				if (habit.target.type !== "count") return 0;
+			const logsInWindow = logs.filter(
+				(log) =>
+					log.habitId === habit.id &&
+					log.date >= window.start &&
+					log.date <= window.end
+			);
 
-				const window = getCurrentTimeWindow(habit.target.frequency);
-				const logs = getHabitLogs(habitId, get().logs);
+			return logsInWindow.reduce((sum, log) => sum + log.value, 0);
+		},
 
-				const logsInWindow = logs.filter(
-					(log) => log.date >= window.start && log.date <= window.end
-				);
+		getAllHabits: () => {
+			return get().habits;
+		},
 
-				return logsInWindow.reduce((sum, log) => sum + log.value, 0);
-			},
+		getTodayHabits: () => {
+			return get().habits;
+		},
 
-			getAllHabits: () => {
-				return get().habits;
-			},
+		getHabitDetails: (habitId) => {
+			const habit = get().habits.find((habit) => habit.id === habitId);
 
-			getTodayHabits: () => {
-				return get().habits;
-			},
+			if (!habit) return undefined;
+			else return habit;
+		},
 
-			// to perform habit reset actions
-			resetData: () => set({ habits: [], logs: [] }),
-		}),
-		{
-			name: "habit-store",
-			storage: createJSONStorage(() => AsyncStorage),
-		}
-	)
-);
+		// habit reset/delete actions
+		resetData: async () => {
+			await executeAsync("Failed to reset data", async () => {
+				await HabitService.deleteAllHabits();
+
+				set({ habits: [], logs: [] });
+			});
+		},
+
+		deleteHabit: async (habitId) => {
+			await executeAsync("Failed to delete habit", async () => {
+				await HabitService.deleteHabit(habitId);
+
+				set((state) => ({
+					habits: state.habits.filter((h) => h.id !== habitId),
+					logs: state.logs.filter((l) => l.habitId !== habitId),
+				}));
+			});
+		},
+
+		// db actions
+		loadFromDB: async () => {
+			await executeAsync("Failed to load data from db", async () => {
+				const [habits, logs] = await Promise.all([
+					HabitService.loadHabits(),
+					HabitLogService.loadLogs(),
+				]);
+
+				set({
+					habits,
+					logs,
+				});
+			});
+		},
+	};
+});

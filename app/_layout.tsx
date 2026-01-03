@@ -1,28 +1,41 @@
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import UIView from "../components/ui/UIView";
-import useThemeColor from "../theme/useThemeColor";
+import useTheme from "../theme/useTheme";
 import { StyleSheet } from "react-native";
 import { useAppFonts } from "../fonts/useFonts";
 import NavigationHeading from "../components/heading/NavigationHeading";
-import { ThemeProvider, useTheme } from "../contexts/ThemeContext";
 import NavigationBackButton from "../components/layout/NavigationBackButton";
+import { SQLiteProvider } from "expo-sqlite";
+import { initializeDb } from "../db";
+import { useHabitStore } from "../store/habitStore";
+import { useEffect } from "react";
+import { DB_NAME } from "../constants/db";
+import { useUserStore } from "../store/userStore";
 
 SplashScreen.preventAutoHideAsync();
 
+export const unstable_settings = {
+	initialRouteName: "index",
+};
+
 const RootLayout = () => {
-	const colors = useThemeColor();
-	const theme = useTheme();
+	const { colors } = useTheme();
+	const mode = useUserStore((s) => s.preferences.themeMode);
 
 	const [loaded] = useAppFonts();
 
-	SplashScreen.hideAsync();
+	useEffect(() => {
+		if (loaded) {
+			SplashScreen.hideAsync();
+		}
+	}, [loaded]);
 
 	if (!loaded) return null;
 
 	return (
 		<UIView style={styles.container}>
-			<StatusBar style={theme.mode === "dark" ? "light" : "dark"} />
+			<StatusBar style={mode === "dark" ? "light" : "dark"} />
 
 			<Stack
 				screenOptions={{
@@ -39,6 +52,15 @@ const RootLayout = () => {
 					headerShadowVisible: false,
 				}}
 			>
+				{/* <Stack.Screen
+					name="index"
+					options={{
+						title: "",
+						headerShown: false,
+						animation: "fade",
+					}}
+				/> */}
+
 				<Stack.Screen
 					name="(tabs)"
 					options={{
@@ -49,16 +71,7 @@ const RootLayout = () => {
 				/>
 
 				<Stack.Screen
-					name="(auth)"
-					options={{
-						title: "",
-						headerShown: true,
-						animation: "fade",
-					}}
-				/>
-
-				<Stack.Screen
-					name="create/page"
+					name="create/index"
 					options={{
 						title: "",
 						headerTitle: (props) => {
@@ -80,16 +93,41 @@ const RootLayout = () => {
 						animation: "fade",
 					}}
 				/>
+
+				<Stack.Screen
+					name="+not-found"
+					options={{
+						title: "",
+						headerShown: true,
+						animation: "fade",
+					}}
+				/>
 			</Stack>
 		</UIView>
 	);
 };
 
+const DBBootstrap = ({ children }: { children: React.ReactNode }) => {
+	const loadFromDB = useHabitStore((s) => s.loadFromDB);
+
+	useEffect(() => {
+		loadFromDB();
+	}, []);
+
+	return <>{children}</>;
+};
+
 const App = () => {
 	return (
-		<ThemeProvider>
-			<RootLayout />
-		</ThemeProvider>
+		<SQLiteProvider
+			databaseName={DB_NAME}
+			onInit={initializeDb}
+			useSuspense
+		>
+			<DBBootstrap>
+				<RootLayout />
+			</DBBootstrap>
+		</SQLiteProvider>
 	);
 };
 

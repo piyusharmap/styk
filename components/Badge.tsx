@@ -6,7 +6,7 @@ import {
 	ViewStyle,
 } from "react-native";
 import UIText from "./ui/UIText";
-import useThemeColor from "../theme/useThemeColor";
+import useTheme from "../theme/useTheme";
 import { Ionicons } from "@expo/vector-icons";
 import { IonIconType } from "../types/iconTypes";
 
@@ -22,7 +22,7 @@ const Badge = ({
 	icon?: IonIconType;
 	style?: StyleProp<ViewStyle>;
 }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	return (
 		<Pressable

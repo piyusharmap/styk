@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 		overflow: "hidden",
 	},
 	progressBar: {
-		minWidth: 4,
+		minWidth: 2,
 		height: "100%",
 	},
 });

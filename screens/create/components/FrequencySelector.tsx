@@ -3,7 +3,7 @@ import { HabitFrequency } from "../../../types/habitTypes";
 import { FrequencyOptions } from "../../../constants/habit";
 import UIText from "../../../components/ui/UIText";
 import { Dispatch, SetStateAction } from "react";
-import useThemeColor from "../../../theme/useThemeColor";
+import useTheme from "../../../theme/useTheme";
 
 export type FrequencyOption = {
 	label: string;
@@ -19,7 +19,7 @@ const FrequencyBadge = ({
 	isSelected: boolean;
 	onPress: () => void;
 }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	return (
 		<Pressable

@@ -25,6 +25,7 @@ export type HabitTarget =
 	| {
 			type: "quit";
 			startDate: string;
+			initialStartDate: string;
 			frequency: "daily";
 			milestones?: HabitMilestone[];
 	  };

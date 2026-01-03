@@ -1,14 +1,14 @@
 import { View, StyleSheet, Pressable, Text } from "react-native";
 import UIText from "../../../components/ui/UIText";
 import { Habit } from "../../../types/habitTypes";
-import useThemeColor from "../../../theme/useThemeColor";
+import useTheme from "../../../theme/useTheme";
 import Badge from "../../../components/Badge";
 import { HabitTypeDetails } from "../../../constants/habit";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 const HabitListCard = ({ habit }: { habit: Habit }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 	const router = useRouter();
 
 	const typeDetails = HabitTypeDetails[habit.target.type];
@@ -45,7 +45,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					{habit.target.type === "count" ? (
 						<>
 							<UIText style={styles.habitDetail} isSecondary>
-								Count:{" "}
+								Target:{" "}
 								<Text style={{ color: colors.text }}>
 									{habit.target.count}{" "}
 									{`${habit.target.unit}${
@@ -55,7 +55,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 							</UIText>
 
 							<UIText style={styles.habitDetail} isSecondary>
-								Frequency:{" "}
+								Routine:{" "}
 								<Text style={{ color: colors.text }}>
 									{habit.target.frequency}
 								</Text>
@@ -64,9 +64,16 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					) : (
 						<>
 							<UIText style={styles.habitDetail} isSecondary>
-								Started:{" "}
+								Relapsed on:{" "}
 								<Text style={{ color: colors.text }}>
 									{habit.target.startDate}
+								</Text>
+							</UIText>
+
+							<UIText style={styles.habitDetail} isSecondary>
+								Started on:{" "}
+								<Text style={{ color: colors.text }}>
+									{habit.target.initialStartDate}
 								</Text>
 							</UIText>
 						</>

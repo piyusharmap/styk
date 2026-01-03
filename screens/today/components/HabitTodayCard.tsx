@@ -1,14 +1,14 @@
 import { View, StyleSheet, Text } from "react-native";
 import UIText from "../../../components/ui/UIText";
 import { Habit } from "../../../types/habitTypes";
-import useThemeColor from "../../../theme/useThemeColor";
+import useTheme from "../../../theme/useTheme";
 import HabitToggleButton from "./HabitToggleButton";
 import { useHabitStore } from "../../../store/habitStore";
 import { Ionicons } from "@expo/vector-icons";
 import ProgressBar from "./ProgressBar";
 
 const HabitTodayCard = ({ habit }: { habit: Habit }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(habit.id));
 	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
@@ -40,12 +40,21 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 								</Text>
 							</UIText>
 						) : (
-							<UIText style={styles.habitDetail} isSecondary>
-								Clean since:{" "}
-								<Text style={{ color: colors.text }}>
-									{habit.target.startDate}
-								</Text>
-							</UIText>
+							<>
+								<UIText style={styles.habitDetail} isSecondary>
+									Clean since:{" "}
+									<Text style={{ color: colors.text }}>
+										{habit.target.startDate}
+									</Text>
+								</UIText>
+
+								<UIText style={styles.habitDetail} isSecondary>
+									Started on:{" "}
+									<Text style={{ color: colors.text }}>
+										{habit.target.initialStartDate}
+									</Text>
+								</UIText>
+							</>
 						)}
 					</View>
 				</View>

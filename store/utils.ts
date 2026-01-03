@@ -3,8 +3,8 @@ import {
 	HabitFrequency,
 	HabitLog,
 	HabitWindow,
-} from "../../types/habitTypes";
-import { getMaxDate, toDateString } from "../../utils/time";
+} from "../types/habitTypes";
+import { getMaxDate, toDateString } from "../utils/time";
 
 // get current time window based on frequency
 export const getCurrentTimeWindow = (
@@ -88,7 +88,10 @@ export const isHabitSuccessfulInWindow = (
 ): boolean => {
 	if (habit.target.type === "count") {
 		const logsInWindow = logs.filter(
-			(log) => log.date >= window.start && log.date <= window.end
+			(log) =>
+				log.habitId === habit.id &&
+				log.date >= window.start &&
+				log.date <= window.end
 		);
 
 		const totalValue = logsInWindow.reduce(
@@ -119,6 +122,8 @@ export const isHabitLockedForWindow = (
 	logs: HabitLog[],
 	window: { start: string; end: string }
 ): boolean => {
+	if (habit.target.type === "quit") return false;
+
 	return isHabitSuccessfulInWindow(habit, logs, window);
 };
 
@@ -130,9 +135,4 @@ const getEffectiveWindow = (start: string, end: string, startDate?: string) => {
 		start: getMaxDate(start, startDate),
 		end,
 	};
-};
-
-// to get the logs based on habit id
-export const getHabitLogs = (habitId: string, logs: HabitLog[]) => {
-	return logs.filter((log) => log.habitId === habitId);
 };

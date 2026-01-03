@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import { ColorOptions } from "../../../constants/habit";
 import { Dispatch, SetStateAction } from "react";
-import useThemeColor from "../../../theme/useThemeColor";
+import useTheme from "../../../theme/useTheme";
 
 const ColorSelector = ({
 	selectedColor,
@@ -10,7 +10,7 @@ const ColorSelector = ({
 	selectedColor: string;
 	onPress: Dispatch<SetStateAction<string>>;
 }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	return (
 		<View style={styles.colorSelector}>

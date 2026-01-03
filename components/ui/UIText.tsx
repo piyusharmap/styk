@@ -5,7 +5,7 @@ import {
 	TextProps,
 	TextStyle,
 } from "react-native";
-import useThemeColor from "../../theme/useThemeColor";
+import useTheme from "../../theme/useTheme";
 import { DM_SANS } from "../../theme/fonts";
 
 const UIText = ({
@@ -18,7 +18,7 @@ const UIText = ({
 	isSecondary?: boolean;
 	style?: StyleProp<TextStyle>;
 }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	const flat = StyleSheet.flatten(style) || {};
 	const weight = flat.fontWeight?.toString() || "400";

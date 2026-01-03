@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import UIText from "./UIText";
 import { Ionicons } from "@expo/vector-icons";
-import useThemeColor from "../../theme/useThemeColor";
+import useTheme from "../../theme/useTheme";
 import UILoader from "./UILoader";
 import { IonIconType } from "../../types/iconTypes";
 
@@ -32,7 +32,7 @@ const UIButton = ({
 	isDisabled?: boolean;
 	style?: StyleProp<ViewStyle>;
 }) => {
-	const colors = useThemeColor();
+	const { colors } = useTheme();
 
 	const variantColors = {
 		default: {
@@ -79,33 +79,32 @@ const UIButton = ({
 				isDisabled && styles.buttonDisabled,
 				style,
 			]}
+			disabled={isDisabled}
 			{...props}
 		>
-			{isLoading ? (
-				<UILoader size={variantSize.icon} color={variantColor.text} />
-			) : (
-				<>
-					{iconName && (
-						<Ionicons
-							name={iconName}
-							size={variantSize.icon}
-							color={variantColor.text}
-						/>
-					)}
+			{iconName && !isLoading && (
+				<Ionicons
+					name={iconName}
+					size={variantSize.icon}
+					color={variantColor.text}
+				/>
+			)}
 
-					{title && (
-						<UIText
-							style={[
-								{
-									fontSize: variantSize.font,
-									color: variantColor.text,
-								},
-							]}
-						>
-							{title}
-						</UIText>
-					)}
-				</>
+			{isLoading && (
+				<UILoader size={variantSize.icon} color={variantColor.text} />
+			)}
+
+			{title && (
+				<UIText
+					style={[
+						{
+							fontSize: variantSize.font,
+							color: variantColor.text,
+						},
+					]}
+				>
+					{title}
+				</UIText>
 			)}
 		</Pressable>
 	);
