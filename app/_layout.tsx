@@ -15,6 +15,10 @@ import { useUserStore } from "../store/userStore";
 
 SplashScreen.preventAutoHideAsync();
 
+export const unstable_settings = {
+	initialRouteName: "index",
+};
+
 const RootLayout = () => {
 	const { colors } = useTheme();
 	const mode = useUserStore((s) => s.preferences.themeMode);
@@ -48,6 +52,15 @@ const RootLayout = () => {
 					headerShadowVisible: false,
 				}}
 			>
+				{/* <Stack.Screen
+					name="index"
+					options={{
+						title: "",
+						headerShown: false,
+						animation: "fade",
+					}}
+				/> */}
+
 				<Stack.Screen
 					name="(tabs)"
 					options={{
@@ -58,16 +71,7 @@ const RootLayout = () => {
 				/>
 
 				<Stack.Screen
-					name="(auth)"
-					options={{
-						title: "",
-						headerShown: true,
-						animation: "fade",
-					}}
-				/>
-
-				<Stack.Screen
-					name="create/page"
+					name="create/index"
 					options={{
 						title: "",
 						headerTitle: (props) => {
@@ -85,6 +89,15 @@ const RootLayout = () => {
 						headerTitle: (props) => {
 							return <NavigationHeading title="Habit Details" />;
 						},
+						headerShown: true,
+						animation: "fade",
+					}}
+				/>
+
+				<Stack.Screen
+					name="+not-found"
+					options={{
+						title: "",
 						headerShown: true,
 						animation: "fade",
 					}}

@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
-import UIView from "../../components/ui/UIView";
-import UIText from "../../components/ui/UIText";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useHabitStore } from "../../store/habitStore";
+import UIView from "../../components/ui/UIView";
+import UIText from "../../components/ui/UIText";
 import UIButton from "../../components/ui/UIButton";
 
 const HabitDetailsPage = () => {

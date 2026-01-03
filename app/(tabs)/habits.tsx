@@ -46,9 +46,7 @@ const HabitsTab = () => {
 			</ListContainer>
 
 			<View style={styles.actionContainer}>
-				<AddHabitButton
-					onPress={() => router.navigate("create/page")}
-				/>
+				<AddHabitButton onPress={() => router.navigate("create")} />
 			</View>
 		</UIView>
 	);

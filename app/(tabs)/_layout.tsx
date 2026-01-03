@@ -28,6 +28,13 @@ const TabsLayout = () => {
 			}}
 		>
 			<Tabs.Screen
+				name="index"
+				options={{
+					href: null,
+				}}
+			/>
+
+			<Tabs.Screen
 				name="today"
 				options={{
 					title: "",
