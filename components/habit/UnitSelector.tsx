@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, FlatList } from "react-native";
+import { Pressable, StyleSheet, FlatList, PressableProps } from "react-native";
 import { CountUnit } from "../../types/habitTypes";
 import useTheme from "../../theme/useTheme";
 import UIText from "../ui/UIText";
@@ -12,11 +12,10 @@ export type UnitOption = {
 const UnitBadge = ({
 	unit,
 	isSelected,
-	onPress,
-}: {
+	...props
+}: PressableProps & {
 	unit: UnitOption;
 	isSelected: boolean;
-	onPress: () => void;
 }) => {
 	const { colors } = useTheme();
 
@@ -30,7 +29,7 @@ const UnitBadge = ({
 				styles.unitBadge,
 				isSelected && { borderColor: colors.neutral },
 			]}
-			onPress={onPress}
+			{...props}
 		>
 			<UIText style={styles.label}>{unit.label}</UIText>
 		</Pressable>
@@ -39,9 +38,11 @@ const UnitBadge = ({
 
 const UnitSelector = ({
 	selectedUnit,
+	isEditable = true,
 	onPress,
 }: {
 	selectedUnit: CountUnit;
+	isEditable?: boolean;
 	onPress: (value: CountUnit) => void;
 }) => {
 	return (
@@ -57,6 +58,7 @@ const UnitSelector = ({
 						unit={item}
 						isSelected={selectedUnit === item.value}
 						onPress={() => onPress(item.value)}
+						disabled={!isEditable}
 					/>
 				);
 			}}

@@ -16,12 +16,10 @@ export type TypeOption = {
 const TypeCard = ({
 	type,
 	isSelected,
-	onPress,
 	...props
 }: PressableProps & {
 	type: TypeOption;
 	isSelected: boolean;
-	onPress: () => void;
 }) => {
 	const { colors } = useTheme();
 
@@ -35,7 +33,6 @@ const TypeCard = ({
 				styles.typeCard,
 				isSelected && { borderColor: colors.neutral },
 			]}
-			onPress={onPress}
 			{...props}
 		>
 			<View style={styles.labelContainer}>
@@ -52,9 +49,11 @@ const TypeCard = ({
 
 const TypeSelector = ({
 	selectedType,
+	isEditable = true,
 	onPress,
 }: {
 	selectedType: HabitType;
+	isEditable?: boolean;
 	onPress: (value: HabitType) => void;
 }) => {
 	return (
@@ -66,6 +65,7 @@ const TypeSelector = ({
 						type={type}
 						isSelected={selectedType === type.value}
 						onPress={() => onPress(type.value)}
+						disabled={!isEditable}
 					/>
 				);
 			})}

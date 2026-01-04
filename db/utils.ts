@@ -10,7 +10,7 @@ export const querySQL = async <T>(
 	try {
 		return await db.getAllAsync(query, params);
 	} catch (error) {
-		console.log("[SQL QUERY ERROR]:", error);
+		console.error("[SQL QUERY ERROR]:", error);
 		throw error;
 	}
 };
@@ -43,7 +43,7 @@ export const executeSQL = async <T>(
 	try {
 		return await db.runAsync(query, params);
 	} catch (error) {
-		console.log("[SQL ERROR]:", error);
+		console.error("[SQL ERROR]:", error);
 		throw error;
 	}
 };

@@ -55,7 +55,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 							</UIText>
 
 							<UIText style={styles.habitDetail} isSecondary>
-								Routine:{" "}
+								Frequency:{" "}
 								<Text style={{ color: colors.text }}>
 									{habit.target.frequency}
 								</Text>
@@ -64,7 +64,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					) : (
 						<>
 							<UIText style={styles.habitDetail} isSecondary>
-								Relapsed on:{" "}
+								Clean since:{" "}
 								<Text style={{ color: colors.text }}>
 									{habit.target.startDate}
 								</Text>

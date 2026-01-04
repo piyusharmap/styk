@@ -68,8 +68,8 @@ export default HabitCounter;
 const styles = StyleSheet.create({
 	// container styles
 	habitCounter: {
-		paddingHorizontal: 20,
-		paddingVertical: 20,
+		paddingHorizontal: 10,
+		paddingVertical: 10,
 		flexDirection: "row",
 		justifyContent: "center",
 		alignItems: "center",
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
 
 	// text styles
 	count: {
-		fontSize: 44,
-		fontWeight: "600",
+		fontSize: 52,
+		fontWeight: "500",
 	},
 });

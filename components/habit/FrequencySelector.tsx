@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, FlatList } from "react-native";
+import { Pressable, StyleSheet, FlatList, PressableProps } from "react-native";
 import UIText from "../ui/UIText";
 import { HabitFrequency } from "../../types/habitTypes";
 import { FrequencyOptions } from "../../constants/habit";
@@ -12,11 +12,10 @@ export type FrequencyOption = {
 const FrequencyBadge = ({
 	frequency,
 	isSelected,
-	onPress,
-}: {
+	...props
+}: PressableProps & {
 	frequency: FrequencyOption;
 	isSelected: boolean;
-	onPress: () => void;
 }) => {
 	const { colors } = useTheme();
 
@@ -30,7 +29,7 @@ const FrequencyBadge = ({
 				styles.freqBadge,
 				isSelected && { borderColor: colors.neutral },
 			]}
-			onPress={onPress}
+			{...props}
 		>
 			<UIText style={styles.label}>{frequency.label}</UIText>
 		</Pressable>
@@ -39,9 +38,11 @@ const FrequencyBadge = ({
 
 const FrequencySelector = ({
 	selectedFrequency,
+	isEditable = true,
 	onPress,
 }: {
 	selectedFrequency: HabitFrequency;
+	isEditable?: boolean;
 	onPress: (value: HabitFrequency) => void;
 }) => {
 	return (
@@ -57,6 +58,7 @@ const FrequencySelector = ({
 						frequency={item}
 						isSelected={selectedFrequency === item.value}
 						onPress={() => onPress(item.value)}
+						disabled={!isEditable}
 					/>
 				);
 			}}

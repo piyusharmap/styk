@@ -16,21 +16,35 @@ export const HabitTypeDetails: Record<
 	},
 };
 
+export const MAX_NAME_LENGTH = 50;
+export const MIN_NAME_LENGTH = 3;
+
 export const ColorOptions = [
+	// blue
 	"#3B82F6",
-	"#4F90FA",
-	"#6366F1",
-	"#8B5CF6",
-	"#A855F7",
-	"#EC69AB",
-	"#D4323A",
-	"#E64545",
-	"#F59E0B",
-	"#EEBE3A",
+	"#1E3A8A",
+	"#A5B4FC",
+
+	// green
 	"#22C55E",
-	"#16A34A",
-	"#75B318",
-	"#84CC16",
+	"#166534",
+	"#65A30D",
+
+	// red
+	"#E64545",
+	"#BD2525",
+	"#991B1B",
+
+	// yellow/orange
+	"#F59E0B",
+	"#D97706",
+	"#FEF08A",
+	"#EEBE3A",
+
+	// purple/pink
+	"#A855F7",
+	"#7E32D4",
+	"#F9A8D4",
 ];
 
 export const InitialTarget = {
@@ -39,6 +53,7 @@ export const InitialTarget = {
 	count: 1,
 	frequency: "daily" as HabitFrequency,
 	startDate: new Date(),
+	initialStartDate: new Date(),
 };
 
 export const FrequencyOptions: { label: string; value: HabitFrequency }[] = [

@@ -66,7 +66,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			await fn();
 		} catch (error) {
 			console.error(`[Store Error] ${errorMessage}:`, error);
-			// Optionally: set a global error state here for UI alerts
+			// set a global error state later here for UI alerts
 			throw error;
 		}
 	};
@@ -107,7 +107,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				const today = getTodayString();
 
 				const updatedHabit: Habit = {
-					id: `${Date.now()}`,
+					id: habit.id,
 					name: name,
 					color: color,
 					target: target,
@@ -115,11 +115,11 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 					updatedAt: today,
 				};
 
-				await HabitService.updateHabit(habit);
+				await HabitService.updateHabit(updatedHabit);
 
 				set((state) => ({
-					habits: state.habits.map((habit) =>
-						habit.id === habit.id ? updatedHabit : habit
+					habits: state.habits.map((habitItem) =>
+						habitItem.id === habit.id ? updatedHabit : habitItem
 					),
 				}));
 			});

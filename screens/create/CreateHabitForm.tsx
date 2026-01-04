@@ -6,7 +6,12 @@ import {
 	UIInputLabel,
 } from "../../components/ui/UIInput";
 import { useState } from "react";
-import { ColorOptions, InitialTarget } from "../../constants/habit";
+import {
+	ColorOptions,
+	InitialTarget,
+	MAX_NAME_LENGTH,
+	MIN_NAME_LENGTH,
+} from "../../constants/habit";
 import { HabitTarget } from "../../types/habitTypes";
 import UIButton from "../../components/ui/UIButton";
 import { useHabitStore } from "../../store/habitStore";
@@ -44,8 +49,13 @@ const CreateHabitForm = () => {
 	};
 
 	const handleSaveHabit = async () => {
-		if (habitName.trim().length < 3 || habitName.trim().length > 40) {
-			setFormError("Name must be between 3 and 40 characters.");
+		if (
+			habitName.trim().length < MIN_NAME_LENGTH ||
+			habitName.trim().length > MAX_NAME_LENGTH
+		) {
+			setFormError(
+				`Name must be between ${MIN_NAME_LENGTH} and ${MAX_NAME_LENGTH} characters.`
+			);
 			return;
 		}
 
@@ -62,8 +72,8 @@ const CreateHabitForm = () => {
 			target = {
 				type: habitTarget.type,
 				frequency: "daily",
-				startDate: toDateString(habitTarget.startDate),
-				initialStartDate: toDateString(habitTarget.startDate),
+				startDate: toDateString(habitTarget.initialStartDate),
+				initialStartDate: toDateString(habitTarget.initialStartDate),
 			};
 		}
 
@@ -145,10 +155,10 @@ const CreateHabitForm = () => {
 
 							<FrequencySelector
 								selectedFrequency={habitTarget.frequency}
-								onPress={(freq) =>
+								onPress={(frequency) =>
 									setHabitTarget((prev) => ({
 										...prev,
-										frequency: freq,
+										frequency,
 									}))
 								}
 							/>
@@ -160,11 +170,11 @@ const CreateHabitForm = () => {
 					<UIInputContainer>
 						<UIInputLabel label="Quit date" />
 						<QuitDatePicker
-							selectedValue={habitTarget.startDate}
+							selectedValue={habitTarget.initialStartDate}
 							onChange={(date) =>
 								setHabitTarget((prev) => ({
 									...prev,
-									startDate: date,
+									initialStartDate: date,
 								}))
 							}
 						/>
@@ -204,10 +214,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	formContainer: {
-		flex: 1,
 		gap: 16,
 		paddingHorizontal: 12,
-		paddingTop: 10,
+		paddingTop: 4,
 		paddingBottom: 60,
 	},
 	countDetails: {

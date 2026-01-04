@@ -23,9 +23,15 @@ export const UIInputError = ({ error }: { error: string }) => {
 	const { colors } = useTheme();
 
 	return (
-		<UIText style={[{ color: colors.danger }, styles.error]}>
-			{error}
-		</UIText>
+		<UIText style={[{ color: colors.danger }, styles.info]}>{error}</UIText>
+	);
+};
+
+export const UIInputInfo = ({ info }: { info: string }) => {
+	const { colors } = useTheme();
+
+	return (
+		<UIText style={[{ color: colors.info }, styles.info]}>{info}</UIText>
 	);
 };
 
@@ -101,7 +107,7 @@ const styles = StyleSheet.create({
 		paddingBottom: 4,
 		fontSize: 13,
 	},
-	error: {
+	info: {
 		paddingHorizontal: 2,
 		fontSize: 12,
 	},

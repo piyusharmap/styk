@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-between",
 		flexWrap: "wrap",
-		gap: 8,
+		gap: 4,
 	},
 	colorOption: {
 		height: 40,

@@ -37,6 +37,7 @@ const QuitDatePicker = ({
 				/>
 
 				<UIButton
+					variant="secondary"
 					size="sm"
 					title="Pick Date"
 					onPress={() => setShowPicker(true)}
