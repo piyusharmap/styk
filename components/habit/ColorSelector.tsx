@@ -45,21 +45,21 @@ const styles = StyleSheet.create({
 	// container styles
 	colorSelector: {
 		flexDirection: "row",
-		justifyContent: "space-between",
+		justifyContent: "flex-start",
 		flexWrap: "wrap",
 		gap: 4,
 	},
 	colorOption: {
 		height: 40,
 		width: 40,
-		borderRadius: 20,
+		borderRadius: 10,
 		overflow: "hidden",
 		borderWidth: 0,
 	},
 	colorView: {
 		height: "100%",
 		width: "100%",
-		borderRadius: "100%",
+		borderRadius: 8,
 	},
 	colorViewTransform: {
 		transform: [{ scale: 0.85 }],

@@ -70,14 +70,20 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 						</View>
 					) : (
 						<HabitToggleButton
-							habit={habit}
+							habitId={habit.id}
+							target={habit.target}
+							color={habit.color}
 							isDisabled={isHabitLocked}
 						/>
 					)}
 				</View>
 			</View>
 
-			<ProgressBar habit={habit} />
+			<ProgressBar
+				habitId={habit.id}
+				target={habit.target}
+				color={habit.color}
+			/>
 		</View>
 	);
 };

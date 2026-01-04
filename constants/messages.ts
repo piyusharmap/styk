@@ -18,3 +18,7 @@ export const SETTINGS_PAGE_SUBHEADING =
 
 // placeholder messages
 export const HABIT_NAME_PLACEHOLDER = "e.g. Exercise, Running, Reading";
+
+// type descriptions
+export const BUILD_TYPE_DESCRIPTION = "Create a positive habit over time.";
+export const QUIT_TYPE_DESCRIPTION = "Reduce or eliminate an unwanted habit.";

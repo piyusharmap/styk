@@ -47,7 +47,7 @@ type HabitStore = {
 
 	getAllHabits: () => Habit[];
 	getTodayHabits: () => Habit[];
-	getHabitDetails: (habitId: string) => Habit | undefined;
+	getHabitDetails: (habitId: string) => Habit | null;
 
 	// reset/delete actions
 	resetData: () => Promise<void>;
@@ -354,8 +354,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 		getHabitDetails: (habitId) => {
 			const habit = get().habits.find((habit) => habit.id === habitId);
-
-			if (!habit) return undefined;
+			if (!habit) return null;
 			else return habit;
 		},
 

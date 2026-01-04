@@ -1,31 +1,35 @@
 import { Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Habit } from "../../../types/habitTypes";
+import { HabitTarget } from "../../../types/habitTypes";
 import { IonIconType } from "../../../types/iconTypes";
 import { useHabitStore } from "../../../store/habitStore";
 import { getTodayString } from "../../../utils/time";
 
 const HabitToggleButton = ({
-	habit,
+	habitId,
+	target,
+	color,
 	isDisabled,
 }: {
-	habit: Habit;
-	isDisabled: boolean;
+	habitId: string;
+	target: HabitTarget;
+	color: string;
+	isDisabled?: boolean;
 }) => {
-	const icon: IonIconType = habit.target.type === "count" ? "add" : "refresh";
+	const icon: IonIconType = target.type === "count" ? "add" : "refresh";
 
 	const performHabitAction = useHabitStore((s) => s.performHabitAction);
 
 	const handleMarkHabit = () => {
-		performHabitAction(habit.id, getTodayString(), "mark");
+		performHabitAction(habitId, getTodayString(), "mark");
 	};
 
 	return (
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: habit.color + "50",
-					borderColor: habit.color,
+					backgroundColor: color + "50",
+					borderColor: color,
 				},
 				styles.button,
 				pressed && styles.buttonPressed,
@@ -33,7 +37,7 @@ const HabitToggleButton = ({
 			]}
 			onPress={handleMarkHabit}
 		>
-			<Ionicons name={icon} size={24} color={habit.color} />
+			<Ionicons name={icon} size={24} color={color} />
 		</Pressable>
 	);
 };

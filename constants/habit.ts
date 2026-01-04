@@ -1,17 +1,20 @@
 import { TypeOption } from "../components/habit/TypeSelector";
 import { CountUnit, HabitFrequency, HabitType } from "../types/habitTypes";
 import { IonIconType } from "../types/iconTypes";
+import { BUILD_TYPE_DESCRIPTION, QUIT_TYPE_DESCRIPTION } from "./messages";
 
 export const HabitTypeDetails: Record<
 	HabitType,
-	{ label: string; icon: IonIconType }
+	{ label: string; description: string; icon: IonIconType }
 > = {
 	count: {
 		label: "Build",
+		description: BUILD_TYPE_DESCRIPTION,
 		icon: "trending-up",
 	},
 	quit: {
 		label: "Quit",
+		description: QUIT_TYPE_DESCRIPTION,
 		icon: "ban",
 	},
 };
@@ -22,7 +25,7 @@ export const MIN_NAME_LENGTH = 3;
 export const ColorOptions = [
 	// blue
 	"#3B82F6",
-	"#1E3A8A",
+	"#2555D8",
 	"#A5B4FC",
 
 	// green
@@ -38,7 +41,7 @@ export const ColorOptions = [
 	// yellow/orange
 	"#F59E0B",
 	"#D97706",
-	"#FEF08A",
+	"#B3A752",
 	"#EEBE3A",
 
 	// purple/pink
@@ -78,13 +81,13 @@ export const FrequencyOptions: { label: string; value: HabitFrequency }[] = [
 export const TypeOptions: TypeOption[] = [
 	{
 		label: "Build",
-		description: "Create a positive habit over time.",
+		description: BUILD_TYPE_DESCRIPTION,
 		value: "count",
 		icon: "trending-up",
 	},
 	{
 		label: "Quit",
-		description: "Reduce or eliminate an unwanted habit.",
+		description: QUIT_TYPE_DESCRIPTION,
 		value: "quit",
 		icon: "ban",
 	},

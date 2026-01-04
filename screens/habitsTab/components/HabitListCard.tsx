@@ -34,7 +34,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 		>
 			<View style={styles.habitInfo}>
 				<View style={styles.nameContainer}>
-					<Ionicons name="ellipse" size={10} color={habit.color} />
+					<Ionicons name="ellipse" size={8} color={habit.color} />
 
 					<UIText style={styles.habitName} numberOfLines={1}>
 						{habit.name}

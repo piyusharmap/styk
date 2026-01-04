@@ -39,15 +39,16 @@ const RootLayout = () => {
 
 			<Stack
 				screenOptions={{
-					headerLeft: ({ canGoBack }) => {
+					headerLeft: ({ tintColor, canGoBack }) => {
 						if (!canGoBack) return;
 
-						return <NavigationBackButton />;
+						return <NavigationBackButton tint={tintColor} />;
 					},
 					headerBackVisible: false,
 					headerStyle: {
 						backgroundColor: colors.navBackground,
 					},
+					headerTintColor: colors.navText,
 					headerTitleAlign: "center",
 					headerShadowVisible: false,
 				}}
@@ -75,7 +76,12 @@ const RootLayout = () => {
 					options={{
 						title: "",
 						headerTitle: (props) => {
-							return <NavigationHeading title="Habit Details" />;
+							return (
+								<NavigationHeading
+									title="Habit Details"
+									tint={props.tintColor}
+								/>
+							);
 						},
 						headerShown: true,
 						animation: "fade",
@@ -87,7 +93,12 @@ const RootLayout = () => {
 					options={{
 						title: "",
 						headerTitle: (props) => {
-							return <NavigationHeading title="Update Habit" />;
+							return (
+								<NavigationHeading
+									title="Update Habit"
+									tint={props.tintColor}
+								/>
+							);
 						},
 						headerShown: true,
 						animation: "fade",
@@ -99,7 +110,12 @@ const RootLayout = () => {
 					options={{
 						title: "",
 						headerTitle: (props) => {
-							return <NavigationHeading title="Create Habit" />;
+							return (
+								<NavigationHeading
+									title="Create Habit"
+									tint={props.tintColor}
+								/>
+							);
 						},
 						headerShown: true,
 						animation: "fade",

@@ -36,7 +36,7 @@ export const Colors: Record<string, Theme> = {
 
 		danger: "#CE4343",
 		success: "#10B13B",
-		info: "#C79F02",
+		info: "#C5A205",
 
 		background: "#F9F9F9",
 		foreground: "#E8E8E8",

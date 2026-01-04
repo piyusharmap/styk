@@ -1,33 +1,41 @@
 import { Animated, StyleSheet, View } from "react-native";
-import { Habit } from "../../../types/habitTypes";
+import { HabitTarget } from "../../../types/habitTypes";
 import { useHabitStore } from "../../../store/habitStore";
 import { useEffect, useRef } from "react";
 
-const ProgressBar = ({ habit }: { habit: Habit }) => {
+const ProgressBar = ({
+	habitId,
+	target,
+	color,
+}: {
+	habitId: string;
+	target: HabitTarget;
+	color: string;
+}) => {
 	const progressAnim = useRef(new Animated.Value(0)).current;
 
-	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
+	const countValue = useHabitStore((s) => s.getCountValue(habitId));
 
 	useEffect(() => {
 		const progress =
-			habit.target.type === "count"
-				? Math.min(countValue / habit.target.count, 1)
+			target.type === "count"
+				? Math.min(countValue / target.count, 1)
 				: 0;
 
 		Animated.timing(progressAnim, {
 			toValue: progress,
-			duration: 400,
+			duration: 300,
 			useNativeDriver: false,
 		}).start();
 	}, [countValue]);
 
-	if (habit.target.type !== "count") return;
+	if (target.type !== "count") return;
 
 	return (
 		<View
 			style={[
 				{
-					backgroundColor: habit.color + "50",
+					backgroundColor: color + "50",
 				},
 				styles.progressTrack,
 			]}
@@ -35,7 +43,7 @@ const ProgressBar = ({ habit }: { habit: Habit }) => {
 			<Animated.View
 				style={[
 					{
-						backgroundColor: habit.color,
+						backgroundColor: color,
 						width: progressAnim.interpolate({
 							inputRange: [0, 1],
 							outputRange: ["0%", "100%"],
