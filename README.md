@@ -1,37 +1,55 @@
-# Styk
+<picture>
+  <img src="./assets/icon.png" alt="Styk: A minimal habit tracker" style="height: 100px; width: 100px; border-radius: 20px">
+</picture>
 
-**Styk** is an open-source habit tracker application built using **React Native** and **Expo Router**. It helps you build good habits and quit bad ones in a simple, intuitive way.
+<br />
 
-The app is **free to use** and does **not require any login or registration**, making it easy to start tracking your habits immediately.
+# Styk: A Minimal Habit Tracker
 
-### ⚒️Features
+### Build better routines. Break bad cycles. All locally on your device.
 
--   **Track Habits You Want to Build**
+Styk is an open-source minimal habit tracker application built using **React Native** and **Expo Router**. It helps you build good habits and quit bad ones in a simple, intuitive way. No accounts, no cloud tracking, and no friction. Just you and your goals.
 
-    -   Create habits like running, reading, exercising, or any other positive habit.
-    -   Set targets such as frequency, count, or unit to monitor your progress.
+The app is **free to use** and does **not require any login or registration**, making it easy to start tracking your habits immediately. Authentication may be required in future to use some of the exculusive features.
 
--   **Track Habits You Want to Quit**
+### ✨ Key Features
 
-    -   Keep track of habits you want to quit, such as smoking or unhealthy snacking.
-    -   Set start dates and frequency to monitor your quit journey.
+-   **Dual-Mode Tracking**: Specialized logic for **Building** habits (positive reinforcement) and **Quitting** habits (relapse tracking).
+-   **Privacy First**: 100% offline. Your data stays on your device in a local SQLite database.
+-   **Visual Analytics**: 30-day heatmaps to visualize your consistency.
+-   **Customizable**: Color-coded habits with flexible frequencies (Daily, Weekly, Monthly, Yearly).
+-   **Zero Onboarding**: Start tracking in seconds. No registration required.
 
--   **Color-coded Habits**
+### 🛠️ Tech Stack
 
-    -   Assign colors to your habits for easy identification.
+-   **Framework**: [React Native](https://reactnative.dev/) via [Expo](https://expo.dev/)
+-   **Navigation**: [Expo Router](https://docs.expo.dev/router/introduction/) (File-based routing)
+-   **State Management**: [Zustand](https://github.com/pmndrs/zustand)
+-   **Database**: [SQLite](https://docs.expo.dev/versions/latest/sdk/sqlite/) for local persistence
+-   **Icon Pack**: [Lucide React Native](https://lucide.dev/)
 
--   **Custom Frequency & Units**
+### 🚀 Getting Started
 
-    -   Choose daily, weekly, monthly or yearly frequency for your habits.
-    -   Set units like times, hours, minutes or kilometers that fits your habit.
+1. **Clone the repo**
 
--   **Simple & Offline**
-    -   No login or registration required.
-    -   Works offline and keeps all your data locally on your device.
+    ```bash
+    git clone [https://github.com/yourusername/styk.git](https://github.com/yourusername/styk.git)
+    ```
 
-### ⚙️Tech Stack
+2. **Install dependencies**
 
--   **React Native** – for cross-platform mobile development.
--   **Expo Router** – for navigation and routing.
--   **Zustand** – for state management.
--   **SQLite** – for local persistent storage of habits.
+    ```bash
+    npm install
+    ```
+
+3. **Start the project**
+
+    ```bash
+    npx expo start
+    ```
+
+**To view the app on your device:**
+
+-   Install the Expo Go app.
+-   Ensure your phone and computer are on the same Wi-Fi network.
+-   Scan the QR code appearing in your terminal.
