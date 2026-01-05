@@ -207,6 +207,7 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 							<UIInputLabel label="Quit date" />
 							<QuitDatePicker
 								selectedValue={habitTarget.initialStartDate}
+								maxDate={habitTarget.startDate}
 								onChange={(date) =>
 									setHabitTarget((prev) => ({
 										...prev,
@@ -214,7 +215,7 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 									}))
 								}
 							/>
-							<UIInputInfo info="Your new start date must be today or a date in the past." />
+							<UIInputInfo info="Start date must be an elapsed date or a date in the past." />
 						</UIInputContainer>
 					</>
 				)}

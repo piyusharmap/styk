@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 	// container styles
 	settingOption: {
 		height: 60,
-		paddingHorizontal: 12,
+		paddingHorizontal: 10,
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",

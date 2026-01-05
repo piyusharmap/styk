@@ -23,7 +23,12 @@ const HabitDetailsPage = () => {
 	const countValue = useHabitStore((s) => s.getCountValue(id));
 	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(id));
 
-	if (!habitDetails) return <UILoader />;
+	if (!habitDetails)
+		return (
+			<UIView style={styles.loaderContainer}>
+				<UILoader size={32} color={color} />
+			</UIView>
+		);
 
 	const typeDetails = HabitTypeDetails[habitDetails.target.type];
 
@@ -31,7 +36,7 @@ const HabitDetailsPage = () => {
 		<>
 			<Stack.Screen
 				options={{
-					headerStyle: { backgroundColor: color + "50" },
+					headerStyle: { backgroundColor: color + "20" },
 					headerTintColor: color,
 				}}
 			/>
@@ -42,6 +47,33 @@ const HabitDetailsPage = () => {
 						<UIText style={styles.name}>
 							{habitDetails?.name}
 						</UIText>
+					</HabitInfoCard>
+
+					<HabitInfoCard
+						style={{
+							backgroundColor: color + "20",
+							borderColor: color,
+						}}
+					>
+						<View style={styles.typeCard}>
+							<View style={styles.typeInfoContainer}>
+								<UIText style={styles.info}>
+									{typeDetails.label}
+								</UIText>
+
+								<UIText isSecondary>
+									{typeDetails.description}
+								</UIText>
+							</View>
+
+							<View style={styles.iconContainer}>
+								<Ionicons
+									name={typeDetails.icon}
+									size={32}
+									color={color}
+								/>
+							</View>
+						</View>
 					</HabitInfoCard>
 
 					{habitDetails.target.type === "count" ? (
@@ -111,33 +143,6 @@ const HabitDetailsPage = () => {
 							</HabitInfoCard>
 						</View>
 					)}
-
-					<HabitInfoCard
-						style={{
-							backgroundColor: color + "20",
-							borderColor: color,
-						}}
-					>
-						<View style={styles.typeCard}>
-							<View style={styles.typeInfoContainer}>
-								<UIText style={styles.info}>
-									{typeDetails.label}
-								</UIText>
-
-								<UIText isSecondary>
-									{typeDetails.description}
-								</UIText>
-							</View>
-
-							<View style={styles.iconContainer}>
-								<Ionicons
-									name={typeDetails.icon}
-									size={32}
-									color={color}
-								/>
-							</View>
-						</View>
-					</HabitInfoCard>
 				</ScrollView>
 
 				<View
@@ -167,6 +172,11 @@ const styles = StyleSheet.create({
 	// container styles
 	container: {
 		flex: 1,
+	},
+	loaderContainer: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	content: {
 		paddingHorizontal: 12,

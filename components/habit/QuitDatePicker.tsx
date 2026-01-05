@@ -9,9 +9,11 @@ import { toDateString } from "../../utils/time";
 
 const QuitDatePicker = ({
 	selectedValue,
+	maxDate,
 	onChange,
 }: {
 	selectedValue: Date;
+	maxDate?: Date;
 	onChange: (value: Date) => void;
 }) => {
 	const [showPicker, setShowPicker] = useState<boolean>(false);
@@ -54,7 +56,7 @@ const QuitDatePicker = ({
 			{showPicker && (
 				<DateTimePicker
 					value={selectedValue}
-					maximumDate={new Date()}
+					maximumDate={maxDate || new Date()}
 					mode="date"
 					design="material"
 					onChange={onDateChange}

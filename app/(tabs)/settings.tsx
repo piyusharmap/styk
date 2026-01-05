@@ -12,6 +12,7 @@ import SettingsSection from "../../screens/settingsTab/components/SettingsSectio
 import ResetDataButton from "../../screens/settingsTab/components/ResetDataButton";
 import ResetPrefsButton from "../../screens/settingsTab/components/ResetPrefsButton";
 import useTheme from "../../theme/useTheme";
+import UIButton from "../../components/ui/UIButton";
 
 const SettingsTab = () => {
 	const { mode, setMode } = useTheme();
@@ -46,6 +47,14 @@ const SettingsTab = () => {
 				</SettingsSection>
 
 				<SettingsSection title="App Info">
+					<SettingOption title="About Us">
+						<UIButton title="" size="sm" iconName="arrow-forward" />
+					</SettingOption>
+
+					<SettingOption title="Rate Us">
+						<UIButton title="" size="sm" iconName="arrow-forward" />
+					</SettingOption>
+
 					<SettingOption title="Version">
 						<></>
 					</SettingOption>
