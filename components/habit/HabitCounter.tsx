@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import useTheme from "../../theme/useTheme";
 import UIText from "../ui/UIText";
+import Icon from "../icon";
 
 const HabitCounter = ({
 	count,
@@ -41,7 +41,7 @@ const HabitCounter = ({
 				]}
 				onPress={handleCountDecrement}
 			>
-				<Ionicons name="chevron-down" size={16} color={colors.accent} />
+				<Icon name="ChevronDown" size={16} color={colors.accent} />
 			</Pressable>
 
 			<UIText style={styles.count}>{count}</UIText>
@@ -57,7 +57,7 @@ const HabitCounter = ({
 				]}
 				onPress={handleCountIncrement}
 			>
-				<Ionicons name="chevron-up" size={16} color={colors.accent} />
+				<Icon name="ChevronUp" size={16} color={colors.accent} />
 			</Pressable>
 		</View>
 	);

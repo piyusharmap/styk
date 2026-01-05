@@ -48,11 +48,7 @@ const SettingsTab = () => {
 
 				<SettingsSection title="App Info">
 					<SettingOption title="About Us">
-						<UIButton title="" size="sm" iconName="arrow-forward" />
-					</SettingOption>
-
-					<SettingOption title="Rate Us">
-						<UIButton title="" size="sm" iconName="arrow-forward" />
+						<UIButton title="" size="sm" iconName="ArrowRight" />
 					</SettingOption>
 
 					<SettingOption title="Version">

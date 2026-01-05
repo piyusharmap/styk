@@ -7,8 +7,7 @@ import {
 } from "react-native";
 import UIText from "./ui/UIText";
 import useTheme from "../theme/useTheme";
-import { Ionicons } from "@expo/vector-icons";
-import { IonIconType } from "../types/iconTypes";
+import Icon, { IconType } from "./icon";
 
 const Badge = ({
 	title,
@@ -19,7 +18,7 @@ const Badge = ({
 }: PressableProps & {
 	title: string;
 	isPressable?: boolean;
-	icon?: IonIconType;
+	icon?: IconType;
 	style?: StyleProp<ViewStyle>;
 }) => {
 	const { colors } = useTheme();
@@ -37,8 +36,9 @@ const Badge = ({
 			]}
 			{...props}
 		>
-			{icon && <Ionicons name={icon} size={14} color={colors.text} />}
-			<UIText style={styles.title}>{title}</UIText>
+			{icon && <Icon name={icon} size={14} color={colors.text} />}
+
+			{title !== "" && <UIText style={styles.title}>{title}</UIText>}
 		</Pressable>
 	);
 };

@@ -24,7 +24,7 @@ import TypeSelector from "../../components/habit/TypeSelector";
 import HabitCounter from "../../components/habit/HabitCounter";
 import UnitSelector from "../../components/habit/UnitSelector";
 import FrequencySelector from "../../components/habit/FrequencySelector";
-import QuitDatePicker from "../../components/habit/QuitDatePicker";
+import DatePicker from "../../components/DatePicker";
 
 const CreateHabitForm = () => {
 	// form states
@@ -169,7 +169,7 @@ const CreateHabitForm = () => {
 				{habitTarget.type === "quit" && (
 					<UIInputContainer>
 						<UIInputLabel label="Quit date" />
-						<QuitDatePicker
+						<DatePicker
 							selectedValue={habitTarget.initialStartDate}
 							onChange={(date) =>
 								setHabitTarget((prev) => ({
@@ -188,7 +188,7 @@ const CreateHabitForm = () => {
 				<UIButton
 					title="Reset"
 					onPress={resetForm}
-					iconName="refresh"
+					iconName="RefreshCw"
 					style={styles.actionButton}
 					isDisabled={isSaving}
 				/>

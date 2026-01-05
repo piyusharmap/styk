@@ -3,11 +3,11 @@ import { useState } from "react";
 import DateTimePicker, {
 	DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
-import { UIInput } from "../ui/UIInput";
-import UIButton from "../ui/UIButton";
-import { toDateString } from "../../utils/time";
+import { UIInput } from "./ui/UIInput";
+import { toDateString } from "../utils/time";
+import UIButton from "./ui/UIButton";
 
-const QuitDatePicker = ({
+const DatePicker = ({
 	selectedValue,
 	maxDate,
 	onChange,
@@ -48,7 +48,7 @@ const QuitDatePicker = ({
 				<UIButton
 					size="sm"
 					title=""
-					iconName="refresh"
+					iconName="RefreshCw"
 					onPress={() => setShowPicker(true)}
 				/>
 			</View>
@@ -66,7 +66,7 @@ const QuitDatePicker = ({
 	);
 };
 
-export default QuitDatePicker;
+export default DatePicker;
 
 const styles = StyleSheet.create({
 	// container styles

@@ -1,7 +1,7 @@
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import UIText from "../ui/UIText";
-import { Ionicons } from "@expo/vector-icons";
 import useTheme from "../../theme/useTheme";
+import Icon from "../icon";
 
 const ListHeader = ({
 	heading,
@@ -16,7 +16,7 @@ const ListHeader = ({
 		<View style={[styles.listHeader, style]}>
 			<UIText style={styles.listHeading}>{heading}</UIText>
 
-			<Ionicons name="arrow-forward" size={12} color={colors.accent} />
+			<Icon name="ArrowRight" size={12} color={colors.accent} />
 		</View>
 	);
 };

@@ -4,7 +4,6 @@ import { Habit } from "../../../types/habitTypes";
 import useTheme from "../../../theme/useTheme";
 import Badge from "../../../components/Badge";
 import { HabitTypeDetails } from "../../../constants/habit";
-import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 const HabitListCard = ({ habit }: { habit: Habit }) => {
@@ -33,13 +32,9 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 			}}
 		>
 			<View style={styles.habitInfo}>
-				<View style={styles.nameContainer}>
-					<Ionicons name="ellipse" size={8} color={habit.color} />
-
-					<UIText style={styles.habitName} numberOfLines={1}>
-						{habit.name}
-					</UIText>
-				</View>
+				<UIText style={styles.habitName} numberOfLines={1}>
+					{habit.name}
+				</UIText>
 
 				<View style={styles.habitDetails}>
 					{habit.target.type === "count" ? (
@@ -83,6 +78,15 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 
 			<View style={styles.badgesContainer}>
 				<Badge
+					title=""
+					style={{
+						backgroundColor: habit.color + "50",
+						borderColor: habit.color,
+					}}
+					icon="Hash"
+				/>
+
+				<Badge
 					title={typeDetails.label}
 					style={{
 						backgroundColor: habit.color + "50",
@@ -97,7 +101,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 						backgroundColor: habit.color + "50",
 						borderColor: habit.color,
 					}}
-					icon="flame"
+					icon="Flame"
 				/>
 			</View>
 		</Pressable>
@@ -122,12 +126,6 @@ const styles = StyleSheet.create({
 	habitInfo: {
 		flexShrink: 1,
 		gap: 4,
-	},
-	nameContainer: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 4,
-		overflow: "hidden",
 	},
 	habitDetails: {
 		alignItems: "flex-start",

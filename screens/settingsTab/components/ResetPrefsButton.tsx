@@ -9,7 +9,7 @@ const ResetPrefsButton = () => {
 			variant="secondary"
 			size="sm"
 			title="Reset"
-			iconName="refresh"
+			iconName="RefreshCw"
 			onPress={resetPreferences}
 		/>
 	);

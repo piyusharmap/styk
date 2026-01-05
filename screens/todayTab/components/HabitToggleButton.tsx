@@ -1,9 +1,8 @@
 import { Pressable, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { HabitTarget } from "../../../types/habitTypes";
-import { IonIconType } from "../../../types/iconTypes";
 import { useHabitStore } from "../../../store/habitStore";
 import { getTodayString } from "../../../utils/time";
+import Icon, { IconType } from "../../../components/icon";
 
 const HabitToggleButton = ({
 	habitId,
@@ -16,7 +15,7 @@ const HabitToggleButton = ({
 	color: string;
 	isDisabled?: boolean;
 }) => {
-	const icon: IonIconType = target.type === "count" ? "add" : "refresh";
+	const icon: IconType = target.type === "count" ? "Plus" : "RotateCcw";
 
 	const performHabitAction = useHabitStore((s) => s.performHabitAction);
 
@@ -37,7 +36,7 @@ const HabitToggleButton = ({
 			]}
 			onPress={handleMarkHabit}
 		>
-			<Ionicons name={icon} size={24} color={color} />
+			<Icon name={icon} size={24} color={color} />
 		</Pressable>
 	);
 };

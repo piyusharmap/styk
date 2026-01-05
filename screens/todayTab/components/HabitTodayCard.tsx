@@ -4,9 +4,9 @@ import { Habit } from "../../../types/habitTypes";
 import useTheme from "../../../theme/useTheme";
 import HabitToggleButton from "./HabitToggleButton";
 import { useHabitStore } from "../../../store/habitStore";
-import { Ionicons } from "@expo/vector-icons";
 import ProgressBar from "./ProgressBar";
 import { useRouter } from "expo-router";
+import Icon from "../../../components/icon";
 
 const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 	const { colors } = useTheme();
@@ -72,8 +72,8 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 				<View style={styles.actionContainer}>
 					{isHabitLocked && habit.target.type === "count" ? (
 						<View style={styles.iconContainer}>
-							<Ionicons
-								name="checkmark-circle"
+							<Icon
+								name="CircleCheck"
 								size={32}
 								color={habit.color}
 							/>

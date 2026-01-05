@@ -1,7 +1,7 @@
 import { StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 import useTheme from "../../theme/useTheme";
+import Icon from "../icon";
 
 const NavigationBackButton = ({ tint }: { tint?: string }) => {
 	const { colors } = useTheme();
@@ -20,11 +20,7 @@ const NavigationBackButton = ({ tint }: { tint?: string }) => {
 			]}
 			onPress={() => navigation.goBack()}
 		>
-			<Ionicons
-				name="arrow-back"
-				size={20}
-				color={tint || colors.navText}
-			/>
+			<Icon name="ArrowLeft" size={20} color={tint || colors.navText} />
 		</Pressable>
 	);
 };

@@ -33,7 +33,7 @@ const TodayTab = () => {
 			</PageHeader>
 
 			<View style={styles.dateContainer}>
-				<Badge title={todayDate} icon="calendar-clear-outline" />
+				<Badge title={todayDate} icon="Calendar1" />
 			</View>
 
 			<ListContainer>

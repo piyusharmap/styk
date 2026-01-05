@@ -1,16 +1,15 @@
 import { View, Pressable, StyleSheet, PressableProps } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { IonIconType } from "../../types/iconTypes";
 import { HabitType } from "../../types/habitTypes";
 import useTheme from "../../theme/useTheme";
 import UIText from "../ui/UIText";
 import { TypeOptions } from "../../constants/habit";
+import Icon, { IconType } from "../icon";
 
 export type TypeOption = {
 	label: string;
 	description: string;
 	value: HabitType;
-	icon: IonIconType;
+	icon: IconType;
 };
 
 const TypeCard = ({
@@ -36,7 +35,7 @@ const TypeCard = ({
 			{...props}
 		>
 			<View style={styles.labelContainer}>
-				<Ionicons name={type.icon} size={16} color={colors.accent} />
+				<Icon name={type.icon} size={16} color={colors.accent} />
 				<UIText style={styles.label}>{type.label}</UIText>
 			</View>
 

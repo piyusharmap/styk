@@ -1,8 +1,8 @@
 import { Tabs } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 import useTheme from "../../theme/useTheme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarLabel from "../../components/heading/TabBarLabel";
+import Icon from "../../components/icon";
 
 const TabsLayout = () => {
 	const { colors } = useTheme();
@@ -14,8 +14,8 @@ const TabsLayout = () => {
 			screenOptions={{
 				headerShown: false,
 				tabBarStyle: {
-					height: insets.bottom + 60,
-					paddingTop: 4,
+					height: insets.bottom + 72,
+					paddingTop: 8,
 					paddingBottom: insets.bottom,
 					backgroundColor: colors.tabBackground,
 					borderTopWidth: 1,
@@ -47,12 +47,12 @@ const TabsLayout = () => {
 						);
 					},
 					tabBarIcon: ({ focused }) => (
-						<Ionicons
-							size={24}
-							name={focused ? "today" : "today-outline"}
+						<Icon
+							size={22}
+							name="CalendarCheck2"
 							color={
 								focused
-									? colors.tabIconActive
+									? colors.primary
 									: colors.tabIconInactive
 							}
 						/>
@@ -73,12 +73,12 @@ const TabsLayout = () => {
 						);
 					},
 					tabBarIcon: ({ focused }) => (
-						<Ionicons
-							size={24}
-							name={focused ? "calendar" : "calendar-outline"}
+						<Icon
+							size={22}
+							name="Calendar"
 							color={
 								focused
-									? colors.tabIconActive
+									? colors.primary
 									: colors.tabIconInactive
 							}
 						/>
@@ -100,12 +100,12 @@ const TabsLayout = () => {
 						);
 					},
 					tabBarIcon: ({ focused }) => (
-						<Ionicons
-							size={24}
-							name={focused ? "scale" : "scale-outline"}
+						<Icon
+							size={22}
+							name="Ruler"
 							color={
 								focused
-									? colors.tabIconActive
+									? colors.primary
 									: colors.tabIconInactive
 							}
 						/>
@@ -126,12 +126,12 @@ const TabsLayout = () => {
 						);
 					},
 					tabBarIcon: ({ focused }) => (
-						<Ionicons
-							size={24}
-							name={focused ? "settings" : "settings-outline"}
+						<Icon
+							size={22}
+							name="Settings2"
 							color={
 								focused
-									? colors.tabIconActive
+									? colors.primary
 									: colors.tabIconInactive
 							}
 						/>

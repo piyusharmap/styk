@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useHabitStore } from "../../store/habitStore";
 import UIView from "../../components/ui/UIView";
@@ -10,7 +10,7 @@ import HabitInfoCard from "../../screens/habit/HabitInfoCard";
 import ProgressBar from "../../screens/habit/ProgressBar";
 import { HabitTypeDetails } from "../../constants/habit";
 import UILoader from "../../components/ui/UILoader";
-import { Ionicons } from "@expo/vector-icons";
+import Icon from "../../components/icon";
 
 const HabitDetailsPage = () => {
 	const { id, color } = useLocalSearchParams<{
@@ -67,7 +67,7 @@ const HabitDetailsPage = () => {
 							</View>
 
 							<View style={styles.iconContainer}>
-								<Ionicons
+								<Icon
 									name={typeDetails.icon}
 									size={32}
 									color={color}

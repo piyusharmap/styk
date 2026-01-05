@@ -16,7 +16,7 @@ export default TabBarLabel;
 const styles = StyleSheet.create({
 	// text styles
 	label: {
-		padding: 4,
+		padding: 2,
 		fontSize: 10,
 	},
 });

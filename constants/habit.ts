@@ -1,21 +1,21 @@
 import { TypeOption } from "../components/habit/TypeSelector";
+import { IconType } from "../components/icon";
 import { CountUnit, HabitFrequency, HabitType } from "../types/habitTypes";
-import { IonIconType } from "../types/iconTypes";
 import { BUILD_TYPE_DESCRIPTION, QUIT_TYPE_DESCRIPTION } from "./messages";
 
 export const HabitTypeDetails: Record<
 	HabitType,
-	{ label: string; description: string; icon: IonIconType }
+	{ label: string; description: string; icon: IconType }
 > = {
 	count: {
 		label: "Build",
 		description: BUILD_TYPE_DESCRIPTION,
-		icon: "trending-up",
+		icon: "TrendingUp",
 	},
 	quit: {
 		label: "Quit",
 		description: QUIT_TYPE_DESCRIPTION,
-		icon: "ban",
+		icon: "Ban",
 	},
 };
 
@@ -25,18 +25,18 @@ export const MIN_NAME_LENGTH = 3;
 export const ColorOptions = [
 	// blue
 	"#3B82F6",
-	"#2555D8",
+	"#3B67E0",
 	"#A5B4FC",
 
 	// green
 	"#22C55E",
-	"#166534",
+	"#2D9756",
 	"#65A30D",
 
 	// red
 	"#E64545",
 	"#BD2525",
-	"#991B1B",
+	"#C03535",
 
 	// yellow/orange
 	"#F59E0B",
@@ -83,13 +83,13 @@ export const TypeOptions: TypeOption[] = [
 		label: "Build",
 		description: BUILD_TYPE_DESCRIPTION,
 		value: "count",
-		icon: "trending-up",
+		icon: "TrendingUp",
 	},
 	{
 		label: "Quit",
 		description: QUIT_TYPE_DESCRIPTION,
 		value: "quit",
-		icon: "ban",
+		icon: "Ban",
 	},
 ];
 

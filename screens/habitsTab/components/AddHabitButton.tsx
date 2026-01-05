@@ -1,6 +1,6 @@
 import { PressableProps, Pressable, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import useTheme from "../../../theme/useTheme";
+import Icon from "../../../components/icon";
 
 const AddHabitButton = ({ ...props }: PressableProps) => {
 	const { colors } = useTheme();
@@ -16,7 +16,7 @@ const AddHabitButton = ({ ...props }: PressableProps) => {
 			]}
 			{...props}
 		>
-			<Ionicons name="add" size={32} color={colors.neutralWhite} />
+			<Icon name="Plus" size={32} color={colors.neutralWhite} />
 		</Pressable>
 	);
 };
