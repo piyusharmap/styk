@@ -15,7 +15,7 @@ const UpdateHabitButton = ({
 		<UIButton
 			variant="primary"
 			title="Update"
-			iconName="create"
+			iconName="SquarePen"
 			style={style}
 			onPress={() => router.navigate(`edit/${habitId}`)}
 		/>

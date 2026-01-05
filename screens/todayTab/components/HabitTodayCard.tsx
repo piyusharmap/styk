@@ -1,12 +1,12 @@
-import { View, StyleSheet, Text, Pressable } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import UIText from "../../../components/ui/UIText";
 import { Habit } from "../../../types/habitTypes";
 import useTheme from "../../../theme/useTheme";
 import HabitToggleButton from "./HabitToggleButton";
 import { useHabitStore } from "../../../store/habitStore";
-import { Ionicons } from "@expo/vector-icons";
 import ProgressBar from "./ProgressBar";
 import { useRouter } from "expo-router";
+import Icon from "../../../components/icon";
 
 const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 	const { colors } = useTheme();
@@ -16,7 +16,7 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
 
 	return (
-		<Pressable
+		<View
 			style={[
 				{
 					backgroundColor: colors.foreground + "80",
@@ -24,14 +24,6 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 				},
 				styles.habitCard,
 			]}
-			onPress={() => {
-				router.navigate({
-					pathname: `habit/${habit.id}`,
-					params: {
-						color: habit.color,
-					},
-				});
-			}}
 		>
 			<View style={styles.habitSection}>
 				<View style={styles.habitInfo}>
@@ -72,8 +64,8 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 				<View style={styles.actionContainer}>
 					{isHabitLocked && habit.target.type === "count" ? (
 						<View style={styles.iconContainer}>
-							<Ionicons
-								name="checkmark-circle"
+							<Icon
+								name="CircleCheck"
 								size={32}
 								color={habit.color}
 							/>
@@ -94,7 +86,7 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 				target={habit.target}
 				color={habit.color}
 			/>
-		</Pressable>
+		</View>
 	);
 };
 

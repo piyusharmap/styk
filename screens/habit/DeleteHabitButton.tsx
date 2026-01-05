@@ -36,7 +36,7 @@ const DeleteHabitButton = ({
 		<UIButton
 			variant="danger"
 			title="Delete"
-			iconName="trash"
+			iconName="Trash"
 			style={style}
 			onPress={handleHabitDelete}
 			disabled={isDeleting}

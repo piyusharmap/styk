@@ -6,6 +6,8 @@ export type CountUnit = "time" | "minute" | "hour" | "kilometer" | "meter";
 
 export type HabitWindow = { start: string; end: string };
 
+export type HabitLogStatus = "success" | "fail" | "incomplete" | "none";
+
 export type HabitMilestone = {
 	id: string;
 	label: string;

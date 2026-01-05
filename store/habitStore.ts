@@ -1,7 +1,13 @@
 import { create } from "zustand";
-import { Habit, HabitLog, HabitTarget } from "../types/habitTypes";
+import {
+	Habit,
+	HabitLog,
+	HabitLogStatus,
+	HabitTarget,
+} from "../types/habitTypes";
 import {
 	getCurrentTimeWindow,
+	getLast30Days,
 	isHabitLockedForWindow,
 	isHabitSuccessfulInWindow,
 } from "./utils";
@@ -48,6 +54,13 @@ type HabitStore = {
 	getAllHabits: () => Habit[];
 	getTodayHabits: () => Habit[];
 	getHabitDetails: (habitId: string) => Habit | null;
+
+	// report actions
+	getLast30DayReport: (habitId: string) => {
+		date: string;
+		status: HabitLogStatus;
+		value: number;
+	}[];
 
 	// reset/delete actions
 	resetData: () => Promise<void>;
@@ -356,6 +369,43 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			const habit = get().habits.find((habit) => habit.id === habitId);
 			if (!habit) return null;
 			else return habit;
+		},
+
+		// habit report actions
+		getLast30DayReport: (habitId: string) => {
+			const habit = get().habits.find((h) => h.id === habitId);
+			if (!habit) return [];
+
+			const last30Days = getLast30Days();
+			const logs = get().logs.filter((log) => log.habitId === habitId);
+
+			const createdAt = habit.createdAt;
+
+			return last30Days.map((date) => {
+				if (date < createdAt) {
+					return { date, status: "none", value: 0 };
+				}
+
+				const log = logs.find((log) => log.date === date);
+				const value = log ? log.value : 0;
+
+				let status: HabitLogStatus = "none";
+
+				if (habit.target.type === "count") {
+					const goal = habit.target.count;
+					if (value >= goal) {
+						status = "success";
+					} else if (value > 0 && value < goal) {
+						status = "incomplete";
+					} else {
+						status = "fail";
+					}
+				} else if (habit.target.type === "quit") {
+					status = value ? "fail" : "success";
+				}
+
+				return { date, status, value };
+			});
 		},
 
 		// habit reset/delete actions

@@ -23,9 +23,9 @@ import ColorSelector from "../../components/habit/ColorSelector";
 import HabitCounter from "../../components/habit/HabitCounter";
 import UnitSelector from "../../components/habit/UnitSelector";
 import FrequencySelector from "../../components/habit/FrequencySelector";
-import QuitDatePicker from "../../components/habit/QuitDatePicker";
 import TypeSelector from "../../components/habit/TypeSelector";
 import { fromDateString, toDateString } from "../../utils/time";
+import DatePicker from "../../components/DatePicker";
 
 const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 	// form states
@@ -205,7 +205,7 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 
 						<UIInputContainer>
 							<UIInputLabel label="Quit date" />
-							<QuitDatePicker
+							<DatePicker
 								selectedValue={habitTarget.initialStartDate}
 								maxDate={habitTarget.startDate}
 								onChange={(date) =>

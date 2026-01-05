@@ -22,7 +22,7 @@ const NotFoundPage = () => {
 				<UIButton
 					variant="primary"
 					title="Go Back"
-					iconName="chevron-back"
+					iconName="ChevronLeft"
 					onPress={() => router.back()}
 				/>
 			</View>

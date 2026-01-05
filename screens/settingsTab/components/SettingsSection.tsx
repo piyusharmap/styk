@@ -1,8 +1,8 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import UIText from "../../../components/ui/UIText";
 import { useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
 import useTheme from "../../../theme/useTheme";
+import Icon from "../../../components/icon";
 
 const SettingsSection = ({
 	title,
@@ -23,8 +23,8 @@ const SettingsSection = ({
 			>
 				<UIText style={styles.heading}>{title}</UIText>
 
-				<Ionicons
-					name={showOptions ? "chevron-down" : "chevron-forward"}
+				<Icon
+					name={showOptions ? "ChevronDown" : "ChevronRight"}
 					size={14}
 					color={colors.accent}
 				/>

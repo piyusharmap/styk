@@ -18,6 +18,7 @@ const HabitInfoCard = ({
 			style={[
 				{
 					backgroundColor: colors.foreground + "80",
+					borderColor: colors.border,
 				},
 				styles.card,
 				style,
@@ -42,10 +43,12 @@ const styles = StyleSheet.create({
 		padding: 12,
 		gap: 4,
 		borderRadius: 10,
+		borderWidth: 0.5,
 	},
 
 	// text styles
 	heading: {
 		fontSize: 12,
+		textTransform: "uppercase",
 	},
 });

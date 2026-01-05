@@ -6,10 +6,9 @@ import {
 	StyleSheet,
 } from "react-native";
 import UIText from "./UIText";
-import { Ionicons } from "@expo/vector-icons";
 import useTheme from "../../theme/useTheme";
 import UILoader from "./UILoader";
-import { IonIconType } from "../../types/iconTypes";
+import Icon, { IconType } from "../icon";
 
 type ButtonVariant = "default" | "primary" | "secondary" | "danger" | "success";
 type ButtonSize = "sm" | "md" | "lg";
@@ -27,7 +26,7 @@ const UIButton = ({
 	title: string;
 	variant?: ButtonVariant;
 	size?: ButtonSize;
-	iconName?: IonIconType;
+	iconName?: IconType;
 	isLoading?: boolean;
 	isDisabled?: boolean;
 	style?: StyleProp<ViewStyle>;
@@ -83,7 +82,7 @@ const UIButton = ({
 			{...props}
 		>
 			{iconName && !isLoading && (
-				<Ionicons
+				<Icon
 					name={iconName}
 					size={variantSize.icon}
 					color={variantColor.text}
