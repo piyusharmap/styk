@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useHabitStore } from "../../store/habitStore";
 import UIView from "../../components/ui/UIView";
@@ -10,7 +10,7 @@ import HabitInfoCard from "../../screens/habit/HabitInfoCard";
 import ProgressBar from "../../screens/habit/ProgressBar";
 import { HabitTypeDetails } from "../../constants/habit";
 import UILoader from "../../components/ui/UILoader";
-import Icon from "../../components/icon";
+import TypeCard from "../../screens/habit/TypeCard";
 
 const HabitDetailsPage = () => {
 	const { id, color } = useLocalSearchParams<{
@@ -36,83 +36,42 @@ const HabitDetailsPage = () => {
 		<>
 			<Stack.Screen
 				options={{
-					headerStyle: { backgroundColor: color + "20" },
-					headerTintColor: color,
+					headerStyle: { backgroundColor: color + "30" },
 				}}
 			/>
 
 			<UIView style={styles.container} isBottomSafe>
 				<ScrollView contentContainerStyle={styles.content}>
+					<TypeCard
+						label={typeDetails.label}
+						description={typeDetails.description}
+						icon={typeDetails.icon}
+						color={color || colors.foreground}
+					/>
+
 					<HabitInfoCard heading="Name">
 						<UIText style={styles.name}>
 							{habitDetails?.name}
 						</UIText>
 					</HabitInfoCard>
 
-					<HabitInfoCard
-						style={{
-							backgroundColor: color + "20",
-							borderColor: color,
-						}}
-					>
-						<View style={styles.typeCard}>
-							<View style={styles.typeInfoContainer}>
-								<UIText style={styles.info}>
-									{typeDetails.label}
-								</UIText>
-
-								<UIText isSecondary>
-									{typeDetails.description}
-								</UIText>
-							</View>
-
-							<View style={styles.iconContainer}>
-								<Icon
-									name={typeDetails.icon}
-									size={32}
-									color={color}
-								/>
-							</View>
-						</View>
-					</HabitInfoCard>
-
 					{habitDetails.target.type === "count" ? (
-						<>
-							<View style={styles.dualCardSection}>
-								<HabitInfoCard
-									heading="Target"
-									style={styles.cardFlex}
-								>
-									<UIText style={styles.info}>
-										{habitDetails.target.count}{" "}
-										{`${habitDetails.target.unit}${
-											habitDetails.target.count > 1
-												? "s"
-												: ""
-										}`}
-									</UIText>
-								</HabitInfoCard>
-
-								<HabitInfoCard
-									heading="Frequency"
-									style={styles.cardFlex}
-								>
-									<UIText style={styles.info}>
-										{habitDetails.target.frequency}
-									</UIText>
-								</HabitInfoCard>
-							</View>
-
-							<HabitInfoCard
-								heading={
-									isHabitLocked
-										? "Completed • Today"
-										: "In Progress • Today"
-								}
-								style={styles.progressSection}
-							>
-								<UIText style={styles.count}>
-									{countValue}/{habitDetails.target.count}
+						<HabitInfoCard heading="Progress • Today">
+							<View style={styles.progressContainer}>
+								<UIText style={styles.count} isSecondary>
+									<Text
+										style={[
+											{ color: colors.text },
+											styles.countHighlight,
+										]}
+									>
+										{countValue}
+									</Text>
+									{" / "}
+									{habitDetails.target.count}
+									{` ${habitDetails.target.unit}${
+										habitDetails.target.count > 1 ? "s" : ""
+									}`}
 								</UIText>
 
 								<ProgressBar
@@ -120,28 +79,53 @@ const HabitDetailsPage = () => {
 									target={habitDetails.target}
 									color={habitDetails.color}
 								/>
-							</HabitInfoCard>
-						</>
-					) : (
-						<View style={styles.dualCardSection}>
-							<HabitInfoCard
-								heading="Clean since"
-								style={styles.cardFlex}
-							>
-								<UIText style={styles.info}>
-									{habitDetails.target.startDate}
-								</UIText>
-							</HabitInfoCard>
+							</View>
 
-							<HabitInfoCard
-								heading="Started on"
-								style={styles.cardFlex}
-							>
-								<UIText style={styles.info}>
-									{habitDetails.target.initialStartDate}
-								</UIText>
-							</HabitInfoCard>
-						</View>
+							<View style={styles.infoContainer}>
+								<View style={styles.infoCard}>
+									<UIText style={styles.info}>
+										{habitDetails.target.frequency}
+									</UIText>
+
+									<UIText
+										style={styles.infoHeading}
+										isSecondary
+									>
+										Frequency
+									</UIText>
+								</View>
+							</View>
+						</HabitInfoCard>
+					) : (
+						<HabitInfoCard heading="Progress So Far">
+							<View style={styles.infoContainer}>
+								<View style={styles.infoCard}>
+									<UIText style={styles.info}>
+										{habitDetails.target.startDate}
+									</UIText>
+
+									<UIText
+										style={styles.infoHeading}
+										isSecondary
+									>
+										Clean since
+									</UIText>
+								</View>
+
+								<View style={styles.infoCard}>
+									<UIText style={styles.info}>
+										{habitDetails.target.initialStartDate}
+									</UIText>
+
+									<UIText
+										style={styles.infoHeading}
+										isSecondary
+									>
+										Started on
+									</UIText>
+								</View>
+							</View>
+						</HabitInfoCard>
 					)}
 				</ScrollView>
 
@@ -183,29 +167,18 @@ const styles = StyleSheet.create({
 		paddingVertical: 12,
 		gap: 8,
 	},
-	progressSection: {
+	progressContainer: {
+		paddingVertical: 4,
 		gap: 4,
 	},
-	dualCardSection: {
+	infoContainer: {
 		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		gap: 8,
-	},
-	cardFlex: {
-		flex: 1,
-	},
-	typeCard: {
-		flexDirection: "row",
-		alignItems: "center",
 		gap: 10,
 	},
-	typeInfoContainer: {
+	infoCard: {
+		paddingVertical: 4,
 		flex: 1,
 		gap: 2,
-	},
-	iconContainer: {
-		padding: 8,
 	},
 	actionContainer: {
 		paddingHorizontal: 12,
@@ -222,10 +195,16 @@ const styles = StyleSheet.create({
 	name: {
 		fontSize: 20,
 		fontWeight: "500",
+		lineHeight: 24,
 	},
 	count: {
 		fontSize: 16,
-		textAlign: "right",
+	},
+	countHighlight: {
+		fontSize: 24,
+	},
+	infoHeading: {
+		fontSize: 12,
 	},
 	info: {
 		fontSize: 18,

@@ -46,7 +46,7 @@ export const ColorOptions = [
 
 	// purple/pink
 	"#A855F7",
-	"#7E32D4",
+	"#8843D6",
 	"#F9A8D4",
 ];
 
