@@ -11,6 +11,7 @@ import ProgressBar from "../../screens/habit/ProgressBar";
 import { HabitTypeDetails } from "../../constants/habit";
 import UILoader from "../../components/ui/UILoader";
 import TypeCard from "../../screens/habit/TypeCard";
+import HabitReport from "../../screens/habit/HabitReport";
 
 const HabitDetailsPage = () => {
 	const { id, color } = useLocalSearchParams<{
@@ -21,7 +22,6 @@ const HabitDetailsPage = () => {
 	const { colors } = useTheme();
 	const habitDetails = useHabitStore((s) => s.getHabitDetails(id));
 	const countValue = useHabitStore((s) => s.getCountValue(id));
-	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(id));
 
 	if (!habitDetails)
 		return (
@@ -127,6 +127,8 @@ const HabitDetailsPage = () => {
 							</View>
 						</HabitInfoCard>
 					)}
+
+					<HabitReport habitId={id} />
 				</ScrollView>
 
 				<View

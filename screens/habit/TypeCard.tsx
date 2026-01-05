@@ -21,8 +21,13 @@ const TypeCard = ({
 				styles.card,
 			]}
 		>
-			<View style={styles.iconContainer}>
-				<Icon name={icon} size={28} color={color} />
+			<View
+				style={[
+					{ backgroundColor: color + "50" },
+					styles.iconContainer,
+				]}
+			>
+				<Icon name={icon} size={26} color={color} />
 			</View>
 
 			<View style={styles.details}>
@@ -52,7 +57,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	iconContainer: {
-		padding: 4,
+		height: 40,
+		width: 40,
+		justifyContent: "center",
+		alignItems: "center",
+		borderRadius: 8,
 	},
 
 	// text styles

@@ -35,14 +35,14 @@ export const ColorOptions = [
 
 	// red
 	"#E64545",
+	"#C94949",
 	"#BD2525",
-	"#C03535",
 
 	// yellow/orange
-	"#F59E0B",
-	"#D97706",
-	"#B3A752",
 	"#EEBE3A",
+	"#F59E0B",
+	"#F19021",
+	"#D97706",
 
 	// purple/pink
 	"#A855F7",
