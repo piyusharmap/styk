@@ -1,25 +1,24 @@
 import { Pressable, StyleSheet, View } from "react-native";
-import UIText from "../../../components/ui/UIText";
-import { Dispatch, SetStateAction } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import useTheme from "../../../theme/useTheme";
+import useTheme from "../../theme/useTheme";
+import UIText from "../ui/UIText";
 
 const HabitCounter = ({
 	count,
-	onChange,
+	onPress,
 }: {
 	count: number;
-	onChange: Dispatch<SetStateAction<number>>;
+	onPress: (count: number) => void;
 }) => {
 	const { colors } = useTheme();
 
 	const handleCountIncrement = () => {
-		onChange(count + 1);
+		onPress(count + 1);
 	};
 
 	const handleCountDecrement = () => {
 		if (count === 1) return;
-		onChange(count - 1);
+		onPress(count - 1);
 	};
 
 	return (
@@ -69,8 +68,8 @@ export default HabitCounter;
 const styles = StyleSheet.create({
 	// container styles
 	habitCounter: {
-		paddingHorizontal: 20,
-		paddingVertical: 20,
+		paddingHorizontal: 10,
+		paddingVertical: 10,
 		flexDirection: "row",
 		justifyContent: "center",
 		alignItems: "center",
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
 
 	// text styles
 	count: {
-		fontSize: 44,
-		fontWeight: "600",
+		fontSize: 52,
+		fontWeight: "500",
 	},
 });

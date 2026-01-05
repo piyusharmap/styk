@@ -39,15 +39,16 @@ const RootLayout = () => {
 
 			<Stack
 				screenOptions={{
-					headerLeft: ({ canGoBack }) => {
+					headerLeft: ({ tintColor, canGoBack }) => {
 						if (!canGoBack) return;
 
-						return <NavigationBackButton />;
+						return <NavigationBackButton tint={tintColor} />;
 					},
 					headerBackVisible: false,
 					headerStyle: {
 						backgroundColor: colors.navBackground,
 					},
+					headerTintColor: colors.navText,
 					headerTitleAlign: "center",
 					headerShadowVisible: false,
 				}}
@@ -71,11 +72,16 @@ const RootLayout = () => {
 				/>
 
 				<Stack.Screen
-					name="create/index"
+					name="habit/[id]"
 					options={{
 						title: "",
 						headerTitle: (props) => {
-							return <NavigationHeading title="Create Habit" />;
+							return (
+								<NavigationHeading
+									title="Habit Details"
+									tint={props.tintColor}
+								/>
+							);
 						},
 						headerShown: true,
 						animation: "fade",
@@ -83,11 +89,33 @@ const RootLayout = () => {
 				/>
 
 				<Stack.Screen
-					name="habit/[id]"
+					name="edit/[id]"
 					options={{
 						title: "",
 						headerTitle: (props) => {
-							return <NavigationHeading title="Habit Details" />;
+							return (
+								<NavigationHeading
+									title="Update Habit"
+									tint={props.tintColor}
+								/>
+							);
+						},
+						headerShown: true,
+						animation: "fade",
+					}}
+				/>
+
+				<Stack.Screen
+					name="create/index"
+					options={{
+						title: "",
+						headerTitle: (props) => {
+							return (
+								<NavigationHeading
+									title="Create Habit"
+									tint={props.tintColor}
+								/>
+							);
 						},
 						headerShown: true,
 						animation: "fade",

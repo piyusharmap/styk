@@ -19,6 +19,12 @@ type HabitStore = {
 		color: string,
 		target: HabitTarget
 	) => Promise<void>;
+	updateHabit: (
+		habitId: string,
+		name: string,
+		color: string,
+		target: HabitTarget
+	) => Promise<void>;
 	performHabitAction: (
 		habitId: string,
 		date: string,
@@ -41,7 +47,7 @@ type HabitStore = {
 
 	getAllHabits: () => Habit[];
 	getTodayHabits: () => Habit[];
-	getHabitDetails: (habitId: string) => Habit | undefined;
+	getHabitDetails: (habitId: string) => Habit | null;
 
 	// reset/delete actions
 	resetData: () => Promise<void>;
@@ -60,7 +66,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			await fn();
 		} catch (error) {
 			console.error(`[Store Error] ${errorMessage}:`, error);
-			// Optionally: set a global error state here for UI alerts
+			// set a global error state later here for UI alerts
 			throw error;
 		}
 	};
@@ -87,6 +93,34 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 				set((state) => ({
 					habits: [...state.habits, habit],
+				}));
+			});
+		},
+
+		updateHabit: async (habitId, name, color, target) => {
+			await executeAsync("failed to update habit", async () => {
+				const habit = get().habits.find(
+					(habit) => habit.id === habitId
+				);
+				if (!habit) return;
+
+				const today = getTodayString();
+
+				const updatedHabit: Habit = {
+					id: habit.id,
+					name: name,
+					color: color,
+					target: target,
+					createdAt: habit.createdAt,
+					updatedAt: today,
+				};
+
+				await HabitService.updateHabit(updatedHabit);
+
+				set((state) => ({
+					habits: state.habits.map((habitItem) =>
+						habitItem.id === habit.id ? updatedHabit : habitItem
+					),
 				}));
 			});
 		},
@@ -320,8 +354,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 		getHabitDetails: (habitId) => {
 			const habit = get().habits.find((habit) => habit.id === habitId);
-
-			if (!habit) return undefined;
+			if (!habit) return null;
 			else return habit;
 		},
 

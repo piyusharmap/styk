@@ -4,15 +4,19 @@ import useTheme from "../../theme/useTheme";
 
 const NavigationHeading = ({
 	title,
+	tint,
 	style,
 }: {
 	title: string;
+	tint?: string;
 	style?: StyleProp<TextStyle>;
 }) => {
 	const { colors } = useTheme();
 
 	return (
-		<UIText style={[{ color: colors.navText }, styles.title, style]}>
+		<UIText
+			style={[{ color: tint || colors.navText }, styles.title, style]}
+		>
 			{title}
 		</UIText>
 	);

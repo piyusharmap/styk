@@ -1,11 +1,8 @@
 import { PressableProps, Pressable, StyleSheet } from "react-native";
-import { Dispatch, SetStateAction } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import useTheme from "../../../theme/useTheme";
 
-const AddHabitButton = ({
-	onPress,
-}: PressableProps & { onPress: Dispatch<SetStateAction<boolean>> }) => {
+const AddHabitButton = ({ ...props }: PressableProps) => {
 	const { colors } = useTheme();
 
 	return (
@@ -17,7 +14,7 @@ const AddHabitButton = ({
 				styles.button,
 				pressed && styles.buttonPressed,
 			]}
-			onPress={onPress}
+			{...props}
 		>
 			<Ionicons name="add" size={32} color={colors.neutralWhite} />
 		</Pressable>

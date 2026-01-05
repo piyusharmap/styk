@@ -1,14 +1,13 @@
 import { Pressable, StyleSheet, View } from "react-native";
-import { ColorOptions } from "../../../constants/habit";
-import { Dispatch, SetStateAction } from "react";
-import useTheme from "../../../theme/useTheme";
+import { ColorOptions } from "../../constants/habit";
+import useTheme from "../../theme/useTheme";
 
 const ColorSelector = ({
 	selectedColor,
 	onPress,
 }: {
 	selectedColor: string;
-	onPress: Dispatch<SetStateAction<string>>;
+	onPress: (value: string) => void;
 }) => {
 	const { colors } = useTheme();
 
@@ -46,21 +45,21 @@ const styles = StyleSheet.create({
 	// container styles
 	colorSelector: {
 		flexDirection: "row",
-		justifyContent: "space-between",
+		justifyContent: "flex-start",
 		flexWrap: "wrap",
-		gap: 8,
+		gap: 4,
 	},
 	colorOption: {
 		height: 40,
 		width: 40,
-		borderRadius: 20,
+		borderRadius: 10,
 		overflow: "hidden",
 		borderWidth: 0,
 	},
 	colorView: {
 		height: "100%",
 		width: "100%",
-		borderRadius: "100%",
+		borderRadius: 8,
 	},
 	colorViewTransform: {
 		transform: [{ scale: 0.85 }],

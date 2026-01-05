@@ -25,7 +25,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 			]}
 			onPress={() => {
 				router.navigate({
-					pathname: `/habit/${habit.id}`,
+					pathname: `habit/${habit.id}`,
 					params: {
 						color: habit.color,
 					},
@@ -34,7 +34,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 		>
 			<View style={styles.habitInfo}>
 				<View style={styles.nameContainer}>
-					<Ionicons name="ellipse" size={10} color={habit.color} />
+					<Ionicons name="ellipse" size={8} color={habit.color} />
 
 					<UIText style={styles.habitName} numberOfLines={1}>
 						{habit.name}
@@ -55,7 +55,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 							</UIText>
 
 							<UIText style={styles.habitDetail} isSecondary>
-								Routine:{" "}
+								Frequency:{" "}
 								<Text style={{ color: colors.text }}>
 									{habit.target.frequency}
 								</Text>
@@ -64,7 +64,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					) : (
 						<>
 							<UIText style={styles.habitDetail} isSecondary>
-								Relapsed on:{" "}
+								Clean since:{" "}
 								<Text style={{ color: colors.text }}>
 									{habit.target.startDate}
 								</Text>

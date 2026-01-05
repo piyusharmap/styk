@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, View } from "react-native";
 import UIView from "../../components/ui/UIView";
 import { useHabitStore } from "../../store/habitStore";
-import HabitTodayCard from "../../screens/today/components/HabitTodayCard";
+import HabitTodayCard from "../../screens/todayTab/components/HabitTodayCard";
 import ListEmpty from "../../components/list/ListEmpty";
 import ListHeader from "../../components/list/ListHeader";
 import { getGreeting } from "../../utils/greeting";
@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
 	},
 	habitsContainer: {
 		paddingHorizontal: 12,
-		paddingVertical: 10,
+		paddingTop: 4,
+		paddingBottom: 100,
 		gap: 8,
 	},
 	actionContainer: {

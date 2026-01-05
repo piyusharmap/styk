@@ -7,11 +7,12 @@ import {
 } from "../../components/layout/PageHeader";
 import { SETTINGS_PAGE_SUBHEADING } from "../../constants/messages";
 import UISwitch from "../../components/ui/UISwitch";
-import SettingOption from "../../screens/settings/components/SettingOption";
-import SettingsSection from "../../screens/settings/components/SettingsSection";
-import ResetDataButton from "../../screens/settings/components/ResetDataButton";
-import ResetPrefsButton from "../../screens/settings/components/ResetPrefsButton";
+import SettingOption from "../../screens/settingsTab/components/SettingOption";
+import SettingsSection from "../../screens/settingsTab/components/SettingsSection";
+import ResetDataButton from "../../screens/settingsTab/components/ResetDataButton";
+import ResetPrefsButton from "../../screens/settingsTab/components/ResetPrefsButton";
 import useTheme from "../../theme/useTheme";
+import UIButton from "../../components/ui/UIButton";
 
 const SettingsTab = () => {
 	const { mode, setMode } = useTheme();
@@ -46,6 +47,14 @@ const SettingsTab = () => {
 				</SettingsSection>
 
 				<SettingsSection title="App Info">
+					<SettingOption title="About Us">
+						<UIButton title="" size="sm" iconName="arrow-forward" />
+					</SettingOption>
+
+					<SettingOption title="Rate Us">
+						<UIButton title="" size="sm" iconName="arrow-forward" />
+					</SettingOption>
+
 					<SettingOption title="Version">
 						<></>
 					</SettingOption>

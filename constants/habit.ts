@@ -1,37 +1,63 @@
-import { TypeOption } from "../screens/create/components/TypeSelector";
+import { TypeOption } from "../components/habit/TypeSelector";
 import { CountUnit, HabitFrequency, HabitType } from "../types/habitTypes";
 import { IonIconType } from "../types/iconTypes";
+import { BUILD_TYPE_DESCRIPTION, QUIT_TYPE_DESCRIPTION } from "./messages";
 
 export const HabitTypeDetails: Record<
 	HabitType,
-	{ label: string; icon: IonIconType }
+	{ label: string; description: string; icon: IonIconType }
 > = {
 	count: {
 		label: "Build",
+		description: BUILD_TYPE_DESCRIPTION,
 		icon: "trending-up",
 	},
 	quit: {
 		label: "Quit",
+		description: QUIT_TYPE_DESCRIPTION,
 		icon: "ban",
 	},
 };
 
+export const MAX_NAME_LENGTH = 50;
+export const MIN_NAME_LENGTH = 3;
+
 export const ColorOptions = [
+	// blue
 	"#3B82F6",
-	"#4F90FA",
-	"#6366F1",
-	"#8B5CF6",
-	"#A855F7",
-	"#EC69AB",
-	"#D4323A",
-	"#E64545",
-	"#F59E0B",
-	"#EEBE3A",
+	"#2555D8",
+	"#A5B4FC",
+
+	// green
 	"#22C55E",
-	"#16A34A",
-	"#75B318",
-	"#84CC16",
+	"#166534",
+	"#65A30D",
+
+	// red
+	"#E64545",
+	"#BD2525",
+	"#991B1B",
+
+	// yellow/orange
+	"#F59E0B",
+	"#D97706",
+	"#B3A752",
+	"#EEBE3A",
+
+	// purple/pink
+	"#A855F7",
+	"#7E32D4",
+	"#F9A8D4",
 ];
+
+export const InitialTarget = {
+	type: "count" as HabitType,
+	unit: "time" as CountUnit,
+	count: 1,
+	frequency: "daily" as HabitFrequency,
+	startDate: new Date(),
+	initialStartDate: new Date(),
+};
 
 export const FrequencyOptions: { label: string; value: HabitFrequency }[] = [
 	{
@@ -55,13 +81,13 @@ export const FrequencyOptions: { label: string; value: HabitFrequency }[] = [
 export const TypeOptions: TypeOption[] = [
 	{
 		label: "Build",
-		description: "Create a positive habit over time.",
+		description: BUILD_TYPE_DESCRIPTION,
 		value: "count",
 		icon: "trending-up",
 	},
 	{
 		label: "Quit",
-		description: "Reduce or eliminate an unwanted habit.",
+		description: QUIT_TYPE_DESCRIPTION,
 		value: "quit",
 		icon: "ban",
 	},

@@ -3,6 +3,7 @@ import {
 	UIInput,
 	UIInputContainer,
 	UIInputError,
+	UIInputInfo,
 	UIInputLabel,
 } from "../../components/ui/UIInput";
 import { useState } from "react";
@@ -12,43 +13,55 @@ import {
 	MAX_NAME_LENGTH,
 	MIN_NAME_LENGTH,
 } from "../../constants/habit";
-import { HabitTarget } from "../../types/habitTypes";
+import { Habit, HabitTarget } from "../../types/habitTypes";
 import UIButton from "../../components/ui/UIButton";
 import { useHabitStore } from "../../store/habitStore";
-import { toDateString } from "../../utils/time";
 import { useRouter } from "expo-router";
 import { HABIT_NAME_PLACEHOLDER } from "../../constants/messages";
 import useTheme from "../../theme/useTheme";
 import ColorSelector from "../../components/habit/ColorSelector";
-import TypeSelector from "../../components/habit/TypeSelector";
 import HabitCounter from "../../components/habit/HabitCounter";
 import UnitSelector from "../../components/habit/UnitSelector";
 import FrequencySelector from "../../components/habit/FrequencySelector";
 import QuitDatePicker from "../../components/habit/QuitDatePicker";
+import TypeSelector from "../../components/habit/TypeSelector";
+import { fromDateString, toDateString } from "../../utils/time";
 
-const CreateHabitForm = () => {
+const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 	// form states
-	const [habitName, setHabitName] = useState("");
-	const [habitColor, setHabitColor] = useState(ColorOptions[0]);
-	const [habitTarget, setHabitTarget] =
-		useState<typeof InitialTarget>(InitialTarget);
+	const [habitName, setHabitName] = useState(currentHabit.name || "");
+	const [habitColor, setHabitColor] = useState(
+		currentHabit.color || ColorOptions[0]
+	);
+	const [habitTarget, setHabitTarget] = useState<typeof InitialTarget>({
+		type: currentHabit.target.type,
+		unit:
+			currentHabit.target.type === "count"
+				? currentHabit.target.unit
+				: "time",
+		count:
+			currentHabit.target.type === "count"
+				? currentHabit.target.count
+				: 1,
+		frequency: currentHabit.target.frequency,
+		startDate:
+			currentHabit.target.type === "quit"
+				? fromDateString(currentHabit.target.startDate)
+				: new Date(),
+		initialStartDate:
+			currentHabit.target.type === "quit"
+				? fromDateString(currentHabit.target.initialStartDate)
+				: new Date(),
+	});
 
 	const [formError, setFormError] = useState<string>("");
-	const [isSaving, setIsSaving] = useState<boolean>(false);
+	const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
 	const { colors } = useTheme();
 	const router = useRouter();
-	const addHabit = useHabitStore((s) => s.addHabit);
+	const updateHabit = useHabitStore((s) => s.updateHabit);
 
-	const resetForm = () => {
-		setFormError("");
-
-		setHabitName("");
-		setHabitColor(ColorOptions[0]);
-		setHabitTarget(InitialTarget);
-	};
-
-	const handleSaveHabit = async () => {
+	const handleUpdateHabit = async () => {
 		if (
 			habitName.trim().length < MIN_NAME_LENGTH ||
 			habitName.trim().length > MAX_NAME_LENGTH
@@ -72,25 +85,29 @@ const CreateHabitForm = () => {
 			target = {
 				type: habitTarget.type,
 				frequency: "daily",
-				startDate: toDateString(habitTarget.initialStartDate),
+				startDate: toDateString(habitTarget.startDate),
 				initialStartDate: toDateString(habitTarget.initialStartDate),
 			};
 		}
 
-		setIsSaving(true);
+		setIsUpdating(true);
 
 		try {
-			await addHabit(habitName.trim(), habitColor, target);
+			await updateHabit(
+				currentHabit.id,
+				habitName.trim(),
+				habitColor,
+				target
+			);
 
-			resetForm();
 			router.navigate("(tabs)/habits");
 		} catch (error) {
 			Alert.alert(
 				"Operation Failed",
-				"Failed to save habit. Please try again."
+				"Failed to update habit. Please try again."
 			);
 		} finally {
-			setIsSaving(false);
+			setIsUpdating(false);
 		}
 	};
 
@@ -125,7 +142,9 @@ const CreateHabitForm = () => {
 						onPress={(type) =>
 							setHabitTarget((prev) => ({ ...prev, type }))
 						}
+						isEditable={false}
 					/>
+					<UIInputInfo info="Type cannot be edited. Create a new habit instead." />
 				</UIInputContainer>
 
 				{habitTarget.type === "count" && (
@@ -154,31 +173,51 @@ const CreateHabitForm = () => {
 							/>
 
 							<FrequencySelector
-								selectedFrequency={habitTarget.frequency}
+								selectedFrequency={
+									habitTarget.type === "count"
+										? habitTarget.frequency
+										: "daily"
+								}
 								onPress={(frequency) =>
 									setHabitTarget((prev) => ({
 										...prev,
 										frequency,
 									}))
 								}
+								isEditable={false}
 							/>
+							<UIInputInfo info="Frequency cannot be edited. Create a new habit instead." />
 						</View>
 					</UIInputContainer>
 				)}
 
 				{habitTarget.type === "quit" && (
-					<UIInputContainer>
-						<UIInputLabel label="Quit date" />
-						<QuitDatePicker
-							selectedValue={habitTarget.initialStartDate}
-							onChange={(date) =>
-								setHabitTarget((prev) => ({
-									...prev,
-									initialStartDate: date,
-								}))
-							}
-						/>
-					</UIInputContainer>
+					<>
+						<UIInputContainer>
+							<UIInputLabel label="Relapsed date" />
+							<UIInput
+								value={toDateString(habitTarget.startDate)}
+								editable={false}
+								pointerEvents="none"
+								onChangeInput={() => {}}
+							/>
+						</UIInputContainer>
+
+						<UIInputContainer>
+							<UIInputLabel label="Quit date" />
+							<QuitDatePicker
+								selectedValue={habitTarget.initialStartDate}
+								maxDate={habitTarget.startDate}
+								onChange={(date) =>
+									setHabitTarget((prev) => ({
+										...prev,
+										initialStartDate: date,
+									}))
+								}
+							/>
+							<UIInputInfo info="Start date must be an elapsed date or a date in the past." />
+						</UIInputContainer>
+					</>
 				)}
 			</ScrollView>
 
@@ -186,27 +225,19 @@ const CreateHabitForm = () => {
 				style={[{ borderColor: colors.border }, styles.actionContainer]}
 			>
 				<UIButton
-					title="Reset"
-					onPress={resetForm}
-					iconName="refresh"
-					style={styles.actionButton}
-					isDisabled={isSaving}
-				/>
-
-				<UIButton
-					title="Save Habit"
+					title="Update Habit"
 					variant="primary"
-					onPress={handleSaveHabit}
+					onPress={handleUpdateHabit}
 					style={styles.actionButton}
-					isLoading={isSaving}
-					isDisabled={isSaving}
+					isLoading={isUpdating}
+					isDisabled={isUpdating}
 				/>
 			</View>
 		</View>
 	);
 };
 
-export default CreateHabitForm;
+export default UpdateHabitForm;
 
 const styles = StyleSheet.create({
 	// container styles

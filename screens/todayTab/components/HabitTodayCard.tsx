@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Pressable } from "react-native";
 import UIText from "../../../components/ui/UIText";
 import { Habit } from "../../../types/habitTypes";
 import useTheme from "../../../theme/useTheme";
@@ -6,15 +6,17 @@ import HabitToggleButton from "./HabitToggleButton";
 import { useHabitStore } from "../../../store/habitStore";
 import { Ionicons } from "@expo/vector-icons";
 import ProgressBar from "./ProgressBar";
+import { useRouter } from "expo-router";
 
 const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 	const { colors } = useTheme();
 
+	const router = useRouter();
 	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(habit.id));
 	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
 
 	return (
-		<View
+		<Pressable
 			style={[
 				{
 					backgroundColor: colors.foreground + "80",
@@ -22,6 +24,14 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 				},
 				styles.habitCard,
 			]}
+			onPress={() => {
+				router.navigate({
+					pathname: `habit/${habit.id}`,
+					params: {
+						color: habit.color,
+					},
+				});
+			}}
 		>
 			<View style={styles.habitSection}>
 				<View style={styles.habitInfo}>
@@ -70,15 +80,21 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 						</View>
 					) : (
 						<HabitToggleButton
-							habit={habit}
+							habitId={habit.id}
+							target={habit.target}
+							color={habit.color}
 							isDisabled={isHabitLocked}
 						/>
 					)}
 				</View>
 			</View>
 
-			<ProgressBar habit={habit} />
-		</View>
+			<ProgressBar
+				habitId={habit.id}
+				target={habit.target}
+				color={habit.color}
+			/>
+		</Pressable>
 	);
 };
 

@@ -3,7 +3,7 @@ import { useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import useTheme from "../../theme/useTheme";
 
-const NavigationBackButton = () => {
+const NavigationBackButton = ({ tint }: { tint?: string }) => {
 	const { colors } = useTheme();
 
 	const navigation = useNavigation();
@@ -20,7 +20,11 @@ const NavigationBackButton = () => {
 			]}
 			onPress={() => navigation.goBack()}
 		>
-			<Ionicons name="arrow-back" size={20} color={colors.navText} />
+			<Ionicons
+				name="arrow-back"
+				size={20}
+				color={tint || colors.navText}
+			/>
 		</Pressable>
 	);
 };

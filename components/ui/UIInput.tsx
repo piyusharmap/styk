@@ -7,7 +7,7 @@ import {
 	View,
 	ViewStyle,
 } from "react-native";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import useTheme from "../../theme/useTheme";
 import UIText from "./UIText";
 
@@ -23,9 +23,15 @@ export const UIInputError = ({ error }: { error: string }) => {
 	const { colors } = useTheme();
 
 	return (
-		<UIText style={[{ color: colors.danger }, styles.error]}>
-			{error}
-		</UIText>
+		<UIText style={[{ color: colors.danger }, styles.info]}>{error}</UIText>
+	);
+};
+
+export const UIInputInfo = ({ info }: { info: string }) => {
+	const { colors } = useTheme();
+
+	return (
+		<UIText style={[{ color: colors.info }, styles.info]}>{info}</UIText>
 	);
 };
 
@@ -36,7 +42,7 @@ export const UIInput = ({
 	...props
 }: TextInputProps & {
 	value: string;
-	onChangeInput: Dispatch<SetStateAction<string>>;
+	onChangeInput: (value: string) => void;
 	style?: StyleProp<TextStyle>;
 }) => {
 	const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -99,9 +105,9 @@ const styles = StyleSheet.create({
 	label: {
 		paddingHorizontal: 2,
 		paddingBottom: 4,
-		fontSize: 14,
+		fontSize: 13,
 	},
-	error: {
+	info: {
 		paddingHorizontal: 2,
 		fontSize: 12,
 	},

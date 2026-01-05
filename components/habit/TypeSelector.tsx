@@ -1,11 +1,10 @@
 import { View, Pressable, StyleSheet, PressableProps } from "react-native";
-import { HabitType } from "../../../types/habitTypes";
-import { TypeOptions } from "../../../constants/habit";
-import UIText from "../../../components/ui/UIText";
-import { Dispatch, SetStateAction } from "react";
-import useTheme from "../../../theme/useTheme";
 import { Ionicons } from "@expo/vector-icons";
-import { IonIconType } from "../../../types/iconTypes";
+import { IonIconType } from "../../types/iconTypes";
+import { HabitType } from "../../types/habitTypes";
+import useTheme from "../../theme/useTheme";
+import UIText from "../ui/UIText";
+import { TypeOptions } from "../../constants/habit";
 
 export type TypeOption = {
 	label: string;
@@ -17,12 +16,10 @@ export type TypeOption = {
 const TypeCard = ({
 	type,
 	isSelected,
-	onPress,
 	...props
 }: PressableProps & {
 	type: TypeOption;
 	isSelected: boolean;
-	onPress: () => void;
 }) => {
 	const { colors } = useTheme();
 
@@ -36,7 +33,6 @@ const TypeCard = ({
 				styles.typeCard,
 				isSelected && { borderColor: colors.neutral },
 			]}
-			onPress={onPress}
 			{...props}
 		>
 			<View style={styles.labelContainer}>
@@ -53,10 +49,12 @@ const TypeCard = ({
 
 const TypeSelector = ({
 	selectedType,
+	isEditable = true,
 	onPress,
 }: {
 	selectedType: HabitType;
-	onPress: Dispatch<SetStateAction<HabitType>>;
+	isEditable?: boolean;
+	onPress: (value: HabitType) => void;
 }) => {
 	return (
 		<View style={styles.typeSelector}>
@@ -67,6 +65,7 @@ const TypeSelector = ({
 						type={type}
 						isSelected={selectedType === type.value}
 						onPress={() => onPress(type.value)}
+						disabled={!isEditable}
 					/>
 				);
 			})}
