@@ -62,9 +62,11 @@ type HabitStore = {
 		value: number;
 	}[];
 
-	// reset/delete actions
+	// reset/delete/archive actions
 	resetData: () => Promise<void>;
 	deleteHabit: (habitId: string) => Promise<void>;
+	archiveHabit: (habitId: string) => Promise<void>;
+	restoreHabit: (habitId: string) => Promise<void>;
 
 	// db actions
 	loadFromDB: () => Promise<void>;
@@ -373,7 +375,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 		// habit report actions
 		getLast30DayReport: (habitId: string) => {
-			const habit = get().habits.find((h) => h.id === habitId);
+			const habit = get().habits.find((habit) => habit.id === habitId);
 			if (!habit) return [];
 
 			const today = getTodayString();
@@ -431,8 +433,40 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				await HabitService.deleteHabit(habitId);
 
 				set((state) => ({
-					habits: state.habits.filter((h) => h.id !== habitId),
-					logs: state.logs.filter((l) => l.habitId !== habitId),
+					habits: state.habits.filter(
+						(habit) => habit.id !== habitId
+					),
+					logs: state.logs.filter((log) => log.habitId !== habitId),
+				}));
+			});
+		},
+
+		archiveHabit: async (habitId) => {
+			await executeAsync("Failed to archive habit", async () => {
+				const today = getTodayString();
+
+				await HabitService.archiveHabit(habitId, today);
+
+				set((state) => ({
+					habits: state.habits.map((habit) =>
+						habit.id === habitId
+							? { ...habit, archived: true, archivedAt: today }
+							: habit
+					),
+				}));
+			});
+		},
+
+		restoreHabit: async (habitId) => {
+			await executeAsync("Failed to restore habit", async () => {
+				await HabitService.restoreHabit(habitId);
+
+				set((state) => ({
+					habits: state.habits.map((habit) =>
+						habit.id === habitId
+							? { ...habit, archived: false, archivedAt: "" }
+							: habit
+					),
 				}));
 			});
 		},

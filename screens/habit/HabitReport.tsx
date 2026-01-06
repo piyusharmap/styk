@@ -39,7 +39,7 @@ const HabitReport = ({ habitId }: { habitId: string }) => {
 	};
 
 	return (
-		<HabitInfoCard heading="Last 30 Days">
+		<HabitInfoCard heading="Report • Past 30 Days">
 			<View style={styles.grid}>
 				{report.map((day) => (
 					<View

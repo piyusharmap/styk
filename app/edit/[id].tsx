@@ -3,7 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useHabitStore } from "../../store/habitStore";
 import UIView from "../../components/ui/UIView";
 import UpdateHabitForm from "../../screens/edit/UpdateHabitForm";
-import UILoader from "../../components/ui/UILoader";
+import PageLoader from "../../components/PageLoader";
 
 const EditHabitPage = () => {
 	const { id } = useLocalSearchParams<{
@@ -12,13 +12,11 @@ const EditHabitPage = () => {
 
 	const habitDetails = useHabitStore((s) => s.getHabitDetails(id));
 
+	if (!habitDetails) return <PageLoader isBottomSafe />;
+
 	return (
 		<UIView style={styles.container} isBottomSafe>
-			{habitDetails ? (
-				<UpdateHabitForm currentHabit={habitDetails} />
-			) : (
-				<UILoader />
-			)}
+			<UpdateHabitForm currentHabit={habitDetails!} />
 		</UIView>
 	);
 };

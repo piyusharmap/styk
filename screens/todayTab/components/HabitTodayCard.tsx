@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import UIText from "../../../components/ui/UIText";
 import { Habit } from "../../../types/habitTypes";
 import useTheme from "../../../theme/useTheme";

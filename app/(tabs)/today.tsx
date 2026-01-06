@@ -40,7 +40,7 @@ const TodayTab = () => {
 				<ListHeader heading="Today's Tasks" />
 
 				<FlatList
-					data={habits}
+					data={habits.filter((habit) => !habit.archived)}
 					keyExtractor={(item) => item.id}
 					contentContainerStyle={styles.habitsContainer}
 					renderItem={({ item }) => {
