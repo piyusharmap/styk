@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useHabitStore } from "../../store/habitStore";
 import { useRouter } from "expo-router";
 
-const DeleteHabitButton = ({
+const ArchiveHabitButton = ({
 	habitId,
 	style,
 }: {
@@ -14,13 +14,13 @@ const DeleteHabitButton = ({
 	const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
 	const router = useRouter();
-	const deleteHabit = useHabitStore((s) => s.deleteHabit);
+	const archiveHabit = useHabitStore((s) => s.archiveHabit);
 
 	const handleHabitDelete = async () => {
 		setIsDeleting(true);
 
 		try {
-			await deleteHabit(habitId);
+			await archiveHabit(habitId);
 
 			router.navigate("(tabs)/habits");
 		} catch (error) {
@@ -34,9 +34,9 @@ const DeleteHabitButton = ({
 	};
 	return (
 		<UIButton
-			variant="danger"
-			title="Delete"
-			iconName="Trash2"
+			variant="secondary"
+			title="Archive"
+			iconName="Archive"
 			style={style}
 			onPress={handleHabitDelete}
 			disabled={isDeleting}
@@ -45,4 +45,4 @@ const DeleteHabitButton = ({
 	);
 };
 
-export default DeleteHabitButton;
+export default ArchiveHabitButton;

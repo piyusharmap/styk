@@ -1,5 +1,5 @@
 <picture>
-  <img src="./assets/icon.png" alt="Styk: A minimal habit tracker" style="height: 100px; width: 100px; border-radius: 20px">
+  <img src="./assets/icon.png" alt="Styk: A minimal habit tracker" style="height: 100px; width: 100px;">
 </picture>
 
 <br />

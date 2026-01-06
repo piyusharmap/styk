@@ -13,9 +13,11 @@ import ResetDataButton from "../../screens/settingsTab/components/ResetDataButto
 import ResetPrefsButton from "../../screens/settingsTab/components/ResetPrefsButton";
 import useTheme from "../../theme/useTheme";
 import UIButton from "../../components/ui/UIButton";
+import { useRouter } from "expo-router";
 
 const SettingsTab = () => {
 	const { mode, setMode } = useTheme();
+	const router = useRouter();
 
 	return (
 		<UIView style={styles.container} isTopSafe>
@@ -44,11 +46,25 @@ const SettingsTab = () => {
 					<SettingOption title="Delete All Data">
 						<ResetDataButton />
 					</SettingOption>
+
+					<SettingOption title="Archived Habits">
+						<UIButton
+							title=""
+							size="sm"
+							iconName="ArrowRight"
+							onPress={() => router.navigate("archive")}
+						/>
+					</SettingOption>
 				</SettingsSection>
 
 				<SettingsSection title="App Info">
 					<SettingOption title="About Us">
-						<UIButton title="" size="sm" iconName="ArrowRight" />
+						<UIButton
+							title=""
+							size="sm"
+							iconName="ArrowRight"
+							onPress={() => router.navigate("about")}
+						/>
 					</SettingOption>
 
 					<SettingOption title="Version">

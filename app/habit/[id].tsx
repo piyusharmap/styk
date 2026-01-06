@@ -1,17 +1,18 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useHabitStore } from "../../store/habitStore";
 import UIView from "../../components/ui/UIView";
 import useTheme from "../../theme/useTheme";
 import DeleteHabitButton from "../../screens/habit/DeleteHabitButton";
 import UIText from "../../components/ui/UIText";
-import UpdateHabitButton from "../../screens/habit/UpdateHabitButton";
 import HabitInfoCard from "../../screens/habit/HabitInfoCard";
 import ProgressBar from "../../screens/habit/ProgressBar";
 import { HabitTypeDetails } from "../../constants/habit";
-import UILoader from "../../components/ui/UILoader";
 import TypeCard from "../../screens/habit/TypeCard";
 import HabitReport from "../../screens/habit/HabitReport";
+import NavigationButton from "../../components/layout/NavigationButton";
+import ArchiveHabitButton from "../../screens/habit/ArchiveHabitButton";
+import PageLoader from "../../components/PageLoader";
 
 const HabitDetailsPage = () => {
 	const { id, color } = useLocalSearchParams<{
@@ -19,16 +20,12 @@ const HabitDetailsPage = () => {
 		color?: string;
 	}>();
 
+	const router = useRouter();
 	const { colors } = useTheme();
 	const habitDetails = useHabitStore((s) => s.getHabitDetails(id));
 	const countValue = useHabitStore((s) => s.getCountValue(id));
 
-	if (!habitDetails)
-		return (
-			<UIView style={styles.loaderContainer}>
-				<UILoader size={32} color={color} />
-			</UIView>
-		);
+	if (!habitDetails) return <PageLoader isBottomSafe />;
 
 	const typeDetails = HabitTypeDetails[habitDetails.target.type];
 
@@ -37,6 +34,15 @@ const HabitDetailsPage = () => {
 			<Stack.Screen
 				options={{
 					headerStyle: { backgroundColor: color + "30" },
+					headerRight(props) {
+						return (
+							<NavigationButton
+								icon="Edit"
+								tint={props.tintColor}
+								onPress={() => router.navigate(`edit/${id}`)}
+							/>
+						);
+					},
 				}}
 			/>
 
@@ -59,14 +65,14 @@ const HabitDetailsPage = () => {
 						<HabitInfoCard heading="Progress • Today">
 							<View style={styles.progressContainer}>
 								<UIText style={styles.count} isSecondary>
-									<Text
+									<UIText
 										style={[
 											{ color: colors.text },
 											styles.countHighlight,
 										]}
 									>
 										{countValue}
-									</Text>
+									</UIText>
 									{" / "}
 									{habitDetails.target.count}
 									{` ${habitDetails.target.unit}${
@@ -142,7 +148,7 @@ const HabitDetailsPage = () => {
 						style={styles.actionButton}
 					/>
 
-					<UpdateHabitButton
+					<ArchiveHabitButton
 						habitId={id}
 						style={styles.actionButton}
 					/>
@@ -158,11 +164,6 @@ const styles = StyleSheet.create({
 	// container styles
 	container: {
 		flex: 1,
-	},
-	loaderContainer: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
 	},
 	content: {
 		paddingHorizontal: 12,
@@ -203,7 +204,8 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 	},
 	countHighlight: {
-		fontSize: 24,
+		fontSize: 20,
+		fontWeight: "500",
 	},
 	infoHeading: {
 		fontSize: 12,

@@ -62,9 +62,11 @@ type HabitStore = {
 		value: number;
 	}[];
 
-	// reset/delete actions
+	// reset/delete/archive actions
 	resetData: () => Promise<void>;
 	deleteHabit: (habitId: string) => Promise<void>;
+	archiveHabit: (habitId: string) => Promise<void>;
+	restoreHabit: (habitId: string) => Promise<void>;
 
 	// db actions
 	loadFromDB: () => Promise<void>;
@@ -373,35 +375,44 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 		// habit report actions
 		getLast30DayReport: (habitId: string) => {
-			const habit = get().habits.find((h) => h.id === habitId);
+			const habit = get().habits.find((habit) => habit.id === habitId);
 			if (!habit) return [];
 
+			const today = getTodayString();
 			const last30Days = getLast30Days();
-			const logs = get().logs.filter((log) => log.habitId === habitId);
 
-			const createdAt = habit.createdAt;
+			const logs = get().logs.filter((log) => log.habitId === habitId);
+			const logMap = new Map(logs.map((log) => [log.date, log.value]));
+
+			const createdAt = habit.createdAt.split("T")[0];
 
 			return last30Days.map((date) => {
 				if (date < createdAt) {
 					return { date, status: "none", value: 0 };
 				}
 
-				const log = logs.find((log) => log.date === date);
-				const value = log ? log.value : 0;
-
+				const value = logMap.get(date) || 0;
 				let status: HabitLogStatus = "none";
 
 				if (habit.target.type === "count") {
 					const goal = habit.target.count;
+
 					if (value >= goal) {
 						status = "success";
-					} else if (value > 0 && value < goal) {
-						status = "incomplete";
 					} else {
-						status = "fail";
+						status =
+							date === today
+								? "incomplete"
+								: value > 0
+								? "incomplete"
+								: "fail";
 					}
 				} else if (habit.target.type === "quit") {
-					status = value ? "fail" : "success";
+					if (value > 0) {
+						status = "fail";
+					} else {
+						status = date === today ? "incomplete" : "success";
+					}
 				}
 
 				return { date, status, value };
@@ -422,8 +433,40 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				await HabitService.deleteHabit(habitId);
 
 				set((state) => ({
-					habits: state.habits.filter((h) => h.id !== habitId),
-					logs: state.logs.filter((l) => l.habitId !== habitId),
+					habits: state.habits.filter(
+						(habit) => habit.id !== habitId
+					),
+					logs: state.logs.filter((log) => log.habitId !== habitId),
+				}));
+			});
+		},
+
+		archiveHabit: async (habitId) => {
+			await executeAsync("Failed to archive habit", async () => {
+				const today = getTodayString();
+
+				await HabitService.archiveHabit(habitId, today);
+
+				set((state) => ({
+					habits: state.habits.map((habit) =>
+						habit.id === habitId
+							? { ...habit, archived: true, archivedAt: today }
+							: habit
+					),
+				}));
+			});
+		},
+
+		restoreHabit: async (habitId) => {
+			await executeAsync("Failed to restore habit", async () => {
+				await HabitService.restoreHabit(habitId);
+
+				set((state) => ({
+					habits: state.habits.map((habit) =>
+						habit.id === habitId
+							? { ...habit, archived: false, archivedAt: "" }
+							: habit
+					),
 				}));
 			});
 		},

@@ -2,9 +2,8 @@ import { Alert, StyleProp, ViewStyle } from "react-native";
 import UIButton from "../../components/ui/UIButton";
 import { useState } from "react";
 import { useHabitStore } from "../../store/habitStore";
-import { useRouter } from "expo-router";
 
-const DeleteHabitButton = ({
+const DeleteArchiveButton = ({
 	habitId,
 	style,
 }: {
@@ -13,7 +12,6 @@ const DeleteHabitButton = ({
 }) => {
 	const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
-	const router = useRouter();
 	const deleteHabit = useHabitStore((s) => s.deleteHabit);
 
 	const handleHabitDelete = async () => {
@@ -21,8 +19,6 @@ const DeleteHabitButton = ({
 
 		try {
 			await deleteHabit(habitId);
-
-			router.navigate("(tabs)/habits");
 		} catch (error) {
 			Alert.alert(
 				"Operation Failed",
@@ -35,6 +31,7 @@ const DeleteHabitButton = ({
 	return (
 		<UIButton
 			variant="danger"
+			size="sm"
 			title="Delete"
 			iconName="Trash2"
 			style={style}
@@ -45,4 +42,4 @@ const DeleteHabitButton = ({
 	);
 };
 
-export default DeleteHabitButton;
+export default DeleteArchiveButton;

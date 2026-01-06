@@ -78,7 +78,7 @@ export const Colors: Record<string, Theme> = {
 
 		button: "#444343",
 
-		navBackground: "#0E0E0E",
+		navBackground: "#101010",
 		navText: "#F2F2F2",
 
 		tabBackground: "#0A0A0A",

@@ -1,13 +1,13 @@
 import { Habit } from "../types/habitTypes";
 import { mapHabit } from "./mapper";
 import { executeSQL, querySQL, transactionSQL } from "../db/utils";
+import { getTodayString } from "../utils/time";
 
 export const HabitService = {
 	loadHabits: async (): Promise<Habit[]> => {
 		const query = `SELECT h.*, t.type, t.frequency, t.count, t.unit, t.start_date, t.initial_start_date
 		FROM habits h
-		LEFT JOIN habit_targets t ON h.id = t.habit_id
-		WHERE h.archived != 1;`;
+		LEFT JOIN habit_targets t ON h.id = t.habit_id;`;
 
 		const rows = await querySQL<any>(query, []);
 
@@ -97,6 +97,19 @@ export const HabitService = {
 		const query = `UPDATE habit_targets SET start_date = ? WHERE habit_id = ?;`;
 
 		return executeSQL(query, [newStartDate, habitId]);
+	},
+
+	archiveHabit: async (id: string, date: string) => {
+		const query = `UPDATE habits SET archived = 1, archived_at = ? WHERE id = ?;`;
+
+		return executeSQL(query, [date, id]);
+	},
+
+	restoreHabit: async (id: string) => {
+		const query = `UPDATE habits SET archived = 0, archived_at = NULL WHERE id = ?;`;
+		const today = getTodayString();
+
+		return executeSQL(query, [today, id]);
 	},
 
 	deleteHabit: async (id: string) => {

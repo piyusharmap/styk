@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { useHabitStore } from "../../store/habitStore";
 import HabitInfoCard from "../../screens/habit/HabitInfoCard";
@@ -39,7 +39,7 @@ const HabitReport = ({ habitId }: { habitId: string }) => {
 	};
 
 	return (
-		<HabitInfoCard heading="Last 30 Days">
+		<HabitInfoCard heading="Report • Past 30 Days">
 			<View style={styles.grid}>
 				{report.map((day) => (
 					<View
@@ -104,18 +104,15 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 	},
 	legendContainer: {
-		paddingTop: 10,
+		paddingTop: 4,
 		flexDirection: "row",
-		gap: 20,
+		justifyContent: "flex-end",
+		gap: 10,
 	},
 	legendItem: {
-		alignItems: "flex-start",
-		gap: 4,
-	},
-	miniCircle: {
-		width: 8,
-		height: 8,
-		borderRadius: 4,
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 2,
 	},
 
 	// text styles

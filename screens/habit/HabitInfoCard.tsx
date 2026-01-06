@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
 	// text styles
 	heading: {
 		fontSize: 12,
+		fontWeight: "500",
 		textTransform: "uppercase",
 	},
 });

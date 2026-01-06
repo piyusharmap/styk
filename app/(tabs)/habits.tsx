@@ -33,7 +33,7 @@ const HabitsTab = () => {
 				<ListHeader heading="Your Habits" />
 
 				<FlatList
-					data={habits}
+					data={habits.filter((habit) => !habit.archived)}
 					keyExtractor={(item) => item.id}
 					contentContainerStyle={styles.habitsContainer}
 					renderItem={({ item }) => {

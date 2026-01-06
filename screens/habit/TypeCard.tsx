@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
-import React from "react";
 import UIText from "../../components/ui/UIText";
-import Icon, { IconType } from "../../components/icon";
+import { IconType } from "../../components/icon";
+import TypeIconContainer from "../../components/habit/TypeIconContainer";
 
 const TypeCard = ({
 	label,
@@ -21,14 +21,7 @@ const TypeCard = ({
 				styles.card,
 			]}
 		>
-			<View
-				style={[
-					{ backgroundColor: color + "50" },
-					styles.iconContainer,
-				]}
-			>
-				<Icon name={icon} size={26} color={color} />
-			</View>
+			<TypeIconContainer icon={icon} color={color} />
 
 			<View style={styles.details}>
 				<UIText style={styles.title}>{label}</UIText>
@@ -55,13 +48,6 @@ const styles = StyleSheet.create({
 	},
 	details: {
 		flex: 1,
-	},
-	iconContainer: {
-		height: 40,
-		width: 40,
-		justifyContent: "center",
-		alignItems: "center",
-		borderRadius: 8,
 	},
 
 	// text styles

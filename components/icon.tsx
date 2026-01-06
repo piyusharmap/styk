@@ -1,4 +1,5 @@
 import * as icons from "lucide-react-native";
+import useTheme from "../theme/useTheme";
 
 export type IconType = keyof typeof icons;
 
@@ -15,14 +16,20 @@ const Icon = ({
 }) => {
 	const LucideIcon = icons[name] as React.ElementType;
 
+	const { colors } = useTheme();
+
 	if (!LucideIcon) return null;
 
 	return (
 		<>
 			{isFilled ? (
-				<LucideIcon color={color} size={size} fill={color} />
+				<LucideIcon
+					color={color || colors.text}
+					size={size}
+					fill={color}
+				/>
 			) : (
-				<LucideIcon color={color} size={size} />
+				<LucideIcon color={color || colors.text} size={size} />
 			)}
 		</>
 	);

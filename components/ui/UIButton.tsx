@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		gap: 8,
-		borderRadius: 10,
+		borderRadius: 8,
 	},
 	buttonPressed: {
 		opacity: 0.8,

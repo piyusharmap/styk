@@ -123,6 +123,40 @@ const RootLayout = () => {
 				/>
 
 				<Stack.Screen
+					name="archive/index"
+					options={{
+						title: "",
+						headerTitle: (props) => {
+							return (
+								<NavigationHeading
+									title="Archived Habits"
+									tint={props.tintColor}
+								/>
+							);
+						},
+						headerShown: true,
+						animation: "fade",
+					}}
+				/>
+
+				<Stack.Screen
+					name="about/index"
+					options={{
+						title: "",
+						headerTitle: (props) => {
+							return (
+								<NavigationHeading
+									title="About Us"
+									tint={props.tintColor}
+								/>
+							);
+						},
+						headerShown: true,
+						animation: "fade",
+					}}
+				/>
+
+				<Stack.Screen
 					name="+not-found"
 					options={{
 						title: "",

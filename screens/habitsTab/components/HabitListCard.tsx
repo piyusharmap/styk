@@ -1,10 +1,11 @@
-import { View, StyleSheet, Pressable, Text } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import UIText from "../../../components/ui/UIText";
 import { Habit } from "../../../types/habitTypes";
 import useTheme from "../../../theme/useTheme";
 import Badge from "../../../components/Badge";
 import { HabitTypeDetails } from "../../../constants/habit";
 import { useRouter } from "expo-router";
+import TypeIconContainer from "../../../components/habit/TypeIconContainer";
 
 const HabitListCard = ({ habit }: { habit: Habit }) => {
 	const { colors } = useTheme();
@@ -31,70 +32,59 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 				});
 			}}
 		>
-			<View style={styles.habitInfo}>
-				<UIText style={styles.habitName} numberOfLines={1}>
-					{habit.name}
-				</UIText>
+			<View style={styles.habitSection}>
+				<View style={styles.habitInfo}>
+					<UIText style={styles.habitName} numberOfLines={1}>
+						{habit.name}
+					</UIText>
 
-				<View style={styles.habitDetails}>
-					{habit.target.type === "count" ? (
-						<>
-							<UIText style={styles.habitDetail} isSecondary>
-								Target:{" "}
-								<Text style={{ color: colors.text }}>
-									{habit.target.count}{" "}
-									{`${habit.target.unit}${
-										habit.target.count > 1 ? "s" : ""
-									}`}
-								</Text>
-							</UIText>
+					<View style={styles.habitDetails}>
+						{habit.target.type === "count" ? (
+							<>
+								<UIText style={styles.habitDetail} isSecondary>
+									Target:{" "}
+									<UIText style={{ color: colors.text }}>
+										{habit.target.count}{" "}
+										{`${habit.target.unit}${
+											habit.target.count > 1 ? "s" : ""
+										}`}
+									</UIText>
+								</UIText>
 
-							<UIText style={styles.habitDetail} isSecondary>
-								Frequency:{" "}
-								<Text style={{ color: colors.text }}>
-									{habit.target.frequency}
-								</Text>
-							</UIText>
-						</>
-					) : (
-						<>
-							<UIText style={styles.habitDetail} isSecondary>
-								Clean since:{" "}
-								<Text style={{ color: colors.text }}>
-									{habit.target.startDate}
-								</Text>
-							</UIText>
+								<UIText style={styles.habitDetail} isSecondary>
+									Frequency:{" "}
+									<UIText style={{ color: colors.text }}>
+										{habit.target.frequency}
+									</UIText>
+								</UIText>
+							</>
+						) : (
+							<>
+								<UIText style={styles.habitDetail} isSecondary>
+									Clean since:{" "}
+									<UIText style={{ color: colors.text }}>
+										{habit.target.startDate}
+									</UIText>
+								</UIText>
 
-							<UIText style={styles.habitDetail} isSecondary>
-								Started on:{" "}
-								<Text style={{ color: colors.text }}>
-									{habit.target.initialStartDate}
-								</Text>
-							</UIText>
-						</>
-					)}
+								<UIText style={styles.habitDetail} isSecondary>
+									Started on:{" "}
+									<UIText style={{ color: colors.text }}>
+										{habit.target.initialStartDate}
+									</UIText>
+								</UIText>
+							</>
+						)}
+					</View>
 				</View>
+
+				<TypeIconContainer
+					icon={typeDetails.icon}
+					color={habit.color}
+				/>
 			</View>
 
 			<View style={styles.badgesContainer}>
-				<Badge
-					title=""
-					style={{
-						backgroundColor: habit.color + "50",
-						borderColor: habit.color,
-					}}
-					icon="Hash"
-				/>
-
-				<Badge
-					title={typeDetails.label}
-					style={{
-						backgroundColor: habit.color + "50",
-						borderColor: habit.color,
-					}}
-					icon={typeDetails.icon}
-				/>
-
 				<Badge
 					title={`${0}`}
 					style={{
@@ -123,6 +113,12 @@ const styles = StyleSheet.create({
 	habitCardPressed: {
 		opacity: 0.8,
 	},
+	habitSection: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		gap: 10,
+	},
 	habitInfo: {
 		flexShrink: 1,
 		gap: 4,
@@ -132,7 +128,6 @@ const styles = StyleSheet.create({
 	},
 	badgesContainer: {
 		flexDirection: "row",
-		justifyContent: "flex-end",
 		alignItems: "center",
 		gap: 6,
 	},
