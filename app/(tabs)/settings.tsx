@@ -59,7 +59,12 @@ const SettingsTab = () => {
 
 				<SettingsSection title="App Info">
 					<SettingOption title="About Us">
-						<UIButton title="" size="sm" iconName="ArrowRight" />
+						<UIButton
+							title=""
+							size="sm"
+							iconName="ArrowRight"
+							onPress={() => router.navigate("about")}
+						/>
 					</SettingOption>
 
 					<SettingOption title="Version">
