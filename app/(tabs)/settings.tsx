@@ -44,6 +44,10 @@ const SettingsTab = () => {
 					<SettingOption title="Delete All Data">
 						<ResetDataButton />
 					</SettingOption>
+
+					<SettingOption title="Archived Habits">
+						<UIButton title="" size="sm" iconName="ArrowRight" />
+					</SettingOption>
 				</SettingsSection>
 
 				<SettingsSection title="App Info">

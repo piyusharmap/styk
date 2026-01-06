@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useHabitStore } from "../../store/habitStore";
 import UIView from "../../components/ui/UIView";
@@ -12,6 +12,7 @@ import { HabitTypeDetails } from "../../constants/habit";
 import UILoader from "../../components/ui/UILoader";
 import TypeCard from "../../screens/habit/TypeCard";
 import HabitReport from "../../screens/habit/HabitReport";
+import NavigationButton from "../../components/layout/NavigationButton";
 
 const HabitDetailsPage = () => {
 	const { id, color } = useLocalSearchParams<{
@@ -37,6 +38,15 @@ const HabitDetailsPage = () => {
 			<Stack.Screen
 				options={{
 					headerStyle: { backgroundColor: color + "30" },
+					headerRight(props) {
+						return (
+							<NavigationButton
+								icon="Archive"
+								tint={props.tintColor}
+								onPress={() => {}}
+							/>
+						);
+					},
 				}}
 			/>
 
@@ -59,14 +69,14 @@ const HabitDetailsPage = () => {
 						<HabitInfoCard heading="Progress • Today">
 							<View style={styles.progressContainer}>
 								<UIText style={styles.count} isSecondary>
-									<Text
+									<UIText
 										style={[
 											{ color: colors.text },
 											styles.countHighlight,
 										]}
 									>
 										{countValue}
-									</Text>
+									</UIText>
 									{" / "}
 									{habitDetails.target.count}
 									{` ${habitDetails.target.unit}${
@@ -203,7 +213,8 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 	},
 	countHighlight: {
-		fontSize: 24,
+		fontSize: 20,
+		fontWeight: "500",
 	},
 	infoHeading: {
 		fontSize: 12,

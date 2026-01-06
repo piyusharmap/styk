@@ -376,32 +376,41 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			const habit = get().habits.find((h) => h.id === habitId);
 			if (!habit) return [];
 
+			const today = getTodayString();
 			const last30Days = getLast30Days();
-			const logs = get().logs.filter((log) => log.habitId === habitId);
 
-			const createdAt = habit.createdAt;
+			const logs = get().logs.filter((log) => log.habitId === habitId);
+			const logMap = new Map(logs.map((log) => [log.date, log.value]));
+
+			const createdAt = habit.createdAt.split("T")[0];
 
 			return last30Days.map((date) => {
 				if (date < createdAt) {
 					return { date, status: "none", value: 0 };
 				}
 
-				const log = logs.find((log) => log.date === date);
-				const value = log ? log.value : 0;
-
+				const value = logMap.get(date) || 0;
 				let status: HabitLogStatus = "none";
 
 				if (habit.target.type === "count") {
 					const goal = habit.target.count;
+
 					if (value >= goal) {
 						status = "success";
-					} else if (value > 0 && value < goal) {
-						status = "incomplete";
 					} else {
-						status = "fail";
+						status =
+							date === today
+								? "incomplete"
+								: value > 0
+								? "incomplete"
+								: "fail";
 					}
 				} else if (habit.target.type === "quit") {
-					status = value ? "fail" : "success";
+					if (value > 0) {
+						status = "fail";
+					} else {
+						status = date === today ? "incomplete" : "success";
+					}
 				}
 
 				return { date, status, value };

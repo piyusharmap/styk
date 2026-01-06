@@ -28,7 +28,7 @@ const ResetDataButton = () => {
 			variant="danger"
 			size="sm"
 			title="Delete"
-			iconName="Trash"
+			iconName="Trash2"
 			onPress={handleResetData}
 			isDisabled={isResettingData}
 			isLoading={isResettingData}

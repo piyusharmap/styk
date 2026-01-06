@@ -41,7 +41,7 @@ const HabitCounter = ({
 				]}
 				onPress={handleCountDecrement}
 			>
-				<Icon name="ChevronDown" size={16} color={colors.accent} />
+				<Icon name="Minus" size={16} color={colors.accent} />
 			</Pressable>
 
 			<UIText style={styles.count}>{count}</UIText>
@@ -57,7 +57,7 @@ const HabitCounter = ({
 				]}
 				onPress={handleCountIncrement}
 			>
-				<Icon name="ChevronUp" size={16} color={colors.accent} />
+				<Icon name="Plus" size={16} color={colors.accent} />
 			</Pressable>
 		</View>
 	);
