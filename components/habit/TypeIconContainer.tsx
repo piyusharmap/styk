@@ -1,15 +1,9 @@
-import { View, StyleSheet } from "react-native";
-import Icon, { IconType } from "../icon";
+import { View, StyleSheet } from 'react-native';
+import Icon, { IconType } from '../icon';
 
-const TypeIconContainer = ({
-	icon,
-	color,
-}: {
-	icon: IconType;
-	color?: string;
-}) => {
+const TypeIconContainer = ({ icon, color }: { icon: IconType; color?: string }) => {
 	return (
-		<View style={[{ backgroundColor: color + "50" }, styles.iconContainer]}>
+		<View style={[{ backgroundColor: color + '50' }, styles.iconContainer]}>
 			<Icon name={icon} size={26} color={color} />
 		</View>
 	);
@@ -22,8 +16,8 @@ const styles = StyleSheet.create({
 	iconContainer: {
 		height: 40,
 		width: 40,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		borderRadius: 8,
 	},
 });

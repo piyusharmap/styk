@@ -1,12 +1,12 @@
-export type HabitFrequency = "daily" | "weekly" | "monthly" | "yearly";
+export type HabitFrequency = 'daily' | 'weekly' | 'monthly' | 'yearly';
 
-export type HabitType = "count" | "quit";
+export type HabitType = 'count' | 'quit';
 
-export type CountUnit = "time" | "minute" | "hour" | "kilometer" | "meter";
+export type CountUnit = 'time' | 'minute' | 'hour' | 'kilometer' | 'meter';
 
 export type HabitWindow = { start: string; end: string };
 
-export type HabitLogStatus = "success" | "fail" | "incomplete" | "none";
+export type HabitLogStatus = 'success' | 'fail' | 'incomplete' | 'none';
 
 export type HabitMilestone = {
 	id: string;
@@ -18,17 +18,17 @@ export type HabitMilestone = {
 
 export type HabitTarget =
 	| {
-			type: "count";
+			type: 'count';
 			count: number;
 			frequency: HabitFrequency;
 			unit: CountUnit;
 			milestones?: HabitMilestone[];
 	  }
 	| {
-			type: "quit";
+			type: 'quit';
 			startDate: string;
 			initialStartDate: string;
-			frequency: "daily";
+			frequency: 'daily';
 			milestones?: HabitMilestone[];
 	  };
 

@@ -1,40 +1,31 @@
-import { create } from "zustand";
-import {
-	Habit,
-	HabitLog,
-	HabitLogStatus,
-	HabitTarget,
-} from "../types/habitTypes";
+import { create } from 'zustand';
+import { Habit, HabitLog, HabitLogStatus, HabitTarget } from '../types/habitTypes';
 import {
 	getCurrentTimeWindow,
 	getLast30Days,
 	isHabitLockedForWindow,
 	isHabitSuccessfulInWindow,
-} from "./utils";
-import { getTodayString } from "../utils/time";
-import { HabitService } from "../services/habitService";
-import { HabitLogService } from "../services/habitLogService";
+} from './utils';
+import { getTodayString } from '../utils/time';
+import { HabitService } from '../services/habitService';
+import { HabitLogService } from '../services/habitLogService';
 
 type HabitStore = {
 	habits: Habit[];
 	logs: HabitLog[];
 
 	// general actions
-	addHabit: (
-		name: string,
-		color: string,
-		target: HabitTarget
-	) => Promise<void>;
+	addHabit: (name: string, color: string, target: HabitTarget) => Promise<void>;
 	updateHabit: (
 		habitId: string,
 		name: string,
 		color: string,
-		target: HabitTarget
+		target: HabitTarget,
 	) => Promise<void>;
 	performHabitAction: (
 		habitId: string,
 		date: string,
-		actionType?: "mark" | "unmark"
+		actionType?: 'mark' | 'unmark',
 	) => Promise<void>;
 
 	// count habit actions
@@ -73,10 +64,7 @@ type HabitStore = {
 };
 
 export const useHabitStore = create<HabitStore>()((set, get) => {
-	const executeAsync = async (
-		errorMessage: string,
-		fn: () => Promise<void>
-	) => {
+	const executeAsync = async (errorMessage: string, fn: () => Promise<void>) => {
 		try {
 			await fn();
 		} catch (error) {
@@ -92,7 +80,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 		// general actions
 		addHabit: async (name, color, target) => {
-			await executeAsync("failed to add habit", async () => {
+			await executeAsync('failed to add habit', async () => {
 				const today = getTodayString();
 
 				const habit: Habit = {
@@ -113,10 +101,8 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		},
 
 		updateHabit: async (habitId, name, color, target) => {
-			await executeAsync("failed to update habit", async () => {
-				const habit = get().habits.find(
-					(habit) => habit.id === habitId
-				);
+			await executeAsync('failed to update habit', async () => {
+				const habit = get().habits.find((habit) => habit.id === habitId);
 				if (!habit) return;
 
 				const today = getTodayString();
@@ -134,7 +120,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 				set((state) => ({
 					habits: state.habits.map((habitItem) =>
-						habitItem.id === habit.id ? updatedHabit : habitItem
+						habitItem.id === habit.id ? updatedHabit : habitItem,
 					),
 				}));
 			});
@@ -147,15 +133,15 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			const type = habit.target.type;
 
 			switch (type) {
-				case "count":
-					if (actionType === "mark") {
+				case 'count':
+					if (actionType === 'mark') {
 						await get().incrementCountHabit(habit.id);
 					} else {
 						await get().decrementCountHabit(habit.id);
 					}
 					break;
-				case "quit":
-					if (actionType === "mark") {
+				case 'quit':
+					if (actionType === 'mark') {
 						await get().recordQuitRelapse(habit.id, date);
 					}
 					break;
@@ -164,13 +150,11 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 		// count habit actions
 		incrementCountHabit: async (habitId) => {
-			await executeAsync("Failed to increment habit count", async () => {
-				const habit = get().habits.find(
-					(habit) => habit.id === habitId
-				);
+			await executeAsync('Failed to increment habit count', async () => {
+				const habit = get().habits.find((habit) => habit.id === habitId);
 				if (!habit) return;
 
-				if (habit.target.type !== "count") return;
+				if (habit.target.type !== 'count') return;
 
 				const today = getTodayString();
 
@@ -182,7 +166,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				if (locked) return;
 
 				const existingLog = logs.find(
-					(log) => log.habitId === habit.id && log.date === today
+					(log) => log.habitId === habit.id && log.date === today,
 				);
 
 				if (existingLog) {
@@ -194,9 +178,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 					await HabitLogService.upsertLog(updatedLog);
 
 					set({
-						logs: logs.map((log) =>
-							log.id === updatedLog.id ? updatedLog : log
-						),
+						logs: logs.map((log) => (log.id === updatedLog.id ? updatedLog : log)),
 					});
 				} else {
 					const newLog = {
@@ -216,13 +198,11 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		},
 
 		decrementCountHabit: async (habitId) => {
-			await executeAsync("Failed to decrement habit count", async () => {
-				const habit = get().habits.find(
-					(habit) => habit.id === habitId
-				);
+			await executeAsync('Failed to decrement habit count', async () => {
+				const habit = get().habits.find((habit) => habit.id === habitId);
 				if (!habit) return;
 
-				if (habit.target.type !== "count") return;
+				if (habit.target.type !== 'count') return;
 
 				const today = getTodayString();
 
@@ -234,7 +214,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				if (locked) return;
 
 				const existingLog = logs.find(
-					(log) => log.habitId === habit.id && log.date === today
+					(log) => log.habitId === habit.id && log.date === today,
 				);
 
 				if (!existingLog) return;
@@ -248,9 +228,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 					await HabitLogService.upsertLog(updatedLog);
 
 					set({
-						logs: logs.map((log) =>
-							log.id === updatedLog.id ? updatedLog : log
-						),
+						logs: logs.map((log) => (log.id === updatedLog.id ? updatedLog : log)),
 					});
 				} else {
 					await HabitLogService.deleteLog(existingLog.id);
@@ -264,20 +242,18 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 		// quit habit actions
 		recordQuitRelapse: async (habitId, date) => {
-			await executeAsync("Failed to record habit relapse", async () => {
-				const habit = get().habits.find(
-					(habit) => habit.id === habitId
-				);
+			await executeAsync('Failed to record habit relapse', async () => {
+				const habit = get().habits.find((habit) => habit.id === habitId);
 				if (!habit) return;
 
-				if (habit.target.type !== "quit") return;
+				if (habit.target.type !== 'quit') return;
 
 				const today = getTodayString();
 
 				const logs = get().logs;
 
 				const existingLog = logs.find(
-					(log) => log.habitId === habit.id && log.date === today
+					(log) => log.habitId === habit.id && log.date === today,
 				);
 
 				if (existingLog) return;
@@ -304,7 +280,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				set((state) => ({
 					logs: [...state.logs, newLog],
 					habits: state.habits.map((habitItem) =>
-						habitItem.id === habit.id ? updatedHabit : habitItem
+						habitItem.id === habit.id ? updatedHabit : habitItem,
 					),
 				}));
 			});
@@ -344,16 +320,14 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 			if (!habit) return 0;
 
-			if (habit.target.type !== "count") return 0;
+			if (habit.target.type !== 'count') return 0;
 
 			const window = getCurrentTimeWindow(habit.target.frequency);
 			const logs = get().logs;
 
 			const logsInWindow = logs.filter(
 				(log) =>
-					log.habitId === habit.id &&
-					log.date >= window.start &&
-					log.date <= window.end
+					log.habitId === habit.id && log.date >= window.start && log.date <= window.end,
 			);
 
 			return logsInWindow.reduce((sum, log) => sum + log.value, 0);
@@ -384,34 +358,29 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			const logs = get().logs.filter((log) => log.habitId === habitId);
 			const logMap = new Map(logs.map((log) => [log.date, log.value]));
 
-			const createdAt = habit.createdAt.split("T")[0];
+			const createdAt = habit.createdAt.split('T')[0];
 
 			return last30Days.map((date) => {
 				if (date < createdAt) {
-					return { date, status: "none", value: 0 };
+					return { date, status: 'none', value: 0 };
 				}
 
 				const value = logMap.get(date) || 0;
-				let status: HabitLogStatus = "none";
+				let status: HabitLogStatus = 'none';
 
-				if (habit.target.type === "count") {
+				if (habit.target.type === 'count') {
 					const goal = habit.target.count;
 
 					if (value >= goal) {
-						status = "success";
+						status = 'success';
 					} else {
-						status =
-							date === today
-								? "incomplete"
-								: value > 0
-								? "incomplete"
-								: "fail";
+						status = date === today ? 'incomplete' : value > 0 ? 'incomplete' : 'fail';
 					}
-				} else if (habit.target.type === "quit") {
+				} else if (habit.target.type === 'quit') {
 					if (value > 0) {
-						status = "fail";
+						status = 'fail';
 					} else {
-						status = date === today ? "incomplete" : "success";
+						status = date === today ? 'incomplete' : 'success';
 					}
 				}
 
@@ -421,7 +390,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 		// habit reset/delete actions
 		resetData: async () => {
-			await executeAsync("Failed to reset data", async () => {
+			await executeAsync('Failed to reset data', async () => {
 				await HabitService.deleteAllHabits();
 
 				set({ habits: [], logs: [] });
@@ -429,20 +398,18 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		},
 
 		deleteHabit: async (habitId) => {
-			await executeAsync("Failed to delete habit", async () => {
+			await executeAsync('Failed to delete habit', async () => {
 				await HabitService.deleteHabit(habitId);
 
 				set((state) => ({
-					habits: state.habits.filter(
-						(habit) => habit.id !== habitId
-					),
+					habits: state.habits.filter((habit) => habit.id !== habitId),
 					logs: state.logs.filter((log) => log.habitId !== habitId),
 				}));
 			});
 		},
 
 		archiveHabit: async (habitId) => {
-			await executeAsync("Failed to archive habit", async () => {
+			await executeAsync('Failed to archive habit', async () => {
 				const today = getTodayString();
 
 				await HabitService.archiveHabit(habitId, today);
@@ -451,21 +418,21 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 					habits: state.habits.map((habit) =>
 						habit.id === habitId
 							? { ...habit, archived: true, archivedAt: today }
-							: habit
+							: habit,
 					),
 				}));
 			});
 		},
 
 		restoreHabit: async (habitId) => {
-			await executeAsync("Failed to restore habit", async () => {
+			await executeAsync('Failed to restore habit', async () => {
 				await HabitService.restoreHabit(habitId);
 
 				set((state) => ({
 					habits: state.habits.map((habit) =>
 						habit.id === habitId
-							? { ...habit, archived: false, archivedAt: "" }
-							: habit
+							? { ...habit, archived: false, archivedAt: '' }
+							: habit,
 					),
 				}));
 			});
@@ -473,7 +440,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 		// db actions
 		loadFromDB: async () => {
-			await executeAsync("Failed to load data from db", async () => {
+			await executeAsync('Failed to load data from db', async () => {
 				const [habits, logs] = await Promise.all([
 					HabitService.loadHabits(),
 					HabitLogService.loadLogs(),

@@ -1,11 +1,6 @@
-import {
-	Modal,
-	StyleSheet,
-	TouchableWithoutFeedback,
-	View,
-} from "react-native";
-import UIText from "./UIText";
-import useTheme from "../../theme/useTheme";
+import { Modal, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import UIText from './UIText';
+import useTheme from '../../theme/useTheme';
 
 export const ModalHeading = ({ heading }: { heading: string }) => {
 	return <UIText style={styles.modalHeading}>{heading}</UIText>;
@@ -30,8 +25,7 @@ export const ModalView = ({ children }: { children: React.ReactNode }) => {
 					borderColor: colors.border,
 				},
 				styles.modalView,
-			]}
-		>
+			]}>
 			{children}
 		</View>
 	);
@@ -58,15 +52,10 @@ export const UIModal = ({
 			onRequestClose={onClose}
 			transparent
 			statusBarTranslucent
-			navigationBarTranslucent
-		>
+			navigationBarTranslucent>
 			<TouchableWithoutFeedback onPress={onClose}>
 				<View
-					style={[
-						{ backgroundColor: colors.foreground + "80" },
-						styles.modalContainer,
-					]}
-				>
+					style={[{ backgroundColor: colors.foreground + '80' }, styles.modalContainer]}>
 					<TouchableWithoutFeedback>
 						<View style={styles.modal}>{children}</View>
 					</TouchableWithoutFeedback>
@@ -82,12 +71,12 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		paddingVertical: 40,
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	modal: {
-		width: "100%",
-		overflow: "hidden",
+		width: '100%',
+		overflow: 'hidden',
 	},
 	modalView: {
 		padding: 16,
@@ -97,16 +86,16 @@ const styles = StyleSheet.create({
 	},
 	actionContainer: {
 		paddingTop: 20,
-		flexDirection: "row",
-		justifyContent: "flex-end",
-		alignItems: "center",
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
+		alignItems: 'center',
 		gap: 10,
 	},
 
 	// text styles
 	modalHeading: {
 		fontSize: 18,
-		fontWeight: "500",
+		fontWeight: '500',
 	},
 	modalSubHeading: {
 		fontSize: 14,

@@ -1,7 +1,7 @@
-import { Habit } from "../types/habitTypes";
-import { mapHabit } from "./mapper";
-import { executeSQL, querySQL, transactionSQL } from "../db/utils";
-import { getTodayString } from "../utils/time";
+import { Habit } from '../types/habitTypes';
+import { mapHabit } from './mapper';
+import { executeSQL, querySQL, transactionSQL } from '../db/utils';
+import { getTodayString } from '../utils/time';
 
 export const HabitService = {
 	loadHabits: async (): Promise<Habit[]> => {
@@ -25,10 +25,10 @@ export const HabitService = {
 					habit.target.type,
 					habit.createdAt,
 					habit.updatedAt,
-				]
+				],
 			);
 
-			if (habit.target.type === "count") {
+			if (habit.target.type === 'count') {
 				await db.runAsync(
 					`INSERT INTO habit_targets (habit_id, type, frequency, count, unit) VALUES (?, ?, ?, ?, ?);`,
 					[
@@ -37,18 +37,18 @@ export const HabitService = {
 						habit.target.frequency,
 						habit.target.count,
 						habit.target.unit,
-					]
+					],
 				);
-			} else if (habit.target.type === "quit") {
+			} else if (habit.target.type === 'quit') {
 				await db.runAsync(
 					`INSERT INTO habit_targets (habit_id, type, frequency, start_date, initial_start_date) VALUES (?, ?, ?, ?, ?);`,
 					[
 						habit.id,
 						habit.target.type,
-						"daily",
+						'daily',
 						habit.target.startDate,
 						habit.target.initialStartDate,
-					]
+					],
 				);
 			}
 		});
@@ -58,15 +58,10 @@ export const HabitService = {
 		return transactionSQL(async (db) => {
 			await db.runAsync(
 				`UPDATE habits SET name = ?, color = ?, updated_at = ? WHERE id = ?;`,
-				[
-					updatedHabit.name,
-					updatedHabit.color,
-					updatedHabit.updatedAt,
-					updatedHabit.id,
-				]
+				[updatedHabit.name, updatedHabit.color, updatedHabit.updatedAt, updatedHabit.id],
 			);
 
-			if (updatedHabit.target.type === "count") {
+			if (updatedHabit.target.type === 'count') {
 				await db.runAsync(
 					`UPDATE habit_targets 
 					 SET frequency = ?, count = ?, unit = ? 
@@ -76,9 +71,9 @@ export const HabitService = {
 						updatedHabit.target.count,
 						updatedHabit.target.unit,
 						updatedHabit.id,
-					]
+					],
 				);
-			} else if (updatedHabit.target.type === "quit") {
+			} else if (updatedHabit.target.type === 'quit') {
 				await db.runAsync(
 					`UPDATE habit_targets 
 					 SET start_date = ?, initial_start_date = ? 
@@ -87,7 +82,7 @@ export const HabitService = {
 						updatedHabit.target.startDate,
 						updatedHabit.target.initialStartDate,
 						updatedHabit.id,
-					]
+					],
 				);
 			}
 		});

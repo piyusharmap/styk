@@ -1,6 +1,6 @@
-import { executeSQL, querySQL } from "../db/utils";
-import { HabitLog } from "../types/habitTypes";
-import { mapHabitLog } from "./mapper";
+import { executeSQL, querySQL } from '../db/utils';
+import { HabitLog } from '../types/habitTypes';
+import { mapHabitLog } from './mapper';
 
 export const HabitLogService = {
 	loadLogs: async (): Promise<HabitLog[]> => {

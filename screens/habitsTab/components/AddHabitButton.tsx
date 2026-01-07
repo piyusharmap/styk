@@ -1,6 +1,6 @@
-import { PressableProps, Pressable, StyleSheet } from "react-native";
-import useTheme from "../../../theme/useTheme";
-import Icon from "../../../components/icon";
+import { PressableProps, Pressable, StyleSheet } from 'react-native';
+import useTheme from '../../../theme/useTheme';
+import Icon from '../../../components/icon';
 
 const AddHabitButton = ({ ...props }: PressableProps) => {
 	const { colors } = useTheme();
@@ -14,9 +14,8 @@ const AddHabitButton = ({ ...props }: PressableProps) => {
 				styles.button,
 				pressed && styles.buttonPressed,
 			]}
-			{...props}
-		>
-			<Icon name="Plus" size={32} color={colors.neutralWhite} />
+			{...props}>
+			<Icon name='Plus' size={32} color={colors.neutralWhite} />
 		</Pressable>
 	);
 };
@@ -28,15 +27,15 @@ const styles = StyleSheet.create({
 	button: {
 		height: 64,
 		width: 64,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		borderRadius: 32,
 
 		// android shadow
 		elevation: 2,
 
 		// ios shadow
-		shadowColor: "#000000",
+		shadowColor: '#000000',
 		shadowOffset: { width: 0, height: 1 },
 		shadowOpacity: 0.4,
 		shadowRadius: 1,

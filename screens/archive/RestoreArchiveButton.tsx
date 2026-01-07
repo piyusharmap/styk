@@ -1,8 +1,8 @@
-import { Alert, StyleProp, ViewStyle } from "react-native";
-import UIButton from "../../components/ui/UIButton";
-import { useState } from "react";
-import { useHabitStore } from "../../store/habitStore";
-import { useRouter } from "expo-router";
+import { Alert, StyleProp, ViewStyle } from 'react-native';
+import UIButton from '../../components/ui/UIButton';
+import { useState } from 'react';
+import { useHabitStore } from '../../store/habitStore';
+import { useRouter } from 'expo-router';
 
 const RestoreArchiveButton = ({
 	habitId,
@@ -22,21 +22,18 @@ const RestoreArchiveButton = ({
 		try {
 			await restoreHabit(habitId);
 
-			router.navigate("(tabs)/habits");
+			router.navigate('(tabs)/habits');
 		} catch (error) {
-			Alert.alert(
-				"Operation Failed",
-				"Failed to delete habit. Please try again."
-			);
+			Alert.alert('Operation Failed', 'Failed to delete habit. Please try again.');
 			setIsRestoring(false);
 		}
 	};
 	return (
 		<UIButton
-			variant="secondary"
-			size="sm"
-			title="Restore"
-			iconName="ArchiveRestore"
+			variant='secondary'
+			size='sm'
+			title='Restore'
+			iconName='ArchiveRestore'
 			style={style}
 			onPress={handleHabitDelete}
 			disabled={isRestoring}

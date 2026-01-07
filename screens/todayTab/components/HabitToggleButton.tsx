@@ -1,8 +1,8 @@
-import { Pressable, StyleSheet } from "react-native";
-import { HabitTarget } from "../../../types/habitTypes";
-import { useHabitStore } from "../../../store/habitStore";
-import { getTodayString } from "../../../utils/time";
-import Icon, { IconType } from "../../../components/icon";
+import { Pressable, StyleSheet } from 'react-native';
+import { HabitTarget } from '../../../types/habitTypes';
+import { useHabitStore } from '../../../store/habitStore';
+import { getTodayString } from '../../../utils/time';
+import Icon, { IconType } from '../../../components/icon';
 
 const HabitToggleButton = ({
 	habitId,
@@ -15,27 +15,26 @@ const HabitToggleButton = ({
 	color: string;
 	isDisabled?: boolean;
 }) => {
-	const icon: IconType = target.type === "count" ? "Plus" : "RotateCcw";
+	const icon: IconType = target.type === 'count' ? 'Plus' : 'RotateCcw';
 
 	const performHabitAction = useHabitStore((s) => s.performHabitAction);
 
 	const handleMarkHabit = () => {
-		performHabitAction(habitId, getTodayString(), "mark");
+		performHabitAction(habitId, getTodayString(), 'mark');
 	};
 
 	return (
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: color + "50",
+					backgroundColor: color + '50',
 					borderColor: color,
 				},
 				styles.button,
 				pressed && styles.buttonPressed,
 				isDisabled && styles.buttonDisabled,
 			]}
-			onPress={handleMarkHabit}
-		>
+			onPress={handleMarkHabit}>
 			<Icon name={icon} size={24} color={color} />
 		</Pressable>
 	);
@@ -48,11 +47,11 @@ const styles = StyleSheet.create({
 	button: {
 		height: 40,
 		width: 40,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		borderRadius: 6,
 		borderWidth: 1,
-		borderStyle: "dashed",
+		borderStyle: 'dashed',
 	},
 	buttonPressed: {
 		transform: [{ scale: 0.95 }],

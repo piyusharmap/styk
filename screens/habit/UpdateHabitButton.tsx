@@ -1,6 +1,6 @@
-import { StyleProp, ViewStyle } from "react-native";
-import UIButton from "../../components/ui/UIButton";
-import { useRouter } from "expo-router";
+import { StyleProp, ViewStyle } from 'react-native';
+import UIButton from '../../components/ui/UIButton';
+import { useRouter } from 'expo-router';
 
 const UpdateHabitButton = ({
 	habitId,
@@ -13,9 +13,9 @@ const UpdateHabitButton = ({
 
 	return (
 		<UIButton
-			variant="primary"
-			title="Update"
-			iconName="SquarePen"
+			variant='primary'
+			title='Update'
+			iconName='SquarePen'
 			style={style}
 			onPress={() => router.navigate(`edit/${habitId}`)}
 		/>

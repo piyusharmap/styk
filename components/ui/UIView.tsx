@@ -1,6 +1,6 @@
-import { View, StyleProp, ViewStyle, ViewProps } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import useTheme from "../../theme/useTheme";
+import { View, StyleProp, ViewStyle, ViewProps } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import useTheme from '../../theme/useTheme';
 
 const UIView = ({
 	children,
@@ -28,8 +28,7 @@ const UIView = ({
 				isTopSafe && { paddingTop: insets.top },
 				isBottomSafe && { paddingBottom: insets.bottom },
 			]}
-			{...props}
-		>
+			{...props}>
 			{children}
 		</View>
 	);

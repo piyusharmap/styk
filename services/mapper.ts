@@ -1,20 +1,20 @@
-import { Habit, HabitLog, HabitTarget } from "../types/habitTypes";
+import { Habit, HabitLog, HabitTarget } from '../types/habitTypes';
 
 export function mapHabit(rows: any): Habit {
 	const target: HabitTarget =
-		rows.type === "count"
+		rows.type === 'count'
 			? {
-					type: "count",
+					type: 'count',
 					count: rows.count,
 					frequency: rows.frequency,
 					unit: rows.unit,
-			  }
+				}
 			: {
-					type: "quit",
+					type: 'quit',
 					startDate: rows.start_date,
 					initialStartDate: rows.initial_start_date,
-					frequency: "daily",
-			  };
+					frequency: 'daily',
+				};
 
 	return {
 		id: rows.id,

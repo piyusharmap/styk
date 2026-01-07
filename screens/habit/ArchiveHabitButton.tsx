@@ -1,7 +1,7 @@
-import { StyleProp, ViewStyle } from "react-native";
-import UIButton from "../../components/ui/UIButton";
-import { useState } from "react";
-import ArchiveHabitModal from "../../components/modal/ArchiveHabitModal";
+import { StyleProp, ViewStyle } from 'react-native';
+import UIButton from '../../components/ui/UIButton';
+import { useState } from 'react';
+import ArchiveHabitModal from '../../components/modal/ArchiveHabitModal';
 
 const ArchiveHabitButton = ({
 	habitId,
@@ -15,9 +15,9 @@ const ArchiveHabitButton = ({
 	return (
 		<>
 			<UIButton
-				variant="secondary"
-				title="Archive"
-				iconName="Archive"
+				variant='secondary'
+				title='Archive'
+				iconName='Archive'
 				style={style}
 				onPress={() => setShowModal(true)}
 			/>

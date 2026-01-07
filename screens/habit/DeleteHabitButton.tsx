@@ -1,7 +1,7 @@
-import { StyleProp, ViewStyle } from "react-native";
-import UIButton from "../../components/ui/UIButton";
-import { useState } from "react";
-import DeleteHabitModal from "../../components/modal/DeleteHabitModal";
+import { StyleProp, ViewStyle } from 'react-native';
+import UIButton from '../../components/ui/UIButton';
+import { useState } from 'react';
+import DeleteHabitModal from '../../components/modal/DeleteHabitModal';
 
 const DeleteHabitButton = ({
 	habitId,
@@ -15,9 +15,9 @@ const DeleteHabitButton = ({
 	return (
 		<>
 			<UIButton
-				variant="danger"
-				title="Delete"
-				iconName="Trash2"
+				variant='danger'
+				title='Delete'
+				iconName='Trash2'
 				style={style}
 				onPress={() => setShowModal(true)}
 			/>

@@ -1,5 +1,6 @@
-import * as icons from "lucide-react-native";
-import useTheme from "../theme/useTheme";
+/*eslint-disable import/namespace*/
+import * as icons from 'lucide-react-native';
+import useTheme from '../theme/useTheme';
 
 export type IconType = keyof typeof icons;
 
@@ -23,11 +24,7 @@ const Icon = ({
 	return (
 		<>
 			{isFilled ? (
-				<LucideIcon
-					color={color || colors.text}
-					size={size}
-					fill={color}
-				/>
+				<LucideIcon color={color || colors.text} size={size} fill={color} />
 			) : (
 				<LucideIcon color={color || colors.text} size={size} />
 			)}

@@ -1,16 +1,10 @@
-import { Pressable, StyleSheet, View } from "react-native";
-import UIText from "../../../components/ui/UIText";
-import { useState } from "react";
-import useTheme from "../../../theme/useTheme";
-import Icon from "../../../components/icon";
+import { Pressable, StyleSheet, View } from 'react-native';
+import UIText from '../../../components/ui/UIText';
+import { useState } from 'react';
+import useTheme from '../../../theme/useTheme';
+import Icon from '../../../components/icon';
 
-const SettingsSection = ({
-	title,
-	children,
-}: {
-	title: string;
-	children: React.ReactNode;
-}) => {
+const SettingsSection = ({ title, children }: { title: string; children: React.ReactNode }) => {
 	const [showOptions, setShowOptions] = useState<boolean>(true);
 
 	const { colors } = useTheme();
@@ -19,20 +13,17 @@ const SettingsSection = ({
 		<View style={styles.section}>
 			<Pressable
 				style={styles.headingContainer}
-				onPress={() => setShowOptions((prev) => !prev)}
-			>
+				onPress={() => setShowOptions((prev) => !prev)}>
 				<UIText style={styles.heading}>{title}</UIText>
 
 				<Icon
-					name={showOptions ? "ChevronDown" : "ChevronRight"}
+					name={showOptions ? 'ChevronDown' : 'ChevronRight'}
 					size={14}
 					color={colors.accent}
 				/>
 			</Pressable>
 
-			{showOptions && (
-				<View style={styles.settingsContainer}>{children}</View>
-			)}
+			{showOptions && <View style={styles.settingsContainer}>{children}</View>}
 		</View>
 	);
 };
@@ -48,9 +39,9 @@ const styles = StyleSheet.create({
 	headingContainer: {
 		paddingHorizontal: 2,
 		paddingVertical: 10,
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 		gap: 10,
 	},
 	settingsContainer: {

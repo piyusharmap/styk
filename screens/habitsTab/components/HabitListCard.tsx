@@ -1,11 +1,11 @@
-import { View, StyleSheet, Pressable } from "react-native";
-import UIText from "../../../components/ui/UIText";
-import { Habit } from "../../../types/habitTypes";
-import useTheme from "../../../theme/useTheme";
-import Badge from "../../../components/Badge";
-import { HabitTypeDetails } from "../../../constants/habit";
-import { useRouter } from "expo-router";
-import TypeIconContainer from "../../../components/habit/TypeIconContainer";
+import { View, StyleSheet, Pressable } from 'react-native';
+import UIText from '../../../components/ui/UIText';
+import { Habit } from '../../../types/habitTypes';
+import useTheme from '../../../theme/useTheme';
+import Badge from '../../../components/Badge';
+import { HabitTypeDetails } from '../../../constants/habit';
+import { useRouter } from 'expo-router';
+import TypeIconContainer from '../../../components/habit/TypeIconContainer';
 
 const HabitListCard = ({ habit }: { habit: Habit }) => {
 	const { colors } = useTheme();
@@ -17,7 +17,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: colors.foreground + "80",
+					backgroundColor: colors.foreground + '80',
 					borderColor: colors.border,
 				},
 				styles.habitCard,
@@ -30,8 +30,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 						color: habit.color,
 					},
 				});
-			}}
-		>
+			}}>
 			<View style={styles.habitSection}>
 				<View style={styles.habitInfo}>
 					<UIText style={styles.habitName} numberOfLines={1}>
@@ -39,20 +38,18 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					</UIText>
 
 					<View style={styles.habitDetails}>
-						{habit.target.type === "count" ? (
+						{habit.target.type === 'count' ? (
 							<>
 								<UIText style={styles.habitDetail} isSecondary>
-									Target:{" "}
+									Target:{' '}
 									<UIText style={{ color: colors.text }}>
-										{habit.target.count}{" "}
-										{`${habit.target.unit}${
-											habit.target.count > 1 ? "s" : ""
-										}`}
+										{habit.target.count}{' '}
+										{`${habit.target.unit}${habit.target.count > 1 ? 's' : ''}`}
 									</UIText>
 								</UIText>
 
 								<UIText style={styles.habitDetail} isSecondary>
-									Frequency:{" "}
+									Frequency:{' '}
 									<UIText style={{ color: colors.text }}>
 										{habit.target.frequency}
 									</UIText>
@@ -61,14 +58,14 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 						) : (
 							<>
 								<UIText style={styles.habitDetail} isSecondary>
-									Clean since:{" "}
+									Clean since:{' '}
 									<UIText style={{ color: colors.text }}>
 										{habit.target.startDate}
 									</UIText>
 								</UIText>
 
 								<UIText style={styles.habitDetail} isSecondary>
-									Started on:{" "}
+									Started on:{' '}
 									<UIText style={{ color: colors.text }}>
 										{habit.target.initialStartDate}
 									</UIText>
@@ -78,20 +75,17 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					</View>
 				</View>
 
-				<TypeIconContainer
-					icon={typeDetails.icon}
-					color={habit.color}
-				/>
+				<TypeIconContainer icon={typeDetails.icon} color={habit.color} />
 			</View>
 
 			<View style={styles.badgesContainer}>
 				<Badge
 					title={`${0}`}
 					style={{
-						backgroundColor: habit.color + "50",
+						backgroundColor: habit.color + '50',
 						borderColor: habit.color,
 					}}
-					icon="Flame"
+					icon='Flame'
 				/>
 			</View>
 		</Pressable>
@@ -107,16 +101,16 @@ const styles = StyleSheet.create({
 		gap: 10,
 		borderRadius: 10,
 		borderWidth: 1,
-		borderStyle: "dashed",
-		overflow: "hidden",
+		borderStyle: 'dashed',
+		overflow: 'hidden',
 	},
 	habitCardPressed: {
 		opacity: 0.8,
 	},
 	habitSection: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 		gap: 10,
 	},
 	habitInfo: {
@@ -124,11 +118,11 @@ const styles = StyleSheet.create({
 		gap: 4,
 	},
 	habitDetails: {
-		alignItems: "flex-start",
+		alignItems: 'flex-start',
 	},
 	badgesContainer: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		gap: 6,
 	},
 
@@ -136,7 +130,7 @@ const styles = StyleSheet.create({
 	habitName: {
 		flexShrink: 1,
 		fontSize: 18,
-		fontWeight: "500",
+		fontWeight: '500',
 	},
 	habitDetail: {
 		fontSize: 12,

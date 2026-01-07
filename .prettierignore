@@ -1,0 +1,12 @@
+# Ignore build outputs
+node_modules
+dist
+.expo
+.next
+package-lock.json
+
+# Ignore assets
+assets
+*.png
+*.jpg
+*.svg

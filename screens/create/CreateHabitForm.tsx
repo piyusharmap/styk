@@ -1,39 +1,33 @@
-import { Alert, ScrollView, StyleSheet, View } from "react-native";
-import {
-	UIInput,
-	UIInputContainer,
-	UIInputError,
-	UIInputLabel,
-} from "../../components/ui/UIInput";
-import { useState } from "react";
+import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { UIInput, UIInputContainer, UIInputError, UIInputLabel } from '../../components/ui/UIInput';
+import { useState } from 'react';
 import {
 	ColorOptions,
 	InitialTarget,
 	MAX_NAME_LENGTH,
 	MIN_NAME_LENGTH,
-} from "../../constants/habit";
-import { HabitTarget } from "../../types/habitTypes";
-import UIButton from "../../components/ui/UIButton";
-import { useHabitStore } from "../../store/habitStore";
-import { toDateString } from "../../utils/time";
-import { useRouter } from "expo-router";
-import { HABIT_NAME_PLACEHOLDER } from "../../constants/messages";
-import useTheme from "../../theme/useTheme";
-import ColorSelector from "../../components/habit/ColorSelector";
-import TypeSelector from "../../components/habit/TypeSelector";
-import HabitCounter from "../../components/habit/HabitCounter";
-import UnitSelector from "../../components/habit/UnitSelector";
-import FrequencySelector from "../../components/habit/FrequencySelector";
-import DatePicker from "../../components/DatePicker";
+} from '../../constants/habit';
+import { HabitTarget } from '../../types/habitTypes';
+import UIButton from '../../components/ui/UIButton';
+import { useHabitStore } from '../../store/habitStore';
+import { toDateString } from '../../utils/time';
+import { useRouter } from 'expo-router';
+import { HABIT_NAME_PLACEHOLDER } from '../../constants/messages';
+import useTheme from '../../theme/useTheme';
+import ColorSelector from '../../components/habit/ColorSelector';
+import TypeSelector from '../../components/habit/TypeSelector';
+import HabitCounter from '../../components/habit/HabitCounter';
+import UnitSelector from '../../components/habit/UnitSelector';
+import FrequencySelector from '../../components/habit/FrequencySelector';
+import DatePicker from '../../components/DatePicker';
 
 const CreateHabitForm = () => {
 	// form states
-	const [habitName, setHabitName] = useState("");
+	const [habitName, setHabitName] = useState('');
 	const [habitColor, setHabitColor] = useState(ColorOptions[0]);
-	const [habitTarget, setHabitTarget] =
-		useState<typeof InitialTarget>(InitialTarget);
+	const [habitTarget, setHabitTarget] = useState<typeof InitialTarget>(InitialTarget);
 
-	const [formError, setFormError] = useState<string>("");
+	const [formError, setFormError] = useState<string>('');
 	const [isSaving, setIsSaving] = useState<boolean>(false);
 
 	const { colors } = useTheme();
@@ -41,9 +35,9 @@ const CreateHabitForm = () => {
 	const addHabit = useHabitStore((s) => s.addHabit);
 
 	const resetForm = () => {
-		setFormError("");
+		setFormError('');
 
-		setHabitName("");
+		setHabitName('');
 		setHabitColor(ColorOptions[0]);
 		setHabitTarget(InitialTarget);
 	};
@@ -54,14 +48,14 @@ const CreateHabitForm = () => {
 			habitName.trim().length > MAX_NAME_LENGTH
 		) {
 			setFormError(
-				`Name must be between ${MIN_NAME_LENGTH} and ${MAX_NAME_LENGTH} characters.`
+				`Name must be between ${MIN_NAME_LENGTH} and ${MAX_NAME_LENGTH} characters.`,
 			);
 			return;
 		}
 
 		let target: HabitTarget;
 
-		if (habitTarget.type === "count") {
+		if (habitTarget.type === 'count') {
 			target = {
 				type: habitTarget.type,
 				frequency: habitTarget.frequency,
@@ -71,7 +65,7 @@ const CreateHabitForm = () => {
 		} else {
 			target = {
 				type: habitTarget.type,
-				frequency: "daily",
+				frequency: 'daily',
 				startDate: toDateString(habitTarget.initialStartDate),
 				initialStartDate: toDateString(habitTarget.initialStartDate),
 			};
@@ -83,12 +77,9 @@ const CreateHabitForm = () => {
 			await addHabit(habitName.trim(), habitColor, target);
 
 			resetForm();
-			router.navigate("(tabs)/habits");
+			router.navigate('(tabs)/habits');
 		} catch (error) {
-			Alert.alert(
-				"Operation Failed",
-				"Failed to save habit. Please try again."
-			);
+			Alert.alert('Operation Failed', 'Failed to save habit. Please try again.');
 			setIsSaving(false);
 		}
 	};
@@ -97,10 +88,9 @@ const CreateHabitForm = () => {
 		<View style={styles.container}>
 			<ScrollView
 				contentContainerStyle={styles.formContainer}
-				showsVerticalScrollIndicator={false}
-			>
+				showsVerticalScrollIndicator={false}>
 				<UIInputContainer>
-					<UIInputLabel label="Name" />
+					<UIInputLabel label='Name' />
 					<UIInput
 						value={habitName}
 						onChangeInput={setHabitName}
@@ -110,26 +100,21 @@ const CreateHabitForm = () => {
 				</UIInputContainer>
 
 				<UIInputContainer>
-					<UIInputLabel label="Color" />
-					<ColorSelector
-						selectedColor={habitColor}
-						onPress={setHabitColor}
-					/>
+					<UIInputLabel label='Color' />
+					<ColorSelector selectedColor={habitColor} onPress={setHabitColor} />
 				</UIInputContainer>
 
 				<UIInputContainer>
-					<UIInputLabel label="Type" />
+					<UIInputLabel label='Type' />
 					<TypeSelector
 						selectedType={habitTarget.type}
-						onPress={(type) =>
-							setHabitTarget((prev) => ({ ...prev, type }))
-						}
+						onPress={(type) => setHabitTarget((prev) => ({ ...prev, type }))}
 					/>
 				</UIInputContainer>
 
-				{habitTarget.type === "count" && (
+				{habitTarget.type === 'count' && (
 					<UIInputContainer>
-						<UIInputLabel label="At least" />
+						<UIInputLabel label='At least' />
 
 						<View style={styles.countDetails}>
 							<HabitCounter
@@ -165,9 +150,9 @@ const CreateHabitForm = () => {
 					</UIInputContainer>
 				)}
 
-				{habitTarget.type === "quit" && (
+				{habitTarget.type === 'quit' && (
 					<UIInputContainer>
-						<UIInputLabel label="Quit date" />
+						<UIInputLabel label='Quit date' />
 						<DatePicker
 							selectedValue={habitTarget.initialStartDate}
 							onChange={(date) =>
@@ -181,20 +166,18 @@ const CreateHabitForm = () => {
 				)}
 			</ScrollView>
 
-			<View
-				style={[{ borderColor: colors.border }, styles.actionContainer]}
-			>
+			<View style={[{ borderColor: colors.border }, styles.actionContainer]}>
 				<UIButton
-					title="Reset"
+					title='Reset'
 					onPress={resetForm}
-					iconName="RefreshCw"
+					iconName='RefreshCw'
 					style={styles.actionButton}
 					isDisabled={isSaving}
 				/>
 
 				<UIButton
-					title="Save Habit"
-					variant="primary"
+					title='Save Habit'
+					variant='primary'
 					onPress={handleSaveHabit}
 					style={styles.actionButton}
 					isLoading={isSaving}
@@ -224,7 +207,7 @@ const styles = StyleSheet.create({
 	actionContainer: {
 		paddingHorizontal: 12,
 		paddingVertical: 10,
-		flexDirection: "row",
+		flexDirection: 'row',
 		gap: 8,
 		borderTopWidth: 1,
 	},

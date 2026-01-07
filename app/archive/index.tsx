@@ -1,10 +1,10 @@
-import { FlatList, StyleSheet } from "react-native";
-import UIView from "../../components/ui/UIView";
-import { useHabitStore } from "../../store/habitStore";
-import ListContainer from "../../components/list/ListContainer";
-import HabitArchivedCard from "../../screens/archive/HabitArchivedCard";
-import ListEmpty from "../../components/list/ListEmpty";
-import { EMPTY_ARCHIVE_LIST_MSG } from "../../constants/messages";
+import { FlatList, StyleSheet } from 'react-native';
+import UIView from '../../components/ui/UIView';
+import { useHabitStore } from '../../store/habitStore';
+import ListContainer from '../../components/list/ListContainer';
+import HabitArchivedCard from '../../screens/archive/HabitArchivedCard';
+import ListEmpty from '../../components/list/ListEmpty';
+import { EMPTY_ARCHIVE_LIST_MSG } from '../../constants/messages';
 
 const ArchivesPage = () => {
 	const habits = useHabitStore((s) => s.getAllHabits());
@@ -19,9 +19,7 @@ const ArchivesPage = () => {
 					renderItem={({ item }) => {
 						return <HabitArchivedCard habit={item} />;
 					}}
-					ListEmptyComponent={
-						<ListEmpty message={EMPTY_ARCHIVE_LIST_MSG} />
-					}
+					ListEmptyComponent={<ListEmpty message={EMPTY_ARCHIVE_LIST_MSG} />}
 				/>
 			</ListContainer>
 		</UIView>
@@ -42,7 +40,7 @@ const styles = StyleSheet.create({
 		gap: 8,
 	},
 	actionContainer: {
-		position: "absolute",
+		position: 'absolute',
 		padding: 12,
 		bottom: 0,
 		right: 0,

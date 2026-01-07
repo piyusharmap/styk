@@ -1,7 +1,7 @@
-import { Animated, StyleSheet, View } from "react-native";
-import { HabitTarget } from "../../../types/habitTypes";
-import { useHabitStore } from "../../../store/habitStore";
-import { useEffect, useRef } from "react";
+import { Animated, StyleSheet, View } from 'react-native';
+import { HabitTarget } from '../../../types/habitTypes';
+import { useHabitStore } from '../../../store/habitStore';
+import { useEffect, useRef } from 'react';
 
 const ProgressBar = ({
 	habitId,
@@ -17,10 +17,7 @@ const ProgressBar = ({
 	const countValue = useHabitStore((s) => s.getCountValue(habitId));
 
 	useEffect(() => {
-		const progress =
-			target.type === "count"
-				? Math.min(countValue / target.count, 1)
-				: 0;
+		const progress = target.type === 'count' ? Math.min(countValue / target.count, 1) : 0;
 
 		Animated.timing(progressAnim, {
 			toValue: progress,
@@ -29,24 +26,23 @@ const ProgressBar = ({
 		}).start();
 	}, [countValue]);
 
-	if (target.type !== "count") return;
+	if (target.type !== 'count') return;
 
 	return (
 		<View
 			style={[
 				{
-					backgroundColor: color + "50",
+					backgroundColor: color + '50',
 				},
 				styles.progressTrack,
-			]}
-		>
+			]}>
 			<Animated.View
 				style={[
 					{
 						backgroundColor: color,
 						width: progressAnim.interpolate({
 							inputRange: [0, 1],
-							outputRange: ["0%", "100%"],
+							outputRange: ['0%', '100%'],
 						}),
 					},
 					styles.progressBar,
@@ -61,13 +57,13 @@ export default ProgressBar;
 const styles = StyleSheet.create({
 	// container styles
 	progressTrack: {
-		width: "100%",
+		width: '100%',
 		height: 4,
 		borderRadius: 2,
-		overflow: "hidden",
+		overflow: 'hidden',
 	},
 	progressBar: {
 		minWidth: 2,
-		height: "100%",
+		height: '100%',
 	},
 });

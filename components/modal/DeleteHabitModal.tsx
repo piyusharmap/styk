@@ -1,10 +1,10 @@
-import { useState } from "react";
-import UIButton from "../ui/UIButton";
-import { ModalActions, ModalHeading, ModalView, UIModal } from "../ui/UIModal";
-import { useHabitStore } from "../../store/habitStore";
-import { useRouter } from "expo-router";
-import { Alert } from "react-native";
-import UIText from "../ui/UIText";
+import { useState } from 'react';
+import UIButton from '../ui/UIButton';
+import { ModalActions, ModalHeading, ModalView, UIModal } from '../ui/UIModal';
+import { useHabitStore } from '../../store/habitStore';
+import { useRouter } from 'expo-router';
+import { Alert } from 'react-native';
+import UIText from '../ui/UIText';
 
 const DeleteHabitModal = ({
 	habitId,
@@ -29,15 +29,12 @@ const DeleteHabitModal = ({
 			await deleteHabit(habitId);
 
 			{
-				!isArchive && router.replace("(tabs)/habits");
+				!isArchive && router.replace('(tabs)/habits');
 			}
 
 			onClose();
 		} catch (error) {
-			Alert.alert(
-				"Operation Failed",
-				"Failed to delete habit. Please try again."
-			);
+			Alert.alert('Operation Failed', 'Failed to delete habit. Please try again.');
 			setIsDeleting(false);
 		}
 	};
@@ -45,26 +42,21 @@ const DeleteHabitModal = ({
 	return (
 		<UIModal isVisible={isVisible} onClose={onClose}>
 			<ModalView>
-				<ModalHeading heading="Delete Habit?" />
+				<ModalHeading heading='Delete Habit?' />
 
 				<UIText isSecondary>
-					This will permanently remove all progress and history. This
-					action cannot be undone.
+					This will permanently remove all progress and history. This action cannot be
+					undone.
 				</UIText>
 
 				<ModalActions>
-					<UIButton
-						size="sm"
-						title="Cancel"
-						onPress={onClose}
-						isDisabled={isDeleting}
-					/>
+					<UIButton size='sm' title='Cancel' onPress={onClose} isDisabled={isDeleting} />
 
 					<UIButton
-						variant="danger"
-						size="sm"
-						title="Yes, Delete"
-						iconName="Trash2"
+						variant='danger'
+						size='sm'
+						title='Yes, Delete'
+						iconName='Trash2'
 						onPress={handleHabitDelete}
 						isDisabled={isDeleting}
 						isLoading={isDeleting}

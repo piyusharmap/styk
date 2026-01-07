@@ -1,22 +1,16 @@
-import {
-	PressableProps,
-	StyleProp,
-	ViewStyle,
-	Pressable,
-	StyleSheet,
-} from "react-native";
-import UIText from "./UIText";
-import useTheme from "../../theme/useTheme";
-import UILoader from "./UILoader";
-import Icon, { IconType } from "../icon";
+import { PressableProps, StyleProp, ViewStyle, Pressable, StyleSheet } from 'react-native';
+import UIText from './UIText';
+import useTheme from '../../theme/useTheme';
+import UILoader from './UILoader';
+import Icon, { IconType } from '../icon';
 
-type ButtonVariant = "default" | "primary" | "secondary" | "danger" | "success";
-type ButtonSize = "sm" | "md" | "lg";
+type ButtonVariant = 'default' | 'primary' | 'secondary' | 'danger' | 'success';
+type ButtonSize = 'sm' | 'md' | 'lg';
 
 const UIButton = ({
 	title,
-	variant = "default",
-	size = "md",
+	variant = 'default',
+	size = 'md',
 	iconName,
 	isLoading = false,
 	isDisabled = false,
@@ -79,19 +73,12 @@ const UIButton = ({
 				style,
 			]}
 			disabled={isDisabled}
-			{...props}
-		>
+			{...props}>
 			{iconName && !isLoading && (
-				<Icon
-					name={iconName}
-					size={variantSize.icon}
-					color={variantColor.text}
-				/>
+				<Icon name={iconName} size={variantSize.icon} color={variantColor.text} />
 			)}
 
-			{isLoading && (
-				<UILoader size={variantSize.icon} color={variantColor.text} />
-			)}
+			{isLoading && <UILoader size={variantSize.icon} color={variantColor.text} />}
 
 			{title && (
 				<UIText
@@ -100,8 +87,7 @@ const UIButton = ({
 							fontSize: variantSize.font,
 							color: variantColor.text,
 						},
-					]}
-				>
+					]}>
 					{title}
 				</UIText>
 			)}
@@ -114,9 +100,9 @@ export default UIButton;
 const styles = StyleSheet.create({
 	// container styles
 	button: {
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 		gap: 8,
 		borderRadius: 8,
 	},

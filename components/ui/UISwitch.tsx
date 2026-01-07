@@ -1,5 +1,5 @@
-import { StyleSheet, Switch, SwitchProps } from "react-native";
-import useTheme from "../../theme/useTheme";
+import { StyleSheet, Switch, SwitchProps } from 'react-native';
+import useTheme from '../../theme/useTheme';
 
 const UISwitch = ({
 	value,
@@ -16,8 +16,8 @@ const UISwitch = ({
 			value={value}
 			onValueChange={onChange}
 			trackColor={{
-				false: colors.secondary + "50",
-				true: colors.secondary + "80",
+				false: colors.secondary + '50',
+				true: colors.secondary + '80',
 			}}
 			thumbColor={colors.primary}
 			style={styles.switch}

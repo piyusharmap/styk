@@ -1,6 +1,6 @@
-import { StyleSheet, Pressable } from "react-native";
-import useTheme from "../../theme/useTheme";
-import Icon, { IconType } from "../icon";
+import { StyleSheet, Pressable } from 'react-native';
+import useTheme from '../../theme/useTheme';
+import Icon, { IconType } from '../icon';
 
 const NavigationButton = ({
 	icon,
@@ -15,12 +15,8 @@ const NavigationButton = ({
 
 	return (
 		<Pressable
-			style={({ pressed }) => [
-				styles.button,
-				pressed && styles.buttonPressed,
-			]}
-			onPress={onPress}
-		>
+			style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
+			onPress={onPress}>
 			<Icon name={icon} size={20} color={tint || colors.navText} />
 		</Pressable>
 	);
@@ -33,8 +29,8 @@ const styles = StyleSheet.create({
 	button: {
 		paddingVertical: 10,
 		paddingLeft: 20,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	buttonPressed: {
 		opacity: 0.8,

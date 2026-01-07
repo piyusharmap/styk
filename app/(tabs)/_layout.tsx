@@ -1,8 +1,8 @@
-import { Tabs } from "expo-router";
-import useTheme from "../../theme/useTheme";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import TabBarLabel from "../../components/heading/TabBarLabel";
-import Icon from "../../components/icon";
+import { Tabs } from 'expo-router';
+import useTheme from '../../theme/useTheme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import TabBarLabel from '../../components/heading/TabBarLabel';
+import Icon from '../../components/icon';
 
 const TabsLayout = () => {
 	const { colors } = useTheme();
@@ -21,119 +21,82 @@ const TabsLayout = () => {
 					borderTopWidth: 1,
 					borderColor: colors.border,
 					elevation: 0,
-					shadowColor: "transparent",
+					shadowColor: 'transparent',
 				},
 				tabBarActiveTintColor: colors.tabIconActive,
 				tabBarInactiveTintColor: colors.tabIconInactive,
-			}}
-		>
+			}}>
 			<Tabs.Screen
-				name="index"
+				name='index'
 				options={{
 					href: null,
 				}}
 			/>
 
 			<Tabs.Screen
-				name="today"
+				name='today'
 				options={{
-					title: "",
+					title: '',
 					tabBarLabel: (props) => {
-						return (
-							<TabBarLabel
-								label="Today"
-								style={{ color: props.color }}
-							/>
-						);
+						return <TabBarLabel label='Today' style={{ color: props.color }} />;
 					},
 					tabBarIcon: ({ focused }) => (
 						<Icon
 							size={22}
-							name="CalendarCheck2"
-							color={
-								focused
-									? colors.primary
-									: colors.tabIconInactive
-							}
+							name='CalendarCheck2'
+							color={focused ? colors.primary : colors.tabIconInactive}
 						/>
 					),
 				}}
 			/>
 
 			<Tabs.Screen
-				name="habits"
+				name='habits'
 				options={{
-					title: "",
+					title: '',
 					tabBarLabel: (props) => {
-						return (
-							<TabBarLabel
-								label="Habits"
-								style={{ color: props.color }}
-							/>
-						);
+						return <TabBarLabel label='Habits' style={{ color: props.color }} />;
 					},
 					tabBarIcon: ({ focused }) => (
 						<Icon
 							size={22}
-							name="Calendar"
-							color={
-								focused
-									? colors.primary
-									: colors.tabIconInactive
-							}
+							name='Calendar'
+							color={focused ? colors.primary : colors.tabIconInactive}
 						/>
 					),
 				}}
 			/>
 
 			<Tabs.Screen
-				name="measure"
+				name='measure'
 				options={{
 					href: null, // remove after implementing measure functionality
-					title: "",
+					title: '',
 					tabBarLabel: (props) => {
-						return (
-							<TabBarLabel
-								label="Measure"
-								style={{ color: props.color }}
-							/>
-						);
+						return <TabBarLabel label='Measure' style={{ color: props.color }} />;
 					},
 					tabBarIcon: ({ focused }) => (
 						<Icon
 							size={22}
-							name="Ruler"
-							color={
-								focused
-									? colors.primary
-									: colors.tabIconInactive
-							}
+							name='Ruler'
+							color={focused ? colors.primary : colors.tabIconInactive}
 						/>
 					),
 				}}
 			/>
 
 			<Tabs.Screen
-				name="settings"
+				name='settings'
 				options={{
-					title: "",
+					title: '',
 					tabBarLabel: (props) => {
-						return (
-							<TabBarLabel
-								label="Settings"
-								style={{ color: props.color }}
-							/>
-						);
+						return <TabBarLabel label='Settings' style={{ color: props.color }} />;
 					},
 					tabBarIcon: ({ focused }) => (
 						<Icon
 							size={22}
-							name="Settings2"
-							color={
-								focused
-									? colors.primary
-									: colors.tabIconInactive
-							}
+							name='Settings2'
+							color={focused ? colors.primary : colors.tabIconInactive}
 						/>
 					),
 				}}
