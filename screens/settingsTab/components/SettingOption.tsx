@@ -22,6 +22,7 @@ const SettingOption = ({
 			]}
 		>
 			<UIText style={styles.title}>{title}</UIText>
+
 			<View style={styles.actionContainer}>{children}</View>
 		</View>
 	);

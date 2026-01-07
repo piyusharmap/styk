@@ -30,7 +30,8 @@ export default NavigationBackButton;
 const styles = StyleSheet.create({
 	// container styles
 	button: {
-		padding: 0,
+		paddingVertical: 10,
+		paddingRight: 20,
 		justifyContent: "center",
 		alignItems: "center",
 	},

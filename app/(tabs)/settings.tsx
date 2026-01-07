@@ -14,6 +14,8 @@ import ResetPrefsButton from "../../screens/settingsTab/components/ResetPrefsBut
 import useTheme from "../../theme/useTheme";
 import UIButton from "../../components/ui/UIButton";
 import { useRouter } from "expo-router";
+import UIText from "../../components/ui/UIText";
+import Badge from "../../components/Badge";
 
 const SettingsTab = () => {
 	const { mode, setMode } = useTheme();
@@ -37,16 +39,16 @@ const SettingsTab = () => {
 						/>
 					</SettingOption>
 
+					<SettingOption title="Week Start">
+						<Badge title="Monday" />
+					</SettingOption>
+
 					<SettingOption title="Reset Preferences">
 						<ResetPrefsButton />
 					</SettingOption>
 				</SettingsSection>
 
-				<SettingsSection title="Account">
-					<SettingOption title="Delete All Data">
-						<ResetDataButton />
-					</SettingOption>
-
+				<SettingsSection title="Data">
 					<SettingOption title="Archived Habits">
 						<UIButton
 							title=""
@@ -54,6 +56,10 @@ const SettingsTab = () => {
 							iconName="ArrowRight"
 							onPress={() => router.navigate("archive")}
 						/>
+					</SettingOption>
+
+					<SettingOption title="Delete All Data">
+						<ResetDataButton />
 					</SettingOption>
 				</SettingsSection>
 
@@ -65,10 +71,6 @@ const SettingsTab = () => {
 							iconName="ArrowRight"
 							onPress={() => router.navigate("about")}
 						/>
-					</SettingOption>
-
-					<SettingOption title="Version">
-						<></>
 					</SettingOption>
 				</SettingsSection>
 			</ScrollView>
