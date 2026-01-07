@@ -1,14 +1,8 @@
-import { StyleSheet, View } from "react-native";
-import UIText from "../../../components/ui/UIText";
-import useTheme from "../../../theme/useTheme";
+import { StyleSheet, View } from 'react-native';
+import UIText from '../../../components/ui/UIText';
+import useTheme from '../../../theme/useTheme';
 
-const SettingOption = ({
-	title,
-	children,
-}: {
-	title: string;
-	children: React.ReactNode;
-}) => {
+const SettingOption = ({ title, children }: { title: string; children: React.ReactNode }) => {
 	const { colors } = useTheme();
 
 	return (
@@ -19,9 +13,9 @@ const SettingOption = ({
 					borderColor: colors.border,
 				},
 				styles.settingOption,
-			]}
-		>
+			]}>
 			<UIText style={styles.title}>{title}</UIText>
+
 			<View style={styles.actionContainer}>{children}</View>
 		</View>
 	);
@@ -34,17 +28,17 @@ const styles = StyleSheet.create({
 	settingOption: {
 		height: 60,
 		paddingHorizontal: 10,
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 		gap: 10,
 		borderRadius: 10,
 	},
 	actionContainer: {
 		flexShrink: 1,
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 
 	// text styles

@@ -3,7 +3,7 @@ import {
 	EVENING_GREET_MSG,
 	MORNING_GREET_MSG,
 	NIGHT_GREET_MSG,
-} from "../constants/messages";
+} from '../constants/messages';
 
 export const getGreeting = (): string => {
 	const hour = new Date().getHours();

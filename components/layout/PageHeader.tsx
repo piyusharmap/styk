@@ -1,11 +1,5 @@
-import {
-	View,
-	StyleSheet,
-	StyleProp,
-	TextStyle,
-	ViewStyle,
-} from "react-native";
-import UIText from "../ui/UIText";
+import { View, StyleSheet, StyleProp, TextStyle, ViewStyle } from 'react-native';
+import UIText from '../ui/UIText';
 
 export const PageHeading = ({
 	children,
@@ -52,10 +46,10 @@ const styles = StyleSheet.create({
 	// text styles
 	heading: {
 		fontSize: 36,
-		fontWeight: "500",
+		fontWeight: '500',
 	},
 	subHeading: {
 		fontSize: 14,
-		fontWeight: "500",
+		fontWeight: '500',
 	},
 });

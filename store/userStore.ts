@@ -1,7 +1,7 @@
-import { create } from "zustand";
-import { UserPreferences } from "../types/userTypes";
-import { createJSONStorage, persist } from "zustand/middleware";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { create } from 'zustand';
+import { UserPreferences } from '../types/userTypes';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type UserStore = {
 	preferences: UserPreferences;
@@ -11,9 +11,9 @@ type UserStore = {
 };
 
 const defaultPreferences: UserPreferences = {
-	themeMode: "light",
-	weekStartDeafult: "monday",
-	timerDefault: "stopwatch",
+	themeMode: 'light',
+	weekStartDeafult: 'monday',
+	timerDefault: 'stopwatch',
 	notifications: true,
 };
 
@@ -36,8 +36,8 @@ export const useUserStore = create<UserStore>()(
 				}),
 		}),
 		{
-			name: "user-store",
+			name: 'user-store',
 			storage: createJSONStorage(() => AsyncStorage),
-		}
-	)
+		},
+	),
 );

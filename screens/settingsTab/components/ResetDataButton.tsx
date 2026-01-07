@@ -1,38 +1,24 @@
-import { useState } from "react";
-import UIButton from "../../../components/ui/UIButton";
-import { useHabitStore } from "../../../store/habitStore";
-import { Alert } from "react-native";
+import { useState } from 'react';
+import UIButton from '../../../components/ui/UIButton';
+import DeleteDataModal from '../../../components/modal/DeleteDataModal';
 
 const ResetDataButton = () => {
-	const [isResettingData, setIsResettingData] = useState<boolean>(false);
-
-	const resetData = useHabitStore((s) => s.resetData);
-
-	const handleResetData = async () => {
-		setIsResettingData(true);
-
-		try {
-			await resetData();
-		} catch (error) {
-			Alert.alert(
-				"Operation Failed",
-				"Failed to reset data. Please try again."
-			);
-		} finally {
-			setIsResettingData(false);
-		}
-	};
+	const [showModal, setShowModal] = useState<boolean>(false);
 
 	return (
-		<UIButton
-			variant="danger"
-			size="sm"
-			title="Delete"
-			iconName="Trash2"
-			onPress={handleResetData}
-			isDisabled={isResettingData}
-			isLoading={isResettingData}
-		/>
+		<>
+			<UIButton
+				variant='danger'
+				size='sm'
+				title='Delete'
+				iconName='Trash2'
+				onPress={() => setShowModal(true)}
+			/>
+
+			{showModal && (
+				<DeleteDataModal isVisible={showModal} onClose={() => setShowModal(false)} />
+			)}
+		</>
 	);
 };
 

@@ -1,13 +1,7 @@
-import { StyleProp, StyleSheet, TextStyle } from "react-native";
-import UIText from "../ui/UIText";
+import { StyleProp, StyleSheet, TextStyle } from 'react-native';
+import UIText from '../ui/UIText';
 
-const TabBarLabel = ({
-	label,
-	style,
-}: {
-	label: string;
-	style?: StyleProp<TextStyle>;
-}) => {
+const TabBarLabel = ({ label, style }: { label: string; style?: StyleProp<TextStyle> }) => {
 	return <UIText style={[styles.label, style]}>{label}</UIText>;
 };
 

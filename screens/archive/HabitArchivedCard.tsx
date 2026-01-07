@@ -1,11 +1,11 @@
-import { View, StyleSheet } from "react-native";
-import useTheme from "../../theme/useTheme";
-import { Habit } from "../../types/habitTypes";
-import { HabitTypeDetails } from "../../constants/habit";
-import UIText from "../../components/ui/UIText";
-import TypeIconContainer from "../../components/habit/TypeIconContainer";
-import DeleteArchiveButton from "./DeleteArchiveButton";
-import RestoreArchiveButton from "./RestoreArchiveButton";
+import { View, StyleSheet } from 'react-native';
+import useTheme from '../../theme/useTheme';
+import { Habit } from '../../types/habitTypes';
+import { HabitTypeDetails } from '../../constants/habit';
+import UIText from '../../components/ui/UIText';
+import TypeIconContainer from '../../components/habit/TypeIconContainer';
+import DeleteArchiveButton from './DeleteArchiveButton';
+import RestoreArchiveButton from './RestoreArchiveButton';
 
 const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 	const { colors } = useTheme();
@@ -16,12 +16,11 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 		<View
 			style={[
 				{
-					backgroundColor: colors.foreground + "80",
+					backgroundColor: colors.foreground + '80',
 					borderColor: colors.border,
 				},
 				styles.habitCard,
-			]}
-		>
+			]}>
 			<View style={styles.habitSection}>
 				<View style={styles.habitInfo}>
 					<UIText style={styles.habitName} numberOfLines={1}>
@@ -30,23 +29,16 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 
 					<View style={styles.habitDetails}>
 						<UIText style={styles.habitDetail} isSecondary>
-							Archived on:{" "}
-							<UIText style={{ color: colors.text }}>
-								{habit.archivedAt}
-							</UIText>
+							Archived on:{' '}
+							<UIText style={{ color: colors.text }}>{habit.archivedAt}</UIText>
 						</UIText>
 					</View>
 				</View>
 
-				<TypeIconContainer
-					icon={typeDetails.icon}
-					color={habit.color}
-				/>
+				<TypeIconContainer icon={typeDetails.icon} color={habit.color} />
 			</View>
 
-			<View
-				style={[{ borderColor: colors.border }, styles.actionContainer]}
-			>
+			<View style={[{ borderColor: colors.border }, styles.actionContainer]}>
 				<DeleteArchiveButton habitId={habit.id} />
 
 				<RestoreArchiveButton habitId={habit.id} />
@@ -64,16 +56,16 @@ const styles = StyleSheet.create({
 		gap: 10,
 		borderRadius: 10,
 		borderWidth: 1,
-		borderStyle: "dashed",
-		overflow: "hidden",
+		borderStyle: 'dashed',
+		overflow: 'hidden',
 	},
 	habitCardPressed: {
 		opacity: 0.8,
 	},
 	habitSection: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 		gap: 10,
 	},
 	habitInfo: {
@@ -81,15 +73,15 @@ const styles = StyleSheet.create({
 		gap: 4,
 	},
 	habitDetails: {
-		alignItems: "flex-start",
+		alignItems: 'flex-start',
 	},
 	actionContainer: {
 		paddingTop: 10,
-		flexDirection: "row",
-		justifyContent: "center",
+		flexDirection: 'row',
+		justifyContent: 'center',
 		gap: 10,
 		borderTopWidth: 1,
-		borderStyle: "dashed",
+		borderStyle: 'dashed',
 	},
 	actionButton: {
 		flex: 1,
@@ -99,7 +91,7 @@ const styles = StyleSheet.create({
 	habitName: {
 		flexShrink: 1,
 		fontSize: 18,
-		fontWeight: "500",
+		fontWeight: '500',
 	},
 	habitDetail: {
 		fontSize: 12,

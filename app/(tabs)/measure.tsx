@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import UIView from "../../components/ui/UIView";
+import { StyleSheet } from 'react-native';
+import UIView from '../../components/ui/UIView';
 
 const MeasureTab = () => {
 	return (

@@ -1,22 +1,16 @@
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
-import UIText from "../ui/UIText";
-import useTheme from "../../theme/useTheme";
-import Icon from "../icon";
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import UIText from '../ui/UIText';
+import useTheme from '../../theme/useTheme';
+import Icon from '../icon';
 
-const ListHeader = ({
-	heading,
-	style,
-}: {
-	heading: string;
-	style?: StyleProp<ViewStyle>;
-}) => {
+const ListHeader = ({ heading, style }: { heading: string; style?: StyleProp<ViewStyle> }) => {
 	const { colors } = useTheme();
 
 	return (
 		<View style={[styles.listHeader, style]}>
 			<UIText style={styles.listHeading}>{heading}</UIText>
 
-			<Icon name="ArrowRight" size={12} color={colors.accent} />
+			<Icon name='ArrowRight' size={12} color={colors.accent} />
 		</View>
 	);
 };
@@ -28,8 +22,8 @@ const styles = StyleSheet.create({
 	listHeader: {
 		paddingHorizontal: 13,
 		paddingVertical: 2,
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		gap: 4,
 	},
 

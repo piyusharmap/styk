@@ -14,19 +14,19 @@ The app is **free to use** and does **not require any login or registration**, m
 
 ### ✨ Key Features
 
--   **Dual-Mode Tracking**: Specialized logic for **Building** habits (positive reinforcement) and **Quitting** habits (relapse tracking).
--   **Privacy First**: 100% offline. Your data stays on your device in a local SQLite database.
--   **Visual Analytics**: 30-day heatmaps to visualize your consistency.
--   **Customizable**: Color-coded habits with flexible frequencies (Daily, Weekly, Monthly, Yearly).
--   **Zero Onboarding**: Start tracking in seconds. No registration required.
+- **Dual-Mode Tracking**: Specialized logic for **Building** habits (positive reinforcement) and **Quitting** habits (relapse tracking).
+- **Privacy First**: 100% offline. Your data stays on your device in a local SQLite database.
+- **Visual Analytics**: 30-day heatmaps to visualize your consistency.
+- **Customizable**: Color-coded habits with flexible frequencies (Daily, Weekly, Monthly, Yearly).
+- **Zero Onboarding**: Start tracking in seconds. No registration required.
 
 ### 🛠️ Tech Stack
 
--   **Framework**: [React Native](https://reactnative.dev/) via [Expo](https://expo.dev/)
--   **Navigation**: [Expo Router](https://docs.expo.dev/router/introduction/) (File-based routing)
--   **State Management**: [Zustand](https://github.com/pmndrs/zustand)
--   **Database**: [SQLite](https://docs.expo.dev/versions/latest/sdk/sqlite/) for local persistence
--   **Icon Pack**: [Lucide React Native](https://lucide.dev/)
+- **Framework**: [React Native](https://reactnative.dev/) via [Expo](https://expo.dev/)
+- **Navigation**: [Expo Router](https://docs.expo.dev/router/introduction/) (File-based routing)
+- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
+- **Database**: [SQLite](https://docs.expo.dev/versions/latest/sdk/sqlite/) for local persistence
+- **Icon Pack**: [Lucide React Native](https://lucide.dev/)
 
 ### 🚀 Getting Started
 
@@ -50,6 +50,6 @@ The app is **free to use** and does **not require any login or registration**, m
 
 **To view the app on your device:**
 
--   Install the Expo Go app.
--   Ensure your phone and computer are on the same Wi-Fi network.
--   Scan the QR code appearing in your terminal.
+- Install the Expo Go app.
+- Ensure your phone and computer are on the same Wi-Fi network.
+- Scan the QR code appearing in your terminal.

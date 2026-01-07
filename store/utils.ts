@@ -1,24 +1,17 @@
-import {
-	Habit,
-	HabitFrequency,
-	HabitLog,
-	HabitWindow,
-} from "../types/habitTypes";
-import { getMaxDate, toDateString } from "../utils/time";
+import { Habit, HabitFrequency, HabitLog, HabitWindow } from '../types/habitTypes';
+import { getMaxDate, toDateString } from '../utils/time';
 
 // get current time window based on frequency
-export const getCurrentTimeWindow = (
-	frequency: HabitFrequency
-): HabitWindow => {
+export const getCurrentTimeWindow = (frequency: HabitFrequency): HabitWindow => {
 	const today = new Date();
 	let start = new Date(today);
 	let end = new Date(today);
 
 	switch (frequency) {
-		case "daily":
+		case 'daily':
 			break;
 
-		case "weekly":
+		case 'weekly':
 			const day = today.getDay();
 			const diff = day === 0 ? -6 : 1 - day;
 
@@ -27,12 +20,12 @@ export const getCurrentTimeWindow = (
 			end.setDate(start.getDate() + 6);
 			break;
 
-		case "monthly":
+		case 'monthly':
 			start = new Date(today.getFullYear(), today.getMonth(), 1);
 			end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 			break;
 
-		case "yearly":
+		case 'yearly':
 			start = new Date(today.getFullYear(), 0, 1);
 			end = new Date(today.getFullYear(), 11, 31);
 			break;
@@ -47,28 +40,28 @@ export const getCurrentTimeWindow = (
 // to get the time previous time window based on current window
 export const getPreviousTimeWindow = (
 	frequency: HabitFrequency,
-	currentWindow: HabitWindow
+	currentWindow: HabitWindow,
 ): HabitWindow => {
 	const start = new Date(currentWindow.start);
 	const end = new Date(currentWindow.end);
 
 	switch (frequency) {
-		case "daily":
+		case 'daily':
 			start.setDate(start.getDate() - 1);
 			end.setDate(end.getDate() - 1);
 			break;
 
-		case "weekly":
+		case 'weekly':
 			start.setDate(start.getDate() - 7);
 			end.setDate(end.getDate() - 7);
 			break;
 
-		case "monthly":
+		case 'monthly':
 			start.setMonth(start.getMonth() - 1);
 			end.setMonth(end.getMonth() - 1);
 			break;
 
-		case "yearly":
+		case 'yearly':
 			start.setFullYear(start.getFullYear() - 1);
 			end.setFullYear(end.getFullYear() - 1);
 			break;
@@ -84,33 +77,21 @@ export const getPreviousTimeWindow = (
 export const isHabitSuccessfulInWindow = (
 	habit: Habit,
 	logs: HabitLog[],
-	window: HabitWindow
+	window: HabitWindow,
 ): boolean => {
-	if (habit.target.type === "count") {
+	if (habit.target.type === 'count') {
 		const logsInWindow = logs.filter(
-			(log) =>
-				log.habitId === habit.id &&
-				log.date >= window.start &&
-				log.date <= window.end
+			(log) => log.habitId === habit.id && log.date >= window.start && log.date <= window.end,
 		);
 
-		const totalValue = logsInWindow.reduce(
-			(sum, log) => sum + log.value,
-			0
-		);
+		const totalValue = logsInWindow.reduce((sum, log) => sum + log.value, 0);
 
 		return totalValue >= habit.target.count;
 	}
 
-	const { start, end } = getEffectiveWindow(
-		window.start,
-		window.end,
-		habit.target.startDate
-	);
+	const { start, end } = getEffectiveWindow(window.start, window.end, habit.target.startDate);
 
-	const relapseExists = logs.some(
-		(log) => log.date >= start && log.date <= end
-	);
+	const relapseExists = logs.some((log) => log.date >= start && log.date <= end);
 
 	// if there is any log present in-between the time window we consider the habit as failed
 	return !relapseExists;
@@ -120,9 +101,9 @@ export const isHabitSuccessfulInWindow = (
 export const isHabitLockedForWindow = (
 	habit: Habit,
 	logs: HabitLog[],
-	window: { start: string; end: string }
+	window: { start: string; end: string },
 ): boolean => {
-	if (habit.target.type === "quit") return false;
+	if (habit.target.type === 'quit') return false;
 
 	return isHabitSuccessfulInWindow(habit, logs, window);
 };
@@ -144,7 +125,7 @@ export const getLast30Days = (): string[] => {
 	for (let i = 29; i >= 0; i--) {
 		const date = new Date();
 		date.setDate(date.getDate() - i);
-		dates.push(date.toISOString().split("T")[0]);
+		dates.push(date.toISOString().split('T')[0]);
 	}
 
 	return dates;

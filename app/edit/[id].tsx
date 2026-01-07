@@ -1,9 +1,9 @@
-import { StyleSheet } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import { useHabitStore } from "../../store/habitStore";
-import UIView from "../../components/ui/UIView";
-import UpdateHabitForm from "../../screens/edit/UpdateHabitForm";
-import PageLoader from "../../components/PageLoader";
+import { StyleSheet } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import { useHabitStore } from '../../store/habitStore';
+import UIView from '../../components/ui/UIView';
+import UpdateHabitForm from '../../screens/edit/UpdateHabitForm';
+import PageLoader from '../../components/PageLoader';
 
 const EditHabitPage = () => {
 	const { id } = useLocalSearchParams<{

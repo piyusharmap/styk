@@ -1,6 +1,6 @@
-import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import useTheme from "../../theme/useTheme";
-import UIText from "../../components/ui/UIText";
+import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import useTheme from '../../theme/useTheme';
+import UIText from '../../components/ui/UIText';
 
 const HabitInfoCard = ({
 	heading,
@@ -17,13 +17,12 @@ const HabitInfoCard = ({
 		<View
 			style={[
 				{
-					backgroundColor: colors.foreground + "80",
+					backgroundColor: colors.foreground + '80',
 					borderColor: colors.border,
 				},
 				styles.card,
 				style,
-			]}
-		>
+			]}>
 			{heading && (
 				<UIText style={styles.heading} isSecondary>
 					{heading}
@@ -48,8 +47,8 @@ const styles = StyleSheet.create({
 
 	// text styles
 	heading: {
-		fontSize: 12,
-		fontWeight: "500",
-		textTransform: "uppercase",
+		fontSize: 10,
+		fontWeight: '600',
+		textTransform: 'uppercase',
 	},
 });

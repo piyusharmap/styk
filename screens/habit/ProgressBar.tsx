@@ -1,7 +1,7 @@
-import { Animated, StyleSheet, View } from "react-native";
-import { useEffect, useRef } from "react";
-import { useHabitStore } from "../../store/habitStore";
-import { HabitTarget } from "../../types/habitTypes";
+import { Animated, StyleSheet, View } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { useHabitStore } from '../../store/habitStore';
+import { HabitTarget } from '../../types/habitTypes';
 
 const ProgressBar = ({
 	habitId,
@@ -20,10 +20,7 @@ const ProgressBar = ({
 	const bars = Array.from({ length: totalBars });
 
 	useEffect(() => {
-		const progress =
-			target.type === "count"
-				? Math.min(countValue / target.count, 1)
-				: 0;
+		const progress = target.type === 'count' ? Math.min(countValue / target.count, 1) : 0;
 
 		Animated.timing(progressAnim, {
 			toValue: progress,
@@ -32,7 +29,7 @@ const ProgressBar = ({
 		}).start();
 	}, [countValue]);
 
-	if (target.type !== "count") return null;
+	if (target.type !== 'count') return null;
 
 	return (
 		<View style={styles.container}>
@@ -42,7 +39,7 @@ const ProgressBar = ({
 				const barOpacity = progressAnim.interpolate({
 					inputRange: [step, step + 0.01],
 					outputRange: [0.5, 1],
-					extrapolate: "clamp",
+					extrapolate: 'clamp',
 				});
 
 				return (
@@ -66,14 +63,14 @@ export default ProgressBar;
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: "row",
-		width: "100%",
+		flexDirection: 'row',
+		width: '100%',
 		height: 32,
-		alignItems: "center",
-		justifyContent: "space-between",
+		alignItems: 'center',
+		justifyContent: 'space-between',
 	},
 	bar: {
-		height: "100%",
+		height: '100%',
 		width: 4,
 		borderRadius: 6,
 	},

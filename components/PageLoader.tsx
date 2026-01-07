@@ -1,7 +1,6 @@
-import React from "react";
-import UILoader from "./ui/UILoader";
-import UIView from "./ui/UIView";
-import { StyleSheet } from "react-native";
+import UILoader from './ui/UILoader';
+import UIView from './ui/UIView';
+import { StyleSheet } from 'react-native';
 
 const PageLoader = ({
 	isBottomSafe = false,
@@ -11,11 +10,7 @@ const PageLoader = ({
 	isTopSafe?: boolean;
 }) => {
 	return (
-		<UIView
-			style={styles.container}
-			isBottomSafe={isBottomSafe}
-			isTopSafe={isTopSafe}
-		>
+		<UIView style={styles.container} isBottomSafe={isBottomSafe} isTopSafe={isTopSafe}>
 			<UILoader size={32} />
 		</UIView>
 	);
@@ -27,7 +22,7 @@ const styles = StyleSheet.create({
 	// container styles
 	container: {
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 });

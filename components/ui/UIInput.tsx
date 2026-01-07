@@ -6,10 +6,10 @@ import {
 	TextStyle,
 	View,
 	ViewStyle,
-} from "react-native";
-import { useState } from "react";
-import useTheme from "../../theme/useTheme";
-import UIText from "./UIText";
+} from 'react-native';
+import { useState } from 'react';
+import useTheme from '../../theme/useTheme';
+import UIText from './UIText';
 
 export const UIInputLabel = ({ label }: { label: string }) => {
 	return (
@@ -22,17 +22,13 @@ export const UIInputLabel = ({ label }: { label: string }) => {
 export const UIInputError = ({ error }: { error: string }) => {
 	const { colors } = useTheme();
 
-	return (
-		<UIText style={[{ color: colors.danger }, styles.info]}>{error}</UIText>
-	);
+	return <UIText style={[{ color: colors.danger }, styles.info]}>{error}</UIText>;
 };
 
 export const UIInputInfo = ({ info }: { info: string }) => {
 	const { colors } = useTheme();
 
-	return (
-		<UIText style={[{ color: colors.info }, styles.info]}>{info}</UIText>
-	);
+	return <UIText style={[{ color: colors.info }, styles.info]}>{info}</UIText>;
 };
 
 export const UIInput = ({
@@ -61,7 +57,7 @@ export const UIInput = ({
 			value={value}
 			onChangeText={onChangeInput}
 			placeholderTextColor={colors.textSecondary}
-			placeholder="Enter"
+			placeholder='Enter'
 			style={[
 				{
 					color: colors.text,

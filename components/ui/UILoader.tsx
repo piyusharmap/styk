@@ -1,10 +1,5 @@
-import {
-	ActivityIndicator,
-	ActivityIndicatorProps,
-	StyleProp,
-	ViewStyle,
-} from "react-native";
-import useTheme from "../../theme/useTheme";
+import { ActivityIndicator, ActivityIndicatorProps, StyleProp, ViewStyle } from 'react-native';
+import useTheme from '../../theme/useTheme';
 
 const UILoader = ({
 	size = 18,
@@ -16,14 +11,7 @@ const UILoader = ({
 }) => {
 	const { colors } = useTheme();
 
-	return (
-		<ActivityIndicator
-			size={size}
-			style={style}
-			color={colors.neutral}
-			{...props}
-		/>
-	);
+	return <ActivityIndicator size={size} style={style} color={colors.neutral} {...props} />;
 };
 
 export default UILoader;

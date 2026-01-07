@@ -1,22 +1,22 @@
-import { SplashScreen, Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import UIView from "../components/ui/UIView";
-import useTheme from "../theme/useTheme";
-import { StyleSheet } from "react-native";
-import { useAppFonts } from "../fonts/useFonts";
-import NavigationHeading from "../components/heading/NavigationHeading";
-import NavigationBackButton from "../components/layout/NavigationBackButton";
-import { SQLiteProvider } from "expo-sqlite";
-import { initializeDb } from "../db";
-import { useHabitStore } from "../store/habitStore";
-import { useEffect } from "react";
-import { DB_NAME } from "../constants/db";
-import { useUserStore } from "../store/userStore";
+import { SplashScreen, Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import UIView from '../components/ui/UIView';
+import useTheme from '../theme/useTheme';
+import { StyleSheet } from 'react-native';
+import { useAppFonts } from '../fonts/useFonts';
+import NavigationHeading from '../components/heading/NavigationHeading';
+import NavigationBackButton from '../components/layout/NavigationBackButton';
+import { SQLiteProvider } from 'expo-sqlite';
+import { initializeDb } from '../db';
+import { useHabitStore } from '../store/habitStore';
+import { useEffect } from 'react';
+import { DB_NAME } from '../constants/db';
+import { useUserStore } from '../store/userStore';
 
 SplashScreen.preventAutoHideAsync();
 
 export const unstable_settings = {
-	initialRouteName: "index",
+	initialRouteName: 'index',
 };
 
 const RootLayout = () => {
@@ -35,7 +35,7 @@ const RootLayout = () => {
 
 	return (
 		<UIView style={styles.container}>
-			<StatusBar style={mode === "dark" ? "light" : "dark"} />
+			<StatusBar style={mode === 'dark' ? 'light' : 'dark'} />
 
 			<Stack
 				screenOptions={{
@@ -49,10 +49,9 @@ const RootLayout = () => {
 						backgroundColor: colors.navBackground,
 					},
 					headerTintColor: colors.navText,
-					headerTitleAlign: "center",
+					headerTitleAlign: 'center',
 					headerShadowVisible: false,
-				}}
-			>
+				}}>
 				{/* <Stack.Screen
 					name="index"
 					options={{
@@ -63,105 +62,88 @@ const RootLayout = () => {
 				/> */}
 
 				<Stack.Screen
-					name="(tabs)"
+					name='(tabs)'
 					options={{
-						title: "",
+						title: '',
 						headerShown: false,
-						animation: "fade",
+						animation: 'fade',
 					}}
 				/>
 
 				<Stack.Screen
-					name="habit/[id]"
+					name='habit/[id]'
 					options={{
-						title: "",
+						title: '',
 						headerTitle: (props) => {
 							return (
-								<NavigationHeading
-									title="Habit Details"
-									tint={props.tintColor}
-								/>
+								<NavigationHeading title='Habit Details' tint={props.tintColor} />
 							);
 						},
 						headerShown: true,
-						animation: "fade",
+						animation: 'fade',
 					}}
 				/>
 
 				<Stack.Screen
-					name="edit/[id]"
+					name='edit/[id]'
 					options={{
-						title: "",
+						title: '',
 						headerTitle: (props) => {
 							return (
-								<NavigationHeading
-									title="Update Habit"
-									tint={props.tintColor}
-								/>
+								<NavigationHeading title='Update Habit' tint={props.tintColor} />
 							);
 						},
 						headerShown: true,
-						animation: "fade",
+						animation: 'fade',
 					}}
 				/>
 
 				<Stack.Screen
-					name="create/index"
+					name='create/index'
 					options={{
-						title: "",
+						title: '',
 						headerTitle: (props) => {
 							return (
-								<NavigationHeading
-									title="Create Habit"
-									tint={props.tintColor}
-								/>
+								<NavigationHeading title='Create Habit' tint={props.tintColor} />
 							);
 						},
 						headerShown: true,
-						animation: "fade",
+						animation: 'fade',
 					}}
 				/>
 
 				<Stack.Screen
-					name="archive/index"
+					name='archive/index'
 					options={{
-						title: "",
+						title: '',
 						headerTitle: (props) => {
 							return (
-								<NavigationHeading
-									title="Archived Habits"
-									tint={props.tintColor}
-								/>
+								<NavigationHeading title='Archived Habits' tint={props.tintColor} />
 							);
 						},
 						headerShown: true,
-						animation: "fade",
+						animation: 'fade',
 					}}
 				/>
 
 				<Stack.Screen
-					name="about/index"
+					name='about/index'
 					options={{
-						title: "",
+						title: '',
 						headerTitle: (props) => {
-							return (
-								<NavigationHeading
-									title="About Us"
-									tint={props.tintColor}
-								/>
-							);
+							return <NavigationHeading title='About Us' tint={props.tintColor} />;
 						},
 						headerShown: true,
-						animation: "fade",
+						animation: 'fade',
 					}}
 				/>
 
 				<Stack.Screen
-					name="+not-found"
+					name='+not-found'
 					options={{
-						title: "",
+						title: '',
 						headerShown: true,
-						animation: "fade",
+						animation: 'fade',
 					}}
 				/>
 			</Stack>
@@ -181,11 +163,7 @@ const DBBootstrap = ({ children }: { children: React.ReactNode }) => {
 
 const App = () => {
 	return (
-		<SQLiteProvider
-			databaseName={DB_NAME}
-			onInit={initializeDb}
-			useSuspense
-		>
+		<SQLiteProvider databaseName={DB_NAME} onInit={initializeDb} useSuspense>
 			<DBBootstrap>
 				<RootLayout />
 			</DBBootstrap>

@@ -1,6 +1,6 @@
-import { Colors, Theme } from "./colors";
-import { useUserStore } from "../store/userStore";
-import { ThemeMode } from "../types/userTypes";
+import { Colors, Theme } from './colors';
+import { useUserStore } from '../store/userStore';
+import { ThemeMode } from '../types/userTypes';
 
 const useTheme = (): {
 	colors: Theme;

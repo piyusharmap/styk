@@ -1,8 +1,8 @@
-import { Pressable, StyleSheet, FlatList, PressableProps } from "react-native";
-import { CountUnit } from "../../types/habitTypes";
-import useTheme from "../../theme/useTheme";
-import UIText from "../ui/UIText";
-import { UnitOptions } from "../../constants/habit";
+import { Pressable, StyleSheet, FlatList, PressableProps } from 'react-native';
+import { CountUnit } from '../../types/habitTypes';
+import useTheme from '../../theme/useTheme';
+import UIText from '../ui/UIText';
+import { UnitOptions } from '../../constants/habit';
 
 export type UnitOption = {
 	label: string;
@@ -23,14 +23,13 @@ const UnitBadge = ({
 		<Pressable
 			style={[
 				{
-					backgroundColor: colors.foreground + "80",
+					backgroundColor: colors.foreground + '80',
 					borderColor: colors.border,
 				},
 				styles.unitBadge,
 				isSelected && { borderColor: colors.neutral },
 			]}
-			{...props}
-		>
+			{...props}>
 			<UIText style={styles.label}>{unit.label}</UIText>
 		</Pressable>
 	);
@@ -71,8 +70,8 @@ export default UnitSelector;
 const styles = StyleSheet.create({
 	// container styles
 	unitSelector: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		gap: 8,
 	},
 	unitBadge: {

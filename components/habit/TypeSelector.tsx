@@ -1,9 +1,9 @@
-import { View, Pressable, StyleSheet, PressableProps } from "react-native";
-import { HabitType } from "../../types/habitTypes";
-import useTheme from "../../theme/useTheme";
-import UIText from "../ui/UIText";
-import { TypeOptions } from "../../constants/habit";
-import Icon, { IconType } from "../icon";
+import { View, Pressable, StyleSheet, PressableProps } from 'react-native';
+import { HabitType } from '../../types/habitTypes';
+import useTheme from '../../theme/useTheme';
+import UIText from '../ui/UIText';
+import { TypeOptions } from '../../constants/habit';
+import Icon, { IconType } from '../icon';
 
 export type TypeOption = {
 	label: string;
@@ -26,14 +26,13 @@ const TypeCard = ({
 		<Pressable
 			style={[
 				{
-					backgroundColor: colors.foreground + "80",
+					backgroundColor: colors.foreground + '80',
 					borderColor: colors.border,
 				},
 				styles.typeCard,
 				isSelected && { borderColor: colors.neutral },
 			]}
-			{...props}
-		>
+			{...props}>
 			<View style={styles.labelContainer}>
 				<Icon name={type.icon} size={16} color={colors.accent} />
 				<UIText style={styles.label}>{type.label}</UIText>
@@ -77,7 +76,7 @@ export default TypeSelector;
 const styles = StyleSheet.create({
 	// container styles
 	typeSelector: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		gap: 8,
 	},
 	typeCard: {
@@ -89,18 +88,18 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 	},
 	labelContainer: {
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		gap: 2,
 	},
 
 	// text styles
 	label: {
 		fontSize: 16,
-		fontWeight: "500",
+		fontWeight: '500',
 	},
 	description: {
 		fontSize: 12,
-		textAlign: "center",
+		textAlign: 'center',
 	},
 });

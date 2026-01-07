@@ -1,8 +1,8 @@
-import { Pressable, StyleSheet, FlatList, PressableProps } from "react-native";
-import UIText from "../ui/UIText";
-import { HabitFrequency } from "../../types/habitTypes";
-import { FrequencyOptions } from "../../constants/habit";
-import useTheme from "../../theme/useTheme";
+import { Pressable, StyleSheet, FlatList, PressableProps } from 'react-native';
+import UIText from '../ui/UIText';
+import { HabitFrequency } from '../../types/habitTypes';
+import { FrequencyOptions } from '../../constants/habit';
+import useTheme from '../../theme/useTheme';
 
 export type FrequencyOption = {
 	label: string;
@@ -23,14 +23,13 @@ const FrequencyBadge = ({
 		<Pressable
 			style={[
 				{
-					backgroundColor: colors.foreground + "80",
+					backgroundColor: colors.foreground + '80',
 					borderColor: colors.border,
 				},
 				styles.freqBadge,
 				isSelected && { borderColor: colors.neutral },
 			]}
-			{...props}
-		>
+			{...props}>
 			<UIText style={styles.label}>{frequency.label}</UIText>
 		</Pressable>
 	);
@@ -71,8 +70,8 @@ export default FrequencySelector;
 const styles = StyleSheet.create({
 	// container styles
 	freqSelector: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		gap: 8,
 	},
 	freqBadge: {

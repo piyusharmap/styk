@@ -1,13 +1,7 @@
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
-import UIText from "../ui/UIText";
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import UIText from '../ui/UIText';
 
-const ListEmpty = ({
-	message,
-	style,
-}: {
-	message: string;
-	style?: StyleProp<ViewStyle>;
-}) => {
+const ListEmpty = ({ message, style }: { message: string; style?: StyleProp<ViewStyle> }) => {
 	return (
 		<View style={[styles.messageContainer, style]}>
 			<UIText style={styles.message} isSecondary>
@@ -24,14 +18,14 @@ const styles = StyleSheet.create({
 	messageContainer: {
 		paddingHorizontal: 20,
 		paddingVertical: 40,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 
 	// text styles
 	message: {
 		fontSize: 14,
-		fontWeight: "300",
-		fontStyle: "italic",
+		fontWeight: '300',
+		fontStyle: 'italic',
 	},
 });

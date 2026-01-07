@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import UIView from "../../components/ui/UIView";
-import CreateHabitForm from "../../screens/create/CreateHabitForm";
+import { StyleSheet } from 'react-native';
+import UIView from '../../components/ui/UIView';
+import CreateHabitForm from '../../screens/create/CreateHabitForm';
 
 const CreateHabitPage = () => {
 	return (

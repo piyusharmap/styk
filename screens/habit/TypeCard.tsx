@@ -1,7 +1,7 @@
-import { View, StyleSheet } from "react-native";
-import UIText from "../../components/ui/UIText";
-import { IconType } from "../../components/icon";
-import TypeIconContainer from "../../components/habit/TypeIconContainer";
+import { View, StyleSheet } from 'react-native';
+import UIText from '../../components/ui/UIText';
+import { IconType } from '../../components/icon';
+import TypeIconContainer from '../../components/habit/TypeIconContainer';
 
 const TypeCard = ({
 	label,
@@ -15,12 +15,7 @@ const TypeCard = ({
 	color?: string;
 }) => {
 	return (
-		<View
-			style={[
-				{ backgroundColor: color + "30", borderColor: color },
-				styles.card,
-			]}
-		>
+		<View style={[{ backgroundColor: color + '30', borderColor: color }, styles.card]}>
 			<TypeIconContainer icon={icon} color={color} />
 
 			<View style={styles.details}>
@@ -40,8 +35,8 @@ const styles = StyleSheet.create({
 	// container styles
 	card: {
 		padding: 12,
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		gap: 10,
 		borderRadius: 10,
 		borderWidth: 0.5,
@@ -53,7 +48,7 @@ const styles = StyleSheet.create({
 	// text styles
 	title: {
 		fontSize: 18,
-		fontWeight: "500",
+		fontWeight: '500',
 	},
 	description: {
 		fontSize: 12,
