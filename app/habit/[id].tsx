@@ -73,7 +73,7 @@ const HabitDetailsPage = () => {
 									>
 										{countValue}
 									</UIText>
-									{" / "}
+									{"/"}
 									{habitDetails.target.count}
 									{` ${habitDetails.target.unit}${
 										habitDetails.target.count > 1 ? "s" : ""
@@ -201,10 +201,10 @@ const styles = StyleSheet.create({
 		lineHeight: 24,
 	},
 	count: {
-		fontSize: 16,
+		fontSize: 14,
 	},
 	countHighlight: {
-		fontSize: 20,
+		fontSize: 18,
 		fontWeight: "500",
 	},
 	infoHeading: {

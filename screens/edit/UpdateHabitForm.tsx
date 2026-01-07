@@ -106,7 +106,6 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 				"Operation Failed",
 				"Failed to update habit. Please try again."
 			);
-		} finally {
 			setIsUpdating(false);
 		}
 	};

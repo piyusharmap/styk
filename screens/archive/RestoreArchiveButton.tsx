@@ -28,7 +28,6 @@ const RestoreArchiveButton = ({
 				"Operation Failed",
 				"Failed to delete habit. Please try again."
 			);
-		} finally {
 			setIsRestoring(false);
 		}
 	};

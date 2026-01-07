@@ -89,7 +89,6 @@ const CreateHabitForm = () => {
 				"Operation Failed",
 				"Failed to save habit. Please try again."
 			);
-		} finally {
 			setIsSaving(false);
 		}
 	};

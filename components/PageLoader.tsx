@@ -1,4 +1,3 @@
-import React from "react";
 import UILoader from "./ui/UILoader";
 import UIView from "./ui/UIView";
 import { StyleSheet } from "react-native";

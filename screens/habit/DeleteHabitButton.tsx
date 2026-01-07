@@ -1,8 +1,7 @@
-import { Alert, StyleProp, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle } from "react-native";
 import UIButton from "../../components/ui/UIButton";
 import { useState } from "react";
-import { useHabitStore } from "../../store/habitStore";
-import { useRouter } from "expo-router";
+import DeleteHabitModal from "../../components/modal/DeleteHabitModal";
 
 const DeleteHabitButton = ({
 	habitId,
@@ -11,37 +10,26 @@ const DeleteHabitButton = ({
 	habitId: string;
 	style?: StyleProp<ViewStyle>;
 }) => {
-	const [isDeleting, setIsDeleting] = useState<boolean>(false);
+	const [showModal, setShowModal] = useState<boolean>(false);
 
-	const router = useRouter();
-	const deleteHabit = useHabitStore((s) => s.deleteHabit);
-
-	const handleHabitDelete = async () => {
-		setIsDeleting(true);
-
-		try {
-			await deleteHabit(habitId);
-
-			router.navigate("(tabs)/habits");
-		} catch (error) {
-			Alert.alert(
-				"Operation Failed",
-				"Failed to delete habit. Please try again."
-			);
-		} finally {
-			setIsDeleting(false);
-		}
-	};
 	return (
-		<UIButton
-			variant="danger"
-			title="Delete"
-			iconName="Trash2"
-			style={style}
-			onPress={handleHabitDelete}
-			disabled={isDeleting}
-			isLoading={isDeleting}
-		/>
+		<>
+			<UIButton
+				variant="danger"
+				title="Delete"
+				iconName="Trash2"
+				style={style}
+				onPress={() => setShowModal(true)}
+			/>
+
+			{showModal && (
+				<DeleteHabitModal
+					habitId={habitId}
+					isVisible={showModal}
+					onClose={() => setShowModal(false)}
+				/>
+			)}
+		</>
 	);
 };
 
