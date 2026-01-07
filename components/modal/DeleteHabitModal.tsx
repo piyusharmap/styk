@@ -34,7 +34,7 @@ const DeleteHabitModal = ({
 
 			onClose();
 		} catch (error) {
-			Alert.alert('Operation Failed', 'Failed to delete habit. Please try again.');
+			Alert.alert('Failed to delete habit.', `Error: ${error}`);
 			setIsDeleting(false);
 		}
 	};

@@ -5,13 +5,11 @@ import useTheme from '../../../theme/useTheme';
 import HabitToggleButton from './HabitToggleButton';
 import { useHabitStore } from '../../../store/habitStore';
 import ProgressBar from './ProgressBar';
-import { useRouter } from 'expo-router';
 import Icon from '../../../components/icon';
 
 const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 	const { colors } = useTheme();
 
-	const router = useRouter();
 	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(habit.id));
 	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
 

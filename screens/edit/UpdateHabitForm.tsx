@@ -89,7 +89,7 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 
 			router.navigate('(tabs)/habits');
 		} catch (error) {
-			Alert.alert('Operation Failed', 'Failed to update habit. Please try again.');
+			Alert.alert('Failed to update habit.', `Error: ${error}`);
 			setIsUpdating(false);
 		}
 	};

@@ -18,7 +18,7 @@ const DeleteDataModal = ({ isVisible, onClose }: { isVisible: boolean; onClose: 
 
 			onClose();
 		} catch (error) {
-			Alert.alert('Operation Failed', 'Failed to reset data. Please try again.');
+			Alert.alert('Failed to reset data.', `Error: ${error}`);
 		} finally {
 			setIsResettingData(false);
 		}

@@ -79,7 +79,7 @@ const CreateHabitForm = () => {
 			resetForm();
 			router.navigate('(tabs)/habits');
 		} catch (error) {
-			Alert.alert('Operation Failed', 'Failed to save habit. Please try again.');
+			Alert.alert('Failed to create habit.', `Error: ${error}`);
 			setIsSaving(false);
 		}
 	};

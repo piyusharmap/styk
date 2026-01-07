@@ -29,7 +29,7 @@ const ArchiveHabitModal = ({
 			router.replace('(tabs)/habits');
 			onClose();
 		} catch (error) {
-			Alert.alert('Operation Failed', 'Failed to archive habit. Please try again.');
+			Alert.alert('Failed to archive habit.', `Error: ${error}`);
 			setIsArchiving(false);
 		}
 	};

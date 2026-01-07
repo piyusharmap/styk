@@ -9,6 +9,7 @@ import {
 import { getTodayString } from '../utils/time';
 import { HabitService } from '../services/habitService';
 import { HabitLogService } from '../services/habitLogService';
+import { logger } from '../utils/logger';
 
 type HabitStore = {
 	habits: Habit[];
@@ -68,7 +69,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		try {
 			await fn();
 		} catch (error) {
-			console.error(`[Store Error] ${errorMessage}:`, error);
+			logger.error(`[Store Error] ${errorMessage}:`, error);
 			// set a global error state later here for UI alerts
 			throw error;
 		}

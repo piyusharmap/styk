@@ -16,7 +16,7 @@ const RestoreArchiveButton = ({
 	const router = useRouter();
 	const restoreHabit = useHabitStore((s) => s.restoreHabit);
 
-	const handleHabitDelete = async () => {
+	const handleHabitRestore = async () => {
 		setIsRestoring(true);
 
 		try {
@@ -24,7 +24,7 @@ const RestoreArchiveButton = ({
 
 			router.navigate('(tabs)/habits');
 		} catch (error) {
-			Alert.alert('Operation Failed', 'Failed to delete habit. Please try again.');
+			Alert.alert('Failed to restore archive.', `Error: ${error}`);
 			setIsRestoring(false);
 		}
 	};
@@ -35,7 +35,7 @@ const RestoreArchiveButton = ({
 			title='Restore'
 			iconName='ArchiveRestore'
 			style={style}
-			onPress={handleHabitDelete}
+			onPress={handleHabitRestore}
 			disabled={isRestoring}
 			isLoading={isRestoring}
 		/>
