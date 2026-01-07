@@ -8,11 +8,13 @@ const Icon = ({
 	name,
 	color,
 	size,
+	fillColor,
 	isFilled = false,
 }: {
 	name: IconType;
 	color?: string;
 	size?: number;
+	fillColor?: string;
 	isFilled?: boolean;
 }) => {
 	const LucideIcon = icons[name] as React.ElementType;
@@ -24,7 +26,7 @@ const Icon = ({
 	return (
 		<>
 			{isFilled ? (
-				<LucideIcon color={color || colors.text} size={size} fill={color} />
+				<LucideIcon color={color || colors.text} size={size} fill={fillColor || color} />
 			) : (
 				<LucideIcon color={color || colors.text} size={size} />
 			)}

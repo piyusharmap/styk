@@ -5,7 +5,7 @@ import { getTodayString } from '../utils/time';
 
 export const HabitService = {
 	loadHabits: async (): Promise<Habit[]> => {
-		const query = `SELECT h.*, t.type, t.frequency, t.count, t.unit, t.start_date, t.initial_start_date
+		const query = `SELECT h.*, t.type, t.frequency, t.count, t.unit, t.start_date, t.initial_start_date, t.current_streak, t.longest_streak
 		FROM habits h
 		LEFT JOIN habit_targets t ON h.id = t.habit_id;`;
 
@@ -30,13 +30,15 @@ export const HabitService = {
 
 			if (habit.target.type === 'count') {
 				await db.runAsync(
-					`INSERT INTO habit_targets (habit_id, type, frequency, count, unit) VALUES (?, ?, ?, ?, ?);`,
+					`INSERT INTO habit_targets (habit_id, type, frequency, count, unit, current_streak, longest_streak) VALUES (?, ?, ?, ?, ?, ?, ?);`,
 					[
 						habit.id,
 						habit.target.type,
 						habit.target.frequency,
 						habit.target.count,
 						habit.target.unit,
+						habit.target.currentStreak,
+						habit.target.longestStreak,
 					],
 				);
 			} else if (habit.target.type === 'quit') {
@@ -92,6 +94,12 @@ export const HabitService = {
 		const query = `UPDATE habit_targets SET start_date = ? WHERE habit_id = ?;`;
 
 		return executeSQL(query, [newStartDate, habitId]);
+	},
+
+	updateHabitStreak: async (habitId: string, currentStreak: number, longestStreak: number) => {
+		const query = `UPDATE habit_targets SET current_streak = ?, longest_streak = ? WHERE habit_id = ? AND type = 'count';`;
+
+		return executeSQL(query, [currentStreak, longestStreak, habitId]);
 	},
 
 	archiveHabit: async (id: string, date: string) => {

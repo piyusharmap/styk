@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { Habit, HabitLog, HabitLogStatus, HabitTarget } from '../types/habitTypes';
 import {
+	calculateCountStreak,
 	getCurrentTimeWindow,
 	getLast30Days,
 	isHabitLockedForWindow,
@@ -40,7 +41,6 @@ type HabitStore = {
 	isHabitSuccessful: (habitId: string) => boolean;
 	isHabitLocked: (habitId: string) => boolean;
 
-	getStreak: (habitId: string) => number;
 	getCountValue: (habitId: string) => number;
 
 	getAllHabits: () => Habit[];
@@ -73,6 +73,39 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			// set a global error state later here for UI alerts
 			throw error;
 		}
+	};
+
+	// to sync the count habit streak
+	const syncHabitStreak = async (habitId: string) => {
+		await executeAsync('failed to sync streak', async () => {
+			const habit = get().habits.find((h) => h.id === habitId);
+			if (!habit || habit.target.type !== 'count') return;
+
+			const logs = get().logs;
+
+			const newCurrentStreak = calculateCountStreak(habit, logs);
+			const newBestStreak = Math.max(newCurrentStreak, habit.target.longestStreak || 0);
+
+			await HabitService.updateHabitStreak(habitId, newCurrentStreak, newBestStreak);
+
+			console.log(newCurrentStreak);
+			console.log(newBestStreak);
+
+			set((state) => ({
+				habits: state.habits.map((h) =>
+					h.id === habitId
+						? {
+								...h,
+								target: {
+									...h.target,
+									currentStreak: newCurrentStreak,
+									bestStreak: newBestStreak,
+								},
+							}
+						: h,
+				),
+			}));
+		});
 	};
 
 	return {
@@ -112,7 +145,10 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 					id: habit.id,
 					name: name,
 					color: color,
-					target: target,
+					target: {
+						...habit.target,
+						...target,
+					},
 					createdAt: habit.createdAt,
 					updatedAt: today,
 				};
@@ -124,6 +160,10 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 						habitItem.id === habit.id ? updatedHabit : habitItem,
 					),
 				}));
+
+				if (habit.target.type === 'count') {
+					await syncHabitStreak(habitId);
+				}
 			});
 		},
 
@@ -195,6 +235,8 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 						logs: [...state.logs, newLog],
 					}));
 				}
+
+				await syncHabitStreak(habitId);
 			});
 		},
 
@@ -238,6 +280,8 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 						logs: logs.filter((log) => log.id !== existingLog.id),
 					});
 				}
+
+				await syncHabitStreak(habitId);
 			});
 		},
 
@@ -312,10 +356,6 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			return isHabitLockedForWindow(habit, logs, window);
 		},
 
-		getStreak: (habitId) => {
-			return 0;
-		},
-
 		getCountValue: (habitId) => {
 			const habit = get().habits.find((habit) => habit.id === habitId);
 
@@ -361,15 +401,25 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 			const createdAt = habit.createdAt.split('T')[0];
 
+			const habitType = habit.target.type;
+
 			return last30Days.map((date) => {
 				if (date < createdAt) {
-					return { date, status: 'none', value: 0 };
+					if (habitType === 'count') {
+						return { date, status: 'none', value: 0 };
+					} else {
+						if (date < habit.target.initialStartDate) {
+							return { date, status: 'none', value: 0 };
+						} else {
+							return { date, status: 'success', value: 0 };
+						}
+					}
 				}
 
 				const value = logMap.get(date) || 0;
 				let status: HabitLogStatus = 'none';
 
-				if (habit.target.type === 'count') {
+				if (habitType === 'count') {
 					const goal = habit.target.count;
 
 					if (value >= goal) {
@@ -377,7 +427,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 					} else {
 						status = date === today ? 'incomplete' : value > 0 ? 'incomplete' : 'fail';
 					}
-				} else if (habit.target.type === 'quit') {
+				} else if (habitType === 'quit') {
 					if (value > 0) {
 						status = 'fail';
 					} else {

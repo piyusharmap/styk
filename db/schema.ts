@@ -21,6 +21,8 @@ export const CREATE_TABLE = `
         start_date TEXT,
         initial_start_date TEXT,
         unit TEXT,
+        current_streak INTEGER DEFAULT 0,
+        longest_streak INTEGER DEFAULT 0,
         FOREIGN KEY (habit_id) REFERENCES habits (id) ON DELETE CASCADE
     );
 

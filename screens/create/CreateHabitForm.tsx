@@ -61,6 +61,8 @@ const CreateHabitForm = () => {
 				frequency: habitTarget.frequency,
 				count: habitTarget.count,
 				unit: habitTarget.unit,
+				currentStreak: habitTarget.currentStreak,
+				longestStreak: habitTarget.longestStreak,
 			};
 		} else {
 			target = {

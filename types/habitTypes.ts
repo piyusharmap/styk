@@ -8,11 +8,13 @@ export type HabitWindow = { start: string; end: string };
 
 export type HabitLogStatus = 'success' | 'fail' | 'incomplete' | 'none';
 
+export type MilestoneUnit = 'day' | 'month' | 'year';
+
 export type HabitMilestone = {
 	id: string;
 	label: string;
 	value: number;
-	unit: CountUnit;
+	unit: MilestoneUnit;
 	reachedAt: string;
 };
 
@@ -22,6 +24,8 @@ export type HabitTarget =
 			count: number;
 			frequency: HabitFrequency;
 			unit: CountUnit;
+			currentStreak: number;
+			longestStreak: number;
 			milestones?: HabitMilestone[];
 	  }
 	| {

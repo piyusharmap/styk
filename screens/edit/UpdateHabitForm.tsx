@@ -44,6 +44,8 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 			currentHabit.target.type === 'quit'
 				? fromDateString(currentHabit.target.initialStartDate)
 				: new Date(),
+		currentStreak: currentHabit.target.type === 'count' ? currentHabit.target.currentStreak : 0,
+		longestStreak: currentHabit.target.type === 'count' ? currentHabit.target.currentStreak : 0,
 	});
 
 	const [formError, setFormError] = useState<string>('');
@@ -72,6 +74,8 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 				frequency: habitTarget.frequency,
 				count: habitTarget.count,
 				unit: habitTarget.unit,
+				currentStreak: habitTarget.currentStreak,
+				longestStreak: habitTarget.longestStreak,
 			};
 		} else {
 			target = {
