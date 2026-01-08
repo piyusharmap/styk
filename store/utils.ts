@@ -118,6 +118,41 @@ const getEffectiveWindow = (start: string, end: string, startDate?: string) => {
 	};
 };
 
+// to calculate the completion streak
+export const calculateCountStreak = (habit: Habit, logs: HabitLog[]): number => {
+	if (habit.target.type !== 'count') return 0;
+
+	const frequency = habit.target.frequency;
+	let streak = 0;
+
+	let currentWindow = getCurrentTimeWindow(frequency);
+
+	const isCurrentSuccessful = isHabitSuccessfulInWindow(habit, logs, currentWindow);
+
+	if (isCurrentSuccessful) {
+		streak = 1;
+	}
+
+	let checkWindow = getPreviousTimeWindow(frequency, currentWindow);
+
+	while (true) {
+		const wasSuccessful = isHabitSuccessfulInWindow(habit, logs, checkWindow);
+
+		if (wasSuccessful) {
+			streak++;
+			checkWindow = getPreviousTimeWindow(frequency, checkWindow);
+		} else {
+			break;
+		}
+
+		if (checkWindow.start < habit.createdAt) {
+			break;
+		}
+	}
+
+	return streak;
+};
+
 // to get last 30 dates list
 export const getLast30Days = (): string[] => {
 	const dates: string[] = [];

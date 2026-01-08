@@ -57,6 +57,8 @@ export const InitialTarget = {
 	frequency: 'daily' as HabitFrequency,
 	startDate: new Date(),
 	initialStartDate: new Date(),
+	currentStreak: 0,
+	longestStreak: 0,
 };
 
 export const FrequencyOptions: { label: string; value: HabitFrequency }[] = [

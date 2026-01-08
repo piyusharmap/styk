@@ -15,7 +15,7 @@ const TypeCard = ({
 	color?: string;
 }) => {
 	return (
-		<View style={[{ backgroundColor: color + '30', borderColor: color }, styles.card]}>
+		<View style={[{ backgroundColor: color + '30' }, styles.card]}>
 			<TypeIconContainer icon={icon} color={color} />
 
 			<View style={styles.details}>
@@ -34,12 +34,11 @@ export default TypeCard;
 const styles = StyleSheet.create({
 	// container styles
 	card: {
-		padding: 12,
+		padding: 10,
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 10,
 		borderRadius: 10,
-		borderWidth: 0.5,
 	},
 	details: {
 		flex: 1,

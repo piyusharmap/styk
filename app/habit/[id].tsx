@@ -66,7 +66,7 @@ const HabitDetailsPage = () => {
 									<UIText style={[{ color: colors.text }, styles.countHighlight]}>
 										{countValue}
 									</UIText>
-									{'/'}
+									{' / '}
 									{habitDetails.target.count}
 									{` ${habitDetails.target.unit}${
 										habitDetails.target.count > 1 ? 's' : ''

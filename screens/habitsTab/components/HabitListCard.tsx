@@ -11,7 +11,8 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 	const { colors } = useTheme();
 	const router = useRouter();
 
-	const typeDetails = HabitTypeDetails[habit.target.type];
+	const habitType = habit.target.type;
+	const typeDetails = HabitTypeDetails[habitType];
 
 	return (
 		<Pressable
@@ -38,7 +39,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					</UIText>
 
 					<View style={styles.habitDetails}>
-						{habit.target.type === 'count' ? (
+						{habitType === 'count' ? (
 							<>
 								<UIText style={styles.habitDetail} isSecondary>
 									Target:{' '}
@@ -78,16 +79,18 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 				<TypeIconContainer icon={typeDetails.icon} color={habit.color} />
 			</View>
 
-			<View style={styles.badgesContainer}>
-				<Badge
-					title={`${0}`}
-					style={{
-						backgroundColor: habit.color + '50',
-						borderColor: habit.color,
-					}}
-					icon='Flame'
-				/>
-			</View>
+			{habitType === 'count' && (
+				<View style={styles.badgesContainer}>
+					<Badge
+						title={`${habit.target.currentStreak}`}
+						style={{
+							backgroundColor: habit.color + '50',
+							borderColor: habit.color,
+						}}
+						icon='Flame'
+					/>
+				</View>
+			)}
 		</Pressable>
 	);
 };

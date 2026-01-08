@@ -5,15 +5,17 @@ export function mapHabit(rows: any): Habit {
 		rows.type === 'count'
 			? {
 					type: 'count',
-					count: rows.count,
 					frequency: rows.frequency,
+					count: rows.count,
 					unit: rows.unit,
+					currentStreak: rows.current_streak,
+					longestStreak: rows.longest_streak,
 				}
 			: {
 					type: 'quit',
+					frequency: 'daily',
 					startDate: rows.start_date,
 					initialStartDate: rows.initial_start_date,
-					frequency: 'daily',
 				};
 
 	return {

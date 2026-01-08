@@ -12,6 +12,7 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 
 	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(habit.id));
 	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
+	const habitType = habit.target.type;
 
 	return (
 		<View
@@ -27,7 +28,7 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 					<UIText style={styles.habitName}>{habit.name}</UIText>
 
 					<View style={styles.habitDetails}>
-						{habit.target.type === 'count' ? (
+						{habitType === 'count' ? (
 							<UIText style={styles.habitDetail} isSecondary>
 								{isHabitLocked ? 'Completed' : 'In Progress'}:{' '}
 								<UIText style={{ color: colors.text }}>
@@ -57,9 +58,15 @@ const HabitTodayCard = ({ habit }: { habit: Habit }) => {
 				</View>
 
 				<View style={styles.actionContainer}>
-					{isHabitLocked && habit.target.type === 'count' ? (
+					{isHabitLocked && habitType === 'count' ? (
 						<View style={styles.iconContainer}>
-							<Icon name='CircleCheck' size={32} color={habit.color} />
+							<Icon
+								name='CircleCheck'
+								size={32}
+								color={habit.color}
+								fillColor={habit.color + '50'}
+								isFilled
+							/>
 						</View>
 					) : (
 						<HabitToggleButton
