@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: 4,
-		borderWidth: 0.5,
+		borderWidth: 1,
 		borderRadius: 6,
 	},
 	badgePressed: {

@@ -2,16 +2,22 @@ import { View, StyleSheet, Pressable } from 'react-native';
 import UIText from '../../../components/ui/UIText';
 import { Habit } from '../../../types/habitTypes';
 import useTheme from '../../../theme/useTheme';
-import Badge from '../../../components/Badge';
+import HabitToggleButton from './HabitToggleButton';
+import { useHabitStore } from '../../../store/habitStore';
+import Icon from '../../../components/icon';
 import { HabitTypeDetails } from '../../../constants/habit';
-import { useRouter } from 'expo-router';
 import TypeIconContainer from '../../../components/habit/TypeIconContainer';
+import { useRouter } from 'expo-router';
+import ProgressBar from '../../../components/habit/ProgressBar';
 
 const HabitListCard = ({ habit }: { habit: Habit }) => {
 	const { colors } = useTheme();
-	const router = useRouter();
 
+	const router = useRouter();
+	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(habit.id));
+	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
 	const habitType = habit.target.type;
+
 	const typeDetails = HabitTypeDetails[habitType];
 
 	return (
@@ -33,6 +39,8 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 				});
 			}}>
 			<View style={styles.habitSection}>
+				<TypeIconContainer icon={typeDetails.icon} color={habit.color} />
+
 				<View style={styles.habitInfo}>
 					<UIText style={styles.habitName} numberOfLines={1}>
 						{habit.name}
@@ -40,57 +48,51 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 
 					<View style={styles.habitDetails}>
 						{habitType === 'count' ? (
-							<>
-								<UIText style={styles.habitDetail} isSecondary>
-									Target:{' '}
-									<UIText style={{ color: colors.text }}>
-										{habit.target.count}{' '}
-										{`${habit.target.unit}${habit.target.count > 1 ? 's' : ''}`}
-									</UIText>
+							<UIText style={styles.habitDetail} isSecondary>
+								{isHabitLocked ? 'Completed' : 'In Progress'}:{' '}
+								<UIText style={{ color: colors.text }}>
+									{countValue}/{habit.target.count}{' '}
+									{`${habit.target.unit}${habit.target.count > 1 ? 's' : ''}`}{' '}
+									{`(${habit.target.frequency})`}
 								</UIText>
-
-								<UIText style={styles.habitDetail} isSecondary>
-									Frequency:{' '}
-									<UIText style={{ color: colors.text }}>
-										{habit.target.frequency}
-									</UIText>
-								</UIText>
-							</>
+							</UIText>
 						) : (
-							<>
-								<UIText style={styles.habitDetail} isSecondary>
-									Clean since:{' '}
-									<UIText style={{ color: colors.text }}>
-										{habit.target.startDate}
-									</UIText>
+							<UIText style={styles.habitDetail} isSecondary>
+								Clean since:{' '}
+								<UIText style={{ color: colors.text }}>
+									{habit.target.startDate}
 								</UIText>
-
-								<UIText style={styles.habitDetail} isSecondary>
-									Started on:{' '}
-									<UIText style={{ color: colors.text }}>
-										{habit.target.initialStartDate}
-									</UIText>
-								</UIText>
-							</>
+							</UIText>
 						)}
 					</View>
 				</View>
 
-				<TypeIconContainer icon={typeDetails.icon} color={habit.color} />
+				<View style={styles.actionContainer}>
+					{isHabitLocked && habitType === 'count' ? (
+						<View
+							style={[
+								{ backgroundColor: habit.color + '30', borderColor: habit.color },
+								styles.iconContainer,
+							]}>
+							<Icon
+								name='Flame'
+								size={20}
+								color={habit.color}
+								fillColor={habit.color + '50'}
+								isFilled
+							/>
+						</View>
+					) : (
+						<HabitToggleButton
+							habitId={habit.id}
+							target={habit.target}
+							color={habit.color}
+						/>
+					)}
+				</View>
 			</View>
 
-			{habitType === 'count' && (
-				<View style={styles.badgesContainer}>
-					<Badge
-						title={`${habit.target.currentStreak}`}
-						style={{
-							backgroundColor: habit.color + '50',
-							borderColor: habit.color,
-						}}
-						icon='Flame'
-					/>
-				</View>
-			)}
+			<ProgressBar habitId={habit.id} target={habit.target} color={habit.color} />
 		</Pressable>
 	);
 };
@@ -100,11 +102,10 @@ export default HabitListCard;
 const styles = StyleSheet.create({
 	// container styles
 	habitCard: {
-		padding: 12,
+		padding: 10,
 		gap: 10,
 		borderRadius: 10,
-		borderWidth: 1,
-		borderStyle: 'dashed',
+		borderWidth: 2,
 		overflow: 'hidden',
 	},
 	habitCardPressed: {
@@ -112,26 +113,31 @@ const styles = StyleSheet.create({
 	},
 	habitSection: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
 		alignItems: 'center',
-		gap: 10,
+		gap: 8,
 	},
 	habitInfo: {
-		flexShrink: 1,
-		gap: 4,
+		flex: 1,
+		gap: 2,
 	},
 	habitDetails: {
 		alignItems: 'flex-start',
 	},
-	badgesContainer: {
-		flexDirection: 'row',
+	actionContainer: {
+		justifyContent: 'center',
 		alignItems: 'center',
-		gap: 6,
+	},
+	iconContainer: {
+		height: 40,
+		width: 40,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderWidth: 2,
+		borderRadius: 20,
 	},
 
 	// text styles
 	habitName: {
-		flexShrink: 1,
 		fontSize: 18,
 		fontWeight: '500',
 	},

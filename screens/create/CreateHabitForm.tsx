@@ -168,11 +168,15 @@ const CreateHabitForm = () => {
 				)}
 			</ScrollView>
 
-			<View style={[{ borderColor: colors.border }, styles.actionContainer]}>
+			<View
+				style={[
+					{ backgroundColor: colors.tabBackground, borderColor: colors.border },
+					styles.actionContainer,
+				]}>
 				<UIButton
 					title='Reset'
 					onPress={resetForm}
-					iconName='RefreshCw'
+					iconName='RotateCcw'
 					style={styles.actionButton}
 					isDisabled={isSaving}
 				/>
@@ -182,6 +186,7 @@ const CreateHabitForm = () => {
 					variant='primary'
 					onPress={handleSaveHabit}
 					style={styles.actionButton}
+					iconName='Save'
 					isLoading={isSaving}
 					isDisabled={isSaving}
 				/>
@@ -198,13 +203,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	formContainer: {
-		gap: 16,
+		gap: 12,
 		paddingHorizontal: 12,
 		paddingTop: 4,
 		paddingBottom: 60,
 	},
 	countDetails: {
-		gap: 10,
+		gap: 6,
 	},
 	actionContainer: {
 		paddingHorizontal: 12,

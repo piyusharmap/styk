@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 	// container styles
 	messageContainer: {
 		paddingHorizontal: 20,
-		paddingVertical: 40,
+		paddingVertical: 20,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},

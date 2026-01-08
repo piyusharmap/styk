@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import UIView from '../../components/ui/UIView';
 
-const MeasureTab = () => {
+const ActivityTab = () => {
 	return (
 		<UIView style={styles.container} isTopSafe>
 			<></>
@@ -9,7 +9,7 @@ const MeasureTab = () => {
 	);
 };
 
-export default MeasureTab;
+export default ActivityTab;
 
 const styles = StyleSheet.create({
 	// container styles

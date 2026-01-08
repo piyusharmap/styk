@@ -88,9 +88,6 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 			await HabitService.updateHabitStreak(habitId, newCurrentStreak, newBestStreak);
 
-			console.log(newCurrentStreak);
-			console.log(newBestStreak);
-
 			set((state) => ({
 				habits: state.habits.map((h) =>
 					h.id === habitId

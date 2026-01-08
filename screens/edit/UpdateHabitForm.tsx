@@ -200,11 +200,16 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 				)}
 			</ScrollView>
 
-			<View style={[{ borderColor: colors.border }, styles.actionContainer]}>
+			<View
+				style={[
+					{ backgroundColor: colors.tabBackground, borderColor: colors.border },
+					styles.actionContainer,
+				]}>
 				<UIButton
-					title='Update Habit'
+					title='Save Updates'
 					variant='primary'
 					onPress={handleUpdateHabit}
+					iconName='Save'
 					style={styles.actionButton}
 					isLoading={isUpdating}
 					isDisabled={isUpdating}
@@ -222,13 +227,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	formContainer: {
-		gap: 16,
+		gap: 12,
 		paddingHorizontal: 12,
 		paddingTop: 4,
 		paddingBottom: 60,
 	},
 	countDetails: {
-		gap: 10,
+		gap: 6,
 	},
 	actionContainer: {
 		paddingHorizontal: 12,

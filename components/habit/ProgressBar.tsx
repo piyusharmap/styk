@@ -7,16 +7,18 @@ const ProgressBar = ({
 	habitId,
 	target,
 	color,
+	height = 12,
 }: {
 	habitId: string;
 	target: HabitTarget;
 	color: string;
+	height?: number;
 }) => {
 	const progressAnim = useRef(new Animated.Value(0)).current;
 
 	const countValue = useHabitStore((s) => s.getCountValue(habitId));
 
-	const totalBars = 32;
+	const totalBars = 40;
 	const bars = Array.from({ length: totalBars });
 
 	useEffect(() => {
@@ -32,7 +34,7 @@ const ProgressBar = ({
 	if (target.type !== 'count') return null;
 
 	return (
-		<View style={styles.container}>
+		<View style={[{ height: height }, styles.container]}>
 			{bars.map((_, index) => {
 				const step = index / totalBars;
 
@@ -65,13 +67,14 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		width: '100%',
-		height: 32,
-		alignItems: 'center',
 		justifyContent: 'space-between',
+		alignItems: 'center',
+		gap: 2,
+		overflow: 'hidden',
 	},
 	bar: {
 		height: '100%',
 		width: 4,
-		borderRadius: 6,
+		borderRadius: 2,
 	},
 });

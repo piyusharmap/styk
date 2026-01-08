@@ -14,8 +14,8 @@ const TabsLayout = () => {
 			screenOptions={{
 				headerShown: false,
 				tabBarStyle: {
-					height: insets.bottom + 72,
-					paddingTop: 8,
+					height: insets.bottom + 68,
+					paddingTop: 6,
 					paddingBottom: insets.bottom,
 					backgroundColor: colors.tabBackground,
 					borderTopWidth: 1,
@@ -34,23 +34,6 @@ const TabsLayout = () => {
 			/>
 
 			<Tabs.Screen
-				name='today'
-				options={{
-					title: '',
-					tabBarLabel: (props) => {
-						return <TabBarLabel label='Today' style={{ color: props.color }} />;
-					},
-					tabBarIcon: ({ focused }) => (
-						<Icon
-							size={22}
-							name='CalendarCheck2'
-							color={focused ? colors.primary : colors.tabIconInactive}
-						/>
-					),
-				}}
-			/>
-
-			<Tabs.Screen
 				name='habits'
 				options={{
 					title: '',
@@ -59,8 +42,8 @@ const TabsLayout = () => {
 					},
 					tabBarIcon: ({ focused }) => (
 						<Icon
-							size={22}
-							name='Calendar'
+							size={24}
+							name='CalendarRange'
 							color={focused ? colors.primary : colors.tabIconInactive}
 						/>
 					),
@@ -68,17 +51,16 @@ const TabsLayout = () => {
 			/>
 
 			<Tabs.Screen
-				name='measure'
+				name='activity'
 				options={{
-					href: null, // remove after implementing measure functionality
 					title: '',
 					tabBarLabel: (props) => {
-						return <TabBarLabel label='Measure' style={{ color: props.color }} />;
+						return <TabBarLabel label='Activity' style={{ color: props.color }} />;
 					},
 					tabBarIcon: ({ focused }) => (
 						<Icon
-							size={22}
-							name='Ruler'
+							size={24}
+							name='ScrollText'
 							color={focused ? colors.primary : colors.tabIconInactive}
 						/>
 					),
@@ -94,8 +76,8 @@ const TabsLayout = () => {
 					},
 					tabBarIcon: ({ focused }) => (
 						<Icon
-							size={22}
-							name='Settings2'
+							size={24}
+							name='Settings'
 							color={focused ? colors.primary : colors.tabIconInactive}
 						/>
 					),

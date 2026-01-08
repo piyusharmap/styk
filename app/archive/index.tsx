@@ -39,10 +39,4 @@ const styles = StyleSheet.create({
 		paddingBottom: 100,
 		gap: 8,
 	},
-	actionContainer: {
-		position: 'absolute',
-		padding: 12,
-		bottom: 0,
-		right: 0,
-	},
 });

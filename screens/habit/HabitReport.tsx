@@ -19,11 +19,11 @@ const HabitReport = ({ habitId }: { habitId: string }) => {
 	const getItemColor = (status: string) => {
 		switch (status) {
 			case 'success':
-				return { color: colors.neutral, border: colors.neutral };
+				return { color: colors.success, border: colors.success };
 			case 'incomplete':
 				return {
-					color: colors.foreground,
-					border: colors.neutral,
+					color: colors.success + '50',
+					border: colors.success,
 				};
 			case 'fail':
 				return {
@@ -57,7 +57,7 @@ const HabitReport = ({ habitId }: { habitId: string }) => {
 
 			<View style={styles.legendContainer}>
 				<View style={styles.legendItem}>
-					<Icon name='CircleSmall' size={16} color={colors.neutral} isFilled />
+					<Icon name='CircleSmall' size={16} color={colors.success} isFilled />
 
 					<UIText style={styles.label} isSecondary>
 						Completed
@@ -83,21 +83,20 @@ const styles = StyleSheet.create({
 	grid: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		gap: 8,
-		paddingVertical: 12,
+		gap: 4,
+		paddingVertical: 10,
 		justifyContent: 'flex-start',
 	},
 	gridItem: {
 		width: 20,
 		height: 20,
-		borderRadius: 10,
-		borderWidth: 2,
+		borderRadius: 4,
+		borderWidth: 1,
 	},
 	legendContainer: {
-		paddingTop: 4,
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
-		gap: 10,
+		gap: 8,
 	},
 	legendItem: {
 		flexDirection: 'row',

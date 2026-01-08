@@ -75,9 +75,7 @@ const RootLayout = () => {
 					options={{
 						title: '',
 						headerTitle: (props) => {
-							return (
-								<NavigationHeading title='Habit Details' tint={props.tintColor} />
-							);
+							return <NavigationHeading title='' tint={props.tintColor} />;
 						},
 						headerShown: true,
 						animation: 'fade',

@@ -4,7 +4,7 @@ import Icon, { IconType } from '../icon';
 const TypeIconContainer = ({ icon, color }: { icon: IconType; color?: string }) => {
 	return (
 		<View style={[{ backgroundColor: color + '50' }, styles.iconContainer]}>
-			<Icon name={icon} size={26} color={color} />
+			<Icon name={icon} size={24} color={color} />
 		</View>
 	);
 };

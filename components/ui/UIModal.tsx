@@ -22,7 +22,6 @@ export const ModalView = ({ children }: { children: React.ReactNode }) => {
 			style={[
 				{
 					backgroundColor: colors.background,
-					borderColor: colors.border,
 				},
 				styles.modalView,
 			]}>
@@ -54,8 +53,7 @@ export const UIModal = ({
 			statusBarTranslucent
 			navigationBarTranslucent>
 			<TouchableWithoutFeedback onPress={onClose}>
-				<View
-					style={[{ backgroundColor: colors.foreground + '80' }, styles.modalContainer]}>
+				<View style={[{ backgroundColor: colors.foreground }, styles.modalContainer]}>
 					<TouchableWithoutFeedback>
 						<View style={styles.modal}>{children}</View>
 					</TouchableWithoutFeedback>
@@ -82,14 +80,13 @@ const styles = StyleSheet.create({
 		padding: 16,
 		gap: 10,
 		borderRadius: 10,
-		borderWidth: 1,
 	},
 	actionContainer: {
 		paddingTop: 20,
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
 		alignItems: 'center',
-		gap: 10,
+		gap: 8,
 	},
 
 	// text styles

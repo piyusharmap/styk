@@ -14,7 +14,9 @@ const NavigationHeading = ({
 	const { colors } = useTheme();
 
 	return (
-		<UIText style={[{ color: tint || colors.navText }, styles.title, style]}>{title}</UIText>
+		<UIText style={[{ color: tint || colors.navText }, styles.title, style]} numberOfLines={1}>
+			{title}
+		</UIText>
 	);
 };
 

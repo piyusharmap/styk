@@ -110,9 +110,8 @@ export const HabitService = {
 
 	restoreHabit: async (id: string) => {
 		const query = `UPDATE habits SET archived = 0, archived_at = NULL WHERE id = ?;`;
-		const today = getTodayString();
 
-		return executeSQL(query, [today, id]);
+		return executeSQL(query, [id]);
 	},
 
 	deleteHabit: async (id: string) => {

@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import UIView from '../../components/ui/UIView';
 import { PageHeader, PageHeading, PageSubHeading } from '../../components/layout/PageHeader';
 import { SETTINGS_PAGE_SUBHEADING } from '../../constants/messages';
@@ -10,15 +10,20 @@ import ResetPrefsButton from '../../screens/settingsTab/components/ResetPrefsBut
 import useTheme from '../../theme/useTheme';
 import UIButton from '../../components/ui/UIButton';
 import { useRouter } from 'expo-router';
+import Logo from '../../components/logo';
 import Badge from '../../components/Badge';
 
 const SettingsTab = () => {
-	const { mode, setMode } = useTheme();
+	const { colors, mode, setMode } = useTheme();
 	const router = useRouter();
 
 	return (
 		<UIView style={styles.container} isTopSafe>
 			<PageHeader>
+				<View style={[{ borderColor: colors.border }, styles.logoContainer]}>
+					<Logo size={60} />
+				</View>
+
 				<PageHeading>Settings</PageHeading>
 				<PageSubHeading>{SETTINGS_PAGE_SUBHEADING}</PageSubHeading>
 			</PageHeader>
@@ -77,10 +82,20 @@ const styles = StyleSheet.create({
 	// container styles
 	container: {
 		flex: 1,
-		gap: 4,
+		gap: 20,
+	},
+	logoContainer: {
+		marginVertical: 10,
+		height: 60,
+		width: 60,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 6,
+		borderWidth: 2,
+		overflow: 'hidden',
 	},
 	settingsContainer: {
-		gap: 4,
+		gap: 10,
 		paddingBottom: 40,
 	},
 });

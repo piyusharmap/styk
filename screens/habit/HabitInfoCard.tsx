@@ -18,6 +18,7 @@ const HabitInfoCard = ({
 			style={[
 				{
 					backgroundColor: colors.foreground + '80',
+					borderColor: colors.foreground,
 				},
 				styles.card,
 				style,
@@ -38,9 +39,10 @@ export default HabitInfoCard;
 const styles = StyleSheet.create({
 	// container styles
 	card: {
-		padding: 12,
-		gap: 4,
+		padding: 10,
+		gap: 6,
 		borderRadius: 10,
+		borderWidth: 2,
 	},
 
 	// text styles

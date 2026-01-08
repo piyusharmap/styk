@@ -1,5 +1,6 @@
 import { View, StyleSheet, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import UIText from '../ui/UIText';
+import useTheme from '../../theme/useTheme';
 
 export const PageHeading = ({
 	children,
@@ -32,7 +33,11 @@ export const PageHeader = ({
 	children: React.ReactNode;
 	style?: StyleProp<ViewStyle>;
 }) => {
-	return <View style={[styles.container, style]}>{children}</View>;
+	const { colors } = useTheme();
+
+	return (
+		<View style={[{ borderColor: colors.border }, styles.container, style]}>{children}</View>
+	);
 };
 
 const styles = StyleSheet.create({
@@ -41,15 +46,18 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		paddingTop: 10,
 		paddingBottom: 16,
+		borderBottomWidth: 1,
+		alignItems: 'center',
 	},
 
 	// text styles
 	heading: {
-		fontSize: 36,
+		fontSize: 28,
 		fontWeight: '500',
+		textAlign: 'center',
 	},
 	subHeading: {
 		fontSize: 14,
-		fontWeight: '500',
+		textAlign: 'center',
 	},
 });

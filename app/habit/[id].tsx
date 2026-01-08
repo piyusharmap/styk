@@ -6,13 +6,14 @@ import useTheme from '../../theme/useTheme';
 import DeleteHabitButton from '../../screens/habit/DeleteHabitButton';
 import UIText from '../../components/ui/UIText';
 import HabitInfoCard from '../../screens/habit/HabitInfoCard';
-import ProgressBar from '../../screens/habit/ProgressBar';
 import { HabitTypeDetails } from '../../constants/habit';
 import TypeCard from '../../screens/habit/TypeCard';
 import HabitReport from '../../screens/habit/HabitReport';
 import NavigationButton from '../../components/layout/NavigationButton';
 import ArchiveHabitButton from '../../screens/habit/ArchiveHabitButton';
 import PageLoader from '../../components/PageLoader';
+import NavigationHeading from '../../components/heading/NavigationHeading';
+import ProgressBar from '../../components/habit/ProgressBar';
 
 const HabitDetailsPage = () => {
 	const { id, color } = useLocalSearchParams<{
@@ -43,6 +44,11 @@ const HabitDetailsPage = () => {
 							/>
 						);
 					},
+					headerTitle: (props) => {
+						return (
+							<NavigationHeading title={habitDetails.name} tint={props.tintColor} />
+						);
+					},
 				}}
 			/>
 
@@ -62,34 +68,33 @@ const HabitDetailsPage = () => {
 					{habitDetails.target.type === 'count' ? (
 						<HabitInfoCard heading='Progress • Today'>
 							<View style={styles.progressContainer}>
-								<UIText style={styles.count} isSecondary>
-									<UIText style={[{ color: colors.text }, styles.countHighlight]}>
-										{countValue}
+								<View style={styles.progressDetails}>
+									<UIText style={styles.progress} isSecondary>
+										<UIText
+											style={[
+												{ color: colors.text },
+												styles.progressHighlight,
+											]}>
+											{countValue}
+										</UIText>
+										{'/'}
+										{habitDetails.target.count}
+										{` ${habitDetails.target.unit}${
+											habitDetails.target.count > 1 ? 's' : ''
+										}`}
 									</UIText>
-									{' / '}
-									{habitDetails.target.count}
-									{` ${habitDetails.target.unit}${
-										habitDetails.target.count > 1 ? 's' : ''
-									}`}
-								</UIText>
+
+									<UIText style={styles.progress}>
+										{habitDetails.target.frequency}
+									</UIText>
+								</View>
 
 								<ProgressBar
 									habitId={habitDetails.id}
 									target={habitDetails.target}
 									color={habitDetails.color}
+									height={28}
 								/>
-							</View>
-
-							<View style={styles.infoContainer}>
-								<View style={styles.infoCard}>
-									<UIText style={styles.info}>
-										{habitDetails.target.frequency}
-									</UIText>
-
-									<UIText style={styles.infoHeading} isSecondary>
-										Frequency
-									</UIText>
-								</View>
 							</View>
 						</HabitInfoCard>
 					) : (
@@ -121,7 +126,11 @@ const HabitDetailsPage = () => {
 					<HabitReport habitId={id} />
 				</ScrollView>
 
-				<View style={[{ borderColor: colors.border }, styles.actionContainer]}>
+				<View
+					style={[
+						{ backgroundColor: colors.tabBackground, borderColor: colors.border },
+						styles.actionContainer,
+					]}>
 					<DeleteHabitButton habitId={id} style={styles.actionButton} />
 
 					<ArchiveHabitButton habitId={id} style={styles.actionButton} />
@@ -140,27 +149,32 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		paddingHorizontal: 12,
-		paddingVertical: 12,
-		gap: 8,
+		paddingVertical: 10,
+		gap: 6,
 	},
 	progressContainer: {
-		paddingVertical: 4,
-		gap: 4,
+		gap: 6,
+	},
+	progressDetails: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		gap: 20,
 	},
 	infoContainer: {
+		paddingTop: 4,
 		flexDirection: 'row',
 		gap: 10,
 	},
 	infoCard: {
-		paddingVertical: 4,
 		flex: 1,
 		gap: 2,
 	},
 	actionContainer: {
 		paddingHorizontal: 12,
-		paddingVertical: 12,
+		paddingVertical: 10,
 		flexDirection: 'row',
-		gap: 10,
+		gap: 8,
 		borderTopWidth: 1,
 	},
 	actionButton: {
@@ -173,10 +187,10 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 		lineHeight: 24,
 	},
-	count: {
+	progress: {
 		fontSize: 14,
 	},
-	countHighlight: {
+	progressHighlight: {
 		fontSize: 18,
 		fontWeight: '500',
 	},

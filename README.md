@@ -6,7 +6,7 @@
 
 # Styk: A Minimal Habit Tracker
 
-### Build better routines. Break bad cycles. All locally on your device.
+### Build better routines. Quit bad cycles. All locally on your device.
 
 Styk is an open-source minimal habit tracker application built using **React Native** and **Expo Router**. It helps you build good habits and quit bad ones in a simple, intuitive way. No accounts, no cloud tracking, and no friction. Just you and your goals.
 

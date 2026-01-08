@@ -10,7 +10,7 @@ const ListHeader = ({ heading, style }: { heading: string; style?: StyleProp<Vie
 		<View style={[styles.listHeader, style]}>
 			<UIText style={styles.listHeading}>{heading}</UIText>
 
-			<Icon name='ArrowRight' size={12} color={colors.accent} />
+			<Icon name='ChevronRight' size={16} color={colors.accent} />
 		</View>
 	);
 };
@@ -20,8 +20,7 @@ export default ListHeader;
 const styles = StyleSheet.create({
 	// container styles
 	listHeader: {
-		paddingHorizontal: 13,
-		paddingVertical: 2,
+		padding: 2,
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 4,
