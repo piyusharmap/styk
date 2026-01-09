@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Habit, HabitLog, HabitLogStatus, HabitTarget } from '../types/habitTypes';
+import { Habit, HabitFrequency, HabitLog, HabitLogStatus, HabitTarget } from '../types/habitTypes';
 import {
 	calculateCountStreak,
 	getCurrentTimeWindow,
@@ -11,6 +11,7 @@ import { getTodayString } from '../utils/time';
 import { HabitService } from '../services/habitService';
 import { HabitLogService } from '../services/habitLogService';
 import { logger } from '../utils/logger';
+import { MomentumScore } from '../constants/habit';
 
 type HabitStore = {
 	habits: Habit[];
@@ -53,6 +54,8 @@ type HabitStore = {
 		status: HabitLogStatus;
 		value: number;
 	}[];
+
+	getGlobalMomentum: () => number;
 
 	// reset/delete/archive actions
 	resetData: () => Promise<void>;
@@ -434,6 +437,28 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 				return { date, status, value };
 			});
+		},
+
+		getGlobalMomentum: () => {
+			const habits = get().habits.filter((h) => !h.archived && h.target.type === 'count');
+			if (habits.length === 0) return 0;
+
+			let totalWeight = 0;
+			let earnedWeight = 0;
+
+			habits.forEach((habit) => {
+				if (habit.target.type !== 'count') return;
+
+				const weight = MomentumScore[habit.target.frequency].score || 1;
+
+				totalWeight += weight;
+
+				if (get().isHabitSuccessful(habit.id)) {
+					earnedWeight += weight;
+				}
+			});
+
+			return Math.round((earnedWeight / totalWeight) * 100);
 		},
 
 		// habit reset/delete actions

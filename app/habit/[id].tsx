@@ -14,6 +14,8 @@ import ArchiveHabitButton from '../../screens/habit/ArchiveHabitButton';
 import PageLoader from '../../components/PageLoader';
 import NavigationHeading from '../../components/heading/NavigationHeading';
 import ProgressBar from '../../components/habit/ProgressBar';
+import { getDayDifference } from '../../utils/time';
+import Icon from '../../components/icon';
 
 const HabitDetailsPage = () => {
 	const { id, color } = useLocalSearchParams<{
@@ -29,6 +31,15 @@ const HabitDetailsPage = () => {
 	if (!habitDetails) return <PageLoader isBottomSafe />;
 
 	const typeDetails = HabitTypeDetails[habitDetails.target.type];
+
+	const currentStreak =
+		habitDetails.target.type === 'count'
+			? habitDetails.target.currentStreak
+			: getDayDifference(habitDetails.target.startDate);
+	const bestStreak =
+		habitDetails.target.type === 'count'
+			? habitDetails.target.longestStreak
+			: getDayDifference(habitDetails.target.initialStartDate);
 
 	return (
 		<>
@@ -93,7 +104,7 @@ const HabitDetailsPage = () => {
 									habitId={habitDetails.id}
 									target={habitDetails.target}
 									color={habitDetails.color}
-									height={28}
+									height={40}
 								/>
 							</View>
 						</HabitInfoCard>
@@ -105,7 +116,7 @@ const HabitDetailsPage = () => {
 										{habitDetails.target.startDate}
 									</UIText>
 
-									<UIText style={styles.infoHeading} isSecondary>
+									<UIText style={styles.infoSubHeading} isSecondary>
 										Clean since
 									</UIText>
 								</View>
@@ -115,7 +126,7 @@ const HabitDetailsPage = () => {
 										{habitDetails.target.initialStartDate}
 									</UIText>
 
-									<UIText style={styles.infoHeading} isSecondary>
+									<UIText style={styles.infoSubHeading} isSecondary>
 										Started on
 									</UIText>
 								</View>
@@ -123,7 +134,51 @@ const HabitDetailsPage = () => {
 						</HabitInfoCard>
 					)}
 
-					<HabitReport habitId={id} accent={habitDetails.color} />
+					<HabitInfoCard heading='Streak'>
+						<View style={styles.infoContainer}>
+							<View style={styles.infoCard}>
+								<View style={styles.streakInfo}>
+									<Icon
+										name='Flame'
+										size={22}
+										color={habitDetails.color}
+										isFilled
+										fillColor={habitDetails.color + '50'}
+									/>
+
+									<UIText style={styles.infoStreak}>{currentStreak}</UIText>
+								</View>
+
+								<UIText style={styles.infoSubHeading} isSecondary>
+									Current Streak
+								</UIText>
+							</View>
+
+							<View style={styles.infoCard}>
+								<View style={styles.streakInfo}>
+									<Icon
+										name='Trophy'
+										size={22}
+										color={habitDetails.color}
+										isFilled
+										fillColor={habitDetails.color + '50'}
+									/>
+
+									<UIText style={styles.infoStreak}>{bestStreak}</UIText>
+								</View>
+
+								<UIText style={styles.infoSubHeading} isSecondary>
+									Best Streak
+								</UIText>
+							</View>
+						</View>
+					</HabitInfoCard>
+
+					<HabitReport habitId={id} />
+
+					<UIText style={styles.update} isSecondary>
+						Last Updated: {habitDetails.updatedAt}
+					</UIText>
 				</ScrollView>
 
 				<View
@@ -153,6 +208,7 @@ const styles = StyleSheet.create({
 		gap: 6,
 	},
 	progressContainer: {
+		paddingTop: 4,
 		gap: 6,
 	},
 	progressDetails: {
@@ -162,12 +218,20 @@ const styles = StyleSheet.create({
 		gap: 20,
 	},
 	infoContainer: {
+		flex: 1,
 		paddingTop: 4,
 		flexDirection: 'row',
+		alignItems: 'center',
 		gap: 10,
+		overflow: 'hidden',
 	},
 	infoCard: {
 		flex: 1,
+		gap: 2,
+	},
+	streakInfo: {
+		flexDirection: 'row',
+		alignItems: 'center',
 		gap: 2,
 	},
 	actionContainer: {
@@ -182,6 +246,11 @@ const styles = StyleSheet.create({
 	},
 
 	// text styles
+	update: {
+		paddingHorizontal: 4,
+		fontSize: 12,
+		textAlign: 'right',
+	},
 	name: {
 		fontSize: 20,
 		fontWeight: '500',
@@ -191,15 +260,23 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 	},
 	progressHighlight: {
-		fontSize: 18,
+		fontSize: 20,
 		fontWeight: '500',
 	},
-	infoHeading: {
+	infoSubHeading: {
 		fontSize: 12,
 	},
 	info: {
 		fontSize: 18,
 		fontWeight: '500',
 		textTransform: 'capitalize',
+	},
+	infoStreak: {
+		fontSize: 24,
+		fontWeight: '600',
+	},
+	streakCount: {
+		fontSize: 32,
+		fontWeight: '600',
 	},
 });

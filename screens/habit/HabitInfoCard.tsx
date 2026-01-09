@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 	// container styles
 	card: {
 		padding: 10,
-		gap: 6,
+		gap: 4,
 		borderRadius: 10,
 		borderWidth: 2,
 	},

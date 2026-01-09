@@ -38,7 +38,7 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 				</View>
 			</View>
 
-			<View style={[{ borderColor: colors.foreground }, styles.actionContainer]}>
+			<View style={[{ borderColor: colors.border }, styles.actionContainer]}>
 				<DeleteArchiveButton habitId={habit.id} />
 
 				<RestoreArchiveButton habitId={habit.id} />

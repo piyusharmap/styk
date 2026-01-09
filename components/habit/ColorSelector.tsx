@@ -29,9 +29,8 @@ const ColorSelector = ({
 								{ backgroundColor: color },
 								styles.colorView,
 								selectedColor === color && styles.colorViewTransform,
-							]}>
-							{selectedColor === color && <Icon name='Check' />}
-						</View>
+							]}
+						/>
 					</Pressable>
 				);
 			})}
@@ -59,8 +58,6 @@ const styles = StyleSheet.create({
 	colorView: {
 		height: '100%',
 		width: '100%',
-		justifyContent: 'center',
-		alignItems: 'center',
 		borderRadius: 20,
 	},
 	colorViewTransform: {

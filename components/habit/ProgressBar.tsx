@@ -7,14 +7,14 @@ const ProgressBar = ({
 	habitId,
 	target,
 	color,
-	height = 16,
+	height = 12,
 }: {
 	habitId: string;
 	target: HabitTarget;
 	color: string;
 	height?: number;
 }) => {
-	const totalBars = 36;
+	const totalBars = 40;
 	const animatedFilledCount = useRef(new Animated.Value(0)).current;
 
 	const countValue = useHabitStore((s) => s.getCountValue(habitId));
@@ -39,7 +39,7 @@ const ProgressBar = ({
 			{Array.from({ length: totalBars }).map((_, index) => {
 				const barOpacity = animatedFilledCount.interpolate({
 					inputRange: [index - 1, index],
-					outputRange: [0.2, 1],
+					outputRange: [0.4, 1],
 					extrapolate: 'clamp',
 				});
 
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
 	},
 	bar: {
 		height: '100%',
-		width: 4,
+		width: 3,
 		borderRadius: 2,
 	},
 });

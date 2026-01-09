@@ -17,7 +17,7 @@ const NavigationButton = ({
 		<Pressable
 			style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
 			onPress={onPress}>
-			<Icon name={icon} size={20} color={tint || colors.navText} />
+			<Icon name={icon} size={24} color={tint || colors.navText} />
 		</Pressable>
 	);
 };

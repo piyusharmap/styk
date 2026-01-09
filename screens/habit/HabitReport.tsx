@@ -6,7 +6,7 @@ import UIText from '../../components/ui/UIText';
 import useTheme from '../../theme/useTheme';
 import Icon from '../../components/icon';
 
-const HabitReport = ({ habitId, accent }: { habitId: string; accent: string }) => {
+const HabitReport = ({ habitId }: { habitId: string }) => {
 	const { colors } = useTheme();
 
 	const logs = useHabitStore((s) => s.logs);
@@ -19,16 +19,16 @@ const HabitReport = ({ habitId, accent }: { habitId: string; accent: string }) =
 	const getItemColor = (status: string) => {
 		switch (status) {
 			case 'success':
-				return { color: accent, border: accent };
+				return { color: colors.success, border: colors.success };
 			case 'incomplete':
 				return {
-					color: accent + '50',
-					border: accent,
+					color: colors.success + '50',
+					border: colors.success,
 				};
 			case 'fail':
 				return {
-					color: colors.neutral,
-					border: colors.neutral,
+					color: colors.danger,
+					border: colors.danger,
 				};
 			default:
 				return {
@@ -57,7 +57,7 @@ const HabitReport = ({ habitId, accent }: { habitId: string; accent: string }) =
 
 			<View style={styles.legendContainer}>
 				<View style={styles.legendItem}>
-					<Icon name='CircleSmall' size={16} color={accent} isFilled />
+					<Icon name='CircleSmall' size={16} color={colors.success} isFilled />
 
 					<UIText style={styles.label} isSecondary>
 						Done
@@ -68,9 +68,9 @@ const HabitReport = ({ habitId, accent }: { habitId: string; accent: string }) =
 					<Icon
 						name='CircleSmall'
 						size={16}
-						color={accent}
+						color={colors.success}
 						isFilled
-						fillColor={accent + '50'}
+						fillColor={colors.success + '50'}
 					/>
 
 					<UIText style={styles.label} isSecondary>
@@ -79,7 +79,7 @@ const HabitReport = ({ habitId, accent }: { habitId: string; accent: string }) =
 				</View>
 
 				<View style={styles.legendItem}>
-					<Icon name='CircleSmall' size={16} color={colors.neutral} isFilled />
+					<Icon name='CircleSmall' size={16} color={colors.danger} isFilled />
 
 					<UIText style={styles.label} isSecondary>
 						Missed
@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
 	gridItem: {
 		width: 20,
 		height: 20,
-		borderRadius: 4,
-		borderWidth: 1,
+		borderRadius: 10,
+		borderWidth: 2,
 	},
 	legendContainer: {
 		flexDirection: 'row',
@@ -115,7 +115,6 @@ const styles = StyleSheet.create({
 	legendItem: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 2,
 	},
 
 	// text styles

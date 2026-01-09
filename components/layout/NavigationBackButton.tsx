@@ -16,7 +16,7 @@ const NavigationBackButton = ({ tint }: { tint?: string }) => {
 		<Pressable
 			style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
 			onPress={() => navigation.goBack()}>
-			<Icon name='ArrowLeft' size={20} color={tint || colors.navText} />
+			<Icon name='ArrowLeft' size={24} color={tint || colors.navText} />
 		</Pressable>
 	);
 };

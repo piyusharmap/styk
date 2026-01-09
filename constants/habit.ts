@@ -108,3 +108,22 @@ export const UnitOptions: { label: string; value: CountUnit }[] = [
 		value: 'meter',
 	},
 ];
+
+export const MomentumScore: Record<HabitFrequency, { label: string; score: number }> = {
+	daily: {
+		label: 'Daily',
+		score: 1,
+	},
+	weekly: {
+		label: 'Weekly',
+		score: 3,
+	},
+	monthly: {
+		label: 'Monthly',
+		score: 10,
+	},
+	yearly: {
+		label: 'Annually',
+		score: 50,
+	},
+};

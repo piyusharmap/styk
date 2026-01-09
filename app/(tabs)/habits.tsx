@@ -7,10 +7,13 @@ import { EMPTY_HABITS_LIST_MSG } from '../../constants/messages';
 import { useRouter } from 'expo-router';
 import HabitListCard from '../../screens/habits/components/HabitListCard';
 import AddHabitButton from '../../screens/habits/components/AddHabitButton';
+import MomentumCard from '../../screens/habits/components/MomentumCard';
 
 const HabitsTab = () => {
 	const router = useRouter();
+
 	const habits = useHabitStore((s) => s.getTodayHabits());
+	const frequencyStats = useHabitStore((s) => s.getGlobalMomentum());
 	const activeHabits = habits.filter((habit) => !habit.archived);
 
 	const sections = [
@@ -26,6 +29,10 @@ const HabitsTab = () => {
 
 	return (
 		<UIView style={styles.container} isTopSafe>
+			<View style={styles.statsContainer}>
+				<MomentumCard score={frequencyStats} />
+			</View>
+
 			<SectionList
 				sections={sections}
 				keyExtractor={(item) => item.id}
@@ -55,16 +62,19 @@ const styles = StyleSheet.create({
 	container: {
 		position: 'relative',
 		flex: 1,
-		gap: 4,
+		gap: 10,
+	},
+	statsContainer: {
+		paddingHorizontal: 12,
+		paddingVertical: 10,
 	},
 	habitsContainer: {
 		paddingHorizontal: 12,
-		paddingTop: 4,
 		paddingBottom: 80,
 		gap: 6,
 	},
 	sectionHeader: {
-		marginTop: 10,
+		// marginTop: 4,
 	},
 	actionContainer: {
 		position: 'absolute',
