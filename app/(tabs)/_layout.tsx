@@ -43,7 +43,7 @@ const TabsLayout = () => {
 					tabBarIcon: ({ focused }) => (
 						<Icon
 							size={24}
-							name='CalendarRange'
+							name='CalendarCheck'
 							color={focused ? colors.primary : colors.tabIconInactive}
 						/>
 					),

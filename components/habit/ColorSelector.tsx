@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import { ColorOptions } from '../../constants/habit';
 import useTheme from '../../theme/useTheme';
+import Icon from '../icon';
 
 const ColorSelector = ({
 	selectedColor,
@@ -28,8 +29,9 @@ const ColorSelector = ({
 								{ backgroundColor: color },
 								styles.colorView,
 								selectedColor === color && styles.colorViewTransform,
-							]}
-						/>
+							]}>
+							{selectedColor === color && <Icon name='Check' />}
+						</View>
 					</Pressable>
 				);
 			})}
@@ -50,14 +52,16 @@ const styles = StyleSheet.create({
 	colorOption: {
 		height: 40,
 		width: 40,
-		borderRadius: 10,
+		borderRadius: 20,
 		overflow: 'hidden',
 		borderWidth: 0,
 	},
 	colorView: {
 		height: '100%',
 		width: '100%',
-		borderRadius: 8,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 20,
 	},
 	colorViewTransform: {
 		transform: [{ scale: 0.85 }],

@@ -1,29 +1,25 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 import UIView from '../../components/ui/UIView';
-import { PageHeader, PageHeading, PageSubHeading } from '../../components/layout/PageHeader';
-import { SETTINGS_PAGE_SUBHEADING } from '../../constants/messages';
 import UISwitch from '../../components/ui/UISwitch';
-import SettingOption from '../../screens/settingsTab/components/SettingOption';
-import SettingsSection from '../../screens/settingsTab/components/SettingsSection';
-import ResetDataButton from '../../screens/settingsTab/components/ResetDataButton';
-import ResetPrefsButton from '../../screens/settingsTab/components/ResetPrefsButton';
+import SettingOption from '../../screens/settings/components/SettingOption';
+import SettingsSection from '../../screens/settings/components/SettingsSection';
+import ResetDataButton from '../../screens/settings/components/ResetDataButton';
+import ResetPrefsButton from '../../screens/settings/components/ResetPrefsButton';
 import useTheme from '../../theme/useTheme';
 import UIButton from '../../components/ui/UIButton';
 import { useRouter } from 'expo-router';
-import Logo from '../../components/logo';
-import Badge from '../../components/Badge';
+import UIText from '../../components/ui/UIText';
+import { PageHeader, PageHeading, PageSubHeading } from '../../components/layout/PageHeader';
+import { SETTINGS_PAGE_SUBHEADING } from '../../constants/messages';
 
-const SettingsTab = () => {
-	const { colors, mode, setMode } = useTheme();
+const SettingsPage = () => {
+	const { mode, setMode } = useTheme();
+
 	const router = useRouter();
 
 	return (
-		<UIView style={styles.container} isTopSafe>
-			<PageHeader>
-				<View style={[{ borderColor: colors.border }, styles.logoContainer]}>
-					<Logo size={60} />
-				</View>
-
+		<UIView style={styles.container}>
+			<PageHeader isTopSafe>
 				<PageHeading>Settings</PageHeading>
 				<PageSubHeading>{SETTINGS_PAGE_SUBHEADING}</PageSubHeading>
 			</PageHeader>
@@ -37,22 +33,19 @@ const SettingsTab = () => {
 						/>
 					</SettingOption>
 
-					<SettingOption title='Week Start'>
-						<Badge title='Monday' />
-					</SettingOption>
-
 					<SettingOption title='Reset Preferences'>
 						<ResetPrefsButton />
 					</SettingOption>
 				</SettingsSection>
 
-				<SettingsSection title='Data'>
+				<SettingsSection title='Data & Storage'>
 					<SettingOption title='Archived Habits'>
 						<UIButton
 							title=''
 							size='sm'
 							iconName='ArrowRight'
 							onPress={() => router.navigate('archive')}
+							isIconButton
 						/>
 					</SettingOption>
 
@@ -61,28 +54,34 @@ const SettingsTab = () => {
 					</SettingOption>
 				</SettingsSection>
 
-				<SettingsSection title='App Info'>
+				<SettingsSection title='About'>
 					<SettingOption title='About Us'>
 						<UIButton
 							title=''
 							size='sm'
 							iconName='ArrowRight'
 							onPress={() => router.navigate('about')}
+							isIconButton
 						/>
 					</SettingOption>
 				</SettingsSection>
 			</ScrollView>
+
+			<View style={styles.versionInfo}>
+				<UIText style={styles.version} isSecondary>
+					Styk, 2026 • Version
+				</UIText>
+			</View>
 		</UIView>
 	);
 };
 
-export default SettingsTab;
+export default SettingsPage;
 
 const styles = StyleSheet.create({
 	// container styles
 	container: {
 		flex: 1,
-		gap: 20,
 	},
 	logoContainer: {
 		marginVertical: 10,
@@ -96,6 +95,17 @@ const styles = StyleSheet.create({
 	},
 	settingsContainer: {
 		gap: 10,
-		paddingBottom: 40,
+		paddingTop: 20,
+		paddingBottom: 60,
+	},
+	versionInfo: {
+		paddingVertical: 6,
+		justifyContent: 'center',
+	},
+
+	// text styles
+	version: {
+		fontSize: 12,
+		textAlign: 'center',
 	},
 });

@@ -7,40 +7,39 @@ const ProgressBar = ({
 	habitId,
 	target,
 	color,
-	height = 12,
+	height = 16,
 }: {
 	habitId: string;
 	target: HabitTarget;
 	color: string;
 	height?: number;
 }) => {
-	const progressAnim = useRef(new Animated.Value(0)).current;
+	const totalBars = 36;
+	const animatedFilledCount = useRef(new Animated.Value(0)).current;
 
 	const countValue = useHabitStore((s) => s.getCountValue(habitId));
 
-	const totalBars = 40;
-	const bars = Array.from({ length: totalBars });
-
 	useEffect(() => {
-		const progress = target.type === 'count' ? Math.min(countValue / target.count, 1) : 0;
+		if (target.type === 'count') {
+			const progressRatio = Math.min(countValue / target.count, 1);
+			const targetFilledBars = progressRatio * totalBars;
 
-		Animated.timing(progressAnim, {
-			toValue: progress,
-			duration: 300,
-			useNativeDriver: false,
-		}).start();
+			Animated.timing(animatedFilledCount, {
+				toValue: targetFilledBars,
+				duration: 400,
+				useNativeDriver: false,
+			}).start();
+		}
 	}, [countValue]);
 
 	if (target.type !== 'count') return null;
 
 	return (
 		<View style={[{ height: height }, styles.container]}>
-			{bars.map((_, index) => {
-				const step = index / totalBars;
-
-				const barOpacity = progressAnim.interpolate({
-					inputRange: [step, step + 0.01],
-					outputRange: [0.5, 1],
+			{Array.from({ length: totalBars }).map((_, index) => {
+				const barOpacity = animatedFilledCount.interpolate({
+					inputRange: [index - 1, index],
+					outputRange: [0.2, 1],
 					extrapolate: 'clamp',
 				});
 
@@ -52,6 +51,14 @@ const ProgressBar = ({
 							{
 								backgroundColor: color,
 								opacity: barOpacity,
+								transform: [
+									{
+										scaleY: barOpacity.interpolate({
+											inputRange: [0.2, 1],
+											outputRange: [0.7, 1],
+										}),
+									},
+								],
 							},
 						]}
 					/>

@@ -17,7 +17,7 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 			style={[
 				{
 					backgroundColor: colors.foreground + '80',
-					borderColor: colors.border,
+					borderColor: colors.foreground,
 				},
 				styles.habitCard,
 			]}>
@@ -38,7 +38,7 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 				</View>
 			</View>
 
-			<View style={[{ borderColor: colors.border }, styles.actionContainer]}>
+			<View style={[{ borderColor: colors.foreground }, styles.actionContainer]}>
 				<DeleteArchiveButton habitId={habit.id} />
 
 				<RestoreArchiveButton habitId={habit.id} />
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 6,
 		borderTopWidth: 2,
-		borderStyle: 'dotted',
+		borderStyle: 'dashed',
 	},
 	actionButton: {
 		flex: 1,

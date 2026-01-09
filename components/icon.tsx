@@ -23,14 +23,14 @@ const Icon = ({
 
 	if (!LucideIcon) return null;
 
+	const iconColor = color || colors.text;
+
 	return (
-		<>
-			{isFilled ? (
-				<LucideIcon color={color || colors.text} size={size} fill={fillColor || color} />
-			) : (
-				<LucideIcon color={color || colors.text} size={size} />
-			)}
-		</>
+		<LucideIcon
+			color={iconColor}
+			size={size}
+			fill={isFilled ? fillColor || iconColor : 'none'}
+		/>
 	);
 };
 

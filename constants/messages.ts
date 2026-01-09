@@ -3,13 +3,13 @@ export const EMPTY_HABITS_LIST_MSG = 'Create your first habit to begin.';
 export const EMPTY_ARCHIVE_LIST_MSG = 'Archived habits will appear here.';
 
 // messages for greeting
-export const MORNING_GREET_MSG = 'Good morning, friend!';
-export const AFTERNOON_GREET_MSG = 'Good afternoon, friend!';
-export const EVENING_GREET_MSG = 'Good evening, friend!';
+export const MORNING_GREET_MSG = 'Good morning';
+export const AFTERNOON_GREET_MSG = 'Good afternoon';
+export const EVENING_GREET_MSG = 'Good evening';
 
 // messages for page subheadings
-export const HABITS_PAGE_SUBHEADING = 'Track, manage, and add new habits.';
-export const SETTINGS_PAGE_SUBHEADING = 'Adjust settings to enhance in-app experience.';
+export const ACTIVITY_PAGE_SUBHEADING = 'Track and review your habit logs.';
+export const SETTINGS_PAGE_SUBHEADING = 'Make the app work the way you want it to.';
 
 // placeholder messages
 export const HABIT_NAME_PLACEHOLDER = 'e.g. Exercise, Running, Reading';

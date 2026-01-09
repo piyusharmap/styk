@@ -6,7 +6,7 @@ import UIText from '../../components/ui/UIText';
 import useTheme from '../../theme/useTheme';
 import Icon from '../../components/icon';
 
-const HabitReport = ({ habitId }: { habitId: string }) => {
+const HabitReport = ({ habitId, accent }: { habitId: string; accent: string }) => {
 	const { colors } = useTheme();
 
 	const logs = useHabitStore((s) => s.logs);
@@ -19,16 +19,16 @@ const HabitReport = ({ habitId }: { habitId: string }) => {
 	const getItemColor = (status: string) => {
 		switch (status) {
 			case 'success':
-				return { color: colors.success, border: colors.success };
+				return { color: accent, border: accent };
 			case 'incomplete':
 				return {
-					color: colors.success + '50',
-					border: colors.success,
+					color: accent + '50',
+					border: accent,
 				};
 			case 'fail':
 				return {
-					color: colors.danger,
-					border: colors.danger,
+					color: colors.neutral,
+					border: colors.neutral,
 				};
 			default:
 				return {
@@ -57,15 +57,29 @@ const HabitReport = ({ habitId }: { habitId: string }) => {
 
 			<View style={styles.legendContainer}>
 				<View style={styles.legendItem}>
-					<Icon name='CircleSmall' size={16} color={colors.success} isFilled />
+					<Icon name='CircleSmall' size={16} color={accent} isFilled />
 
 					<UIText style={styles.label} isSecondary>
-						Completed
+						Done
 					</UIText>
 				</View>
 
 				<View style={styles.legendItem}>
-					<Icon name='CircleSmall' size={16} color={colors.danger} isFilled />
+					<Icon
+						name='CircleSmall'
+						size={16}
+						color={accent}
+						isFilled
+						fillColor={accent + '50'}
+					/>
+
+					<UIText style={styles.label} isSecondary>
+						Pending
+					</UIText>
+				</View>
+
+				<View style={styles.legendItem}>
+					<Icon name='CircleSmall' size={16} color={colors.neutral} isFilled />
 
 					<UIText style={styles.label} isSecondary>
 						Missed

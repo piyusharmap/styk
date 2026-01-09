@@ -12,6 +12,7 @@ const UIButton = ({
 	variant = 'default',
 	size = 'md',
 	iconName,
+	isIconButton = false,
 	isLoading = false,
 	isDisabled = false,
 	style,
@@ -21,6 +22,7 @@ const UIButton = ({
 	variant?: ButtonVariant;
 	size?: ButtonSize;
 	iconName?: IconType;
+	isIconButton?: boolean;
 	isLoading?: boolean;
 	isDisabled?: boolean;
 	style?: StyleProp<ViewStyle>;
@@ -51,9 +53,9 @@ const UIButton = ({
 	};
 
 	const variantSizes = {
-		sm: { height: 42, paddingH: 12, font: 14, icon: 16 },
-		md: { height: 46, paddingH: 16, font: 16, icon: 20 },
-		lg: { height: 50, paddingH: 18, font: 18, icon: 24 },
+		sm: { size: 38, paddingH: 10, font: 12, icon: 14 },
+		md: { size: 42, paddingH: 12, font: 14, icon: 18 },
+		lg: { size: 50, paddingH: 18, font: 16, icon: 24 },
 	};
 
 	const variantColor = variantColors[variant];
@@ -63,10 +65,11 @@ const UIButton = ({
 		<Pressable
 			style={({ pressed }) => [
 				{
-					height: variantSize.height,
+					height: variantSize.size,
 					paddingHorizontal: variantSize.paddingH,
 					backgroundColor: variantColor.background,
 				},
+				isIconButton && { width: variantSize.size },
 				styles.button,
 				pressed && !isDisabled && styles.buttonPressed,
 				isDisabled && styles.buttonDisabled,
@@ -87,6 +90,7 @@ const UIButton = ({
 							fontSize: variantSize.font,
 							color: variantColor.text,
 						},
+						styles.label,
 					]}>
 					{title}
 				</UIText>
@@ -111,5 +115,10 @@ const styles = StyleSheet.create({
 	},
 	buttonDisabled: {
 		opacity: 0.5,
+	},
+
+	// text styles
+	label: {
+		fontWeight: '500',
 	},
 });

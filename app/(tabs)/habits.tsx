@@ -3,22 +3,15 @@ import UIView from '../../components/ui/UIView';
 import { useHabitStore } from '../../store/habitStore';
 import ListEmpty from '../../components/list/ListEmpty';
 import ListHeader from '../../components/list/ListHeader';
-import { PageHeader, PageHeading, PageSubHeading } from '../../components/layout/PageHeader';
-import { EMPTY_HABITS_LIST_MSG, HABITS_PAGE_SUBHEADING } from '../../constants/messages';
+import { EMPTY_HABITS_LIST_MSG } from '../../constants/messages';
 import { useRouter } from 'expo-router';
-import HabitListCard from '../../screens/habitsTab/components/HabitListCard';
-import AddHabitButton from '../../screens/habitsTab/components/AddHabitButton';
+import HabitListCard from '../../screens/habits/components/HabitListCard';
+import AddHabitButton from '../../screens/habits/components/AddHabitButton';
 
 const HabitsTab = () => {
 	const router = useRouter();
 	const habits = useHabitStore((s) => s.getTodayHabits());
 	const activeHabits = habits.filter((habit) => !habit.archived);
-
-	const todayDate = new Date().toLocaleDateString('en-US', {
-		weekday: 'long',
-		month: 'long',
-		day: 'numeric',
-	});
 
 	const sections = [
 		{
@@ -33,11 +26,6 @@ const HabitsTab = () => {
 
 	return (
 		<UIView style={styles.container} isTopSafe>
-			<PageHeader>
-				<PageHeading>Habits</PageHeading>
-				<PageSubHeading>{HABITS_PAGE_SUBHEADING}</PageSubHeading>
-			</PageHeader>
-
 			<SectionList
 				sections={sections}
 				keyExtractor={(item) => item.id}
@@ -68,13 +56,6 @@ const styles = StyleSheet.create({
 		position: 'relative',
 		flex: 1,
 		gap: 4,
-	},
-	dateContainer: {
-		paddingHorizontal: 12,
-		paddingVertical: 2,
-		flexDirection: 'row',
-		justifyContent: 'flex-end',
-		alignItems: 'center',
 	},
 	habitsContainer: {
 		paddingHorizontal: 12,

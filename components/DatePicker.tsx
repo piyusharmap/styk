@@ -36,7 +36,7 @@ const DatePicker = ({
 					style={styles.input}
 				/>
 
-				<UIButton size='sm' title='Pick Date' onPress={() => setShowPicker(true)} />
+				<UIButton title='Pick Date' onPress={() => setShowPicker(true)} />
 			</View>
 
 			{showPicker && (

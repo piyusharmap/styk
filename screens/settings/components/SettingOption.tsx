@@ -26,8 +26,8 @@ export default SettingOption;
 const styles = StyleSheet.create({
 	// container styles
 	settingOption: {
-		height: 60,
 		paddingHorizontal: 10,
+		paddingVertical: 10,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',

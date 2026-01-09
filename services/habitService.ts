@@ -1,7 +1,6 @@
 import { Habit } from '../types/habitTypes';
 import { mapHabit } from './mapper';
 import { executeSQL, querySQL, transactionSQL } from '../db/utils';
-import { getTodayString } from '../utils/time';
 
 export const HabitService = {
 	loadHabits: async (): Promise<Habit[]> => {

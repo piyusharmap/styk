@@ -123,7 +123,7 @@ const HabitDetailsPage = () => {
 						</HabitInfoCard>
 					)}
 
-					<HabitReport habitId={id} />
+					<HabitReport habitId={id} accent={habitDetails.color} />
 				</ScrollView>
 
 				<View
