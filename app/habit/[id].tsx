@@ -6,13 +6,16 @@ import useTheme from '../../theme/useTheme';
 import DeleteHabitButton from '../../screens/habit/DeleteHabitButton';
 import UIText from '../../components/ui/UIText';
 import HabitInfoCard from '../../screens/habit/HabitInfoCard';
-import ProgressBar from '../../screens/habit/ProgressBar';
 import { HabitTypeDetails } from '../../constants/habit';
 import TypeCard from '../../screens/habit/TypeCard';
 import HabitReport from '../../screens/habit/HabitReport';
 import NavigationButton from '../../components/layout/NavigationButton';
 import ArchiveHabitButton from '../../screens/habit/ArchiveHabitButton';
 import PageLoader from '../../components/PageLoader';
+import NavigationHeading from '../../components/heading/NavigationHeading';
+import ProgressBar from '../../components/habit/ProgressBar';
+import { getDayDifference } from '../../utils/time';
+import Icon from '../../components/icon';
 
 const HabitDetailsPage = () => {
 	const { id, color } = useLocalSearchParams<{
@@ -29,6 +32,15 @@ const HabitDetailsPage = () => {
 
 	const typeDetails = HabitTypeDetails[habitDetails.target.type];
 
+	const currentStreak =
+		habitDetails.target.type === 'count'
+			? habitDetails.target.currentStreak
+			: getDayDifference(habitDetails.target.startDate);
+	const bestStreak =
+		habitDetails.target.type === 'count'
+			? habitDetails.target.longestStreak
+			: getDayDifference(habitDetails.target.initialStartDate);
+
 	return (
 		<>
 			<Stack.Screen
@@ -41,6 +53,11 @@ const HabitDetailsPage = () => {
 								tint={props.tintColor}
 								onPress={() => router.navigate(`edit/${id}`)}
 							/>
+						);
+					},
+					headerTitle: (props) => {
+						return (
+							<NavigationHeading title={habitDetails.name} tint={props.tintColor} />
 						);
 					},
 				}}
@@ -62,34 +79,33 @@ const HabitDetailsPage = () => {
 					{habitDetails.target.type === 'count' ? (
 						<HabitInfoCard heading='Progress • Today'>
 							<View style={styles.progressContainer}>
-								<UIText style={styles.count} isSecondary>
-									<UIText style={[{ color: colors.text }, styles.countHighlight]}>
-										{countValue}
+								<View style={styles.progressDetails}>
+									<UIText style={styles.progress} isSecondary>
+										<UIText
+											style={[
+												{ color: colors.text },
+												styles.progressHighlight,
+											]}>
+											{countValue}
+										</UIText>
+										{'/'}
+										{habitDetails.target.count}
+										{` ${habitDetails.target.unit}${
+											habitDetails.target.count > 1 ? 's' : ''
+										}`}
 									</UIText>
-									{' / '}
-									{habitDetails.target.count}
-									{` ${habitDetails.target.unit}${
-										habitDetails.target.count > 1 ? 's' : ''
-									}`}
-								</UIText>
+
+									<UIText style={styles.progress}>
+										{habitDetails.target.frequency}
+									</UIText>
+								</View>
 
 								<ProgressBar
 									habitId={habitDetails.id}
 									target={habitDetails.target}
 									color={habitDetails.color}
+									height={32}
 								/>
-							</View>
-
-							<View style={styles.infoContainer}>
-								<View style={styles.infoCard}>
-									<UIText style={styles.info}>
-										{habitDetails.target.frequency}
-									</UIText>
-
-									<UIText style={styles.infoHeading} isSecondary>
-										Frequency
-									</UIText>
-								</View>
 							</View>
 						</HabitInfoCard>
 					) : (
@@ -100,7 +116,7 @@ const HabitDetailsPage = () => {
 										{habitDetails.target.startDate}
 									</UIText>
 
-									<UIText style={styles.infoHeading} isSecondary>
+									<UIText style={styles.infoSubHeading} isSecondary>
 										Clean since
 									</UIText>
 								</View>
@@ -110,7 +126,7 @@ const HabitDetailsPage = () => {
 										{habitDetails.target.initialStartDate}
 									</UIText>
 
-									<UIText style={styles.infoHeading} isSecondary>
+									<UIText style={styles.infoSubHeading} isSecondary>
 										Started on
 									</UIText>
 								</View>
@@ -118,10 +134,60 @@ const HabitDetailsPage = () => {
 						</HabitInfoCard>
 					)}
 
+					<HabitInfoCard heading='Streak'>
+						<View style={styles.infoContainer}>
+							<View style={styles.infoCard}>
+								<View style={styles.streakInfo}>
+									<Icon
+										name='Flame'
+										size={22}
+										color={habitDetails.color}
+										isFilled
+										fillColor={habitDetails.color + '50'}
+									/>
+
+									<UIText style={styles.infoStreak}>{currentStreak}</UIText>
+								</View>
+
+								<UIText style={styles.infoSubHeading} isSecondary>
+									Current Streak
+								</UIText>
+							</View>
+
+							<View style={styles.infoCard}>
+								<View style={styles.streakInfo}>
+									<Icon
+										name='Crown'
+										size={22}
+										color={habitDetails.color}
+										isFilled
+										fillColor={habitDetails.color + '50'}
+									/>
+
+									<UIText style={styles.infoStreak}>{bestStreak}</UIText>
+								</View>
+
+								<UIText style={styles.infoSubHeading} isSecondary>
+									Best Streak
+								</UIText>
+							</View>
+						</View>
+					</HabitInfoCard>
+
 					<HabitReport habitId={id} />
+
+					<View>
+						<UIText style={styles.update} isSecondary>
+							Last updated: {habitDetails.updatedAt}
+						</UIText>
+					</View>
 				</ScrollView>
 
-				<View style={[{ borderColor: colors.border }, styles.actionContainer]}>
+				<View
+					style={[
+						{ backgroundColor: colors.tabBackground, borderColor: colors.border },
+						styles.actionContainer,
+					]}>
 					<DeleteHabitButton habitId={id} style={styles.actionButton} />
 
 					<ArchiveHabitButton habitId={id} style={styles.actionButton} />
@@ -140,27 +206,41 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		paddingHorizontal: 12,
-		paddingVertical: 12,
-		gap: 8,
+		paddingVertical: 10,
+		gap: 6,
 	},
 	progressContainer: {
-		paddingVertical: 4,
-		gap: 4,
+		paddingTop: 4,
+		gap: 6,
+	},
+	progressDetails: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		gap: 20,
 	},
 	infoContainer: {
+		flex: 1,
+		paddingTop: 4,
 		flexDirection: 'row',
+		alignItems: 'center',
 		gap: 10,
+		overflow: 'hidden',
 	},
 	infoCard: {
-		paddingVertical: 4,
 		flex: 1,
 		gap: 2,
 	},
+	streakInfo: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 4,
+	},
 	actionContainer: {
 		paddingHorizontal: 12,
-		paddingVertical: 12,
+		paddingVertical: 10,
 		flexDirection: 'row',
-		gap: 10,
+		gap: 8,
 		borderTopWidth: 1,
 	},
 	actionButton: {
@@ -168,24 +248,36 @@ const styles = StyleSheet.create({
 	},
 
 	// text styles
+	update: {
+		paddingHorizontal: 4,
+		fontSize: 12,
+	},
 	name: {
 		fontSize: 20,
 		fontWeight: '500',
 		lineHeight: 24,
 	},
-	count: {
+	progress: {
 		fontSize: 14,
 	},
-	countHighlight: {
-		fontSize: 18,
+	progressHighlight: {
+		fontSize: 20,
 		fontWeight: '500',
 	},
-	infoHeading: {
+	infoSubHeading: {
 		fontSize: 12,
 	},
 	info: {
 		fontSize: 18,
 		fontWeight: '500',
 		textTransform: 'capitalize',
+	},
+	infoStreak: {
+		fontSize: 24,
+		fontWeight: '600',
+	},
+	streakCount: {
+		fontSize: 32,
+		fontWeight: '600',
 	},
 });

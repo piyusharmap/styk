@@ -87,7 +87,7 @@ export const UIInputContainer = ({
 const styles = StyleSheet.create({
 	// container styles
 	inputContainer: {
-		gap: 6,
+		gap: 4,
 	},
 
 	// text styles
@@ -100,8 +100,7 @@ const styles = StyleSheet.create({
 	},
 	label: {
 		paddingHorizontal: 2,
-		paddingBottom: 4,
-		fontSize: 13,
+		fontSize: 12,
 	},
 	info: {
 		paddingHorizontal: 2,

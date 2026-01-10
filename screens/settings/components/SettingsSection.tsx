@@ -18,7 +18,7 @@ const SettingsSection = ({ title, children }: { title: string; children: React.R
 
 				<Icon
 					name={showOptions ? 'ChevronDown' : 'ChevronRight'}
-					size={14}
+					size={16}
 					color={colors.accent}
 				/>
 			</Pressable>
@@ -34,11 +34,10 @@ const styles = StyleSheet.create({
 	// container styles
 	section: {
 		paddingHorizontal: 12,
-		paddingVertical: 4,
 	},
 	headingContainer: {
 		paddingHorizontal: 2,
-		paddingVertical: 10,
+		paddingVertical: 4,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
@@ -46,6 +45,7 @@ const styles = StyleSheet.create({
 	},
 	settingsContainer: {
 		gap: 4,
+		paddingBottom: 10,
 	},
 
 	// text styles

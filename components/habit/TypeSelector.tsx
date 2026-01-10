@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
 	// container styles
 	typeSelector: {
 		flexDirection: 'row',
-		gap: 8,
+		gap: 6,
 	},
 	typeCard: {
 		flex: 1,

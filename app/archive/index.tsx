@@ -36,13 +36,7 @@ const styles = StyleSheet.create({
 	habitsContainer: {
 		paddingHorizontal: 12,
 		paddingTop: 4,
-		paddingBottom: 100,
-		gap: 8,
-	},
-	actionContainer: {
-		position: 'absolute',
-		padding: 12,
-		bottom: 0,
-		right: 0,
+		paddingBottom: 60,
+		gap: 6,
 	},
 });

@@ -23,6 +23,7 @@ export type Theme = {
 	tabIconInactive?: string;
 
 	neutral?: string;
+	neutralInverted?: string;
 
 	neutralWhite?: string;
 	neutralBlack?: string;
@@ -32,14 +33,14 @@ export const Colors: Record<string, Theme> = {
 	light: {
 		primary: '#03929C',
 		secondary: '#01AFBA',
-		accent: '#EF9343',
+		accent: '#B62C1A',
 
 		danger: '#CE4343',
 		success: '#10B13B',
 		info: '#C5A205',
 
 		background: '#F9F9F9',
-		foreground: '#E8E8E8',
+		foreground: '#ECECEC',
 		border: '#D9D9D9',
 
 		text: '#0E0E0E',
@@ -55,6 +56,7 @@ export const Colors: Record<string, Theme> = {
 		tabIconInactive: '#4D4D4D',
 
 		neutral: '#070707',
+		neutralInverted: '#F3F3F3',
 
 		neutralWhite: '#FFFFFF',
 		neutralBlack: '#000000',
@@ -63,7 +65,7 @@ export const Colors: Record<string, Theme> = {
 	dark: {
 		primary: '#00B7B5',
 		secondary: '#056F77',
-		accent: '#D76D11',
+		accent: '#D1321D',
 
 		danger: '#D83030',
 		success: '#05CA3A',
@@ -86,6 +88,7 @@ export const Colors: Record<string, Theme> = {
 		tabIconInactive: '#AAAAAA',
 
 		neutral: '#F3F3F3',
+		neutralInverted: '#070707',
 
 		neutralWhite: '#FFFFFF',
 		neutralBlack: '#000000',

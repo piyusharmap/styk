@@ -1,7 +1,6 @@
 import { Habit } from '../types/habitTypes';
 import { mapHabit } from './mapper';
 import { executeSQL, querySQL, transactionSQL } from '../db/utils';
-import { getTodayString } from '../utils/time';
 
 export const HabitService = {
 	loadHabits: async (): Promise<Habit[]> => {
@@ -110,9 +109,8 @@ export const HabitService = {
 
 	restoreHabit: async (id: string) => {
 		const query = `UPDATE habits SET archived = 0, archived_at = NULL WHERE id = ?;`;
-		const today = getTodayString();
 
-		return executeSQL(query, [today, id]);
+		return executeSQL(query, [id]);
 	},
 
 	deleteHabit: async (id: string) => {

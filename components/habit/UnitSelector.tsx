@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 	unitSelector: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 8,
+		gap: 6,
 	},
 	unitBadge: {
 		paddingHorizontal: 12,

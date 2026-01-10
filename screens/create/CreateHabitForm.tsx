@@ -20,6 +20,7 @@ import HabitCounter from '../../components/habit/HabitCounter';
 import UnitSelector from '../../components/habit/UnitSelector';
 import FrequencySelector from '../../components/habit/FrequencySelector';
 import DatePicker from '../../components/DatePicker';
+import UIText from '../../components/ui/UIText';
 
 const CreateHabitForm = () => {
 	// form states
@@ -92,7 +93,27 @@ const CreateHabitForm = () => {
 				contentContainerStyle={styles.formContainer}
 				showsVerticalScrollIndicator={false}>
 				<UIInputContainer>
-					<UIInputLabel label='Name' />
+					<View style={styles.nameDetails}>
+						<UIInputLabel label='Name' />
+
+						<UIText style={styles.nameLimit} isSecondary>
+							<UIText
+								style={[
+									{
+										color:
+											habitName.length < MIN_NAME_LENGTH ||
+											habitName.length > MAX_NAME_LENGTH
+												? colors.danger
+												: colors.success,
+									},
+									styles.nameLimitHighlight,
+								]}>
+								{habitName.length}
+							</UIText>
+							/{MAX_NAME_LENGTH}
+						</UIText>
+					</View>
+
 					<UIInput
 						value={habitName}
 						onChangeInput={setHabitName}
@@ -168,11 +189,15 @@ const CreateHabitForm = () => {
 				)}
 			</ScrollView>
 
-			<View style={[{ borderColor: colors.border }, styles.actionContainer]}>
+			<View
+				style={[
+					{ backgroundColor: colors.tabBackground, borderColor: colors.border },
+					styles.actionContainer,
+				]}>
 				<UIButton
 					title='Reset'
 					onPress={resetForm}
-					iconName='RefreshCw'
+					iconName='RotateCcw'
 					style={styles.actionButton}
 					isDisabled={isSaving}
 				/>
@@ -182,6 +207,7 @@ const CreateHabitForm = () => {
 					variant='primary'
 					onPress={handleSaveHabit}
 					style={styles.actionButton}
+					iconName='Save'
 					isLoading={isSaving}
 					isDisabled={isSaving}
 				/>
@@ -198,13 +224,18 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	formContainer: {
-		gap: 16,
+		gap: 12,
 		paddingHorizontal: 12,
 		paddingTop: 4,
 		paddingBottom: 60,
 	},
+	nameDetails: {
+		paddingRight: 2,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
 	countDetails: {
-		gap: 10,
+		gap: 6,
 	},
 	actionContainer: {
 		paddingHorizontal: 12,
@@ -215,5 +246,13 @@ const styles = StyleSheet.create({
 	},
 	actionButton: {
 		flex: 1,
+	},
+
+	// text styles
+	nameLimit: {
+		fontSize: 12,
+	},
+	nameLimitHighlight: {
+		fontWeight: '500',
 	},
 });

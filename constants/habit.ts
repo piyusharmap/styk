@@ -23,31 +23,22 @@ export const MAX_NAME_LENGTH = 50;
 export const MIN_NAME_LENGTH = 3;
 
 export const ColorOptions = [
-	// blue
-	'#3B82F6',
-	'#3B67E0',
-	'#A5B4FC',
-
-	// green
-	'#22C55E',
-	'#2D9756',
-	'#65A30D',
-
-	// red
-	'#E64545',
-	'#C94949',
-	'#BD2525',
-
-	// yellow/orange
-	'#EEBE3A',
+	'#EF4444',
+	'#F97316',
 	'#F59E0B',
-	'#F19021',
-	'#D97706',
-
-	// purple/pink
+	'#EAB308',
+	'#84CC16',
+	'#22C55E',
+	'#10B981',
+	'#14B8A6',
+	'#06B6D4',
+	'#0EA5E9',
+	'#3B82F6',
+	'#6366F1',
+	'#8B5CF6',
 	'#A855F7',
-	'#8843D6',
-	'#F9A8D4',
+	'#D946EF',
+	'#EC4899',
 ];
 
 export const InitialTarget = {
@@ -117,3 +108,22 @@ export const UnitOptions: { label: string; value: CountUnit }[] = [
 		value: 'meter',
 	},
 ];
+
+export const MomentumScore: Record<HabitFrequency, { label: string; score: number }> = {
+	daily: {
+		label: 'Daily',
+		score: 1,
+	},
+	weekly: {
+		label: 'Weekly',
+		score: 3,
+	},
+	monthly: {
+		label: 'Monthly',
+		score: 10,
+	},
+	yearly: {
+		label: 'Annually',
+		score: 50,
+	},
+};

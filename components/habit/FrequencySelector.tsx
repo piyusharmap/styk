@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 	freqSelector: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 8,
+		gap: 6,
 	},
 	freqBadge: {
 		paddingHorizontal: 12,

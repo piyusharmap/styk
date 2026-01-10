@@ -17,11 +17,13 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 			style={[
 				{
 					backgroundColor: colors.foreground + '80',
-					borderColor: colors.border,
+					borderColor: colors.foreground,
 				},
 				styles.habitCard,
 			]}>
 			<View style={styles.habitSection}>
+				<TypeIconContainer icon={typeDetails.icon} color={habit.color} />
+
 				<View style={styles.habitInfo}>
 					<UIText style={styles.habitName} numberOfLines={1}>
 						{habit.name}
@@ -34,8 +36,6 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 						</UIText>
 					</View>
 				</View>
-
-				<TypeIconContainer icon={typeDetails.icon} color={habit.color} />
 			</View>
 
 			<View style={[{ borderColor: colors.border }, styles.actionContainer]}>
@@ -52,11 +52,10 @@ export default HabitArchivedCard;
 const styles = StyleSheet.create({
 	// container styles
 	habitCard: {
-		padding: 12,
+		padding: 10,
 		gap: 10,
 		borderRadius: 10,
-		borderWidth: 1,
-		borderStyle: 'dashed',
+		borderWidth: 2,
 		overflow: 'hidden',
 	},
 	habitCardPressed: {
@@ -64,13 +63,12 @@ const styles = StyleSheet.create({
 	},
 	habitSection: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
 		alignItems: 'center',
-		gap: 10,
+		gap: 8,
 	},
 	habitInfo: {
-		flexShrink: 1,
-		gap: 4,
+		flex: 1,
+		gap: 2,
 	},
 	habitDetails: {
 		alignItems: 'flex-start',
@@ -79,8 +77,9 @@ const styles = StyleSheet.create({
 		paddingTop: 10,
 		flexDirection: 'row',
 		justifyContent: 'center',
-		gap: 10,
-		borderTopWidth: 1,
+		alignItems: 'center',
+		gap: 6,
+		borderTopWidth: 2,
 		borderStyle: 'dashed',
 	},
 	actionButton: {

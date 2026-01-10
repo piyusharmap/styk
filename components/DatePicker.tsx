@@ -36,19 +36,7 @@ const DatePicker = ({
 					style={styles.input}
 				/>
 
-				<UIButton
-					variant='secondary'
-					size='sm'
-					title='Pick Date'
-					onPress={() => setShowPicker(true)}
-				/>
-
-				<UIButton
-					size='sm'
-					title=''
-					iconName='RefreshCw'
-					onPress={() => setShowPicker(true)}
-				/>
+				<UIButton title='Pick Date' onPress={() => setShowPicker(true)} />
 			</View>
 
 			{showPicker && (
@@ -71,7 +59,7 @@ const styles = StyleSheet.create({
 	datePicker: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 8,
+		gap: 6,
 	},
 	input: {
 		flex: 1,

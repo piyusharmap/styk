@@ -1,27 +1,20 @@
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import UIView from '../../components/ui/UIView';
 import UIText from '../../components/ui/UIText';
-import useTheme from '../../theme/useTheme';
+import { LogoContainer } from '../../components/logo';
+import { ABOUT_US_TAGLINE } from '../../constants/messages';
 
 const AboutPage = () => {
-	const { colors } = useTheme();
-
 	return (
 		<UIView style={styles.container} isBottomSafe>
 			<View style={styles.content}>
-				<View style={[{ borderColor: colors.border }, styles.logoContainer]}>
-					<Image
-						source={require('../../assets/icon.png')}
-						resizeMode='contain'
-						style={styles.logo}
-					/>
-				</View>
+				<LogoContainer size={100} />
 
 				<View style={styles.headingContainer}>
 					<UIText style={styles.heading}>Styk</UIText>
 
 					<UIText style={styles.subheading} isSecondary>
-						A minimal habit trakcer. Build better routines. Break bad cycles.
+						{ABOUT_US_TAGLINE}
 					</UIText>
 				</View>
 			</View>
@@ -39,23 +32,23 @@ const styles = StyleSheet.create({
 	content: {
 		flex: 1,
 		paddingHorizontal: 12,
-		paddingTop: 80,
+		justifyContent: 'center',
 		alignItems: 'center',
 		gap: 10,
 	},
 	headingContainer: {
 		paddingVertical: 10,
 		alignItems: 'center',
-		gap: 8,
+		gap: 4,
 	},
 	logoContainer: {
-		borderRadius: 10,
-		borderWidth: 1,
-		overflow: 'hidden',
-	},
-	logo: {
-		width: 100,
 		height: 100,
+		width: 100,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 8,
+		borderWidth: 2,
+		overflow: 'hidden',
 	},
 
 	// text styles

@@ -15,7 +15,7 @@ const HabitToggleButton = ({
 	color: string;
 	isDisabled?: boolean;
 }) => {
-	const icon: IconType = target.type === 'count' ? 'Plus' : 'RotateCcw';
+	const icon: IconType = target.type === 'count' ? 'Plus' : 'CalendarSync';
 
 	const performHabitAction = useHabitStore((s) => s.performHabitAction);
 
@@ -27,15 +27,16 @@ const HabitToggleButton = ({
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: color + '50',
+					backgroundColor: color + '30',
 					borderColor: color,
 				},
 				styles.button,
 				pressed && styles.buttonPressed,
 				isDisabled && styles.buttonDisabled,
 			]}
-			onPress={handleMarkHabit}>
-			<Icon name={icon} size={24} color={color} />
+			onPress={handleMarkHabit}
+			disabled={isDisabled}>
+			<Icon name={icon} size={20} />
 		</Pressable>
 	);
 };
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 6,
-		borderWidth: 1,
+		borderWidth: 2,
 		borderStyle: 'dashed',
 	},
 	buttonPressed: {

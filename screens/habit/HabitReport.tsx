@@ -19,10 +19,10 @@ const HabitReport = ({ habitId }: { habitId: string }) => {
 	const getItemColor = (status: string) => {
 		switch (status) {
 			case 'success':
-				return { color: colors.neutral, border: colors.neutral };
+				return { color: colors.success, border: colors.success };
 			case 'incomplete':
 				return {
-					color: colors.foreground,
+					color: colors.danger,
 					border: colors.neutral,
 				};
 			case 'fail':
@@ -57,10 +57,24 @@ const HabitReport = ({ habitId }: { habitId: string }) => {
 
 			<View style={styles.legendContainer}>
 				<View style={styles.legendItem}>
-					<Icon name='CircleSmall' size={16} color={colors.neutral} isFilled />
+					<Icon name='CircleSmall' size={16} color={colors.success} isFilled />
 
 					<UIText style={styles.label} isSecondary>
-						Completed
+						Done
+					</UIText>
+				</View>
+
+				<View style={styles.legendItem}>
+					<Icon
+						name='CircleSmall'
+						size={16}
+						color={colors.neutral}
+						isFilled
+						fillColor={colors.danger}
+					/>
+
+					<UIText style={styles.label} isSecondary>
+						Pending
 					</UIText>
 				</View>
 
@@ -83,8 +97,8 @@ const styles = StyleSheet.create({
 	grid: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		gap: 8,
-		paddingVertical: 12,
+		gap: 4,
+		paddingVertical: 10,
 		justifyContent: 'flex-start',
 	},
 	gridItem: {
@@ -94,15 +108,13 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 	},
 	legendContainer: {
-		paddingTop: 4,
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
-		gap: 10,
+		gap: 8,
 	},
 	legendItem: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 2,
 	},
 
 	// text styles
