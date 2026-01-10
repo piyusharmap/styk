@@ -1,24 +1,20 @@
 import { StyleSheet, View } from 'react-native';
 import UIView from '../../components/ui/UIView';
 import UIText from '../../components/ui/UIText';
-import useTheme from '../../theme/useTheme';
-import Logo from '../../components/logo';
+import { LogoContainer } from '../../components/logo';
+import { ABOUT_US_TAGLINE } from '../../constants/messages';
 
 const AboutPage = () => {
-	const { colors } = useTheme();
-
 	return (
 		<UIView style={styles.container} isBottomSafe>
 			<View style={styles.content}>
-				<View style={[{ borderColor: colors.border }, styles.logoContainer]}>
-					<Logo size={100} />
-				</View>
+				<LogoContainer size={100} />
 
 				<View style={styles.headingContainer}>
 					<UIText style={styles.heading}>Styk</UIText>
 
 					<UIText style={styles.subheading} isSecondary>
-						A minimal habit trakcer. Build better routines. Quit bad cycles.
+						{ABOUT_US_TAGLINE}
 					</UIText>
 				</View>
 			</View>
@@ -43,7 +39,7 @@ const styles = StyleSheet.create({
 	headingContainer: {
 		paddingVertical: 10,
 		alignItems: 'center',
-		gap: 8,
+		gap: 4,
 	},
 	logoContainer: {
 		height: 100,

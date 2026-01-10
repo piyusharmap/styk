@@ -1,7 +1,6 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import { ColorOptions } from '../../constants/habit';
 import useTheme from '../../theme/useTheme';
-import Icon from '../icon';
 
 const ColorSelector = ({
 	selectedColor,

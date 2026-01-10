@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Habit, HabitFrequency, HabitLog, HabitLogStatus, HabitTarget } from '../types/habitTypes';
+import { Habit, HabitLog, HabitLogStatus, HabitTarget } from '../types/habitTypes';
 import {
 	calculateCountStreak,
 	getCurrentTimeWindow,

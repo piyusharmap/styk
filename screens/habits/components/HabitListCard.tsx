@@ -48,7 +48,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 
 					<View style={styles.habitDetails}>
 						{habitType === 'count' ? (
-							<UIText style={styles.habitDetail} isSecondary>
+							<UIText style={styles.habitDetail}>
 								{isHabitLocked ? 'Completed' : 'In Progress'}:{' '}
 								<UIText style={{ color: colors.text }}>
 									{countValue}/{habit.target.count}{' '}

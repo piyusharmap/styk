@@ -8,9 +8,13 @@ import { useRouter } from 'expo-router';
 import HabitListCard from '../../screens/habits/components/HabitListCard';
 import AddHabitButton from '../../screens/habits/components/AddHabitButton';
 import MomentumCard from '../../screens/habits/components/MomentumCard';
+import UIText from '../../components/ui/UIText';
+import { getGreeting } from '../../utils/greeting';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const HabitsTab = () => {
 	const router = useRouter();
+	const insets = useSafeAreaInsets();
 
 	const habits = useHabitStore((s) => s.getTodayHabits());
 	const frequencyStats = useHabitStore((s) => s.getGlobalMomentum());
@@ -27,8 +31,26 @@ const HabitsTab = () => {
 		},
 	].filter((section) => section.data.length > 0);
 
+	const greeting = getGreeting();
+	const todayDate = new Date().toLocaleDateString('en-US', {
+		weekday: 'long',
+		month: 'long',
+		day: 'numeric',
+	});
+
 	return (
-		<UIView style={styles.container} isTopSafe>
+		<UIView style={styles.container}>
+			<View style={[{ paddingTop: insets.top + 10 }, styles.headerContainer]}>
+				<UIText style={styles.iconText}>👋</UIText>
+
+				<View style={styles.greetingContainer}>
+					<UIText style={styles.date} isSecondary>
+						{todayDate}
+					</UIText>
+					<UIText style={styles.greeting}>Hello, {greeting}</UIText>
+				</View>
+			</View>
+
 			<View style={styles.statsContainer}>
 				<MomentumCard score={frequencyStats} />
 			</View>
@@ -40,11 +62,7 @@ const HabitsTab = () => {
 				renderItem={({ item }) => {
 					return <HabitListCard habit={item} />;
 				}}
-				renderSectionHeader={({ section }) => (
-					<View style={styles.sectionHeader}>
-						<ListHeader heading={section.title} />
-					</View>
-				)}
+				renderSectionHeader={({ section }) => <ListHeader heading={section.title} />}
 				ListEmptyComponent={<ListEmpty message={EMPTY_HABITS_LIST_MSG} />}
 			/>
 
@@ -62,24 +80,44 @@ const styles = StyleSheet.create({
 	container: {
 		position: 'relative',
 		flex: 1,
-		gap: 10,
+	},
+	headerContainer: {
+		flexDirection: 'row',
+		paddingHorizontal: 12,
+		paddingBottom: 10,
+		alignItems: 'center',
+		gap: 8,
+	},
+	greetingContainer: {
+		flex: 1,
 	},
 	statsContainer: {
 		paddingHorizontal: 12,
-		paddingVertical: 10,
+		paddingVertical: 6,
 	},
 	habitsContainer: {
 		paddingHorizontal: 12,
+		paddingTop: 10,
 		paddingBottom: 80,
 		gap: 6,
-	},
-	sectionHeader: {
-		// marginTop: 4,
 	},
 	actionContainer: {
 		position: 'absolute',
 		padding: 12,
 		bottom: 0,
 		right: 0,
+	},
+
+	// text styles
+	iconText: {
+		fontSize: 24,
+	},
+	greeting: {
+		fontSize: 20,
+		fontWeight: '500',
+	},
+	date: {
+		fontSize: 12,
+		fontWeight: '500',
 	},
 });

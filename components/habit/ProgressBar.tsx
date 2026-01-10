@@ -51,14 +51,6 @@ const ProgressBar = ({
 							{
 								backgroundColor: color,
 								opacity: barOpacity,
-								transform: [
-									{
-										scaleY: barOpacity.interpolate({
-											inputRange: [0.2, 1],
-											outputRange: [0.7, 1],
-										}),
-									},
-								],
 							},
 						]}
 					/>
@@ -71,6 +63,7 @@ const ProgressBar = ({
 export default ProgressBar;
 
 const styles = StyleSheet.create({
+	// container styles
 	container: {
 		flexDirection: 'row',
 		width: '100%',
@@ -81,7 +74,7 @@ const styles = StyleSheet.create({
 	},
 	bar: {
 		height: '100%',
-		width: 3,
+		width: 4,
 		borderRadius: 2,
 	},
 });

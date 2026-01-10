@@ -22,8 +22,8 @@ const HabitReport = ({ habitId }: { habitId: string }) => {
 				return { color: colors.success, border: colors.success };
 			case 'incomplete':
 				return {
-					color: colors.success + '50',
-					border: colors.success,
+					color: colors.danger,
+					border: colors.neutral,
 				};
 			case 'fail':
 				return {
@@ -68,9 +68,9 @@ const HabitReport = ({ habitId }: { habitId: string }) => {
 					<Icon
 						name='CircleSmall'
 						size={16}
-						color={colors.success}
+						color={colors.neutral}
 						isFilled
-						fillColor={colors.success + '50'}
+						fillColor={colors.danger}
 					/>
 
 					<UIText style={styles.label} isSecondary>

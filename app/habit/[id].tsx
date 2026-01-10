@@ -104,7 +104,7 @@ const HabitDetailsPage = () => {
 									habitId={habitDetails.id}
 									target={habitDetails.target}
 									color={habitDetails.color}
-									height={40}
+									height={32}
 								/>
 							</View>
 						</HabitInfoCard>
@@ -157,7 +157,7 @@ const HabitDetailsPage = () => {
 							<View style={styles.infoCard}>
 								<View style={styles.streakInfo}>
 									<Icon
-										name='Trophy'
+										name='Crown'
 										size={22}
 										color={habitDetails.color}
 										isFilled
@@ -176,9 +176,11 @@ const HabitDetailsPage = () => {
 
 					<HabitReport habitId={id} />
 
-					<UIText style={styles.update} isSecondary>
-						Last Updated: {habitDetails.updatedAt}
-					</UIText>
+					<View>
+						<UIText style={styles.update} isSecondary>
+							Last updated: {habitDetails.updatedAt}
+						</UIText>
+					</View>
 				</ScrollView>
 
 				<View
@@ -232,7 +234,7 @@ const styles = StyleSheet.create({
 	streakInfo: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 2,
+		gap: 4,
 	},
 	actionContainer: {
 		paddingHorizontal: 12,
@@ -249,7 +251,6 @@ const styles = StyleSheet.create({
 	update: {
 		paddingHorizontal: 4,
 		fontSize: 12,
-		textAlign: 'right',
 	},
 	name: {
 		fontSize: 20,

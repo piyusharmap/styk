@@ -18,7 +18,7 @@ const SettingsSection = ({ title, children }: { title: string; children: React.R
 
 				<Icon
 					name={showOptions ? 'ChevronDown' : 'ChevronRight'}
-					size={14}
+					size={16}
 					color={colors.accent}
 				/>
 			</Pressable>

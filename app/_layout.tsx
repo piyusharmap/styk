@@ -51,6 +51,7 @@ const RootLayout = () => {
 					headerTintColor: colors.navText,
 					headerTitleAlign: 'center',
 					headerShadowVisible: false,
+					animationDuration: 200,
 				}}>
 				{/* <Stack.Screen
 					name="index"
