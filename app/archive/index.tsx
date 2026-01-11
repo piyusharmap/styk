@@ -1,27 +1,25 @@
 import { FlatList, StyleSheet } from 'react-native';
 import UIView from '../../components/ui/UIView';
 import { useHabitStore } from '../../store/habitStore';
-import ListContainer from '../../components/list/ListContainer';
-import HabitArchivedCard from '../../screens/archive/HabitArchivedCard';
+import HabitArchivedCard from '../../screens/archive/components/HabitArchivedCard';
 import ListEmpty from '../../components/list/ListEmpty';
 import { EMPTY_ARCHIVE_LIST_MSG } from '../../constants/messages';
 
 const ArchivesPage = () => {
 	const habits = useHabitStore((s) => s.getAllHabits());
+	const archivedHabits = habits.filter((habit) => habit.archived);
 
 	return (
 		<UIView style={styles.container} isBottomSafe>
-			<ListContainer>
-				<FlatList
-					data={habits.filter((habit) => habit.archived)}
-					keyExtractor={(item) => item.id}
-					contentContainerStyle={styles.habitsContainer}
-					renderItem={({ item }) => {
-						return <HabitArchivedCard habit={item} />;
-					}}
-					ListEmptyComponent={<ListEmpty message={EMPTY_ARCHIVE_LIST_MSG} />}
-				/>
-			</ListContainer>
+			<FlatList
+				data={archivedHabits}
+				keyExtractor={(item) => item.id}
+				contentContainerStyle={styles.habitsContainer}
+				renderItem={({ item }) => {
+					return <HabitArchivedCard habit={item} />;
+				}}
+				ListEmptyComponent={<ListEmpty message={EMPTY_ARCHIVE_LIST_MSG} />}
+			/>
 		</UIView>
 	);
 };

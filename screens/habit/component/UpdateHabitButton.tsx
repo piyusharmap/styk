@@ -1,5 +1,5 @@
 import { StyleProp, ViewStyle } from 'react-native';
-import UIButton from '../../components/ui/UIButton';
+import UIButton from '../../../components/ui/UIButton';
 import { useRouter } from 'expo-router';
 
 const UpdateHabitButton = ({

@@ -3,7 +3,7 @@ import { Habit, HabitLog, HabitLogStatus, HabitTarget } from '../types/habitType
 import {
 	calculateCountStreak,
 	getCurrentTimeWindow,
-	getLast30Days,
+	getLastXDays,
 	isHabitLockedForWindow,
 	isHabitSuccessfulInWindow,
 } from './utils';
@@ -49,10 +49,14 @@ type HabitStore = {
 	getHabitDetails: (habitId: string) => Habit | null;
 
 	// report actions
-	getLast30DayReport: (habitId: string) => {
+	getLastXDaysReport: (
+		habitId: string,
+		x: number,
+	) => {
 		date: string;
 		status: HabitLogStatus;
 		value: number;
+		percentage: number;
 	}[];
 
 	getGlobalMomentum: () => number;
@@ -358,7 +362,6 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 		getCountValue: (habitId) => {
 			const habit = get().habits.find((habit) => habit.id === habitId);
-
 			if (!habit) return 0;
 
 			if (habit.target.type !== 'count') return 0;
@@ -389,38 +392,39 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		},
 
 		// habit report actions
-		getLast30DayReport: (habitId: string) => {
+		getLastXDaysReport: (habitId: string, x: number) => {
 			const habit = get().habits.find((habit) => habit.id === habitId);
 			if (!habit) return [];
 
 			const today = getTodayString();
-			const last30Days = getLast30Days();
+			const last30Days = getLastXDays(x);
 
 			const logs = get().logs.filter((log) => log.habitId === habitId);
 			const logMap = new Map(logs.map((log) => [log.date, log.value]));
 
 			const createdAt = habit.createdAt.split('T')[0];
-
 			const habitType = habit.target.type;
 
 			return last30Days.map((date) => {
 				if (date < createdAt) {
 					if (habitType === 'count') {
-						return { date, status: 'none', value: 0 };
+						return { date, status: 'none', value: 0, percentage: 0 };
 					} else {
 						if (date < habit.target.initialStartDate) {
-							return { date, status: 'none', value: 0 };
+							return { date, status: 'none', value: 0, percentage: 0 };
 						} else {
-							return { date, status: 'success', value: 0 };
+							return { date, status: 'success', value: 0, percentage: 1 };
 						}
 					}
 				}
 
 				const value = logMap.get(date) || 0;
 				let status: HabitLogStatus = 'none';
+				let percentage = 0;
 
 				if (habitType === 'count') {
-					const goal = habit.target.count;
+					const goal = habit.target.count || 1;
+					percentage = Math.min(value / goal, 1);
 
 					if (value >= goal) {
 						status = 'success';
@@ -428,6 +432,8 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 						status = date === today ? 'incomplete' : value > 0 ? 'incomplete' : 'fail';
 					}
 				} else if (habitType === 'quit') {
+					percentage = value > 0 ? 0 : 1;
+
 					if (value > 0) {
 						status = 'fail';
 					} else {
@@ -435,7 +441,12 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 					}
 				}
 
-				return { date, status, value };
+				return {
+					date,
+					status,
+					value,
+					percentage: percentage,
+				};
 			});
 		},
 

@@ -1,9 +1,9 @@
 import { StyleProp, ViewStyle } from 'react-native';
-import UIButton from '../../components/ui/UIButton';
+import UIButton from '../../../components/ui/UIButton';
 import { useState } from 'react';
-import DeleteHabitModal from '../../components/modal/DeleteHabitModal';
+import ArchiveHabitModal from '../../../components/modal/ArchiveHabitModal';
 
-const DeleteHabitButton = ({
+const ArchiveHabitButton = ({
 	habitId,
 	style,
 }: {
@@ -15,15 +15,15 @@ const DeleteHabitButton = ({
 	return (
 		<>
 			<UIButton
-				variant='danger'
-				title='Delete'
-				iconName='Trash2'
+				variant='secondary'
+				title='Archive'
+				iconName='Archive'
 				style={style}
 				onPress={() => setShowModal(true)}
 			/>
 
 			{showModal && (
-				<DeleteHabitModal
+				<ArchiveHabitModal
 					habitId={habitId}
 					isVisible={showModal}
 					onClose={() => setShowModal(false)}
@@ -33,4 +33,4 @@ const DeleteHabitButton = ({
 	);
 };
 
-export default DeleteHabitButton;
+export default ArchiveHabitButton;

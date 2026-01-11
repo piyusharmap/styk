@@ -154,10 +154,10 @@ export const calculateCountStreak = (habit: Habit, logs: HabitLog[]): number => 
 };
 
 // to get last 30 dates list
-export const getLast30Days = (): string[] => {
+export const getLastXDays = (x: number): string[] => {
 	const dates: string[] = [];
 
-	for (let i = 29; i >= 0; i--) {
+	for (let i = x - 1; i >= 0; i--) {
 		const date = new Date();
 		date.setDate(date.getDate() - i);
 		dates.push(date.toISOString().split('T')[0]);

@@ -1,11 +1,13 @@
 import { View, StyleSheet } from 'react-native';
-import useTheme from '../../theme/useTheme';
-import { Habit } from '../../types/habitTypes';
-import { HabitTypeDetails } from '../../constants/habit';
-import UIText from '../../components/ui/UIText';
-import TypeIconContainer from '../../components/habit/TypeIconContainer';
+import useTheme from '../../../theme/useTheme';
+import { Habit } from '../../../types/habitTypes';
+import { HabitTypeDetails } from '../../../constants/habit';
+import UIText from '../../../components/ui/UIText';
+import TypeIconContainer from '../../../components/habit/TypeIconContainer';
 import DeleteArchiveButton from './DeleteArchiveButton';
 import RestoreArchiveButton from './RestoreArchiveButton';
+import UISeparator from '../../../components/ui/UISeparator';
+import { formatDisplayDate } from '../../../utils/time';
 
 const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 	const { colors } = useTheme();
@@ -32,13 +34,17 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 					<View style={styles.habitDetails}>
 						<UIText style={styles.habitDetail} isSecondary>
 							Archived on:{' '}
-							<UIText style={{ color: colors.text }}>{habit.archivedAt}</UIText>
+							<UIText style={{ color: colors.text }}>
+								{formatDisplayDate(habit.archivedAt!)}
+							</UIText>
 						</UIText>
 					</View>
 				</View>
 			</View>
 
-			<View style={[{ borderColor: colors.border }, styles.actionContainer]}>
+			<UISeparator length={'100%'} width={2} />
+
+			<View style={styles.actionContainer}>
 				<DeleteArchiveButton habitId={habit.id} />
 
 				<RestoreArchiveButton habitId={habit.id} />
@@ -74,13 +80,10 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 	},
 	actionContainer: {
-		paddingTop: 10,
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: 6,
-		borderTopWidth: 2,
-		borderStyle: 'dashed',
 	},
 	actionButton: {
 		flex: 1,

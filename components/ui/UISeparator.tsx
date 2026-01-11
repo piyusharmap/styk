@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { DimensionValue, StyleSheet, View } from 'react-native';
 import useTheme from '../../theme/useTheme';
 
 const UISeparator = ({
@@ -6,8 +6,8 @@ const UISeparator = ({
 	width = 1,
 	orientation = 'horizontal',
 }: {
-	length: number;
-	width?: number;
+	length: DimensionValue;
+	width?: DimensionValue;
 	orientation?: 'vertical' | 'horizontal';
 }) => {
 	const { colors } = useTheme();
@@ -20,9 +20,17 @@ const UISeparator = ({
 					width: orientation === 'vertical' ? width : length,
 					backgroundColor: colors.border,
 				},
+				styles.separator,
 			]}
 		/>
 	);
 };
 
 export default UISeparator;
+
+const styles = StyleSheet.create({
+	// container styles
+	separator: {
+		marginHorizontal: 'auto',
+	},
+});

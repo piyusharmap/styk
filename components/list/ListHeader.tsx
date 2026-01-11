@@ -8,9 +8,11 @@ const ListHeader = ({ heading, style }: { heading: string; style?: StyleProp<Vie
 
 	return (
 		<View style={[styles.listHeader, style]}>
-			<UIText style={styles.listHeading}>{heading}</UIText>
+			<UIText style={styles.listHeading} isSecondary>
+				{heading}
+			</UIText>
 
-			<Icon name='ChevronRight' size={16} color={colors.textSecondary} />
+			<Icon name='ArrowRight' size={14} color={colors.accent} />
 		</View>
 	);
 };

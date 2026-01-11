@@ -1,14 +1,16 @@
 // empty list or error messages
 export const EMPTY_HABITS_LIST_MSG = 'Create your first habit to begin.';
 export const EMPTY_ARCHIVE_LIST_MSG = 'Archived habits will appear here.';
+export const EMPTY_ACTIVITY_LIST_MSG = 'No habit activities available.';
 
 // messages for greeting
 export const MORNING_GREET_MSG = 'Good Morning';
 export const AFTERNOON_GREET_MSG = 'Good Afternoon';
 export const EVENING_GREET_MSG = 'Good Evening';
+export const NIGHT_GREET_MSG = 'Good Night';
 
 // messages for page subheadings
-export const ACTIVITY_PAGE_SUBHEADING = 'Track and review your activity logs.';
+export const ACTIVITY_PAGE_SUBHEADING = 'Track and review your habit activities.';
 export const SETTINGS_PAGE_SUBHEADING = 'Make the app work the way you want it to.';
 
 // placeholder messages

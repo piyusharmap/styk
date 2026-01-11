@@ -3,19 +3,20 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useHabitStore } from '../../store/habitStore';
 import UIView from '../../components/ui/UIView';
 import useTheme from '../../theme/useTheme';
-import DeleteHabitButton from '../../screens/habit/DeleteHabitButton';
+import DeleteHabitButton from '../../screens/habit/component/DeleteHabitButton';
 import UIText from '../../components/ui/UIText';
-import HabitInfoCard from '../../screens/habit/HabitInfoCard';
+import HabitInfoCard from '../../screens/habit/component/HabitInfoCard';
 import { HabitTypeDetails } from '../../constants/habit';
-import TypeCard from '../../screens/habit/TypeCard';
-import HabitReport from '../../screens/habit/HabitReport';
+import TypeCard from '../../screens/habit/component/TypeCard';
 import NavigationButton from '../../components/layout/NavigationButton';
-import ArchiveHabitButton from '../../screens/habit/ArchiveHabitButton';
+import ArchiveHabitButton from '../../screens/habit/component/ArchiveHabitButton';
 import PageLoader from '../../components/PageLoader';
 import NavigationHeading from '../../components/heading/NavigationHeading';
 import ProgressBar from '../../components/habit/ProgressBar';
-import { getDayDifference } from '../../utils/time';
+import { formatDisplayDate, getDayDifference } from '../../utils/time';
 import Icon from '../../components/icon';
+import UISeparator from '../../components/ui/UISeparator';
+import Habit30Report from '../../screens/habit/component/Habit30Report';
 
 const HabitDetailsPage = () => {
 	const { id, color } = useLocalSearchParams<{
@@ -113,7 +114,7 @@ const HabitDetailsPage = () => {
 							<View style={styles.infoContainer}>
 								<View style={styles.infoCard}>
 									<UIText style={styles.info}>
-										{habitDetails.target.startDate}
+										{formatDisplayDate(habitDetails.target.startDate)}
 									</UIText>
 
 									<UIText style={styles.infoSubHeading} isSecondary>
@@ -121,9 +122,11 @@ const HabitDetailsPage = () => {
 									</UIText>
 								</View>
 
+								<UISeparator orientation='vertical' length={40} width={1} />
+
 								<View style={styles.infoCard}>
 									<UIText style={styles.info}>
-										{habitDetails.target.initialStartDate}
+										{formatDisplayDate(habitDetails.target.initialStartDate)}
 									</UIText>
 
 									<UIText style={styles.infoSubHeading} isSecondary>
@@ -146,13 +149,18 @@ const HabitDetailsPage = () => {
 										fillColor={habitDetails.color + '50'}
 									/>
 
-									<UIText style={styles.infoStreak}>{currentStreak}</UIText>
+									<UIText style={styles.streakCount}>
+										{currentStreak}{' '}
+										<UIText style={styles.streakUnit}>days</UIText>
+									</UIText>
 								</View>
 
 								<UIText style={styles.infoSubHeading} isSecondary>
 									Current Streak
 								</UIText>
 							</View>
+
+							<UISeparator orientation='vertical' length={40} width={1} />
 
 							<View style={styles.infoCard}>
 								<View style={styles.streakInfo}>
@@ -164,7 +172,9 @@ const HabitDetailsPage = () => {
 										fillColor={habitDetails.color + '50'}
 									/>
 
-									<UIText style={styles.infoStreak}>{bestStreak}</UIText>
+									<UIText style={styles.streakCount}>
+										{bestStreak} <UIText style={styles.streakUnit}>days</UIText>
+									</UIText>
 								</View>
 
 								<UIText style={styles.infoSubHeading} isSecondary>
@@ -174,11 +184,12 @@ const HabitDetailsPage = () => {
 						</View>
 					</HabitInfoCard>
 
-					<HabitReport habitId={id} />
+					<Habit30Report habitId={id} />
 
 					<View>
-						<UIText style={styles.update} isSecondary>
-							Last updated: {habitDetails.updatedAt}
+						<UIText style={styles.date}>
+							<UIText isSecondary>Last updated:</UIText>{' '}
+							{formatDisplayDate(habitDetails.updatedAt)}
 						</UIText>
 					</View>
 				</ScrollView>
@@ -248,7 +259,7 @@ const styles = StyleSheet.create({
 	},
 
 	// text styles
-	update: {
+	date: {
 		paddingHorizontal: 4,
 		fontSize: 12,
 	},
@@ -272,12 +283,11 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 		textTransform: 'capitalize',
 	},
-	infoStreak: {
+	streakCount: {
 		fontSize: 24,
 		fontWeight: '600',
 	},
-	streakCount: {
-		fontSize: 32,
-		fontWeight: '600',
+	streakUnit: {
+		fontSize: 14,
 	},
 });

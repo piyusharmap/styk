@@ -1,7 +1,7 @@
 import { Alert, StyleProp, ViewStyle } from 'react-native';
-import UIButton from '../../components/ui/UIButton';
+import UIButton from '../../../components/ui/UIButton';
 import { useState } from 'react';
-import { useHabitStore } from '../../store/habitStore';
+import { useHabitStore } from '../../../store/habitStore';
 import { useRouter } from 'expo-router';
 
 const RestoreArchiveButton = ({
