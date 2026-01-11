@@ -8,7 +8,7 @@ import {
 export const getGreeting = (): { message: string; emoji: string } => {
 	const hour = new Date().getHours();
 
-	if (hour < 5) return { message: NIGHT_GREET_MSG, emoji: '🌙' };
+	if (hour < 5) return { message: NIGHT_GREET_MSG, emoji: '😴' };
 
 	if (hour < 12) return { message: MORNING_GREET_MSG, emoji: '👋' };
 

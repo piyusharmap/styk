@@ -19,7 +19,9 @@ const ActivityCard = ({ habit }: { habit: Habit }) => {
 				<TypeIconContainer icon={typeDetails.icon} color={habit.color} />
 
 				<View style={styles.detailsContainer}>
-					<UIText style={styles.name}>{habit.name}</UIText>
+					<UIText style={styles.name} numberOfLines={2}>
+						{habit.name}
+					</UIText>
 					<UIText style={styles.description} isSecondary>
 						Activity • Past 90 Days
 					</UIText>
@@ -27,6 +29,7 @@ const ActivityCard = ({ habit }: { habit: Habit }) => {
 
 				<UIButton
 					variant='primary'
+					size='sm'
 					title=''
 					iconName='ArrowRight'
 					isIconButton
@@ -55,7 +58,7 @@ const styles = StyleSheet.create({
 	infoContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 10,
+		gap: 8,
 	},
 	detailsContainer: {
 		flex: 1,
