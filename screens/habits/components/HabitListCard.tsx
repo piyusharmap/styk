@@ -9,6 +9,7 @@ import { HabitTypeDetails } from '../../../constants/habit';
 import TypeIconContainer from '../../../components/habit/TypeIconContainer';
 import { useRouter } from 'expo-router';
 import ProgressBar from '../../../components/habit/ProgressBar';
+import { formatDisplayDate } from '../../../utils/time';
 
 const HabitListCard = ({ habit }: { habit: Habit }) => {
 	const { colors } = useTheme();
@@ -49,19 +50,19 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					<View style={styles.habitDetails}>
 						{habitType === 'count' ? (
 							<UIText style={styles.habitDetail}>
-								{isHabitLocked ? 'Completed' : 'In Progress'}:{' '}
-								<UIText style={{ color: colors.text }}>
+								<UIText style={styles.habitDetail}>
+									<UIText isSecondary>
+										{isHabitLocked ? 'Completed' : 'In Progress'}:
+									</UIText>{' '}
 									{countValue}/{habit.target.count}{' '}
 									{`${habit.target.unit}${habit.target.count > 1 ? 's' : ''}`}{' '}
 									{`(${habit.target.frequency})`}
 								</UIText>
 							</UIText>
 						) : (
-							<UIText style={styles.habitDetail} isSecondary>
-								Clean since:{' '}
-								<UIText style={{ color: colors.text }}>
-									{habit.target.startDate}
-								</UIText>
+							<UIText style={styles.habitDetail}>
+								<UIText isSecondary>Clean since:</UIText>{' '}
+								{formatDisplayDate(habit.target.startDate)}
 							</UIText>
 						)}
 					</View>

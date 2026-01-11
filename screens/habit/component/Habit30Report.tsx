@@ -1,19 +1,19 @@
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useHabitStore } from '../../store/habitStore';
-import HabitInfoCard from '../../screens/habit/HabitInfoCard';
-import UIText from '../../components/ui/UIText';
-import useTheme from '../../theme/useTheme';
-import Icon from '../../components/icon';
+import { useHabitStore } from '../../../store/habitStore';
+import HabitInfoCard from './HabitInfoCard';
+import UIText from '../../../components/ui/UIText';
+import useTheme from '../../../theme/useTheme';
+import Icon from '../../../components/icon';
 
-const HabitReport = ({ habitId }: { habitId: string }) => {
+const Habit30Report = ({ habitId }: { habitId: string }) => {
 	const { colors } = useTheme();
 
 	const logs = useHabitStore((s) => s.logs);
 	const habits = useHabitStore((s) => s.habits);
 
 	const report = useMemo(() => {
-		return useHabitStore.getState().getLast30DayReport(habitId);
+		return useHabitStore.getState().getLastXDaysReport(habitId, 30);
 	}, [habitId, logs, habits]);
 
 	const getItemColor = (status: string) => {
@@ -22,8 +22,8 @@ const HabitReport = ({ habitId }: { habitId: string }) => {
 				return { color: colors.success, border: colors.success };
 			case 'incomplete':
 				return {
-					color: colors.danger,
-					border: colors.neutral,
+					color: colors.success + '50',
+					border: colors.success,
 				};
 			case 'fail':
 				return {
@@ -57,40 +57,34 @@ const HabitReport = ({ habitId }: { habitId: string }) => {
 
 			<View style={styles.legendContainer}>
 				<View style={styles.legendItem}>
-					<Icon name='CircleSmall' size={16} color={colors.success} isFilled />
-
-					<UIText style={styles.label} isSecondary>
-						Done
-					</UIText>
-				</View>
-
-				<View style={styles.legendItem}>
 					<Icon
 						name='CircleSmall'
 						size={16}
-						color={colors.neutral}
+						color={colors.success}
 						isFilled
-						fillColor={colors.danger}
+						fillColor={colors.success + '50'}
 					/>
 
-					<UIText style={styles.label} isSecondary>
-						Pending
-					</UIText>
+					<UIText style={styles.label}>Pending</UIText>
+				</View>
+
+				<View style={styles.legendItem}>
+					<Icon name='CircleSmall' size={16} color={colors.success} isFilled />
+
+					<UIText style={styles.label}>Done</UIText>
 				</View>
 
 				<View style={styles.legendItem}>
 					<Icon name='CircleSmall' size={16} color={colors.danger} isFilled />
 
-					<UIText style={styles.label} isSecondary>
-						Missed
-					</UIText>
+					<UIText style={styles.label}>Missed</UIText>
 				</View>
 			</View>
 		</HabitInfoCard>
 	);
 };
 
-export default HabitReport;
+export default Habit30Report;
 
 const styles = StyleSheet.create({
 	// container styles
@@ -105,7 +99,7 @@ const styles = StyleSheet.create({
 		width: 20,
 		height: 20,
 		borderRadius: 10,
-		borderWidth: 2,
+		borderWidth: 1,
 	},
 	legendContainer: {
 		flexDirection: 'row',

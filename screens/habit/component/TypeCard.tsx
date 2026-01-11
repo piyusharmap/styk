@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native';
-import UIText from '../../components/ui/UIText';
-import { IconType } from '../../components/icon';
-import TypeIconContainer from '../../components/habit/TypeIconContainer';
+import UIText from '../../../components/ui/UIText';
+import { IconType } from '../../../components/icon';
+import TypeIconContainer from '../../../components/habit/TypeIconContainer';
 
 const TypeCard = ({
 	label,

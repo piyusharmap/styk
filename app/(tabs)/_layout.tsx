@@ -15,7 +15,6 @@ const TabsLayout = () => {
 				headerShown: false,
 				tabBarStyle: {
 					height: insets.bottom + 68,
-					paddingTop: 6,
 					paddingBottom: insets.bottom,
 					backgroundColor: colors.tabBackground,
 					borderTopWidth: 1,
@@ -23,6 +22,7 @@ const TabsLayout = () => {
 					elevation: 0,
 					shadowColor: 'transparent',
 				},
+				tabBarItemStyle: { paddingTop: 6 },
 				tabBarActiveTintColor: colors.tabIconActive,
 				tabBarInactiveTintColor: colors.tabIconInactive,
 			}}>
@@ -60,7 +60,7 @@ const TabsLayout = () => {
 					tabBarIcon: ({ focused }) => (
 						<Icon
 							size={24}
-							name='ActivitySquare'
+							name='ChartArea'
 							color={focused ? colors.primary : colors.tabIconInactive}
 						/>
 					),

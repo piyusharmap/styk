@@ -33,7 +33,7 @@ export const Colors: Record<string, Theme> = {
 	light: {
 		primary: '#03929C',
 		secondary: '#01AFBA',
-		accent: '#B62C1A',
+		accent: '#BE6A1B',
 
 		danger: '#CE4343',
 		success: '#10B13B',
@@ -65,7 +65,7 @@ export const Colors: Record<string, Theme> = {
 	dark: {
 		primary: '#00B7B5',
 		secondary: '#056F77',
-		accent: '#D1321D',
+		accent: '#E69040',
 
 		danger: '#D83030',
 		success: '#05CA3A',

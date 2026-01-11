@@ -1,6 +1,6 @@
 import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
-import useTheme from '../../theme/useTheme';
-import UIText from '../../components/ui/UIText';
+import useTheme from '../../../theme/useTheme';
+import UIText from '../../../components/ui/UIText';
 
 const HabitInfoCard = ({
 	heading,

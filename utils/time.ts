@@ -37,3 +37,13 @@ export const getDayDifference = (startDate: string): number => {
 
 	return days >= 0 ? days : 0;
 };
+
+export const formatDisplayDate = (dateString: string): string => {
+	const date = new Date(dateString);
+
+	return new Intl.DateTimeFormat('en-US', {
+		day: 'numeric',
+		month: 'short',
+		year: 'numeric',
+	}).format(date);
+};

@@ -41,13 +41,15 @@ const HabitsTab = () => {
 	return (
 		<UIView style={styles.container}>
 			<View style={[{ paddingTop: insets.top + 10 }, styles.headerContainer]}>
-				<UIText style={styles.iconText}>👋</UIText>
+				<View style={styles.iconContainer}>
+					<UIText style={styles.iconText}>{greeting.emoji}</UIText>
+				</View>
 
 				<View style={styles.greetingContainer}>
-					<UIText style={styles.date} isSecondary>
-						{todayDate}
+					<UIText style={styles.greeting} isSecondary>
+						{greeting.message}
 					</UIText>
-					<UIText style={styles.greeting}>Hello, {greeting}</UIText>
+					<UIText style={styles.date}>{todayDate}</UIText>
 				</View>
 			</View>
 
@@ -86,7 +88,14 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		paddingBottom: 10,
 		alignItems: 'center',
-		gap: 8,
+		gap: 6,
+	},
+	iconContainer: {
+		height: 40,
+		width: 40,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 25,
 	},
 	greetingContainer: {
 		flex: 1,
@@ -110,14 +119,14 @@ const styles = StyleSheet.create({
 
 	// text styles
 	iconText: {
-		fontSize: 24,
+		fontSize: 26,
 	},
 	greeting: {
-		fontSize: 20,
+		fontSize: 14,
 		fontWeight: '500',
 	},
 	date: {
-		fontSize: 12,
+		fontSize: 20,
 		fontWeight: '500',
 	},
 });
