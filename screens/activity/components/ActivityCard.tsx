@@ -12,7 +12,7 @@ const ActivityCard = ({ habit }: { habit: Habit }) => {
 	return (
 		<ScrollView
 			contentContainerStyle={[
-				{ backgroundColor: habit.color + '30', borderColor: habit.color },
+				{ backgroundColor: habit.color + '30', borderColor: habit.color + '50' },
 				styles.card,
 			]}>
 			<View style={styles.infoContainer}>
@@ -22,8 +22,9 @@ const ActivityCard = ({ habit }: { habit: Habit }) => {
 					<UIText style={styles.name} numberOfLines={2}>
 						{habit.name}
 					</UIText>
+
 					<UIText style={styles.description} isSecondary>
-						Activity • Past 90 Days
+						{habit.target.frequency} Activity • Past 60 Days
 					</UIText>
 				</View>
 
@@ -79,5 +80,6 @@ const styles = StyleSheet.create({
 	},
 	description: {
 		fontSize: 10,
+		textTransform: 'capitalize',
 	},
 });

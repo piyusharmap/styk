@@ -7,12 +7,14 @@ import { MOMENTUM_CARD_DESCRIPTION } from '../../../constants/messages';
 const MomentumCard = ({ score }: { score: number }) => {
 	const { colors } = useTheme();
 
+	const visualScore = Math.max(0.03, score);
+
 	const size = 64;
 	const center = size / 2;
 	const strokeWidth = 6;
 	const radius = (size - strokeWidth) / 2;
 	const circumference = 2 * Math.PI * radius;
-	const strokeDashoffset = circumference - (score / 100) * circumference;
+	const strokeDashoffset = circumference - (visualScore / 100) * circumference;
 
 	return (
 		<View

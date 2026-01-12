@@ -12,6 +12,7 @@ const UIButton = ({
 	variant = 'default',
 	size = 'md',
 	iconName,
+	iconSize,
 	isIconButton = false,
 	isLoading = false,
 	isDisabled = false,
@@ -22,6 +23,7 @@ const UIButton = ({
 	variant?: ButtonVariant;
 	size?: ButtonSize;
 	iconName?: IconType;
+	iconSize?: number;
 	isIconButton?: boolean;
 	isLoading?: boolean;
 	isDisabled?: boolean;
@@ -31,8 +33,8 @@ const UIButton = ({
 
 	const variantColors = {
 		default: {
-			background: colors.button,
-			text: colors.text,
+			background: colors.neutral,
+			text: colors.neutralInverted,
 		},
 		primary: {
 			background: colors.primary,
@@ -78,7 +80,11 @@ const UIButton = ({
 			disabled={isDisabled}
 			{...props}>
 			{iconName && !isLoading && (
-				<Icon name={iconName} size={variantSize.icon} color={variantColor.text} />
+				<Icon
+					name={iconName}
+					size={iconSize || variantSize.icon}
+					color={variantColor.text}
+				/>
 			)}
 
 			{isLoading && <UILoader size={variantSize.icon} color={variantColor.text} />}

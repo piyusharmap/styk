@@ -11,6 +11,7 @@ import { useRouter } from 'expo-router';
 import UIText from '../../components/ui/UIText';
 import { PageHeader, PageHeading, PageSubHeading } from '../../components/layout/PageHeader';
 import { SETTINGS_PAGE_SUBHEADING } from '../../constants/messages';
+import { version } from '../../package.json';
 
 const SettingsPage = () => {
 	const { mode, setMode } = useTheme();
@@ -69,7 +70,7 @@ const SettingsPage = () => {
 
 			<View style={styles.versionInfo}>
 				<UIText style={styles.version} isSecondary>
-					Styk, 2026 • Version
+					Styk, 2026 • Version {version}
 				</UIText>
 			</View>
 		</UIView>

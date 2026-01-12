@@ -9,7 +9,7 @@ const ActivityReport = ({ habitId, accentColor }: { habitId: string; accentColor
 	const habits = useHabitStore((s) => s.habits);
 
 	const report = useMemo(() => {
-		return useHabitStore.getState().getLastXDaysReport(habitId, 90);
+		return useHabitStore.getState().getLastXDaysReport(habitId, 60);
 	}, [habitId, logs, habits]);
 
 	return (
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		justifyContent: 'flex-start',
-		gap: 2,
+		gap: 4,
 	},
 	gridItem: {
 		width: 12,

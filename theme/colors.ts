@@ -13,8 +13,6 @@ export type Theme = {
 	text?: string;
 	textSecondary?: string;
 
-	button?: string;
-
 	navBackground?: string;
 	navText?: string;
 
@@ -46,8 +44,6 @@ export const Colors: Record<string, Theme> = {
 		text: '#0E0E0E',
 		textSecondary: '#4D4D4D',
 
-		button: '#CACACA',
-
 		navBackground: '#F9F9F9',
 		navText: '#0E0E0E',
 
@@ -77,8 +73,6 @@ export const Colors: Record<string, Theme> = {
 
 		text: '#F2F2F2',
 		textSecondary: '#D4D4D4',
-
-		button: '#444343',
 
 		navBackground: '#101010',
 		navText: '#F2F2F2',
