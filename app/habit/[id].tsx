@@ -5,18 +5,18 @@ import UIView from '../../components/ui/UIView';
 import useTheme from '../../theme/useTheme';
 import DeleteHabitButton from '../../screens/habit/component/DeleteHabitButton';
 import UIText from '../../components/ui/UIText';
-import HabitInfoCard from '../../screens/habit/component/HabitInfoCard';
+import HabitInfoCard from '../../components/habit/HabitInfoCard';
 import { HabitTypeDetails } from '../../constants/habit';
-import TypeCard from '../../screens/habit/component/TypeCard';
 import NavigationButton from '../../components/layout/NavigationButton';
 import ArchiveHabitButton from '../../screens/habit/component/ArchiveHabitButton';
 import PageLoader from '../../components/PageLoader';
 import NavigationHeading from '../../components/heading/NavigationHeading';
-import ProgressBar from '../../components/habit/ProgressBar';
-import { formatDisplayDate, getDayDifference } from '../../utils/time';
-import Icon from '../../components/icon';
-import UISeparator from '../../components/ui/UISeparator';
-import Habit30Report from '../../screens/habit/component/Habit30Report';
+import { formatDisplayDate } from '../../utils/time';
+import TypeCard from '../../components/habit/TypeCard';
+import BuildHabitActions from '../../screens/habit/component/BuildHabitActions';
+import StreakCard from '../../screens/habit/component/StreakCard';
+import QuitHabitActions from '../../screens/habit/component/QuitHabitActions';
+import HabitReport from '../../screens/habit/component/HabitReport';
 
 const HabitDetailsPage = () => {
 	const { id, color } = useLocalSearchParams<{
@@ -27,20 +27,11 @@ const HabitDetailsPage = () => {
 	const router = useRouter();
 	const { colors } = useTheme();
 	const habitDetails = useHabitStore((s) => s.getHabitDetails(id));
-	const countValue = useHabitStore((s) => s.getCountValue(id));
 
 	if (!habitDetails) return <PageLoader isBottomSafe />;
 
-	const typeDetails = HabitTypeDetails[habitDetails.target.type];
-
-	const currentStreak =
-		habitDetails.target.type === 'count'
-			? habitDetails.target.currentStreak
-			: getDayDifference(habitDetails.target.startDate);
-	const bestStreak =
-		habitDetails.target.type === 'count'
-			? habitDetails.target.longestStreak
-			: getDayDifference(habitDetails.target.initialStartDate);
+	const habitType = habitDetails.target.type;
+	const typeDetails = HabitTypeDetails[habitType];
 
 	return (
 		<>
@@ -73,125 +64,30 @@ const HabitDetailsPage = () => {
 						color={color || colors.foreground}
 					/>
 
-					<HabitInfoCard heading='Name'>
-						<UIText style={styles.name}>{habitDetails?.name}</UIText>
-					</HabitInfoCard>
-
-					{habitDetails.target.type === 'count' ? (
-						<HabitInfoCard heading='Progress • Today'>
-							<View style={styles.progressContainer}>
-								<View style={styles.progressDetails}>
-									<UIText style={styles.progress} isSecondary>
-										<UIText
-											style={[
-												{ color: colors.text },
-												styles.progressHighlight,
-											]}>
-											{countValue}
-										</UIText>
-										{'/'}
-										{habitDetails.target.count}
-										{` ${habitDetails.target.unit}${
-											habitDetails.target.count > 1 ? 's' : ''
-										}`}
-									</UIText>
-
-									<UIText style={styles.progress}>
-										{habitDetails.target.frequency}
-									</UIText>
-								</View>
-
-								<ProgressBar
-									habitId={habitDetails.id}
-									target={habitDetails.target}
-									color={habitDetails.color}
-									height={32}
-								/>
-							</View>
-						</HabitInfoCard>
-					) : (
-						<HabitInfoCard heading='Progress So Far'>
-							<View style={styles.infoContainer}>
-								<View style={styles.infoCard}>
-									<UIText style={styles.info}>
-										{formatDisplayDate(habitDetails.target.startDate)}
-									</UIText>
-
-									<UIText style={styles.infoSubHeading} isSecondary>
-										Clean since
-									</UIText>
-								</View>
-
-								<UISeparator orientation='vertical' length={40} width={1} />
-
-								<View style={styles.infoCard}>
-									<UIText style={styles.info}>
-										{formatDisplayDate(habitDetails.target.initialStartDate)}
-									</UIText>
-
-									<UIText style={styles.infoSubHeading} isSecondary>
-										Started on
-									</UIText>
-								</View>
-							</View>
-						</HabitInfoCard>
-					)}
-
-					<HabitInfoCard heading='Streak'>
-						<View style={styles.infoContainer}>
-							<View style={styles.infoCard}>
-								<View style={styles.streakInfo}>
-									<Icon
-										name='Flame'
-										size={22}
-										color={habitDetails.color}
-										isFilled
-										fillColor={habitDetails.color + '50'}
-									/>
-
-									<UIText style={styles.streakCount}>
-										{currentStreak}{' '}
-										<UIText style={styles.streakUnit}>days</UIText>
-									</UIText>
-								</View>
-
-								<UIText style={styles.infoSubHeading} isSecondary>
-									Current Streak
-								</UIText>
-							</View>
-
-							<UISeparator orientation='vertical' length={40} width={1} />
-
-							<View style={styles.infoCard}>
-								<View style={styles.streakInfo}>
-									<Icon
-										name='Crown'
-										size={22}
-										color={habitDetails.color}
-										isFilled
-										fillColor={habitDetails.color + '50'}
-									/>
-
-									<UIText style={styles.streakCount}>
-										{bestStreak} <UIText style={styles.streakUnit}>days</UIText>
-									</UIText>
-								</View>
-
-								<UIText style={styles.infoSubHeading} isSecondary>
-									Best Streak
-								</UIText>
-							</View>
-						</View>
-					</HabitInfoCard>
-
-					<Habit30Report habitId={id} />
-
-					<View>
+					<View style={styles.dateContainer}>
 						<UIText style={styles.date}>
 							<UIText isSecondary>Last updated:</UIText>{' '}
 							{formatDisplayDate(habitDetails.updatedAt)}
 						</UIText>
 					</View>
+
+					<HabitInfoCard heading='Habit Name'>
+						<UIText style={styles.name}>{habitDetails?.name}</UIText>
+					</HabitInfoCard>
+
+					<StreakCard habit={habitDetails} />
+
+					{habitType === 'count' ? (
+						<HabitInfoCard heading={`Progress • ${habitDetails.target.frequency}`}>
+							<BuildHabitActions habit={habitDetails} />
+						</HabitInfoCard>
+					) : (
+						<HabitInfoCard heading={`Progress • ${habitDetails.target.frequency}`}>
+							<QuitHabitActions habit={habitDetails} />
+						</HabitInfoCard>
+					)}
+
+					<HabitReport habitId={id} accentColor={habitDetails.color} />
 				</ScrollView>
 
 				<View
@@ -220,32 +116,8 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 		gap: 6,
 	},
-	progressContainer: {
+	dateContainer: {
 		paddingTop: 4,
-		gap: 6,
-	},
-	progressDetails: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		gap: 20,
-	},
-	infoContainer: {
-		flex: 1,
-		paddingTop: 4,
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 10,
-		overflow: 'hidden',
-	},
-	infoCard: {
-		flex: 1,
-		gap: 2,
-	},
-	streakInfo: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 4,
 	},
 	actionContainer: {
 		paddingHorizontal: 12,
@@ -262,32 +134,11 @@ const styles = StyleSheet.create({
 	date: {
 		paddingHorizontal: 4,
 		fontSize: 12,
+		textAlign: 'right',
 	},
 	name: {
 		fontSize: 20,
 		fontWeight: '500',
 		lineHeight: 24,
-	},
-	progress: {
-		fontSize: 14,
-	},
-	progressHighlight: {
-		fontSize: 20,
-		fontWeight: '500',
-	},
-	infoSubHeading: {
-		fontSize: 12,
-	},
-	info: {
-		fontSize: 18,
-		fontWeight: '500',
-		textTransform: 'capitalize',
-	},
-	streakCount: {
-		fontSize: 24,
-		fontWeight: '600',
-	},
-	streakUnit: {
-		fontSize: 14,
 	},
 });

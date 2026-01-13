@@ -39,9 +39,10 @@ const SettingsPage = () => {
 					</SettingOption>
 				</SettingsSection>
 
-				<SettingsSection title='Data & Storage'>
+				<SettingsSection title='Data and Storage'>
 					<SettingOption title='Archived Habits'>
 						<UIButton
+							variant='secondary'
 							title=''
 							size='sm'
 							iconName='ArrowRight'
@@ -58,6 +59,7 @@ const SettingsPage = () => {
 				<SettingsSection title='About'>
 					<SettingOption title='About Us'>
 						<UIButton
+							variant='secondary'
 							title=''
 							size='sm'
 							iconName='ArrowRight'

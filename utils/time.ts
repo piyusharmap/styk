@@ -29,8 +29,6 @@ export const getDayDifference = (startDate: string): number => {
 	start.setHours(0, 0, 0, 0);
 	today.setHours(0, 0, 0, 0);
 
-	today.setDate(today.getDate() - 1);
-
 	const diffInMs = today.getTime() - start.getTime();
 
 	const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));

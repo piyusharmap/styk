@@ -26,7 +26,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 			style={({ pressed }) => [
 				{
 					backgroundColor: colors.foreground + '80',
-					borderColor: colors.foreground,
+					borderColor: colors.border + '80',
 				},
 				styles.habitCard,
 				pressed && styles.habitCardPressed,

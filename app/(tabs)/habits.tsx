@@ -42,8 +42,8 @@ const HabitsTab = () => {
 		<UIView style={styles.container}>
 			<View style={[{ paddingTop: insets.top + 10 }, styles.headerContainer]}>
 				<View style={styles.greetingContainer}>
-					<UIText style={styles.greeting}>
-						{greeting.emoji} Hi, {greeting.message}
+					<UIText style={styles.greeting} isSecondary>
+						{greeting.emoji} {greeting.message}
 					</UIText>
 
 					<UIText style={styles.date}>{todayDate}</UIText>
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
 	headerContainer: {
 		flexDirection: 'row',
 		paddingHorizontal: 12,
-		paddingBottom: 10,
 		alignItems: 'center',
 		gap: 6,
 	},

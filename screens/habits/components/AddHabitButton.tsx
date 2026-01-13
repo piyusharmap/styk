@@ -15,7 +15,7 @@ const AddHabitButton = ({ ...props }: PressableProps) => {
 				pressed && styles.buttonPressed,
 			]}
 			{...props}>
-			<Icon name='Plus' size={32} color={colors.neutralInverted} />
+			<Icon name='Plus' size={32} color={colors.neutralWhite} />
 		</Pressable>
 	);
 };
@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
 		opacity: 0.8,
 	},
 	buttonDisabled: {
-		opacity: 0.5,
+		opacity: 0.6,
 	},
 });

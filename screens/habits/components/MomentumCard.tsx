@@ -1,20 +1,11 @@
 import { View, StyleSheet } from 'react-native';
-import Svg, { Circle, G } from 'react-native-svg';
 import useTheme from '../../../theme/useTheme';
 import UIText from '../../../components/ui/UIText';
 import { MOMENTUM_CARD_DESCRIPTION } from '../../../constants/messages';
+import CircularProgressBar from '../../../components/habit/CircularProgressBar';
 
 const MomentumCard = ({ score }: { score: number }) => {
 	const { colors } = useTheme();
-
-	const visualScore = Math.max(0.03, score);
-
-	const size = 64;
-	const center = size / 2;
-	const strokeWidth = 6;
-	const radius = (size - strokeWidth) / 2;
-	const circumference = 2 * Math.PI * radius;
-	const strokeDashoffset = circumference - (visualScore / 100) * circumference;
 
 	return (
 		<View
@@ -30,36 +21,12 @@ const MomentumCard = ({ score }: { score: number }) => {
 				</UIText>
 			</View>
 
-			<View style={styles.chartContainer}>
-				<Svg width={size} height={size}>
-					<G transform={`rotate(-90 ${center} ${center})`}>
-						<Circle
-							cx={center}
-							cy={center}
-							r={radius}
-							stroke={colors.primary + '50'}
-							strokeWidth={strokeWidth}
-							fill='none'
-						/>
-
-						<Circle
-							cx={center}
-							cy={center}
-							r={radius}
-							stroke={colors.primary}
-							strokeWidth={strokeWidth}
-							fill='none'
-							strokeDasharray={circumference}
-							strokeDashoffset={strokeDashoffset}
-							strokeLinecap='round'
-						/>
-					</G>
-				</Svg>
-
-				<View style={styles.scoreOverlay}>
-					<UIText style={[{ color: colors.primary }, styles.scoreText]}>{score}</UIText>
-				</View>
-			</View>
+			<CircularProgressBar
+				progress={score}
+				activeColor={colors.primary}
+				backgroundColor={colors.primary + '50'}>
+				<UIText style={styles.scoreText}>{score}</UIText>
+			</CircularProgressBar>
 		</View>
 	);
 };
@@ -67,7 +34,7 @@ const MomentumCard = ({ score }: { score: number }) => {
 const styles = StyleSheet.create({
 	// Container Styles
 	card: {
-		paddingHorizontal: 16,
+		paddingHorizontal: 12,
 		paddingVertical: 10,
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -99,7 +66,7 @@ const styles = StyleSheet.create({
 	// Text Styles
 	scoreText: {
 		fontSize: 20,
-		fontWeight: '800',
+		fontWeight: '600',
 	},
 	title: {
 		fontSize: 18,

@@ -19,7 +19,7 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 			style={[
 				{
 					backgroundColor: colors.foreground + '80',
-					borderColor: colors.foreground,
+					borderColor: colors.border + '80',
 				},
 				styles.habitCard,
 			]}>

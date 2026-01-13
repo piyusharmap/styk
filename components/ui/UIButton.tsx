@@ -55,9 +55,9 @@ const UIButton = ({
 	};
 
 	const variantSizes = {
-		sm: { size: 38, paddingH: 10, font: 12, icon: 14 },
-		md: { size: 42, paddingH: 12, font: 14, icon: 18 },
-		lg: { size: 50, paddingH: 18, font: 16, icon: 24 },
+		sm: { size: 38, paddingH: 10, font: 14, icon: 14 },
+		md: { size: 42, paddingH: 12, font: 16, icon: 18 },
+		lg: { size: 50, paddingH: 18, font: 18, icon: 24 },
 	};
 
 	const variantColor = variantColors[variant];
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
 		opacity: 0.8,
 	},
 	buttonDisabled: {
-		opacity: 0.5,
+		opacity: 0.6,
 	},
 
 	// text styles
