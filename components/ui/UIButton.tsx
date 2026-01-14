@@ -12,6 +12,7 @@ const UIButton = ({
 	variant = 'default',
 	size = 'md',
 	iconName,
+	iconSize,
 	isIconButton = false,
 	isLoading = false,
 	isDisabled = false,
@@ -22,6 +23,7 @@ const UIButton = ({
 	variant?: ButtonVariant;
 	size?: ButtonSize;
 	iconName?: IconType;
+	iconSize?: number;
 	isIconButton?: boolean;
 	isLoading?: boolean;
 	isDisabled?: boolean;
@@ -31,8 +33,8 @@ const UIButton = ({
 
 	const variantColors = {
 		default: {
-			background: colors.button,
-			text: colors.text,
+			background: colors.neutral,
+			text: colors.neutralInverted,
 		},
 		primary: {
 			background: colors.primary,
@@ -53,9 +55,9 @@ const UIButton = ({
 	};
 
 	const variantSizes = {
-		sm: { size: 38, paddingH: 10, font: 12, icon: 14 },
-		md: { size: 42, paddingH: 12, font: 14, icon: 18 },
-		lg: { size: 50, paddingH: 18, font: 16, icon: 24 },
+		sm: { size: 38, paddingH: 10, font: 14, icon: 14 },
+		md: { size: 42, paddingH: 12, font: 16, icon: 18 },
+		lg: { size: 50, paddingH: 18, font: 18, icon: 24 },
 	};
 
 	const variantColor = variantColors[variant];
@@ -78,7 +80,11 @@ const UIButton = ({
 			disabled={isDisabled}
 			{...props}>
 			{iconName && !isLoading && (
-				<Icon name={iconName} size={variantSize.icon} color={variantColor.text} />
+				<Icon
+					name={iconName}
+					size={iconSize || variantSize.icon}
+					color={variantColor.text}
+				/>
 			)}
 
 			{isLoading && <UILoader size={variantSize.icon} color={variantColor.text} />}
@@ -114,7 +120,7 @@ const styles = StyleSheet.create({
 		opacity: 0.8,
 	},
 	buttonDisabled: {
-		opacity: 0.5,
+		opacity: 0.6,
 	},
 
 	// text styles

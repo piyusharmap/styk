@@ -1,46 +1,77 @@
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { Habit } from '../../../types/habitTypes';
-import ActivityReport from './ActivityReport';
+import { View, StyleSheet, Pressable } from 'react-native';
 import UIText from '../../../components/ui/UIText';
-import TypeIconContainer from '../../../components/habit/TypeIconContainer';
+import { HabitActivity } from '../../../types/habitTypes';
+import { useRouter } from 'expo-router';
+import CircularProgressBar from '../../../components/habit/CircularProgressBar';
+import Icon from '../../../components/icon';
 import { HabitTypeDetails } from '../../../constants/habit';
-import UIButton from '../../../components/ui/UIButton';
 
-const ActivityCard = ({ habit }: { habit: Habit }) => {
-	const typeDetails = HabitTypeDetails[habit.target.type];
+const ActivityCard = ({ activityItem }: { activityItem: HabitActivity }) => {
+	const router = useRouter();
+
+	const progressValue = Math.round(activityItem.progress * 100);
+	const typeDetails = HabitTypeDetails[activityItem.type];
 
 	return (
-		<ScrollView
-			contentContainerStyle={[
-				{ backgroundColor: habit.color + '30', borderColor: habit.color },
-				styles.card,
-			]}>
-			<View style={styles.infoContainer}>
-				<TypeIconContainer icon={typeDetails.icon} color={habit.color} />
-
-				<View style={styles.detailsContainer}>
-					<UIText style={styles.name} numberOfLines={2}>
-						{habit.name}
-					</UIText>
-					<UIText style={styles.description} isSecondary>
-						Activity • Past 90 Days
-					</UIText>
-				</View>
-
-				<UIButton
-					variant='primary'
-					size='sm'
-					title=''
-					iconName='ArrowRight'
-					isIconButton
-					style={[{ backgroundColor: habit.color }, styles.button]}
-				/>
+		<Pressable
+			style={({ pressed }) => [
+				{
+					backgroundColor: activityItem.color + '30',
+					borderColor: activityItem.color + '80',
+				},
+				styles.habitCard,
+				pressed && styles.habitCardPressed,
+			]}
+			onPress={() => {
+				router.navigate({
+					pathname: `habit/${activityItem.id}`,
+					params: { color: activityItem.color },
+				});
+			}}>
+			<View style={styles.chartSection}>
+				<CircularProgressBar
+					progress={progressValue}
+					size={100}
+					strokeWidth={8}
+					activeColor={activityItem.color}
+					backgroundColor={activityItem.color + '50'}>
+					{activityItem.type === 'count' ? (
+						<View style={styles.progressDetails}>
+							<UIText style={styles.count}>
+								{activityItem.currentValue}
+								<UIText style={styles.countTarget} isSecondary>
+									{`/${activityItem.count}`}
+								</UIText>
+							</UIText>
+							<UIText style={styles.unit} isSecondary>
+								{activityItem.unit}
+								{activityItem.count > 1 ? 's' : ''}
+							</UIText>
+						</View>
+					) : (
+						<Icon
+							name={activityItem.currentValue > 0 ? 'CalendarX2' : 'CalendarHeart'}
+							size={28}
+							color={activityItem.color}
+							fillColor={activityItem.color + '30'}
+							isFilled
+						/>
+					)}
+				</CircularProgressBar>
 			</View>
 
-			<View style={styles.reportContainer}>
-				<ActivityReport habitId={habit.id} accentColor={habit.color} />
+			<UIText style={styles.name} numberOfLines={1}>
+				{activityItem.name}
+			</UIText>
+
+			<View style={[{ backgroundColor: activityItem.color + '20' }, styles.badge]}>
+				<UIText style={[{ color: activityItem.color }, styles.badgeInfo]}>
+					{typeDetails.label}
+					{'  •  '}
+					{activityItem.frequency}
+				</UIText>
 			</View>
-		</ScrollView>
+		</Pressable>
 	);
 };
 
@@ -48,36 +79,54 @@ export default ActivityCard;
 
 const styles = StyleSheet.create({
 	// container styles
-	card: {
-		padding: 12,
-		gap: 10,
-		borderWidth: 1,
-		borderRadius: 10,
-		overflow: 'hidden',
-	},
-	infoContainer: {
-		flexDirection: 'row',
+	habitCard: {
+		flex: 1,
+		padding: 16,
 		alignItems: 'center',
-		gap: 8,
+		borderRadius: 24,
+		borderWidth: 2,
+		gap: 6,
 	},
-	detailsContainer: {
-		flex: 1,
-		gap: 1,
+	habitCardPressed: {
+		opacity: 0.8,
+		transform: [{ scale: 0.98 }],
 	},
-	reportContainer: {
-		flex: 1,
+	chartSection: {
+		marginBottom: 4,
 	},
-	button: {
-		borderRadius: '100%',
+	progressDetails: {
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	badge: {
+		height: 20,
+		paddingHorizontal: 10,
+		paddingVertical: 4,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 10,
 	},
 
-	// text styles
+	// text Styles
 	name: {
-		fontSize: 18,
+		flex: 1,
+		fontSize: 16,
 		fontWeight: '500',
-		lineHeight: 22,
+		textAlign: 'center',
 	},
-	description: {
+	badgeInfo: {
 		fontSize: 10,
+		fontWeight: '800',
+		textTransform: 'uppercase',
+	},
+	count: {
+		fontSize: 20,
+		fontWeight: '500',
+	},
+	countTarget: {
+		fontSize: 14,
+	},
+	unit: {
+		fontSize: 12,
 	},
 });

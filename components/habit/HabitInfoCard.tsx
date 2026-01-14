@@ -1,6 +1,6 @@
 import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
-import useTheme from '../../../theme/useTheme';
-import UIText from '../../../components/ui/UIText';
+import useTheme from '../../theme/useTheme';
+import UIText from '../ui/UIText';
 
 const HabitInfoCard = ({
 	heading,
@@ -18,7 +18,7 @@ const HabitInfoCard = ({
 			style={[
 				{
 					backgroundColor: colors.foreground + '80',
-					borderColor: colors.foreground,
+					borderColor: colors.border,
 				},
 				styles.card,
 				style,
@@ -43,12 +43,13 @@ const styles = StyleSheet.create({
 		gap: 4,
 		borderRadius: 10,
 		borderWidth: 2,
+		overflow: 'hidden',
 	},
 
 	// text styles
 	heading: {
 		fontSize: 10,
-		fontWeight: '500',
+		fontWeight: '600',
 		textTransform: 'uppercase',
 	},
 });

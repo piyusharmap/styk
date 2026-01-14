@@ -12,9 +12,9 @@ export const getGreeting = (): { message: string; emoji: string } => {
 
 	if (hour < 12) return { message: MORNING_GREET_MSG, emoji: '👋' };
 
-	if (hour < 17) return { message: AFTERNOON_GREET_MSG, emoji: '🌞' };
+	if (hour < 17) return { message: AFTERNOON_GREET_MSG, emoji: '👋' };
 
-	if (hour < 21) return { message: EVENING_GREET_MSG, emoji: '🍵' };
+	if (hour < 21) return { message: EVENING_GREET_MSG, emoji: '👋' };
 
 	return { message: NIGHT_GREET_MSG, emoji: '🥱' };
 };

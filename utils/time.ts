@@ -29,8 +29,6 @@ export const getDayDifference = (startDate: string): number => {
 	start.setHours(0, 0, 0, 0);
 	today.setHours(0, 0, 0, 0);
 
-	today.setDate(today.getDate() - 1);
-
 	const diffInMs = today.getTime() - start.getTime();
 
 	const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
@@ -46,4 +44,14 @@ export const formatDisplayDate = (dateString: string): string => {
 		month: 'short',
 		year: 'numeric',
 	}).format(date);
+};
+
+export const getDaysInMonth = (year: number, month: number) => {
+	const date = new Date(year, month, 1);
+	const days = [];
+	while (date.getMonth() === month) {
+		days.push(toDateString(new Date(date)));
+		date.setDate(date.getDate() + 1);
+	}
+	return days;
 };

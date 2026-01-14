@@ -11,6 +11,7 @@ import { useRouter } from 'expo-router';
 import UIText from '../../components/ui/UIText';
 import { PageHeader, PageHeading, PageSubHeading } from '../../components/layout/PageHeader';
 import { SETTINGS_PAGE_SUBHEADING } from '../../constants/messages';
+import { version } from '../../package.json';
 
 const SettingsPage = () => {
 	const { mode, setMode } = useTheme();
@@ -38,9 +39,10 @@ const SettingsPage = () => {
 					</SettingOption>
 				</SettingsSection>
 
-				<SettingsSection title='Data & Storage'>
+				<SettingsSection title='Data and Storage'>
 					<SettingOption title='Archived Habits'>
 						<UIButton
+							variant='secondary'
 							title=''
 							size='sm'
 							iconName='ArrowRight'
@@ -57,6 +59,7 @@ const SettingsPage = () => {
 				<SettingsSection title='About'>
 					<SettingOption title='About Us'>
 						<UIButton
+							variant='secondary'
 							title=''
 							size='sm'
 							iconName='ArrowRight'
@@ -69,7 +72,7 @@ const SettingsPage = () => {
 
 			<View style={styles.versionInfo}>
 				<UIText style={styles.version} isSecondary>
-					Styk, 2026 • Version
+					Styk, 2026 • Version {version}
 				</UIText>
 			</View>
 		</UIView>

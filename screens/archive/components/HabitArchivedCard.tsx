@@ -19,7 +19,7 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 			style={[
 				{
 					backgroundColor: colors.foreground + '80',
-					borderColor: colors.foreground,
+					borderColor: colors.border,
 				},
 				styles.habitCard,
 			]}>
@@ -63,9 +63,6 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		borderWidth: 2,
 		overflow: 'hidden',
-	},
-	habitCardPressed: {
-		opacity: 0.8,
 	},
 	habitSection: {
 		flexDirection: 'row',

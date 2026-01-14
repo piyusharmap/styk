@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native';
-import UIText from '../../../components/ui/UIText';
-import { IconType } from '../../../components/icon';
-import TypeIconContainer from '../../../components/habit/TypeIconContainer';
+import { IconType } from '../icon';
+import TypeIconContainer from './TypeIconContainer';
+import UIText from '../ui/UIText';
 
 const TypeCard = ({
 	label,
@@ -34,6 +34,7 @@ export default TypeCard;
 const styles = StyleSheet.create({
 	// container styles
 	card: {
+		flex: 1,
 		padding: 10,
 		flexDirection: 'row',
 		alignItems: 'center',

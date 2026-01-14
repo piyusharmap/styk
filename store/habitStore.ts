@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Habit, HabitLog, HabitLogStatus, HabitTarget } from '../types/habitTypes';
+import { Habit, HabitActivity, HabitLog, HabitLogStatus, HabitTarget } from '../types/habitTypes';
 import {
 	calculateCountStreak,
 	getCurrentTimeWindow,
@@ -7,7 +7,7 @@ import {
 	isHabitLockedForWindow,
 	isHabitSuccessfulInWindow,
 } from './utils';
-import { getTodayString } from '../utils/time';
+import { getTodayString, toDateString } from '../utils/time';
 import { HabitService } from '../services/habitService';
 import { HabitLogService } from '../services/habitLogService';
 import { logger } from '../utils/logger';
@@ -37,6 +37,7 @@ type HabitStore = {
 
 	// quit habit actions
 	recordQuitRelapse: (habitId: string, relapseDate: string) => Promise<void>;
+	revertQuitRelapse: (habitId: string) => Promise<void>;
 
 	// habit details action
 	isHabitSuccessful: (habitId: string) => boolean;
@@ -58,7 +59,7 @@ type HabitStore = {
 		value: number;
 		percentage: number;
 	}[];
-
+	getDailyActivity: (date: string) => Promise<HabitActivity[]>;
 	getGlobalMomentum: () => number;
 
 	// reset/delete/archive actions
@@ -78,6 +79,15 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		} catch (error) {
 			logger.error(`[Store Error] ${errorMessage}:`, error);
 			// set a global error state later here for UI alerts
+			throw error;
+		}
+	};
+
+	const evaluateAsync = async <T>(errorMessage: string, fn: () => Promise<T>): Promise<T> => {
+		try {
+			return await fn();
+		} catch (error) {
+			logger.error(`[Store Async Query Error] ${errorMessage}:`, error);
 			throw error;
 		}
 	};
@@ -188,6 +198,8 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				case 'quit':
 					if (actionType === 'mark') {
 						await get().recordQuitRelapse(habit.id, date);
+					} else {
+						await get().revertQuitRelapse(habit.id);
 					}
 					break;
 			}
@@ -197,9 +209,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		incrementCountHabit: async (habitId) => {
 			await executeAsync('Failed to increment habit count', async () => {
 				const habit = get().habits.find((habit) => habit.id === habitId);
-				if (!habit) return;
-
-				if (habit.target.type !== 'count') return;
+				if (!habit || habit.target.type !== 'count') return;
 
 				const today = getTodayString();
 
@@ -247,18 +257,11 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		decrementCountHabit: async (habitId) => {
 			await executeAsync('Failed to decrement habit count', async () => {
 				const habit = get().habits.find((habit) => habit.id === habitId);
-				if (!habit) return;
-
-				if (habit.target.type !== 'count') return;
+				if (!habit || habit.target.type !== 'count') return;
 
 				const today = getTodayString();
 
-				const window = getCurrentTimeWindow(habit.target.frequency);
-
 				const logs = get().logs;
-				const locked = isHabitLockedForWindow(habit, logs, window);
-
-				if (locked) return;
 
 				const existingLog = logs.find(
 					(log) => log.habitId === habit.id && log.date === today,
@@ -290,12 +293,10 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		},
 
 		// quit habit actions
-		recordQuitRelapse: async (habitId, date) => {
+		recordQuitRelapse: async (habitId, relapseDate) => {
 			await executeAsync('Failed to record habit relapse', async () => {
 				const habit = get().habits.find((habit) => habit.id === habitId);
-				if (!habit) return;
-
-				if (habit.target.type !== 'quit') return;
+				if (!habit || habit.target.type !== 'quit') return;
 
 				const today = getTodayString();
 
@@ -318,16 +319,53 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 					...habit,
 					target: {
 						...habit.target,
-						startDate: date,
+						startDate: relapseDate,
 					},
-					updatedAt: today,
 				};
 
 				await HabitLogService.upsertLog(newLog);
-				await HabitService.updateQuitStartDate(habit.id, date);
+				await HabitService.updateQuitStartDate(habit.id, relapseDate);
 
 				set((state) => ({
 					logs: [...state.logs, newLog],
+					habits: state.habits.map((habitItem) =>
+						habitItem.id === habit.id ? updatedHabit : habitItem,
+					),
+				}));
+			});
+		},
+
+		revertQuitRelapse: async (habitId) => {
+			await executeAsync('Failed to revert habit relapse', async () => {
+				const habit = get().habits.find((h) => h.id === habitId);
+				if (!habit || habit.target.type !== 'quit') return;
+
+				const today = getTodayString();
+				const logs = get().logs;
+
+				const existingLog = logs.find(
+					(log) => log.habitId === habit.id && log.date === today,
+				);
+
+				if (!existingLog) return;
+
+				const currentStart = new Date(habit.target.startDate);
+				currentStart.setDate(currentStart.getDate() - 1);
+				const revertDate = toDateString(currentStart);
+
+				const updatedHabit: Habit = {
+					...habit,
+					target: {
+						...habit.target,
+						startDate: revertDate,
+					},
+				};
+
+				await HabitLogService.deleteLog(existingLog.id);
+				await HabitService.updateQuitStartDate(habit.id, revertDate);
+
+				set((state) => ({
+					logs: state.logs.filter((log) => log.id !== existingLog.id),
 					habits: state.habits.map((habitItem) =>
 						habitItem.id === habit.id ? updatedHabit : habitItem,
 					),
@@ -364,7 +402,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			const habit = get().habits.find((habit) => habit.id === habitId);
 			if (!habit) return 0;
 
-			if (habit.target.type !== 'count') return 0;
+			// if (habit.target.type !== 'count') return 0;
 
 			const window = getCurrentTimeWindow(habit.target.frequency);
 			const logs = get().logs;
@@ -423,7 +461,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				let percentage = 0;
 
 				if (habitType === 'count') {
-					const goal = habit.target.count || 1;
+					const goal = habit.target.count;
 					percentage = Math.min(value / goal, 1);
 
 					if (value >= goal) {
@@ -447,6 +485,12 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 					value,
 					percentage: percentage,
 				};
+			});
+		},
+
+		getDailyActivity: async (date: string) => {
+			return await evaluateAsync('Failed to fetch activity data', async () => {
+				return HabitService.getActivity(date);
 			});
 		},
 

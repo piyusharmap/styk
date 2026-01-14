@@ -1,15 +1,16 @@
-import { Pressable, StyleSheet } from 'react-native';
+import { PressableProps } from 'react-native';
 import { HabitTarget } from '../../../types/habitTypes';
 import { useHabitStore } from '../../../store/habitStore';
 import { getTodayString } from '../../../utils/time';
-import Icon, { IconType } from '../../../components/icon';
+import { IconType } from '../../../components/icon';
+import ToggleButton from '../../../components/habit/ToggleButton';
 
 const HabitToggleButton = ({
 	habitId,
 	target,
 	color,
 	isDisabled,
-}: {
+}: PressableProps & {
 	habitId: string;
 	target: HabitTarget;
 	color: string;
@@ -24,40 +25,13 @@ const HabitToggleButton = ({
 	};
 
 	return (
-		<Pressable
-			style={({ pressed }) => [
-				{
-					backgroundColor: color + '30',
-					borderColor: color,
-				},
-				styles.button,
-				pressed && styles.buttonPressed,
-				isDisabled && styles.buttonDisabled,
-			]}
+		<ToggleButton
+			color={color}
+			iconName={icon}
+			isDisabled={isDisabled}
 			onPress={handleMarkHabit}
-			disabled={isDisabled}>
-			<Icon name={icon} size={20} />
-		</Pressable>
+		/>
 	);
 };
 
 export default HabitToggleButton;
-
-const styles = StyleSheet.create({
-	// container styles
-	button: {
-		height: 40,
-		width: 40,
-		justifyContent: 'center',
-		alignItems: 'center',
-		borderRadius: 6,
-		borderWidth: 2,
-		borderStyle: 'dashed',
-	},
-	buttonPressed: {
-		transform: [{ scale: 0.95 }],
-	},
-	buttonDisabled: {
-		opacity: 0.5,
-	},
-});

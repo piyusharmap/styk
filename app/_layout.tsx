@@ -54,15 +54,6 @@ const RootLayout = () => {
 					animationDuration: 200,
 				}}>
 				<Stack.Screen
-					name='index'
-					options={{
-						title: '',
-						headerShown: true,
-						animation: 'fade',
-					}}
-				/>
-
-				<Stack.Screen
 					name='(tabs)'
 					options={{
 						title: '',
