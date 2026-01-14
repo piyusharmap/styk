@@ -86,13 +86,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 6,
 	},
-	iconContainer: {
-		height: 40,
-		width: 40,
-		justifyContent: 'center',
-		alignItems: 'center',
-		borderRadius: 25,
-	},
 	greetingContainer: {
 		flex: 1,
 	},

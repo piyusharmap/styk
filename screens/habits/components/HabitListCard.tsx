@@ -26,7 +26,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 			style={({ pressed }) => [
 				{
 					backgroundColor: colors.foreground + '80',
-					borderColor: colors.border + '80',
+					borderColor: colors.border,
 				},
 				styles.habitCard,
 				pressed && styles.habitCardPressed,
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
 	},
 	habitCardPressed: {
 		opacity: 0.8,
+		transform: [{ scale: 0.98 }],
 	},
 	habitSection: {
 		flexDirection: 'row',

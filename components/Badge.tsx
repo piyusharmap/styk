@@ -4,13 +4,13 @@ import useTheme from '../theme/useTheme';
 import Icon, { IconType } from './icon';
 
 const Badge = ({
-	title,
+	children,
 	isPressable = false,
 	style,
 	icon,
 	...props
 }: PressableProps & {
-	title: string;
+	children?: React.ReactNode;
 	isPressable?: boolean;
 	icon?: IconType;
 	style?: StyleProp<ViewStyle>;
@@ -31,7 +31,7 @@ const Badge = ({
 			{...props}>
 			{icon && <Icon name={icon} size={14} color={colors.text} />}
 
-			{title !== '' && <UIText style={styles.title}>{title}</UIText>}
+			{children && <UIText style={styles.title}>{children}</UIText>}
 		</Pressable>
 	);
 };

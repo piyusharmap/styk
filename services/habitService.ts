@@ -1,5 +1,5 @@
-import { Habit } from '../types/habitTypes';
-import { mapHabit } from './mapper';
+import { Habit, HabitActivity } from '../types/habitTypes';
+import { mapDailyActivity, mapHabit } from './mapper';
 import { executeSQL, querySQL, transactionSQL } from '../db/utils';
 
 export const HabitService = {
@@ -123,5 +123,28 @@ export const HabitService = {
 		const query = `DELETE from habits;`;
 
 		return executeSQL(query, []);
+	},
+
+	getActivity: async (date: string): Promise<HabitActivity[]> => {
+		const query = `
+			SELECT 
+				h.id, 
+				h.name, 
+				h.color, 
+				t.type, 
+				t.count,
+				t.frequency,
+				t.unit,
+				COALESCE(l.value, 0) as current_value
+			FROM habits h
+			INNER JOIN habit_targets t ON h.id = t.habit_id
+			LEFT JOIN habit_logs l ON h.id = l.habit_id AND l.date = ?
+			WHERE h.archived = 0
+			AND h.created_at <= ?;
+		`;
+
+		const rows = await querySQL<any>(query, [date, date]);
+
+		return rows.map(mapDailyActivity);
 	},
 };

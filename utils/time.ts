@@ -45,3 +45,13 @@ export const formatDisplayDate = (dateString: string): string => {
 		year: 'numeric',
 	}).format(date);
 };
+
+export const getDaysInMonth = (year: number, month: number) => {
+	const date = new Date(year, month, 1);
+	const days = [];
+	while (date.getMonth() === month) {
+		days.push(toDateString(new Date(date)));
+		date.setDate(date.getDate() + 1);
+	}
+	return days;
+};

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Habit, HabitLog, HabitLogStatus, HabitTarget } from '../types/habitTypes';
+import { Habit, HabitActivity, HabitLog, HabitLogStatus, HabitTarget } from '../types/habitTypes';
 import {
 	calculateCountStreak,
 	getCurrentTimeWindow,
@@ -59,7 +59,7 @@ type HabitStore = {
 		value: number;
 		percentage: number;
 	}[];
-
+	getDailyActivity: (date: string) => Promise<HabitActivity[]>;
 	getGlobalMomentum: () => number;
 
 	// reset/delete/archive actions
@@ -79,6 +79,15 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		} catch (error) {
 			logger.error(`[Store Error] ${errorMessage}:`, error);
 			// set a global error state later here for UI alerts
+			throw error;
+		}
+	};
+
+	const evaluateAsync = async <T>(errorMessage: string, fn: () => Promise<T>): Promise<T> => {
+		try {
+			return await fn();
+		} catch (error) {
+			logger.error(`[Store Async Query Error] ${errorMessage}:`, error);
 			throw error;
 		}
 	};
@@ -476,6 +485,12 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 					value,
 					percentage: percentage,
 				};
+			});
+		},
+
+		getDailyActivity: async (date: string) => {
+			return await evaluateAsync('Failed to fetch activity data', async () => {
+				return HabitService.getActivity(date);
 			});
 		},
 

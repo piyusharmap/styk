@@ -56,3 +56,15 @@ export type HabitLog = {
 	date: string;
 	value: number;
 };
+
+export type HabitActivity = {
+	id: string;
+	name: string;
+	color: string;
+	type: HabitType;
+	frequency: HabitFrequency;
+	count: number;
+	unit: string;
+	currentValue: number;
+	progress: number;
+};

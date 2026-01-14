@@ -66,8 +66,17 @@ const HabitDetailsPage = () => {
 
 					<View style={styles.dateContainer}>
 						<UIText style={styles.date}>
-							<UIText isSecondary>Last updated:</UIText>{' '}
+							<UIText isSecondary>Created:</UIText>{' '}
 							{formatDisplayDate(habitDetails.updatedAt)}
+						</UIText>
+
+						<UIText style={styles.date} isSecondary>
+							•
+						</UIText>
+
+						<UIText style={styles.date}>
+							<UIText isSecondary>Updated:</UIText>{' '}
+							{formatDisplayDate(habitDetails.createdAt)}
 						</UIText>
 					</View>
 
@@ -118,6 +127,11 @@ const styles = StyleSheet.create({
 	},
 	dateContainer: {
 		paddingTop: 4,
+		paddingHorizontal: 2,
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
+		alignItems: 'center',
+		gap: 4,
 	},
 	actionContainer: {
 		paddingHorizontal: 12,
@@ -132,9 +146,7 @@ const styles = StyleSheet.create({
 
 	// text styles
 	date: {
-		paddingHorizontal: 4,
 		fontSize: 12,
-		textAlign: 'right',
 	},
 	name: {
 		fontSize: 20,

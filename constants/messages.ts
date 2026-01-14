@@ -1,7 +1,7 @@
 // empty list or error messages
 export const EMPTY_HABITS_LIST_MSG = 'Create your first habit to begin.';
 export const EMPTY_ARCHIVE_LIST_MSG = 'Archived habits will appear here.';
-export const EMPTY_ACTIVITY_LIST_MSG = 'No habit activities available.';
+export const EMPTY_ACTIVITY_LIST_MSG = 'No activity recorded for this date.';
 
 // messages for greeting
 export const MORNING_GREET_MSG = 'Good Morning';

@@ -18,7 +18,7 @@ const HabitInfoCard = ({
 			style={[
 				{
 					backgroundColor: colors.foreground + '80',
-					borderColor: colors.border + '80',
+					borderColor: colors.border,
 				},
 				styles.card,
 				style,
