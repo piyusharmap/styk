@@ -31,7 +31,10 @@ const StreakCard = ({ habit }: { habit: Habit }) => {
 						/>
 
 						<UIText style={styles.streakCount}>
-							{currentStreak} <UIText style={styles.streakUnit}>days</UIText>
+							{currentStreak}{' '}
+							<UIText style={styles.streakUnit}>
+								day{currentStreak > 1 ? 's' : ''}
+							</UIText>
 						</UIText>
 					</View>
 
@@ -53,7 +56,10 @@ const StreakCard = ({ habit }: { habit: Habit }) => {
 						/>
 
 						<UIText style={styles.streakCount}>
-							{bestStreak} <UIText style={styles.streakUnit}>days</UIText>
+							{bestStreak}{' '}
+							<UIText style={styles.streakUnit}>
+								day{currentStreak > 1 ? 's' : ''}
+							</UIText>
 						</UIText>
 					</View>
 

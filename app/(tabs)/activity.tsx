@@ -7,9 +7,9 @@ import HorizontalDatePicker from '../../components/HorizontalDatePicker';
 import { getTodayString } from '../../utils/time';
 import { useHabitStore } from '../../store/habitStore';
 import { HabitActivity } from '../../types/habitTypes';
-import UILoader from '../../components/ui/UILoader';
 import ListEmpty from '../../components/list/ListEmpty';
 import ActivityCard from '../../screens/activity/components/ActivityCard';
+import UILoader from '../../components/ui/UILoader';
 
 const ActivityTab = () => {
 	const [selectedDate, setSelectedDate] = useState(getTodayString());
@@ -47,21 +47,29 @@ const ActivityTab = () => {
 
 			<HorizontalDatePicker selectedDate={selectedDate} onDateChange={setSelectedDate} />
 
-			{loading ? (
-				<View style={styles.loaderContainer}>
-					<UILoader size={32} />
-				</View>
-			) : (
-				<FlatList
-					data={activity}
-					keyExtractor={(item) => item.id}
-					numColumns={2}
-					columnWrapperStyle={styles.columnWrapper}
-					contentContainerStyle={styles.habitsContainer}
-					renderItem={({ item }) => <ActivityCard activityItem={item} />}
-					ListEmptyComponent={<ListEmpty message='No activity recorded for this date.' />}
-				/>
-			)}
+			<FlatList
+				data={activity}
+				keyExtractor={(item) => item.id}
+				numColumns={2}
+				columnWrapperStyle={styles.columnWrapper}
+				contentContainerStyle={styles.activityContainer}
+				renderItem={({ item }) => (
+					<ActivityCard
+						activityItem={item}
+						style={styles.activityCard}
+						isLoading={loading}
+					/>
+				)}
+				ListEmptyComponent={
+					loading ? (
+						<View>
+							<UILoader size={32} />
+						</View>
+					) : (
+						<ListEmpty message='No activity recorded for this date.' />
+					)
+				}
+			/>
 		</UIView>
 	);
 };
@@ -77,11 +85,14 @@ const styles = StyleSheet.create({
 	loaderContainer: {
 		padding: 40,
 	},
-	habitsContainer: {
+	activityContainer: {
 		paddingHorizontal: 12,
 		paddingTop: 10,
 		paddingBottom: 60,
 		gap: 6,
+	},
+	activityCard: {
+		width: '50%',
 	},
 	columnWrapper: {
 		justifyContent: 'space-between',

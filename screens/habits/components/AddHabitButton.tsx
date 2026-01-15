@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
 	},
 	buttonPressed: {
 		transform: [{ scale: 0.95 }],
-		opacity: 0.8,
 	},
 	buttonDisabled: {
 		opacity: 0.6,

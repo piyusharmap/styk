@@ -10,38 +10,50 @@ const ITEM_WIDTH = 52;
 const GAP = 6;
 const FULL_ITEM_WIDTH = ITEM_WIDTH + GAP;
 
-const DateItem = memo(({ item, isSelected, isToday, colors, onPress }: any) => {
-	const dateObj = new Date(item);
-	const weekday = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+const DateItem = memo(
+	({
+		item,
+		isSelected,
+		isToday,
+		onPress,
+	}: {
+		item: string;
+		isSelected: boolean;
+		isToday: boolean;
+		onPress: (date: string) => void;
+	}) => {
+		const { colors } = useTheme();
+		const dateObj = new Date(item);
+		const weekday = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
 
-	return (
-		<View style={styles.dateContainer}>
-			<Pressable
-				style={({ pressed }) => [
-					{
-						backgroundColor: colors.foreground + '80',
-						borderColor: colors.border,
-					},
-					isToday && {
-						borderColor: colors.neutral,
-					},
-					isSelected && {
-						backgroundColor: colors.secondary + '30',
-						borderColor: colors.primary,
-					},
-					pressed && styles.dateButtonPressed,
-					styles.dateButton,
-				]}
-				onPress={() => onPress(item)}>
-				<UIText style={styles.date}>{dateObj.getDate()}</UIText>
+		return (
+			<View style={styles.dateContainer}>
+				<Pressable
+					style={({ pressed }) => [
+						{
+							backgroundColor: colors.foreground + '80',
+							borderColor: colors.border,
+						},
+						isSelected && {
+							backgroundColor: colors.secondary + '30',
+							borderColor: colors.primary,
+						},
+						pressed && styles.dateButtonPressed,
+						styles.dateButton,
+					]}
+					onPress={() => onPress(item)}>
+					<UIText style={[isToday && { color: colors.primary }, styles.date]}>
+						{dateObj.getDate()}
+					</UIText>
 
-				<UIText style={styles.weekday} isSecondary>
-					{weekday}
-				</UIText>
-			</Pressable>
-		</View>
-	);
-});
+					<UIText style={styles.weekday} isSecondary>
+						{weekday}
+					</UIText>
+				</Pressable>
+			</View>
+		);
+	},
+);
 
 DateItem.displayName = 'DateItem';
 
@@ -64,7 +76,7 @@ const HorizontalDatePicker = ({
 
 		const selectedIndex = days.indexOf(selectedDate);
 
-		setTimeout(() => {
+		const scrollTimeout = setTimeout(() => {
 			if (selectedIndex !== -1) {
 				flatListRef.current?.scrollToIndex({
 					index: selectedIndex,
@@ -75,6 +87,8 @@ const HorizontalDatePicker = ({
 				flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
 			}
 		}, 100);
+
+		return () => clearTimeout(scrollTimeout);
 	}, [viewingMonth]);
 
 	const changeMonth = (offset: number) => {
@@ -89,7 +103,6 @@ const HorizontalDatePicker = ({
 				item={item}
 				isSelected={item === selectedDate}
 				isToday={item === getTodayString()}
-				colors={colors}
 				onPress={onDateChange}
 			/>
 		),
@@ -112,13 +125,13 @@ const HorizontalDatePicker = ({
 				</Pressable>
 
 				<View style={styles.monthContainer}>
-					<View style={[{ backgroundColor: colors.neutral }, styles.monthDisplay]}>
-						<UIText style={[{ color: colors.neutralInverted }, styles.month]}>
+					<View style={[{ backgroundColor: colors.secondary }, styles.monthDisplay]}>
+						<UIText style={[{ color: colors.neutralWhite }, styles.month]}>
 							{monthName}
 						</UIText>
 					</View>
 
-					<UIButton variant='secondary' size='sm' title='Today' onPress={goToToday} />
+					<UIButton size='sm' title='Today' onPress={goToToday} />
 				</View>
 
 				<Pressable style={styles.navButton} onPress={() => changeMonth(1)}>

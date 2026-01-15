@@ -1,12 +1,22 @@
-import { View, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable, StyleProp, ViewStyle, PressableProps } from 'react-native';
 import UIText from '../../../components/ui/UIText';
 import { HabitActivity } from '../../../types/habitTypes';
 import { useRouter } from 'expo-router';
 import CircularProgressBar from '../../../components/habit/CircularProgressBar';
 import Icon from '../../../components/icon';
 import { HabitTypeDetails } from '../../../constants/habit';
+import UILoader from '../../../components/ui/UILoader';
 
-const ActivityCard = ({ activityItem }: { activityItem: HabitActivity }) => {
+const ActivityCard = ({
+	activityItem,
+	isLoading,
+	style,
+	...props
+}: PressableProps & {
+	activityItem: HabitActivity;
+	isLoading: boolean;
+	style?: StyleProp<ViewStyle>;
+}) => {
 	const router = useRouter();
 
 	const progressValue = Math.round(activityItem.progress * 100);
@@ -16,18 +26,20 @@ const ActivityCard = ({ activityItem }: { activityItem: HabitActivity }) => {
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: activityItem.color + '30',
+					backgroundColor: activityItem.color + '20',
 					borderColor: activityItem.color + '80',
 				},
 				styles.habitCard,
 				pressed && styles.habitCardPressed,
+				style,
 			]}
 			onPress={() => {
 				router.navigate({
 					pathname: `habit/${activityItem.id}`,
 					params: { color: activityItem.color },
 				});
-			}}>
+			}}
+			{...props}>
 			<View style={styles.chartSection}>
 				<CircularProgressBar
 					progress={progressValue}
@@ -35,7 +47,9 @@ const ActivityCard = ({ activityItem }: { activityItem: HabitActivity }) => {
 					strokeWidth={8}
 					activeColor={activityItem.color}
 					backgroundColor={activityItem.color + '50'}>
-					{activityItem.type === 'count' ? (
+					{isLoading ? (
+						<UILoader size={24} color={activityItem.color} />
+					) : activityItem.type === 'count' ? (
 						<View style={styles.progressDetails}>
 							<UIText style={styles.count}>
 								{activityItem.currentValue}
@@ -64,12 +78,19 @@ const ActivityCard = ({ activityItem }: { activityItem: HabitActivity }) => {
 				{activityItem.name}
 			</UIText>
 
-			<View style={[{ backgroundColor: activityItem.color + '20' }, styles.badge]}>
-				<UIText style={[{ color: activityItem.color }, styles.badgeInfo]}>
-					{typeDetails.label}
-					{'  •  '}
-					{activityItem.frequency}
-				</UIText>
+			<View style={styles.badgeContainer}>
+				<View style={[{ backgroundColor: activityItem.color + '20' }, styles.badge]}>
+					<Icon name={typeDetails.icon} size={12} color={activityItem.color} />
+					<UIText style={[{ color: activityItem.color }, styles.badgeInfo]}>
+						{typeDetails.label}
+					</UIText>
+				</View>
+
+				<View style={[{ backgroundColor: activityItem.color + '20' }, styles.badge]}>
+					<UIText style={[{ color: activityItem.color }, styles.badgeInfo]}>
+						{activityItem.frequency}
+					</UIText>
+				</View>
 			</View>
 		</Pressable>
 	);
@@ -80,7 +101,6 @@ export default ActivityCard;
 const styles = StyleSheet.create({
 	// container styles
 	habitCard: {
-		flex: 1,
 		padding: 16,
 		alignItems: 'center',
 		borderRadius: 24,
@@ -98,12 +118,18 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+	badgeContainer: {
+		flexDirection: 'row',
+		gap: 4,
+	},
 	badge: {
 		height: 20,
 		paddingHorizontal: 10,
 		paddingVertical: 4,
+		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
+		gap: 4,
 		borderRadius: 10,
 	},
 

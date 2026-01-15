@@ -227,7 +227,7 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 					styles.actionContainer,
 				]}>
 				<UIButton
-					title='Save Updates'
+					title='Save Changes'
 					variant='primary'
 					onPress={handleUpdateHabit}
 					iconName='Save'
