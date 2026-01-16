@@ -67,7 +67,7 @@ const HabitDetailsPage = () => {
 					<View style={styles.dateContainer}>
 						<UIText style={styles.date}>
 							<UIText isSecondary>Created:</UIText>{' '}
-							{formatDisplayDate(habitDetails.updatedAt)}
+							{formatDisplayDate(habitDetails.createdAt)}
 						</UIText>
 
 						<UIText style={styles.date} isSecondary>
@@ -76,7 +76,7 @@ const HabitDetailsPage = () => {
 
 						<UIText style={styles.date}>
 							<UIText isSecondary>Updated:</UIText>{' '}
-							{formatDisplayDate(habitDetails.createdAt)}
+							{formatDisplayDate(habitDetails.updatedAt)}
 						</UIText>
 					</View>
 

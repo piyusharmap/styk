@@ -4,7 +4,7 @@ import useTheme from '../../theme/useTheme';
 import UILoader from './UILoader';
 import Icon, { IconType } from '../icon';
 
-type ButtonVariant = 'default' | 'primary' | 'secondary' | 'danger' | 'success';
+type ButtonVariant = 'default' | 'primary' | 'secondary' | 'info' | 'danger' | 'success';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 const UIButton = ({
@@ -42,6 +42,10 @@ const UIButton = ({
 		},
 		secondary: {
 			background: colors.secondary,
+			text: colors.neutralWhite,
+		},
+		info: {
+			background: colors.info,
 			text: colors.neutralWhite,
 		},
 		danger: {

@@ -68,16 +68,16 @@ const TabsLayout = () => {
 			/>
 
 			<Tabs.Screen
-				name='todo'
+				name='timer'
 				options={{
 					title: '',
 					tabBarLabel: (props) => {
-						return <TabBarLabel label='Todo' style={{ color: props.color }} />;
+						return <TabBarLabel label='Timer' style={{ color: props.color }} />;
 					},
 					tabBarIcon: ({ focused }) => (
 						<Icon
 							size={24}
-							name='ListTodo'
+							name='Timer'
 							color={focused ? colors.primary : colors.tabIconInactive}
 						/>
 					),

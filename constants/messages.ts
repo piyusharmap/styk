@@ -11,7 +11,7 @@ export const NIGHT_GREET_MSG = 'Good Night';
 
 // messages for page subheadings
 export const ACTIVITY_PAGE_SUBHEADING = 'Track and review your habit activities.';
-export const TODO_PAGE_SUBHEADING = 'Organize tasks and link them to your habits.';
+export const TIMER_PAGE_SUBHEADING = 'Stay focused and track your time.';
 export const SETTINGS_PAGE_SUBHEADING = 'Make the app work the way you want it to.';
 
 // placeholder messages
