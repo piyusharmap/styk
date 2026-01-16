@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 		shadowRadius: 1,
 	},
 	buttonPressed: {
-		transform: [{ scale: 0.95 }],
+		transform: [{ scale: 0.98 }],
 	},
 	buttonDisabled: {
 		opacity: 0.6,

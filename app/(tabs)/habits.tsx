@@ -23,11 +23,11 @@ const HabitsTab = () => {
 	const sections = [
 		{
 			title: 'Build Habits',
-			data: activeHabits.filter((h) => h.target.type === 'count'),
+			data: activeHabits.filter((habit) => habit.target.type === 'count'),
 		},
 		{
 			title: 'Quit Habits',
-			data: activeHabits.filter((h) => h.target.type === 'quit'),
+			data: activeHabits.filter((habit) => habit.target.type === 'quit'),
 		},
 	].filter((section) => section.data.length > 0);
 

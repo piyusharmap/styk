@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 		borderStyle: 'dashed',
 	},
 	buttonPressed: {
-		transform: [{ scale: 0.95 }],
+		transform: [{ scale: 0.98 }],
 	},
 	buttonDisabled: {
 		opacity: 0.6,

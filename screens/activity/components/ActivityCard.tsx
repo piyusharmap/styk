@@ -63,13 +63,21 @@ const ActivityCard = ({
 							</UIText>
 						</View>
 					) : (
-						<Icon
-							name={activityItem.currentValue > 0 ? 'CalendarX2' : 'CalendarHeart'}
-							size={28}
-							color={activityItem.color}
-							fillColor={activityItem.color + '30'}
-							isFilled
-						/>
+						<View style={styles.quitDetails}>
+							<Icon
+								name={
+									activityItem.currentValue > 0 ? 'CalendarX2' : 'CalendarHeart'
+								}
+								size={24}
+								color={activityItem.color}
+								fillColor={activityItem.color + '30'}
+								isFilled
+							/>
+
+							<UIText style={styles.unit} isSecondary>
+								{activityItem.currentValue > 0 ? 'Relapsed' : 'On Track'}
+							</UIText>
+						</View>
 					)}
 				</CircularProgressBar>
 			</View>
@@ -115,8 +123,12 @@ const styles = StyleSheet.create({
 		marginBottom: 4,
 	},
 	progressDetails: {
-		alignItems: 'center',
 		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	quitDetails: {
+		alignItems: 'center',
+		gap: 2,
 	},
 	badgeContainer: {
 		flexDirection: 'row',

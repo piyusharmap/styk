@@ -22,6 +22,11 @@ export const getTodayString = (): string => {
 	return toDateString(today);
 };
 
+export const getTodayTimestamp = (): string => {
+	const today = new Date();
+	return today.toISOString();
+};
+
 export const getDayDifference = (startDate: string): number => {
 	const start = new Date(startDate);
 	const today = new Date();

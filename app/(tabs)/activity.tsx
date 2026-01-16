@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, FlatList, Alert, View } from 'react-native';
 import UIView from '../../components/ui/UIView';
 import { PageHeader, PageHeading, PageSubHeading } from '../../components/layout/PageHeader';
-import { ACTIVITY_PAGE_SUBHEADING } from '../../constants/messages';
+import { ACTIVITY_PAGE_SUBHEADING, EMPTY_ACTIVITY_LIST_MSG } from '../../constants/messages';
 import HorizontalDatePicker from '../../components/HorizontalDatePicker';
 import { getTodayString } from '../../utils/time';
 import { useHabitStore } from '../../store/habitStore';
@@ -23,10 +23,7 @@ const ActivityTab = () => {
 		const loadActivity = async () => {
 			setLoading(true);
 			try {
-				const [data] = await Promise.all([
-					getActivity(selectedDate),
-					new Promise((resolve) => setTimeout(resolve, 300)),
-				]);
+				const [data] = await Promise.all([getActivity(selectedDate)]);
 				setActivity(data);
 			} catch (error) {
 				Alert.alert('Failed to load activity.', `Error: ${error}`);
@@ -66,7 +63,7 @@ const ActivityTab = () => {
 							<UILoader size={32} />
 						</View>
 					) : (
-						<ListEmpty message='No activity recorded for this date.' />
+						<ListEmpty message={EMPTY_ACTIVITY_LIST_MSG} />
 					)
 				}
 			/>

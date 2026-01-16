@@ -15,6 +15,8 @@ export type HabitMilestone = {
 	label: string;
 	value: number;
 	unit: MilestoneUnit;
+	createdAt: string;
+	endingAt: string;
 	reachedAt: string;
 };
 
@@ -55,6 +57,8 @@ export type HabitLog = {
 	habitId: string;
 	date: string;
 	value: number;
+	history: string; // e.g. "[<timestamp>, <timestamp>]"
+	updatedAt: string;
 };
 
 export type HabitActivity = {
