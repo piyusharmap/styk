@@ -1,5 +1,4 @@
 import { View, StyleSheet } from 'react-native';
-import React from 'react';
 import CircularProgressBar from '../../../components/habit/CircularProgressBar';
 import { useHabitStore } from '../../../store/habitStore';
 import UIText from '../../../components/ui/UIText';
@@ -84,8 +83,8 @@ const styles = StyleSheet.create({
 
 	// text styles
 	count: {
-		fontSize: 20,
-		fontWeight: '500',
+		fontSize: 22,
+		fontWeight: '600',
 	},
 	countTarget: {
 		fontSize: 14,

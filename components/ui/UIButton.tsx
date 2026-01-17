@@ -4,7 +4,7 @@ import useTheme from '../../theme/useTheme';
 import UILoader from './UILoader';
 import Icon, { IconType } from '../icon';
 
-type ButtonVariant = 'default' | 'primary' | 'secondary' | 'danger' | 'success';
+type ButtonVariant = 'default' | 'primary' | 'secondary' | 'info' | 'danger' | 'success';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 const UIButton = ({
@@ -44,6 +44,10 @@ const UIButton = ({
 			background: colors.secondary,
 			text: colors.neutralWhite,
 		},
+		info: {
+			background: colors.info,
+			text: colors.neutralWhite,
+		},
 		danger: {
 			background: colors.danger,
 			text: colors.neutralWhite,
@@ -55,9 +59,9 @@ const UIButton = ({
 	};
 
 	const variantSizes = {
-		sm: { size: 38, paddingH: 10, font: 14, icon: 14 },
-		md: { size: 42, paddingH: 12, font: 16, icon: 18 },
-		lg: { size: 50, paddingH: 18, font: 18, icon: 24 },
+		sm: { size: 38, paddingH: 16, font: 14, icon: 14 },
+		md: { size: 42, paddingH: 18, font: 16, icon: 18 },
+		lg: { size: 50, paddingH: 22, font: 18, icon: 24 },
 	};
 
 	const variantColor = variantColors[variant];
@@ -70,6 +74,7 @@ const UIButton = ({
 					height: variantSize.size,
 					paddingHorizontal: variantSize.paddingH,
 					backgroundColor: variantColor.background,
+					borderRadius: variantSize.size / 2,
 				},
 				isIconButton && { width: variantSize.size },
 				styles.button,
@@ -114,10 +119,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: 6,
-		borderRadius: 8,
 	},
 	buttonPressed: {
 		opacity: 0.8,
+		transform: [{ scale: 0.98 }],
 	},
 	buttonDisabled: {
 		opacity: 0.6,

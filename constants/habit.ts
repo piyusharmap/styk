@@ -100,6 +100,10 @@ export const UnitOptions: { label: string; value: CountUnit }[] = [
 		value: 'minute',
 	},
 	{
+		label: 'Page',
+		value: 'page',
+	},
+	{
 		label: 'Kilometer',
 		value: 'kilometer',
 	},

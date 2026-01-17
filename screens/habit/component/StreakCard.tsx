@@ -1,5 +1,4 @@
 import { View, StyleSheet } from 'react-native';
-import React from 'react';
 import HabitInfoCard from '../../../components/habit/HabitInfoCard';
 import UIText from '../../../components/ui/UIText';
 import { Habit } from '../../../types/habitTypes';
@@ -24,20 +23,21 @@ const StreakCard = ({ habit }: { habit: Habit }) => {
 					<View style={styles.streakInfo}>
 						<Icon
 							name='Flame'
-							size={22}
+							size={24}
 							color={habit.color}
 							isFilled
 							fillColor={habit.color + '50'}
 						/>
 
 						<UIText style={styles.streakCount}>
-							{currentStreak} <UIText style={styles.streakUnit}>days</UIText>
+							{currentStreak}{' '}
+							<UIText style={styles.streakUnit}>
+								day{currentStreak > 1 ? 's' : ''}
+							</UIText>
 						</UIText>
 					</View>
 
-					<UIText style={styles.infoSubHeading} isSecondary>
-						Current Streak
-					</UIText>
+					<UIText style={styles.infoSubHeading}>Current Streak</UIText>
 				</View>
 
 				<UISeparator orientation='vertical' length={40} width={1} />
@@ -46,20 +46,21 @@ const StreakCard = ({ habit }: { habit: Habit }) => {
 					<View style={styles.streakInfo}>
 						<Icon
 							name='Crown'
-							size={22}
+							size={24}
 							color={habit.color}
 							isFilled
 							fillColor={habit.color + '50'}
 						/>
 
 						<UIText style={styles.streakCount}>
-							{bestStreak} <UIText style={styles.streakUnit}>days</UIText>
+							{bestStreak}{' '}
+							<UIText style={styles.streakUnit}>
+								day{currentStreak > 1 ? 's' : ''}
+							</UIText>
 						</UIText>
 					</View>
 
-					<UIText style={styles.infoSubHeading} isSecondary>
-						Best Streak
-					</UIText>
+					<UIText style={styles.infoSubHeading}>Best Streak</UIText>
 				</View>
 			</View>
 		</HabitInfoCard>
@@ -89,13 +90,13 @@ const styles = StyleSheet.create({
 	},
 
 	// text styles
-	infoSubHeading: {
-		fontSize: 12,
-	},
 	info: {
 		fontSize: 18,
 		fontWeight: '500',
 		textTransform: 'capitalize',
+	},
+	infoSubHeading: {
+		fontSize: 12,
 	},
 	streakCount: {
 		fontSize: 24,
@@ -103,5 +104,6 @@ const styles = StyleSheet.create({
 	},
 	streakUnit: {
 		fontSize: 14,
+		fontWeight: '500',
 	},
 });

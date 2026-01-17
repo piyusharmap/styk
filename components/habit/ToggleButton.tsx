@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet, PressableProps } from 'react-native';
-import React from 'react';
 import Icon, { IconType } from '../icon';
 
 const ToggleButton = ({
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
 		borderStyle: 'dashed',
 	},
 	buttonPressed: {
-		transform: [{ scale: 0.95 }],
+		transform: [{ scale: 0.98 }],
 	},
 	buttonDisabled: {
 		opacity: 0.6,

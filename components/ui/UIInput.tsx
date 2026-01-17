@@ -12,11 +12,7 @@ import useTheme from '../../theme/useTheme';
 import UIText from './UIText';
 
 export const UIInputLabel = ({ label }: { label: string }) => {
-	return (
-		<UIText style={styles.label} isSecondary>
-			{label}
-		</UIText>
-	);
+	return <UIText style={styles.label}>{label}</UIText>;
 };
 
 export const UIInputError = ({ error }: { error: string }) => {

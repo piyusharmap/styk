@@ -17,8 +17,7 @@ const HabitInfoCard = ({
 		<View
 			style={[
 				{
-					backgroundColor: colors.foreground + '80',
-					borderColor: colors.border,
+					backgroundColor: colors.foreground,
 				},
 				styles.card,
 				style,
@@ -42,7 +41,6 @@ const styles = StyleSheet.create({
 		padding: 10,
 		gap: 4,
 		borderRadius: 10,
-		borderWidth: 2,
 		overflow: 'hidden',
 	},
 

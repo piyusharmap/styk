@@ -14,7 +14,7 @@ const ProgressBar = ({
 	color: string;
 	height?: number;
 }) => {
-	const totalBars = 40;
+	const totalBars = 44;
 	const animatedFilledCount = useRef(new Animated.Value(0)).current;
 
 	const countValue = useHabitStore((s) => s.getCountValue(habitId));
@@ -26,7 +26,7 @@ const ProgressBar = ({
 
 			Animated.timing(animatedFilledCount, {
 				toValue: targetFilledBars,
-				duration: 400,
+				duration: 200,
 				useNativeDriver: false,
 			}).start();
 		}
@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
 	},
 	bar: {
 		height: '100%',
-		width: 4,
-		borderRadius: 2,
+		width: 3,
 	},
 });

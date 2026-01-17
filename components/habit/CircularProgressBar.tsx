@@ -1,6 +1,8 @@
 import { View, StyleSheet, ColorValue } from 'react-native';
 import Svg, { Circle, G } from 'react-native-svg';
 
+const MIN_PROGRESS = 0.02;
+
 const CircularProgressBar = ({
 	progress,
 	size = 72,
@@ -18,9 +20,12 @@ const CircularProgressBar = ({
 }) => {
 	const center = size / 2;
 	const radius = (size - strokeWidth) / 2;
-	const circumference = 2 * Math.PI * radius;
+	const circumference = Math.max(2 * Math.PI * radius, 0.9);
 
-	const strokeDashoffset = circumference - (progress / 100) * circumference;
+	const adjustedProgress = MIN_PROGRESS + (progress / 100) * (100 - MIN_PROGRESS);
+	const finalPercentage = Math.min(Math.max(adjustedProgress, MIN_PROGRESS), 100);
+
+	const strokeDashoffset = circumference - (finalPercentage / 100) * circumference;
 
 	return (
 		<View style={[styles.container, { width: size, height: size }]}>

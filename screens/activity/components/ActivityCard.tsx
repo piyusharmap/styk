@@ -1,12 +1,23 @@
-import { View, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable, StyleProp, ViewStyle, PressableProps } from 'react-native';
 import UIText from '../../../components/ui/UIText';
 import { HabitActivity } from '../../../types/habitTypes';
 import { useRouter } from 'expo-router';
 import CircularProgressBar from '../../../components/habit/CircularProgressBar';
 import Icon from '../../../components/icon';
 import { HabitTypeDetails } from '../../../constants/habit';
+import UILoader from '../../../components/ui/UILoader';
+import Badge from '../../../components/Badge';
 
-const ActivityCard = ({ activityItem }: { activityItem: HabitActivity }) => {
+const ActivityCard = ({
+	activityItem,
+	isLoading,
+	style,
+	...props
+}: PressableProps & {
+	activityItem: HabitActivity;
+	isLoading: boolean;
+	style?: StyleProp<ViewStyle>;
+}) => {
 	const router = useRouter();
 
 	const progressValue = Math.round(activityItem.progress * 100);
@@ -16,18 +27,20 @@ const ActivityCard = ({ activityItem }: { activityItem: HabitActivity }) => {
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: activityItem.color + '30',
+					backgroundColor: activityItem.color + '20',
 					borderColor: activityItem.color + '80',
 				},
 				styles.habitCard,
 				pressed && styles.habitCardPressed,
+				style,
 			]}
 			onPress={() => {
 				router.navigate({
 					pathname: `habit/${activityItem.id}`,
 					params: { color: activityItem.color },
 				});
-			}}>
+			}}
+			{...props}>
 			<View style={styles.chartSection}>
 				<CircularProgressBar
 					progress={progressValue}
@@ -35,7 +48,9 @@ const ActivityCard = ({ activityItem }: { activityItem: HabitActivity }) => {
 					strokeWidth={8}
 					activeColor={activityItem.color}
 					backgroundColor={activityItem.color + '50'}>
-					{activityItem.type === 'count' ? (
+					{isLoading ? (
+						<UILoader size={24} color={activityItem.color} />
+					) : activityItem.type === 'count' ? (
 						<View style={styles.progressDetails}>
 							<UIText style={styles.count}>
 								{activityItem.currentValue}
@@ -43,19 +58,28 @@ const ActivityCard = ({ activityItem }: { activityItem: HabitActivity }) => {
 									{`/${activityItem.count}`}
 								</UIText>
 							</UIText>
-							<UIText style={styles.unit} isSecondary>
+
+							<UIText style={styles.unit}>
 								{activityItem.unit}
 								{activityItem.count > 1 ? 's' : ''}
 							</UIText>
 						</View>
 					) : (
-						<Icon
-							name={activityItem.currentValue > 0 ? 'CalendarX2' : 'CalendarHeart'}
-							size={28}
-							color={activityItem.color}
-							fillColor={activityItem.color + '30'}
-							isFilled
-						/>
+						<View style={styles.quitDetails}>
+							<Icon
+								name={
+									activityItem.currentValue > 0 ? 'CalendarX2' : 'CalendarHeart'
+								}
+								size={24}
+								color={activityItem.color}
+								fillColor={activityItem.color + '30'}
+								isFilled
+							/>
+
+							<UIText style={styles.unit}>
+								{activityItem.currentValue > 0 ? 'Relapsed' : 'On Track'}
+							</UIText>
+						</View>
 					)}
 				</CircularProgressBar>
 			</View>
@@ -64,12 +88,23 @@ const ActivityCard = ({ activityItem }: { activityItem: HabitActivity }) => {
 				{activityItem.name}
 			</UIText>
 
-			<View style={[{ backgroundColor: activityItem.color + '20' }, styles.badge]}>
-				<UIText style={[{ color: activityItem.color }, styles.badgeInfo]}>
+			<View style={styles.badgeContainer}>
+				<Badge
+					icon={typeDetails.icon}
+					badgeStyle={{ backgroundColor: activityItem.color + '30' }}
+					textStyle={{
+						textTransform: 'uppercase',
+					}}>
 					{typeDetails.label}
-					{'  •  '}
+				</Badge>
+
+				<Badge
+					badgeStyle={{ backgroundColor: activityItem.color + '30' }}
+					textStyle={{
+						textTransform: 'uppercase',
+					}}>
 					{activityItem.frequency}
-				</UIText>
+				</Badge>
 			</View>
 		</Pressable>
 	);
@@ -80,7 +115,6 @@ export default ActivityCard;
 const styles = StyleSheet.create({
 	// container styles
 	habitCard: {
-		flex: 1,
 		padding: 16,
 		alignItems: 'center',
 		borderRadius: 24,
@@ -95,33 +129,28 @@ const styles = StyleSheet.create({
 		marginBottom: 4,
 	},
 	progressDetails: {
-		alignItems: 'center',
 		justifyContent: 'center',
+		alignItems: 'center',
 	},
-	badge: {
-		height: 20,
-		paddingHorizontal: 10,
-		paddingVertical: 4,
-		justifyContent: 'center',
+	quitDetails: {
 		alignItems: 'center',
-		borderRadius: 10,
+		gap: 2,
+	},
+	badgeContainer: {
+		flexDirection: 'row',
+		gap: 4,
 	},
 
 	// text Styles
 	name: {
 		flex: 1,
 		fontSize: 16,
-		fontWeight: '500',
+		fontWeight: '600',
 		textAlign: 'center',
 	},
-	badgeInfo: {
-		fontSize: 10,
-		fontWeight: '800',
-		textTransform: 'uppercase',
-	},
 	count: {
-		fontSize: 20,
-		fontWeight: '500',
+		fontSize: 22,
+		fontWeight: '600',
 	},
 	countTarget: {
 		fontSize: 14,

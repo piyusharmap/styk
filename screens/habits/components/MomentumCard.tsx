@@ -11,14 +11,12 @@ const MomentumCard = ({ score }: { score: number }) => {
 		<View
 			style={[
 				styles.card,
-				{ backgroundColor: colors.secondary + '30', borderColor: colors.secondary + '80' },
+				{ backgroundColor: colors.secondary + '30', borderColor: colors.secondary },
 			]}>
 			<View style={styles.infoContainer}>
-				<UIText style={styles.title}>Daily Momentum</UIText>
+				<UIText style={styles.title}>Momentum Score</UIText>
 
-				<UIText style={styles.description} isSecondary>
-					{MOMENTUM_CARD_DESCRIPTION}
-				</UIText>
+				<UIText style={styles.description}>{MOMENTUM_CARD_DESCRIPTION}</UIText>
 			</View>
 
 			<CircularProgressBar
@@ -70,7 +68,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 18,
-		fontWeight: '500',
+		fontWeight: '600',
 	},
 	description: {
 		fontSize: 12,

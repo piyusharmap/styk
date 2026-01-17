@@ -51,9 +51,11 @@ export const UIModal = ({
 			onRequestClose={onClose}
 			transparent
 			statusBarTranslucent
-			navigationBarTranslucent>
+			navigationBarTranslucent
+			animationType='fade'>
 			<TouchableWithoutFeedback onPress={onClose}>
-				<View style={[{ backgroundColor: colors.foreground }, styles.modalContainer]}>
+				<View
+					style={[{ backgroundColor: colors.foreground + '80' }, styles.modalContainer]}>
 					<TouchableWithoutFeedback>
 						<View style={styles.modal}>{children}</View>
 					</TouchableWithoutFeedback>
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
 		alignItems: 'center',
-		gap: 8,
+		gap: 6,
 	},
 
 	// text styles

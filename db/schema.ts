@@ -32,6 +32,8 @@ export const CREATE_TABLE = `
         habit_id TEXT NOT NULL,
         date TEXT NOT NULL,
         value INTEGER NOT NULL,
+        history TEXT,
+        updated_at TEXT NOT NULL,
         FOREIGN KEY (habit_id) REFERENCES habits (id) ON DELETE CASCADE
     );
 
@@ -41,7 +43,9 @@ export const CREATE_TABLE = `
         habit_id TEXT NOT NULL,
         label TEXT NOT NULL,
         value INTEGER NOT NULL,
-        count TEXT NOT NULL,
+        unit INTEGER NOT NULL,
+        created_at TEXT NOT NULL,
+        ending_at TEXT,
         reached_at TEXT,
         FOREIGN KEY (habit_id) REFERENCES habits (id) ON DELETE CASCADE
     );

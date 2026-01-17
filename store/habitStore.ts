@@ -7,7 +7,7 @@ import {
 	isHabitLockedForWindow,
 	isHabitSuccessfulInWindow,
 } from './utils';
-import { getTodayString, toDateString } from '../utils/time';
+import { getTodayString, getTodayTimestamp, toDateString } from '../utils/time';
 import { HabitService } from '../services/habitService';
 import { HabitLogService } from '../services/habitLogService';
 import { logger } from '../utils/logger';
@@ -212,6 +212,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				if (!habit || habit.target.type !== 'count') return;
 
 				const today = getTodayString();
+				const now = getTodayTimestamp();
 
 				const window = getCurrentTimeWindow(habit.target.frequency);
 
@@ -225,9 +226,14 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				);
 
 				if (existingLog) {
+					const historyArray = JSON.parse(existingLog.history || '[]');
+					historyArray.push(now);
+
 					const updatedLog = {
 						...existingLog,
 						value: existingLog.value + 1,
+						history: JSON.stringify(historyArray),
+						updateAt: now,
 					};
 
 					await HabitLogService.upsertLog(updatedLog);
@@ -236,11 +242,13 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 						logs: logs.map((log) => (log.id === updatedLog.id ? updatedLog : log)),
 					});
 				} else {
-					const newLog = {
+					const newLog: HabitLog = {
 						id: `${habit.id}_${today}`,
 						habitId: habit.id,
 						date: today,
 						value: 1,
+						history: JSON.stringify([now]),
+						updatedAt: now,
 					};
 
 					await HabitLogService.upsertLog(newLog);
@@ -260,6 +268,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				if (!habit || habit.target.type !== 'count') return;
 
 				const today = getTodayString();
+				const now = getTodayTimestamp();
 
 				const logs = get().logs;
 
@@ -270,9 +279,14 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				if (!existingLog) return;
 
 				if (existingLog.value > 1) {
-					const updatedLog = {
+					const historyArray = JSON.parse(existingLog.history || '[]');
+					historyArray.pop();
+
+					const updatedLog: HabitLog = {
 						...existingLog,
 						value: existingLog.value - 1,
+						history: JSON.stringify(historyArray),
+						updatedAt: now,
 					};
 
 					await HabitLogService.upsertLog(updatedLog);
@@ -299,6 +313,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				if (!habit || habit.target.type !== 'quit') return;
 
 				const today = getTodayString();
+				const now = getTodayTimestamp();
 
 				const logs = get().logs;
 
@@ -308,11 +323,13 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 				if (existingLog) return;
 
-				const newLog = {
+				const newLog: HabitLog = {
 					id: `${habit.id}_${today}`,
 					habitId: habit.id,
 					date: today,
 					value: 1,
+					history: JSON.stringify([now]),
+					updatedAt: now,
 				};
 
 				const updatedHabit: Habit = {
