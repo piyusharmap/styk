@@ -1,5 +1,4 @@
 import { View, StyleSheet } from 'react-native';
-import React from 'react';
 import { useHabitStore } from '../../../store/habitStore';
 import { Habit } from '../../../types/habitTypes';
 import { formatDisplayDate, getTodayString } from '../../../utils/time';
@@ -24,7 +23,7 @@ const QuitHabitActions = ({ habit }: { habit: Habit }) => {
 			<ToggleButton
 				size={44}
 				color={habit.color}
-				iconName='CalendarClock'
+				iconName='RotateCcw'
 				onPress={handleRevertHabit}
 			/>
 
@@ -51,7 +50,7 @@ const QuitHabitActions = ({ habit }: { habit: Habit }) => {
 			<ToggleButton
 				size={44}
 				color={habit.color}
-				iconName='CalendarSync'
+				iconName='RefreshCcw'
 				onPress={handleRelapseHabit}
 			/>
 		</View>

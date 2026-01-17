@@ -195,6 +195,7 @@ const CreateHabitForm = () => {
 					styles.actionContainer,
 				]}>
 				<UIButton
+					variant='secondary'
 					title='Reset'
 					onPress={resetForm}
 					iconName='RotateCcw'
@@ -203,8 +204,8 @@ const CreateHabitForm = () => {
 				/>
 
 				<UIButton
-					title='Save Habit'
 					variant='primary'
+					title='Save Habit'
 					onPress={handleSaveHabit}
 					style={styles.actionButton}
 					iconName='Save'
@@ -239,9 +240,10 @@ const styles = StyleSheet.create({
 	},
 	actionContainer: {
 		paddingHorizontal: 12,
-		paddingVertical: 10,
+		paddingTop: 6,
+		paddingBottom: 10,
 		flexDirection: 'row',
-		gap: 8,
+		gap: 6,
 		borderTopWidth: 1,
 	},
 	actionButton: {

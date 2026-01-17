@@ -16,7 +16,7 @@ const HabitToggleButton = ({
 	color: string;
 	isDisabled?: boolean;
 }) => {
-	const icon: IconType = target.type === 'count' ? 'Plus' : 'CalendarSync';
+	const icon: IconType = target.type === 'count' ? 'Plus' : 'RefreshCcw';
 
 	const performHabitAction = useHabitStore((s) => s.performHabitAction);
 

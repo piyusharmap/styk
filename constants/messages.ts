@@ -22,7 +22,7 @@ export const BUILD_TYPE_DESCRIPTION = 'Create a positive habit over time.';
 export const QUIT_TYPE_DESCRIPTION = 'Reduce or eliminate an unwanted habit.';
 
 // messages for cards
-export const MOMENTUM_CARD_DESCRIPTION = 'Overall consistency across all your active Build habits.';
+export const MOMENTUM_CARD_DESCRIPTION = 'Daily consistency across all your active build habits.';
 
 // branding
 export const ABOUT_US_TAGLINE = 'Build better routines. Quit bad cycles.';

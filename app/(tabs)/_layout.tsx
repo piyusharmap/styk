@@ -60,7 +60,7 @@ const TabsLayout = () => {
 					tabBarIcon: ({ focused }) => (
 						<Icon
 							size={24}
-							name='Target'
+							name='ActivitySquare'
 							color={focused ? colors.primary : colors.tabIconInactive}
 						/>
 					),

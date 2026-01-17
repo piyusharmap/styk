@@ -1,4 +1,11 @@
-import { Pressable, PressableProps, StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import {
+	Pressable,
+	PressableProps,
+	StyleProp,
+	StyleSheet,
+	TextStyle,
+	ViewStyle,
+} from 'react-native';
 import UIText from './ui/UIText';
 import useTheme from '../theme/useTheme';
 import Icon, { IconType } from './icon';
@@ -6,14 +13,19 @@ import Icon, { IconType } from './icon';
 const Badge = ({
 	children,
 	isPressable = false,
-	style,
 	icon,
+	color,
+	badgeStyle,
+	textStyle,
 	...props
 }: PressableProps & {
 	children?: React.ReactNode;
 	isPressable?: boolean;
 	icon?: IconType;
-	style?: StyleProp<ViewStyle>;
+	color?: string;
+	textColor?: string;
+	badgeStyle?: StyleProp<ViewStyle>;
+	textStyle?: StyleProp<TextStyle>;
 }) => {
 	const { colors } = useTheme();
 
@@ -22,16 +34,15 @@ const Badge = ({
 			style={({ pressed }) => [
 				{
 					backgroundColor: colors.secondary + '50',
-					borderColor: colors.secondary,
 				},
 				pressed && isPressable && styles.badgePressed,
 				styles.badge,
-				style,
+				badgeStyle,
 			]}
 			{...props}>
-			{icon && <Icon name={icon} size={14} color={colors.text} />}
+			{icon && <Icon name={icon} size={12} color={color || colors.text} />}
 
-			{children && <UIText style={styles.title}>{children}</UIText>}
+			{children && <UIText style={[textStyle, styles.title]}>{children}</UIText>}
 		</Pressable>
 	);
 };
@@ -41,14 +52,13 @@ export default Badge;
 const styles = StyleSheet.create({
 	// container styles
 	badge: {
-		paddingHorizontal: 8,
-		paddingVertical: 3,
+		height: 20,
+		paddingHorizontal: 10,
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: 4,
-		borderWidth: 1,
-		borderRadius: 6,
+		borderRadius: 10,
 	},
 	badgePressed: {
 		opacity: 0.8,
@@ -56,6 +66,7 @@ const styles = StyleSheet.create({
 
 	// text styles
 	title: {
-		fontSize: 12,
+		fontSize: 10,
+		fontWeight: '600',
 	},
 });

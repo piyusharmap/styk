@@ -40,7 +40,7 @@ export const PageHeader = ({
 		<View
 			style={[
 				{
-					backgroundColor: colors.secondary + '30',
+					backgroundColor: colors.primary + '50',
 					paddingTop: isTopSafe ? insets.top + 10 : 10,
 				},
 				styles.container,

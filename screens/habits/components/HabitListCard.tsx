@@ -9,7 +9,8 @@ import { HabitTypeDetails } from '../../../constants/habit';
 import TypeIconContainer from '../../../components/habit/TypeIconContainer';
 import { useRouter } from 'expo-router';
 import ProgressBar from '../../../components/habit/ProgressBar';
-import { formatDisplayDate } from '../../../utils/time';
+import { getDayDifference } from '../../../utils/time';
+import QuitTimeline from '../../../components/habit/QuitTimeline';
 
 const HabitListCard = ({ habit }: { habit: Habit }) => {
 	const { colors } = useTheme();
@@ -25,8 +26,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: colors.foreground + '80',
-					borderColor: colors.border,
+					backgroundColor: habit.color + '20',
 				},
 				styles.habitCard,
 				pressed && styles.habitCardPressed,
@@ -54,15 +54,19 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 									<UIText isSecondary>
 										{isHabitLocked ? 'Completed' : 'In Progress'}:
 									</UIText>{' '}
-									{countValue}/{habit.target.count}{' '}
-									{`${habit.target.unit}${habit.target.count > 1 ? 's' : ''}`}{' '}
-									{`(${habit.target.frequency})`}
+									<UIText style={styles.habitDetailHighlight}>
+										{countValue}/{habit.target.count}{' '}
+										{`${habit.target.unit}${habit.target.count > 1 ? 's' : ''}`}{' '}
+										{`(${habit.target.frequency})`}
+									</UIText>
 								</UIText>
 							</UIText>
 						) : (
 							<UIText style={styles.habitDetail}>
-								<UIText isSecondary>Clean since:</UIText>{' '}
-								{formatDisplayDate(habit.target.startDate)}
+								<UIText isSecondary>Going strong for:</UIText>{' '}
+								<UIText style={styles.habitDetailHighlight}>
+									{getDayDifference(habit.target.startDate)} days
+								</UIText>
 							</UIText>
 						)}
 					</View>
@@ -93,7 +97,15 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 				</View>
 			</View>
 
-			<ProgressBar habitId={habit.id} target={habit.target} color={habit.color} />
+			{habitType === 'count' ? (
+				<ProgressBar habitId={habit.id} target={habit.target} color={habit.color} />
+			) : (
+				<QuitTimeline
+					initialDate={habit.target.initialStartDate}
+					currentDate={habit.target.startDate}
+					color={habit.color}
+				/>
+			)}
 		</Pressable>
 	);
 };
@@ -106,7 +118,6 @@ const styles = StyleSheet.create({
 		padding: 10,
 		gap: 10,
 		borderRadius: 10,
-		borderWidth: 2,
 		overflow: 'hidden',
 	},
 	habitCardPressed: {
@@ -120,7 +131,6 @@ const styles = StyleSheet.create({
 	},
 	habitInfo: {
 		flex: 1,
-		gap: 2,
 	},
 	habitDetails: {
 		alignItems: 'flex-start',
@@ -141,9 +151,12 @@ const styles = StyleSheet.create({
 	// text styles
 	habitName: {
 		fontSize: 18,
-		fontWeight: '500',
+		fontWeight: '600',
 	},
 	habitDetail: {
 		fontSize: 12,
+	},
+	habitDetailHighlight: {
+		fontWeight: '500',
 	},
 });

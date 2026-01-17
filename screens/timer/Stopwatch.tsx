@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import UIButton from '../../components/ui/UIButton';
 import UIText from '../../components/ui/UIText';
@@ -52,52 +52,57 @@ const Stopwatch = () => {
 
 	return (
 		<View style={styles.container}>
-			<View style={styles.timerContainer}>
-				<View
-					style={[
-						{
-							backgroundColor: colors.secondary + '30',
-							borderColor: colors.secondary + '80',
-						},
-						styles.timer,
-					]}>
-					<UIText style={styles.time}>{formatTime(time)}</UIText>
+			<View style={styles.stopwatchContainer}>
+				<View style={styles.timerContainer}>
+					<View
+						style={[
+							{
+								backgroundColor: colors.secondary + '30',
+								borderColor: colors.secondary,
+							},
+							styles.timer,
+						]}>
+						<UIText style={styles.time}>{formatTime(time)}</UIText>
+					</View>
 				</View>
-			</View>
 
-			{laps.length ? (
-				<FlatList
-					data={laps}
-					keyExtractor={(_, index) => `lap-${index}`}
-					renderItem={({ item, index }) => (
-						<View
-							style={[
-								{
-									backgroundColor: colors.foreground + '80',
-									borderColor: colors.foreground,
-								},
-								styles.lapRow,
-							]}>
-							<UIText style={styles.lapCount}>Lap {laps.length - index}</UIText>
-							<UIText style={styles.lapTime}>{formatTime(item)}</UIText>
-						</View>
-					)}
-					contentContainerStyle={styles.lapsContainer}
-					showsVerticalScrollIndicator={false}
-				/>
-			) : null}
+				{laps.length ? (
+					<FlatList
+						data={laps}
+						keyExtractor={(_, index) => `lap-${index}`}
+						renderItem={({ item, index }) => (
+							<View
+								style={[
+									{
+										backgroundColor: colors.foreground,
+										borderColor: colors.border,
+									},
+									styles.lapRow,
+								]}>
+								<UIText style={styles.lapCount}>Lap {laps.length - index}</UIText>
+								<UIText style={styles.lapTime}>{formatTime(item)}</UIText>
+							</View>
+						)}
+						contentContainerStyle={styles.lapsContainer}
+						showsVerticalScrollIndicator={false}
+					/>
+				) : null}
+			</View>
 
 			<View style={styles.actionContainer}>
 				<UIButton
 					variant={isRunning ? 'secondary' : 'danger'}
+					size='lg'
 					title={isRunning ? 'Lap' : 'Reset'}
-					iconName={isRunning ? 'ClipboardClock' : 'TimerReset'}
+					iconName={isRunning ? 'Timer' : 'TimerReset'}
 					style={styles.actionButton}
 					onPress={handleResetOrLap}
+					isDisabled={time === 0}
 				/>
 
 				<UIButton
 					variant={isRunning ? 'danger' : 'primary'}
+					size='lg'
 					title={isRunning ? 'Stop' : time > 0 ? 'Resume' : 'Start'}
 					iconName={isRunning ? 'Square' : 'Play'}
 					style={styles.actionButton}
@@ -117,6 +122,11 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	},
+	stopwatchContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 	timerContainer: {
 		paddingHorizontal: 12,
 		paddingVertical: 10,
@@ -124,12 +134,12 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	timer: {
-		height: 250,
-		width: 250,
+		height: 260,
+		width: 260,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderRadius: 100,
-		borderWidth: 2,
+		borderRadius: 130,
+		borderWidth: 4,
 	},
 	lapsContainer: {
 		paddingHorizontal: 20,
@@ -139,18 +149,18 @@ const styles = StyleSheet.create({
 	lapRow: {
 		height: 50,
 		width: '100%',
-		paddingHorizontal: 16,
+		paddingHorizontal: 20,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		borderRadius: 25,
-		borderWidth: 2,
+		borderWidth: 1,
 	},
 	actionContainer: {
 		paddingHorizontal: 12,
 		paddingVertical: 10,
 		flexDirection: 'row',
-		gap: 8,
+		gap: 6,
 	},
 	actionButton: {
 		flex: 1,

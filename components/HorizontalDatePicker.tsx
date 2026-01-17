@@ -125,13 +125,20 @@ const HorizontalDatePicker = ({
 				</Pressable>
 
 				<View style={styles.monthContainer}>
-					<View style={[{ backgroundColor: colors.secondary }, styles.monthDisplay]}>
-						<UIText style={[{ color: colors.neutralWhite }, styles.month]}>
+					<View
+						style={[
+							{
+								backgroundColor: colors.secondary + '30',
+								borderColor: colors.secondary,
+							},
+							styles.monthDisplay,
+						]}>
+						<UIText style={[{ color: colors.primary }, styles.month]}>
 							{monthName}
 						</UIText>
 					</View>
 
-					<UIButton size='sm' title='Today' onPress={goToToday} />
+					<UIButton variant='secondary' size='sm' title='Today' onPress={goToToday} />
 				</View>
 
 				<Pressable style={styles.navButton} onPress={() => changeMonth(1)}>
@@ -183,14 +190,15 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		gap: GAP,
+		gap: 4,
 	},
 	monthDisplay: {
-		height: 38,
-		paddingHorizontal: 10,
+		height: 40,
+		paddingHorizontal: 20,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderRadius: 8,
+		borderRadius: 20,
+		borderWidth: 2,
 	},
 	navButton: {
 		height: ITEM_WIDTH,
@@ -201,7 +209,7 @@ const styles = StyleSheet.create({
 	},
 	listContainer: {
 		paddingHorizontal: 12,
-		gap: 6,
+		gap: GAP,
 	},
 	dateContainer: {
 		alignItems: 'center',
@@ -211,7 +219,7 @@ const styles = StyleSheet.create({
 		width: 52,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderWidth: 2,
+		borderWidth: 1,
 		borderRadius: 10,
 	},
 	dateButtonPressed: {
@@ -220,8 +228,8 @@ const styles = StyleSheet.create({
 
 	// text styles
 	month: {
-		fontSize: 14,
-		fontWeight: '500',
+		fontSize: 16,
+		fontWeight: '600',
 	},
 	date: {
 		fontSize: 16,

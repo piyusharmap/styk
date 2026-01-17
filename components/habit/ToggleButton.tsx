@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet, PressableProps } from 'react-native';
-import React from 'react';
 import Icon, { IconType } from '../icon';
 
 const ToggleButton = ({

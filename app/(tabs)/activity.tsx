@@ -59,7 +59,7 @@ const ActivityTab = () => {
 				)}
 				ListEmptyComponent={
 					loading ? (
-						<View>
+						<View style={styles.loaderContainer}>
 							<UILoader size={32} />
 						</View>
 					) : (

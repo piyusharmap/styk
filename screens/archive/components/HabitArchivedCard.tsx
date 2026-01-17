@@ -18,8 +18,7 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 		<View
 			style={[
 				{
-					backgroundColor: colors.foreground + '80',
-					borderColor: colors.border,
+					backgroundColor: habit.color + '20',
 				},
 				styles.habitCard,
 			]}>
@@ -42,7 +41,7 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 				</View>
 			</View>
 
-			<UISeparator length={'100%'} width={2} />
+			<UISeparator length={'100%'} width={1} />
 
 			<View style={styles.actionContainer}>
 				<DeleteArchiveButton habitId={habit.id} />
@@ -61,7 +60,6 @@ const styles = StyleSheet.create({
 		padding: 10,
 		gap: 10,
 		borderRadius: 10,
-		borderWidth: 2,
 		overflow: 'hidden',
 	},
 	habitSection: {

@@ -42,7 +42,7 @@ const HabitsTab = () => {
 		<UIView style={styles.container}>
 			<View style={[{ paddingTop: insets.top + 10 }, styles.headerContainer]}>
 				<View style={styles.greetingContainer}>
-					<UIText style={styles.greeting} isSecondary>
+					<UIText style={styles.greeting}>
 						{greeting.emoji} {greeting.message}
 					</UIText>
 
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 	},
 	date: {
-		fontSize: 20,
-		fontWeight: '500',
+		fontSize: 22,
+		fontWeight: '600',
 	},
 });

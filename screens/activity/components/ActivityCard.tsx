@@ -6,6 +6,7 @@ import CircularProgressBar from '../../../components/habit/CircularProgressBar';
 import Icon from '../../../components/icon';
 import { HabitTypeDetails } from '../../../constants/habit';
 import UILoader from '../../../components/ui/UILoader';
+import Badge from '../../../components/Badge';
 
 const ActivityCard = ({
 	activityItem,
@@ -57,7 +58,8 @@ const ActivityCard = ({
 									{`/${activityItem.count}`}
 								</UIText>
 							</UIText>
-							<UIText style={styles.unit} isSecondary>
+
+							<UIText style={styles.unit}>
 								{activityItem.unit}
 								{activityItem.count > 1 ? 's' : ''}
 							</UIText>
@@ -74,7 +76,7 @@ const ActivityCard = ({
 								isFilled
 							/>
 
-							<UIText style={styles.unit} isSecondary>
+							<UIText style={styles.unit}>
 								{activityItem.currentValue > 0 ? 'Relapsed' : 'On Track'}
 							</UIText>
 						</View>
@@ -87,18 +89,22 @@ const ActivityCard = ({
 			</UIText>
 
 			<View style={styles.badgeContainer}>
-				<View style={[{ backgroundColor: activityItem.color + '20' }, styles.badge]}>
-					<Icon name={typeDetails.icon} size={12} color={activityItem.color} />
-					<UIText style={[{ color: activityItem.color }, styles.badgeInfo]}>
-						{typeDetails.label}
-					</UIText>
-				</View>
+				<Badge
+					icon={typeDetails.icon}
+					badgeStyle={{ backgroundColor: activityItem.color + '30' }}
+					textStyle={{
+						textTransform: 'uppercase',
+					}}>
+					{typeDetails.label}
+				</Badge>
 
-				<View style={[{ backgroundColor: activityItem.color + '20' }, styles.badge]}>
-					<UIText style={[{ color: activityItem.color }, styles.badgeInfo]}>
-						{activityItem.frequency}
-					</UIText>
-				</View>
+				<Badge
+					badgeStyle={{ backgroundColor: activityItem.color + '30' }}
+					textStyle={{
+						textTransform: 'uppercase',
+					}}>
+					{activityItem.frequency}
+				</Badge>
 			</View>
 		</Pressable>
 	);
@@ -134,32 +140,17 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		gap: 4,
 	},
-	badge: {
-		height: 20,
-		paddingHorizontal: 10,
-		paddingVertical: 4,
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-		gap: 4,
-		borderRadius: 10,
-	},
 
 	// text Styles
 	name: {
 		flex: 1,
 		fontSize: 16,
-		fontWeight: '500',
+		fontWeight: '600',
 		textAlign: 'center',
 	},
-	badgeInfo: {
-		fontSize: 10,
-		fontWeight: '800',
-		textTransform: 'uppercase',
-	},
 	count: {
-		fontSize: 20,
-		fontWeight: '500',
+		fontSize: 22,
+		fontWeight: '600',
 	},
 	countTarget: {
 		fontSize: 14,

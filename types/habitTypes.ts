@@ -2,7 +2,7 @@ export type HabitFrequency = 'daily' | 'weekly' | 'monthly' | 'yearly';
 
 export type HabitType = 'count' | 'quit';
 
-export type CountUnit = 'time' | 'minute' | 'hour' | 'kilometer' | 'meter';
+export type CountUnit = 'time' | 'minute' | 'hour' | 'page' | 'kilometer' | 'meter';
 
 export type HabitWindow = { start: string; end: string };
 
