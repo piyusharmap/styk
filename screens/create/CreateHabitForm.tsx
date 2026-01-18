@@ -195,7 +195,6 @@ const CreateHabitForm = () => {
 					styles.actionContainer,
 				]}>
 				<UIButton
-					variant='secondary'
 					title='Reset'
 					onPress={resetForm}
 					iconName='RotateCcw'

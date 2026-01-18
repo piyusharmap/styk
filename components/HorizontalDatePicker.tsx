@@ -31,11 +31,10 @@ const DateItem = memo(
 				<Pressable
 					style={({ pressed }) => [
 						{
-							backgroundColor: colors.foreground + '80',
+							backgroundColor: colors.foreground,
 							borderColor: colors.border,
 						},
 						isSelected && {
-							backgroundColor: colors.secondary + '30',
 							borderColor: colors.primary,
 						},
 						pressed && styles.dateButtonPressed,
@@ -133,12 +132,10 @@ const HorizontalDatePicker = ({
 							},
 							styles.monthDisplay,
 						]}>
-						<UIText style={[{ color: colors.primary }, styles.month]}>
-							{monthName}
-						</UIText>
+						<UIText style={styles.month}>{monthName}</UIText>
 					</View>
 
-					<UIButton variant='secondary' size='sm' title='Today' onPress={goToToday} />
+					<UIButton size='sm' title='Today' onPress={goToToday} />
 				</View>
 
 				<Pressable style={styles.navButton} onPress={() => changeMonth(1)}>
@@ -219,7 +216,7 @@ const styles = StyleSheet.create({
 		width: 52,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderWidth: 1,
+		borderWidth: 2,
 		borderRadius: 10,
 	},
 	dateButtonPressed: {
@@ -232,7 +229,7 @@ const styles = StyleSheet.create({
 		fontWeight: '600',
 	},
 	date: {
-		fontSize: 16,
+		fontSize: 18,
 		fontWeight: '600',
 	},
 	weekday: {

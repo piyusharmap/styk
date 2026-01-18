@@ -5,7 +5,6 @@ import { useRouter } from 'expo-router';
 import CircularProgressBar from '../../../components/habit/CircularProgressBar';
 import Icon from '../../../components/icon';
 import { HabitTypeDetails } from '../../../constants/habit';
-import UILoader from '../../../components/ui/UILoader';
 import Badge from '../../../components/Badge';
 
 const ActivityCard = ({
@@ -48,9 +47,7 @@ const ActivityCard = ({
 					strokeWidth={8}
 					activeColor={activityItem.color}
 					backgroundColor={activityItem.color + '50'}>
-					{isLoading ? (
-						<UILoader size={24} color={activityItem.color} />
-					) : activityItem.type === 'count' ? (
+					{activityItem.type === 'count' ? (
 						<View style={styles.progressDetails}>
 							<UIText style={styles.count}>
 								{activityItem.currentValue}
@@ -134,7 +131,7 @@ const styles = StyleSheet.create({
 	},
 	quitDetails: {
 		alignItems: 'center',
-		gap: 2,
+		gap: 4,
 	},
 	badgeContainer: {
 		flexDirection: 'row',

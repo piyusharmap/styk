@@ -101,7 +101,7 @@ const Stopwatch = () => {
 				/>
 
 				<UIButton
-					variant={isRunning ? 'danger' : 'primary'}
+					variant={isRunning ? 'danger' : 'default'}
 					size='lg'
 					title={isRunning ? 'Stop' : time > 0 ? 'Resume' : 'Start'}
 					iconName={isRunning ? 'Square' : 'Play'}
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
 	},
 	lapCount: {
 		fontSize: 14,
+		fontWeight: '500',
 	},
 	lapTime: {
 		fontSize: 16,

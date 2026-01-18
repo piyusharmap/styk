@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
 	},
 	bar: {
 		height: '100%',
-		width: 3,
+		width: 2,
+		borderRadius: 1,
 	},
 });

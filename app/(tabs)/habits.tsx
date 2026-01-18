@@ -1,13 +1,11 @@
 import { SectionList, StyleSheet, View } from 'react-native';
 import UIView from '../../components/ui/UIView';
 import { useHabitStore } from '../../store/habitStore';
-import ListEmpty from '../../components/list/ListEmpty';
+import { ListEmptyContainer } from '../../components/list/ListEmpty';
 import ListHeader from '../../components/list/ListHeader';
-import { EMPTY_HABITS_LIST_MSG } from '../../constants/messages';
 import { useRouter } from 'expo-router';
 import HabitListCard from '../../screens/habits/components/HabitListCard';
 import AddHabitButton from '../../screens/habits/components/AddHabitButton';
-import MomentumCard from '../../screens/habits/components/MomentumCard';
 import UIText from '../../components/ui/UIText';
 import { getGreeting } from '../../utils/greeting';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -17,7 +15,6 @@ const HabitsTab = () => {
 	const insets = useSafeAreaInsets();
 
 	const habits = useHabitStore((s) => s.getTodayHabits());
-	const frequencyStats = useHabitStore((s) => s.getGlobalMomentum());
 	const activeHabits = habits.filter((habit) => !habit.archived);
 
 	const sections = [
@@ -50,10 +47,6 @@ const HabitsTab = () => {
 				</View>
 			</View>
 
-			<View style={styles.statsContainer}>
-				<MomentumCard score={frequencyStats} />
-			</View>
-
 			<SectionList
 				sections={sections}
 				keyExtractor={(item) => item.id}
@@ -62,7 +55,14 @@ const HabitsTab = () => {
 					return <HabitListCard habit={item} />;
 				}}
 				renderSectionHeader={({ section }) => <ListHeader heading={section.title} />}
-				ListEmptyComponent={<ListEmpty message={EMPTY_HABITS_LIST_MSG} />}
+				ListEmptyComponent={
+					<ListEmptyContainer>
+						<UIText style={styles.emptyListMessage}>No Habits</UIText>
+						<UIText style={styles.emptyListDescription} isSecondary>
+							Tap the + button to create your first habit.
+						</UIText>
+					</ListEmptyContainer>
+				}
 			/>
 
 			<View style={styles.actionContainer}>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 	},
 	headerContainer: {
 		flexDirection: 'row',
-		paddingHorizontal: 12,
+		paddingHorizontal: 16,
 		alignItems: 'center',
 		gap: 6,
 	},
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 	},
 	habitsContainer: {
+		flexGrow: 1,
 		paddingHorizontal: 12,
 		paddingTop: 10,
 		paddingBottom: 80,
@@ -117,5 +118,12 @@ const styles = StyleSheet.create({
 	date: {
 		fontSize: 22,
 		fontWeight: '600',
+	},
+	emptyListMessage: {
+		fontSize: 18,
+		fontWeight: '600',
+	},
+	emptyListDescription: {
+		fontSize: 16,
 	},
 });

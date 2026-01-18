@@ -9,13 +9,13 @@ const AddHabitButton = ({ ...props }: PressableProps) => {
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: colors.primary,
+					backgroundColor: colors.neutral,
 				},
 				styles.button,
 				pressed && styles.buttonPressed,
 			]}
 			{...props}>
-			<Icon name='Plus' size={32} color={colors.neutralWhite} />
+			<Icon name='Plus' size={32} color={colors.neutralInverted} />
 		</Pressable>
 	);
 };

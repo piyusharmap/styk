@@ -1,6 +1,6 @@
 import { Habit, HabitActivity, HabitLog, HabitTarget } from '../types/habitTypes';
 
-export function mapHabit(rows: any): Habit {
+export const mapHabit = (rows: any): Habit => {
 	const target: HabitTarget =
 		rows.type === 'count'
 			? {
@@ -28,18 +28,20 @@ export function mapHabit(rows: any): Habit {
 		archived: !!rows.archived,
 		archivedAt: rows.archived_at,
 	};
-}
+};
 
-export function mapHabitLog(row: any): HabitLog {
+export const mapHabitLog = (row: any): HabitLog => {
 	return {
 		id: row.id,
 		habitId: row.habit_id,
 		date: row.date,
 		value: row.value,
+		history: row.history,
+		updatedAt: row.update_at,
 	};
-}
+};
 
-export function mapDailyActivity(row: any): HabitActivity {
+export const mapDailyActivity = (row: any): HabitActivity => {
 	const currentValue = row.current_value || 0;
 	const goal = row.count || 0;
 
@@ -62,4 +64,4 @@ export function mapDailyActivity(row: any): HabitActivity {
 		currentValue: currentValue,
 		progress: progress,
 	};
-}
+};

@@ -1,7 +1,6 @@
 import { View, StyleSheet, Pressable } from 'react-native';
 import UIText from '../../../components/ui/UIText';
 import { Habit } from '../../../types/habitTypes';
-import useTheme from '../../../theme/useTheme';
 import HabitToggleButton from './HabitToggleButton';
 import { useHabitStore } from '../../../store/habitStore';
 import Icon from '../../../components/icon';
@@ -13,8 +12,6 @@ import { getDayDifference } from '../../../utils/time';
 import QuitTimeline from '../../../components/habit/QuitTimeline';
 
 const HabitListCard = ({ habit }: { habit: Habit }) => {
-	const { colors } = useTheme();
-
 	const router = useRouter();
 	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(habit.id));
 	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
@@ -63,7 +60,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 							</UIText>
 						) : (
 							<UIText style={styles.habitDetail}>
-								<UIText isSecondary>Going strong for:</UIText>{' '}
+								<UIText isSecondary>Clean since:</UIText>{' '}
 								<UIText style={styles.habitDetailHighlight}>
 									{getDayDifference(habit.target.startDate)} days
 								</UIText>

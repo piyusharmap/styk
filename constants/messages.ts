@@ -1,8 +1,3 @@
-// empty list or error messages
-export const EMPTY_HABITS_LIST_MSG = 'Create your first habit to begin.';
-export const EMPTY_ARCHIVE_LIST_MSG = 'Archived habits will appear here.';
-export const EMPTY_ACTIVITY_LIST_MSG = 'No activity recorded for this date.';
-
 // messages for greeting
 export const MORNING_GREET_MSG = 'Good Morning';
 export const AFTERNOON_GREET_MSG = 'Good Afternoon';
@@ -20,9 +15,6 @@ export const HABIT_NAME_PLACEHOLDER = 'e.g. Exercise, Running, Reading';
 // type descriptions
 export const BUILD_TYPE_DESCRIPTION = 'Create a positive habit over time.';
 export const QUIT_TYPE_DESCRIPTION = 'Reduce or eliminate an unwanted habit.';
-
-// messages for cards
-export const MOMENTUM_CARD_DESCRIPTION = 'Daily consistency across all your active build habits.';
 
 // branding
 export const ABOUT_US_TAGLINE = 'Build better routines. Quit bad cycles.';
