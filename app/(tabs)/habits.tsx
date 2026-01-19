@@ -1,23 +1,22 @@
 import { SectionList, StyleSheet, View } from 'react-native';
 import UIView from '../../components/ui/UIView';
 import { useHabitStore } from '../../store/habitStore';
-import ListEmpty from '../../components/list/ListEmpty';
+import { ListEmptyContainer } from '../../components/list/ListEmpty';
 import ListHeader from '../../components/list/ListHeader';
-import { EMPTY_HABITS_LIST_MSG } from '../../constants/messages';
 import { useRouter } from 'expo-router';
 import HabitListCard from '../../screens/habits/components/HabitListCard';
 import AddHabitButton from '../../screens/habits/components/AddHabitButton';
-import MomentumCard from '../../screens/habits/components/MomentumCard';
 import UIText from '../../components/ui/UIText';
 import { getGreeting } from '../../utils/greeting';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useShallow } from 'zustand/react/shallow';
+import DailyMomentum from '../../screens/habits/components/DailyMomentum';
 
 const HabitsTab = () => {
 	const router = useRouter();
 	const insets = useSafeAreaInsets();
 
-	const habits = useHabitStore((s) => s.getTodayHabits());
-	const frequencyStats = useHabitStore((s) => s.getGlobalMomentum());
+	const habits = useHabitStore(useShallow((s) => Object.values(s.habits)));
 	const activeHabits = habits.filter((habit) => !habit.archived);
 
 	const sections = [
@@ -51,7 +50,7 @@ const HabitsTab = () => {
 			</View>
 
 			<View style={styles.statsContainer}>
-				<MomentumCard score={frequencyStats} />
+				<DailyMomentum />
 			</View>
 
 			<SectionList
@@ -59,10 +58,25 @@ const HabitsTab = () => {
 				keyExtractor={(item) => item.id}
 				contentContainerStyle={styles.habitsContainer}
 				renderItem={({ item }) => {
-					return <HabitListCard habit={item} />;
+					return (
+						<View style={styles.habitCardContainer}>
+							<HabitListCard habit={item} />
+						</View>
+					);
 				}}
-				renderSectionHeader={({ section }) => <ListHeader heading={section.title} />}
-				ListEmptyComponent={<ListEmpty message={EMPTY_HABITS_LIST_MSG} />}
+				renderSectionHeader={({ section }) => (
+					<View style={styles.sectionHeaderContainer}>
+						<ListHeader heading={section.title} />
+					</View>
+				)}
+				ListEmptyComponent={
+					<ListEmptyContainer>
+						<UIText style={styles.emptyListMessage}>No Habits</UIText>
+						<UIText style={styles.emptyListDescription} isSecondary>
+							Tap the + button to create your first habit.
+						</UIText>
+					</ListEmptyContainer>
+				}
 			/>
 
 			<View style={styles.actionContainer}>
@@ -82,22 +96,29 @@ const styles = StyleSheet.create({
 	},
 	headerContainer: {
 		flexDirection: 'row',
-		paddingHorizontal: 12,
+		paddingHorizontal: 16,
+		paddingBottom: 10,
 		alignItems: 'center',
 		gap: 6,
+	},
+	sectionHeaderContainer: {
+		marginTop: 10,
+		marginBottom: 4,
 	},
 	greetingContainer: {
 		flex: 1,
 	},
 	statsContainer: {
 		paddingHorizontal: 12,
-		paddingVertical: 10,
+		paddingBottom: 10,
 	},
 	habitsContainer: {
+		flexGrow: 1,
 		paddingHorizontal: 12,
-		paddingTop: 10,
 		paddingBottom: 80,
-		gap: 6,
+	},
+	habitCardContainer: {
+		marginBottom: 6,
 	},
 	actionContainer: {
 		position: 'absolute',
@@ -117,5 +138,12 @@ const styles = StyleSheet.create({
 	date: {
 		fontSize: 22,
 		fontWeight: '600',
+	},
+	emptyListMessage: {
+		fontSize: 18,
+		fontWeight: '600',
+	},
+	emptyListDescription: {
+		fontSize: 16,
 	},
 });

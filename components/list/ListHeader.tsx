@@ -8,9 +8,7 @@ const ListHeader = ({ heading, style }: { heading: string; style?: StyleProp<Vie
 
 	return (
 		<View style={[styles.listHeader, style]}>
-			<UIText style={styles.listHeading} isSecondary>
-				{heading}
-			</UIText>
+			<UIText style={styles.listHeading}>{heading}</UIText>
 
 			<Icon name='ArrowRight' size={14} color={colors.accent} />
 		</View>
@@ -22,7 +20,7 @@ export default ListHeader;
 const styles = StyleSheet.create({
 	// container styles
 	listHeader: {
-		padding: 2,
+		paddingHorizontal: 2,
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 4,

@@ -1,7 +1,9 @@
 import { Animated, StyleSheet, View } from 'react-native';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useHabitStore } from '../../store/habitStore';
 import { HabitTarget } from '../../types/habitTypes';
+
+const TOTAL_BARS = 44;
 
 const ProgressBar = ({
 	habitId,
@@ -14,7 +16,6 @@ const ProgressBar = ({
 	color: string;
 	height?: number;
 }) => {
-	const totalBars = 44;
 	const animatedFilledCount = useRef(new Animated.Value(0)).current;
 
 	const countValue = useHabitStore((s) => s.getCountValue(habitId));
@@ -22,42 +23,42 @@ const ProgressBar = ({
 	useEffect(() => {
 		if (target.type === 'count') {
 			const progressRatio = Math.min(countValue / target.count, 1);
-			const targetFilledBars = progressRatio * totalBars;
+			const targetFilledBars = progressRatio * TOTAL_BARS;
 
 			Animated.timing(animatedFilledCount, {
 				toValue: targetFilledBars,
-				duration: 200,
-				useNativeDriver: false,
+				duration: 500,
+				useNativeDriver: true,
 			}).start();
 		}
 	}, [countValue]);
 
+	const bars = useMemo(() => {
+		return Array.from({ length: TOTAL_BARS }).map((_, index) => {
+			const barOpacity = animatedFilledCount.interpolate({
+				inputRange: [index - 1, index, index + 0.1],
+				outputRange: [0.3, 1, 1],
+				extrapolate: 'clamp',
+			});
+
+			return (
+				<Animated.View
+					key={index}
+					style={[
+						styles.bar,
+						{
+							backgroundColor: color,
+							opacity: barOpacity,
+						},
+					]}
+				/>
+			);
+		});
+	}, [color]);
+
 	if (target.type !== 'count') return null;
 
-	return (
-		<View style={[{ height: height }, styles.container]}>
-			{Array.from({ length: totalBars }).map((_, index) => {
-				const barOpacity = animatedFilledCount.interpolate({
-					inputRange: [index - 1, index],
-					outputRange: [0.4, 1],
-					extrapolate: 'clamp',
-				});
-
-				return (
-					<Animated.View
-						key={index}
-						style={[
-							styles.bar,
-							{
-								backgroundColor: color,
-								opacity: barOpacity,
-							},
-						]}
-					/>
-				);
-			})}
-		</View>
-	);
+	return <View style={[{ height: height }, styles.container]}>{bars}</View>;
 };
 
 export default ProgressBar;
@@ -74,6 +75,7 @@ const styles = StyleSheet.create({
 	},
 	bar: {
 		height: '100%',
-		width: 3,
+		width: 2,
+		borderRadius: 1,
 	},
 });

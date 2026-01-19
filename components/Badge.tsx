@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 	// container styles
 	badge: {
 		height: 20,
-		paddingHorizontal: 10,
+		paddingHorizontal: 8,
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',

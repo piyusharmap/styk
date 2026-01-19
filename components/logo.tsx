@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 8,
-		borderWidth: 1,
+		borderWidth: 2,
 		overflow: 'hidden',
 	},
 });

@@ -49,7 +49,7 @@ export const Colors: Record<string, Theme> = {
 
 		tabBackground: '#FEFEFE',
 		tabIconActive: '#000000',
-		tabIconInactive: '#4D4D4D',
+		tabIconInactive: '#333333',
 
 		neutral: '#1E1E1E',
 		neutralInverted: '#F2F2F2',
@@ -68,7 +68,7 @@ export const Colors: Record<string, Theme> = {
 		info: '#E9BA00',
 
 		background: '#101010',
-		foreground: '#1D1D1D',
+		foreground: '#222222',
 		border: '#3D3D3D',
 
 		text: '#F2F2F2',
@@ -79,7 +79,7 @@ export const Colors: Record<string, Theme> = {
 
 		tabBackground: '#0A0A0A',
 		tabIconActive: '#FFFFFF',
-		tabIconInactive: '#AAAAAA',
+		tabIconInactive: '#D4D4D4',
 
 		neutral: '#F2F2F2',
 		neutralInverted: '#1E1E1E',

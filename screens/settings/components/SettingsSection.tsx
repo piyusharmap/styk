@@ -14,11 +14,13 @@ const SettingsSection = ({ title, children }: { title: string; children: React.R
 			<Pressable
 				style={styles.headingContainer}
 				onPress={() => setShowOptions((prev) => !prev)}>
-				<UIText style={styles.heading}>{title}</UIText>
+				<UIText style={styles.heading} isSecondary={showOptions}>
+					{title}
+				</UIText>
 
 				<Icon
 					name={showOptions ? 'ChevronDown' : 'ChevronRight'}
-					size={16}
+					size={20}
 					color={colors.accent}
 				/>
 			</Pressable>
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
 
 	// text styles
 	heading: {
-		fontSize: 14,
+		fontSize: 16,
 		fontWeight: '500',
 	},
 });

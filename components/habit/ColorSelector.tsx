@@ -20,7 +20,7 @@ const ColorSelector = ({
 						style={[
 							{ borderColor: colors.neutral },
 							styles.colorOption,
-							selectedColor === color && { borderWidth: 1 },
+							selectedColor === color && { borderWidth: 2 },
 						]}
 						onPress={() => onPress(color)}>
 						<View
@@ -50,6 +50,8 @@ const styles = StyleSheet.create({
 	colorOption: {
 		height: 40,
 		width: 40,
+		justifyContent: 'center',
+		alignItems: 'center',
 		borderRadius: 20,
 		overflow: 'hidden',
 		borderWidth: 0,
@@ -60,6 +62,6 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 	},
 	colorViewTransform: {
-		transform: [{ scale: 0.88 }],
+		transform: [{ scale: 0.9 }],
 	},
 });

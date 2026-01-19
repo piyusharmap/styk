@@ -100,10 +100,6 @@ export const UnitOptions: { label: string; value: CountUnit }[] = [
 		value: 'minute',
 	},
 	{
-		label: 'Page',
-		value: 'page',
-	},
-	{
 		label: 'Kilometer',
 		value: 'kilometer',
 	},
@@ -111,23 +107,8 @@ export const UnitOptions: { label: string; value: CountUnit }[] = [
 		label: 'Meter',
 		value: 'meter',
 	},
+	{
+		label: 'Page',
+		value: 'page',
+	},
 ];
-
-export const MomentumScore: Record<HabitFrequency, { label: string; score: number }> = {
-	daily: {
-		label: 'Daily',
-		score: 1,
-	},
-	weekly: {
-		label: 'Weekly',
-		score: 3,
-	},
-	monthly: {
-		label: 'Monthly',
-		score: 10,
-	},
-	yearly: {
-		label: 'Annually',
-		score: 50,
-	},
-};

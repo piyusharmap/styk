@@ -209,13 +209,20 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 								selectedValue={habitTarget.initialStartDate}
 								maxDate={habitTarget.startDate}
 								onChange={(date) =>
-									setHabitTarget((prev) => ({
-										...prev,
-										initialStartDate: date,
-									}))
+									setHabitTarget((prev) => {
+										const isCleanStreak =
+											toDateString(prev.startDate) ===
+											toDateString(prev.initialStartDate);
+
+										return {
+											...prev,
+											startDate: isCleanStreak ? date : prev.startDate,
+											initialStartDate: date,
+										};
+									})
 								}
 							/>
-							<UIInputInfo info='Start date must be an elapsed date or a date in the past.' />
+							<UIInputInfo info='Start date must be a relapsed date or a date in the past.' />
 						</UIInputContainer>
 					</>
 				)}

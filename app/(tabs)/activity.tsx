@@ -1,34 +1,39 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, FlatList, Alert, View } from 'react-native';
+import { StyleSheet, FlatList, Alert } from 'react-native';
 import UIView from '../../components/ui/UIView';
 import { PageHeader, PageHeading, PageSubHeading } from '../../components/layout/PageHeader';
-import { ACTIVITY_PAGE_SUBHEADING, EMPTY_ACTIVITY_LIST_MSG } from '../../constants/messages';
+import { ACTIVITY_PAGE_SUBHEADING } from '../../constants/messages';
 import HorizontalDatePicker from '../../components/HorizontalDatePicker';
 import { getTodayString } from '../../utils/time';
 import { useHabitStore } from '../../store/habitStore';
 import { HabitActivity } from '../../types/habitTypes';
-import ListEmpty from '../../components/list/ListEmpty';
 import ActivityCard from '../../screens/activity/components/ActivityCard';
-import UILoader from '../../components/ui/UILoader';
+import { ListEmptyContainer } from '../../components/list/ListEmpty';
+import UIText from '../../components/ui/UIText';
+import ActivityListSkeleton from '../../components/skeleton/ActivityListSkeleton';
 
 const ActivityTab = () => {
 	const [selectedDate, setSelectedDate] = useState(getTodayString());
 	const [activity, setActivity] = useState<HabitActivity[]>([]);
-	const [loading, setLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const getActivity = useHabitStore((s) => s.getDailyActivity);
 	const logs = useHabitStore((s) => s.logs);
 
 	useEffect(() => {
 		const loadActivity = async () => {
-			setLoading(true);
+			setIsLoading(true);
+
+			const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
 			try {
-				const [data] = await Promise.all([getActivity(selectedDate)]);
+				const [data] = await Promise.all([getActivity(selectedDate), delay(200)]);
+
 				setActivity(data);
 			} catch (error) {
 				Alert.alert('Failed to load activity.', `Error: ${error}`);
 			} finally {
-				setLoading(false);
+				setIsLoading(false);
 			}
 		};
 
@@ -44,29 +49,32 @@ const ActivityTab = () => {
 
 			<HorizontalDatePicker selectedDate={selectedDate} onDateChange={setSelectedDate} />
 
-			<FlatList
-				data={activity}
-				keyExtractor={(item) => item.id}
-				numColumns={2}
-				columnWrapperStyle={styles.columnWrapper}
-				contentContainerStyle={styles.activityContainer}
-				renderItem={({ item }) => (
-					<ActivityCard
-						activityItem={item}
-						style={styles.activityCard}
-						isLoading={loading}
-					/>
-				)}
-				ListEmptyComponent={
-					loading ? (
-						<View style={styles.loaderContainer}>
-							<UILoader size={32} />
-						</View>
-					) : (
-						<ListEmpty message={EMPTY_ACTIVITY_LIST_MSG} />
-					)
-				}
-			/>
+			{isLoading && !activity.length ? (
+				<ActivityListSkeleton />
+			) : (
+				<FlatList
+					data={activity}
+					keyExtractor={(item) => item.id}
+					numColumns={2}
+					columnWrapperStyle={styles.columnWrapper}
+					contentContainerStyle={styles.activityContainer}
+					renderItem={({ item }) => (
+						<ActivityCard
+							activityItem={item}
+							isLoading={isLoading}
+							style={styles.activityCard}
+						/>
+					)}
+					ListEmptyComponent={
+						<ListEmptyContainer>
+							<UIText style={styles.emptyListMessage}>No Activity</UIText>
+							<UIText style={styles.emptyListDescription} isSecondary>
+								No activity recorded for this date.
+							</UIText>
+						</ListEmptyContainer>
+					}
+				/>
+			)}
 		</UIView>
 	);
 };
@@ -83,6 +91,7 @@ const styles = StyleSheet.create({
 		padding: 40,
 	},
 	activityContainer: {
+		flexGrow: 1,
 		paddingHorizontal: 12,
 		paddingTop: 10,
 		paddingBottom: 60,
@@ -94,5 +103,14 @@ const styles = StyleSheet.create({
 	columnWrapper: {
 		justifyContent: 'space-between',
 		gap: 6,
+	},
+
+	// text styles
+	emptyListMessage: {
+		fontSize: 18,
+		fontWeight: '600',
+	},
+	emptyListDescription: {
+		fontSize: 16,
 	},
 });

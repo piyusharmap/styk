@@ -16,9 +16,9 @@ const DeleteArchiveButton = ({
 		<>
 			<UIButton
 				variant='danger'
-				size='sm'
-				title='Delete'
+				title=''
 				iconName='Trash2'
+				isIconButton
 				style={style}
 				onPress={() => setShowModal(true)}
 			/>

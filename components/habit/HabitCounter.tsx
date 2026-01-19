@@ -26,7 +26,7 @@ const HabitCounter = ({ count, onPress }: { count: number; onPress: (count: numb
 			<Pressable
 				style={({ pressed }) => [
 					{
-						backgroundColor: colors.foreground + '80',
+						backgroundColor: colors.foreground,
 						borderColor: colors.border,
 					},
 					styles.countButton,
@@ -35,13 +35,14 @@ const HabitCounter = ({ count, onPress }: { count: number; onPress: (count: numb
 				onPress={handleCountDecrement}>
 				<Icon name='Minus' size={18} color={colors.accent} />
 			</Pressable>
-
-			<UIText style={styles.count}>{count}</UIText>
+			<View style={styles.countContainer}>
+				<UIText style={styles.count}>{count}</UIText>
+			</View>
 
 			<Pressable
 				style={({ pressed }) => [
 					{
-						backgroundColor: colors.foreground + '80',
+						backgroundColor: colors.foreground,
 						borderColor: colors.border,
 					},
 					styles.countButton,
@@ -69,13 +70,17 @@ const styles = StyleSheet.create({
 		borderStyle: 'dashed',
 		borderRadius: 10,
 	},
+	countContainer: {
+		minWidth: 80,
+		alignItems: 'center',
+	},
 	countButton: {
 		height: 40,
 		width: 40,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderRadius: 20,
-		borderWidth: 1,
+		borderRadius: 8,
+		borderWidth: 2,
 	},
 
 	// text styles

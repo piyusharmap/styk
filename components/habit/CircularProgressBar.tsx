@@ -1,11 +1,12 @@
-import { View, StyleSheet, ColorValue } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, StyleSheet, ColorValue, Animated, Easing } from 'react-native';
 import Svg, { Circle, G } from 'react-native-svg';
 
-const MIN_PROGRESS = 0.02;
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const CircularProgressBar = ({
 	progress,
-	size = 72,
+	size = 80,
 	strokeWidth = 8,
 	activeColor,
 	backgroundColor,
@@ -15,17 +16,28 @@ const CircularProgressBar = ({
 	size?: number;
 	strokeWidth?: number;
 	activeColor?: string;
-	backgroundColor: ColorValue;
+	backgroundColor?: ColorValue;
 	children?: React.ReactNode;
 }) => {
 	const center = size / 2;
 	const radius = (size - strokeWidth) / 2;
-	const circumference = Math.max(2 * Math.PI * radius, 0.9);
+	const circumference = 2 * Math.PI * radius;
 
-	const adjustedProgress = MIN_PROGRESS + (progress / 100) * (100 - MIN_PROGRESS);
-	const finalPercentage = Math.min(Math.max(adjustedProgress, MIN_PROGRESS), 100);
+	const animatedProgress = useRef(new Animated.Value(0)).current;
 
-	const strokeDashoffset = circumference - (finalPercentage / 100) * circumference;
+	useEffect(() => {
+		Animated.timing(animatedProgress, {
+			toValue: progress,
+			duration: 500,
+			easing: Easing.out(Easing.quad),
+			useNativeDriver: true,
+		}).start();
+	}, [progress]);
+
+	const strokeDashoffset = animatedProgress.interpolate({
+		inputRange: [0, 100],
+		outputRange: [circumference, 0],
+	});
 
 	return (
 		<View style={[styles.container, { width: size, height: size }]}>
@@ -39,7 +51,8 @@ const CircularProgressBar = ({
 						strokeWidth={strokeWidth}
 						fill='none'
 					/>
-					<Circle
+
+					<AnimatedCircle
 						cx={center}
 						cy={center}
 						r={radius}
@@ -48,7 +61,7 @@ const CircularProgressBar = ({
 						fill='none'
 						strokeDasharray={circumference}
 						strokeDashoffset={strokeDashoffset}
-						strokeLinecap='round'
+						strokeLinecap='butt'
 					/>
 				</G>
 			</Svg>

@@ -42,9 +42,11 @@ const TabsLayout = () => {
 					},
 					tabBarIcon: ({ focused }) => (
 						<Icon
-							size={24}
+							size={26}
 							name='CalendarCheck'
 							color={focused ? colors.primary : colors.tabIconInactive}
+							fillColor={colors.secondary + '50'}
+							isFilled={focused}
 						/>
 					),
 				}}
@@ -59,9 +61,11 @@ const TabsLayout = () => {
 					},
 					tabBarIcon: ({ focused }) => (
 						<Icon
-							size={24}
-							name='ActivitySquare'
+							size={26}
+							name='SquareChartGantt'
 							color={focused ? colors.primary : colors.tabIconInactive}
+							fillColor={colors.secondary + '50'}
+							isFilled={focused}
 						/>
 					),
 				}}
@@ -76,9 +80,11 @@ const TabsLayout = () => {
 					},
 					tabBarIcon: ({ focused }) => (
 						<Icon
-							size={24}
+							size={26}
 							name='Timer'
 							color={focused ? colors.primary : colors.tabIconInactive}
+							fillColor={colors.secondary + '50'}
+							isFilled={focused}
 						/>
 					),
 				}}
@@ -93,9 +99,11 @@ const TabsLayout = () => {
 					},
 					tabBarIcon: ({ focused }) => (
 						<Icon
-							size={24}
+							size={26}
 							name='Settings'
 							color={focused ? colors.primary : colors.tabIconInactive}
+							fillColor={colors.secondary + '50'}
+							isFilled={focused}
 						/>
 					),
 				}}

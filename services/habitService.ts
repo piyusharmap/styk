@@ -4,9 +4,11 @@ import { executeSQL, querySQL, transactionSQL } from '../db/utils';
 
 export const HabitService = {
 	loadHabits: async (): Promise<Habit[]> => {
-		const query = `SELECT h.*, t.type, t.frequency, t.count, t.unit, t.start_date, t.initial_start_date, t.current_streak, t.longest_streak
-		FROM habits h
-		LEFT JOIN habit_targets t ON h.id = t.habit_id;`;
+		const query = `
+			SELECT h.*, t.type, t.frequency, t.count, t.unit, t.start_date, t.initial_start_date, t.current_streak, t.longest_streak
+			FROM habits h
+			LEFT JOIN habit_targets t ON h.id = t.habit_id;
+		`;
 
 		const rows = await querySQL<any>(query, []);
 
@@ -16,7 +18,10 @@ export const HabitService = {
 	createHabit: async (habit: Habit) => {
 		return transactionSQL(async (db) => {
 			await db.runAsync(
-				`INSERT INTO habits (id, name, color, type, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?);`,
+				`
+					INSERT INTO habits (id, name, color, type, created_at, updated_at)
+					VALUES (?, ?, ?, ?, ?, ?);
+				`,
 				[
 					habit.id,
 					habit.name,
@@ -29,7 +34,10 @@ export const HabitService = {
 
 			if (habit.target.type === 'count') {
 				await db.runAsync(
-					`INSERT INTO habit_targets (habit_id, type, frequency, count, unit, current_streak, longest_streak) VALUES (?, ?, ?, ?, ?, ?, ?);`,
+					`
+						INSERT INTO habit_targets (habit_id, type, frequency, count, unit, current_streak, longest_streak)
+						VALUES (?, ?, ?, ?, ?, ?, ?);
+					`,
 					[
 						habit.id,
 						habit.target.type,
@@ -42,7 +50,10 @@ export const HabitService = {
 				);
 			} else if (habit.target.type === 'quit') {
 				await db.runAsync(
-					`INSERT INTO habit_targets (habit_id, type, frequency, start_date, initial_start_date) VALUES (?, ?, ?, ?, ?);`,
+					`
+						INSERT INTO habit_targets (habit_id, type, frequency, start_date, initial_start_date)
+						VALUES (?, ?, ?, ?, ?);
+					`,
 					[
 						habit.id,
 						habit.target.type,
@@ -58,15 +69,20 @@ export const HabitService = {
 	updateHabit: async (updatedHabit: Habit) => {
 		return transactionSQL(async (db) => {
 			await db.runAsync(
-				`UPDATE habits SET name = ?, color = ?, updated_at = ? WHERE id = ?;`,
+				`
+					UPDATE habits SET name = ?, color = ?, updated_at = ?
+					WHERE id = ?;
+				`,
 				[updatedHabit.name, updatedHabit.color, updatedHabit.updatedAt, updatedHabit.id],
 			);
 
 			if (updatedHabit.target.type === 'count') {
 				await db.runAsync(
-					`UPDATE habit_targets 
-					 SET frequency = ?, count = ?, unit = ? 
-					 WHERE habit_id = ?;`,
+					`
+						UPDATE habit_targets 
+						SET frequency = ?, count = ?, unit = ? 
+						WHERE habit_id = ?;
+					`,
 					[
 						updatedHabit.target.frequency,
 						updatedHabit.target.count,
@@ -76,9 +92,11 @@ export const HabitService = {
 				);
 			} else if (updatedHabit.target.type === 'quit') {
 				await db.runAsync(
-					`UPDATE habit_targets 
-					 SET start_date = ?, initial_start_date = ? 
-					 WHERE habit_id = ?;`,
+					`
+						UPDATE habit_targets 
+						SET start_date = ?, initial_start_date = ? 
+						WHERE habit_id = ?;
+					`,
 					[
 						updatedHabit.target.startDate,
 						updatedHabit.target.initialStartDate,
@@ -90,37 +108,49 @@ export const HabitService = {
 	},
 
 	updateQuitStartDate: async (habitId: string, newStartDate: string) => {
-		const query = `UPDATE habit_targets SET start_date = ? WHERE habit_id = ?;`;
+		const query = `
+			UPDATE habit_targets SET start_date = ? WHERE habit_id = ?;
+		`;
 
 		return executeSQL(query, [newStartDate, habitId]);
 	},
 
 	updateHabitStreak: async (habitId: string, currentStreak: number, longestStreak: number) => {
-		const query = `UPDATE habit_targets SET current_streak = ?, longest_streak = ? WHERE habit_id = ? AND type = 'count';`;
+		const query = `
+			UPDATE habit_targets SET current_streak = ?, longest_streak = ? WHERE habit_id = ? AND type = 'count';
+		`;
 
 		return executeSQL(query, [currentStreak, longestStreak, habitId]);
 	},
 
 	archiveHabit: async (id: string, date: string) => {
-		const query = `UPDATE habits SET archived = 1, archived_at = ? WHERE id = ?;`;
+		const query = `
+			UPDATE habits SET archived = 1, archived_at = ? WHERE id = ?;
+		`;
 
 		return executeSQL(query, [date, id]);
 	},
 
 	restoreHabit: async (id: string) => {
-		const query = `UPDATE habits SET archived = 0, archived_at = NULL WHERE id = ?;`;
+		const query = `
+			UPDATE habits SET archived = 0, archived_at = NULL WHERE id = ?;
+		`;
 
 		return executeSQL(query, [id]);
 	},
 
 	deleteHabit: async (id: string) => {
-		const query = `DELETE FROM habits WHERE id = ?;`;
+		const query = `
+			DELETE FROM habits WHERE id = ?;
+		`;
 
 		return executeSQL(query, [id]);
 	},
 
 	deleteAllHabits: async () => {
-		const query = `DELETE from habits;`;
+		const query = `
+			DELETE from habits;
+		`;
 
 		return executeSQL(query, []);
 	},

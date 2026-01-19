@@ -72,3 +72,10 @@ export type HabitActivity = {
 	currentValue: number;
 	progress: number;
 };
+
+export type DailyMomentum = {
+	score: number;
+	completed: number;
+	total: number;
+	partiallyDone: number;
+};

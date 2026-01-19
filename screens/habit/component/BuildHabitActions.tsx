@@ -29,7 +29,7 @@ const BuildHabitActions = ({ habit }: { habit: Habit }) => {
 			<ToggleButton
 				size={44}
 				color={habit.color}
-				iconName='Minus'
+				iconName='CalendarMinus'
 				isDisabled={countValue === 0}
 				onPress={handleUnmarkHabit}
 			/>
@@ -58,7 +58,7 @@ const BuildHabitActions = ({ habit }: { habit: Habit }) => {
 			<ToggleButton
 				size={44}
 				color={habit.color}
-				iconName='Plus'
+				iconName='CalendarPlus'
 				isDisabled={isHabitLocked}
 				onPress={handleMarkHabit}
 			/>
