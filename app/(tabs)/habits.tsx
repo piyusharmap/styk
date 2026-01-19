@@ -9,12 +9,13 @@ import AddHabitButton from '../../screens/habits/components/AddHabitButton';
 import UIText from '../../components/ui/UIText';
 import { getGreeting } from '../../utils/greeting';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useShallow } from 'zustand/react/shallow';
 
 const HabitsTab = () => {
 	const router = useRouter();
 	const insets = useSafeAreaInsets();
 
-	const habits = useHabitStore((s) => s.getTodayHabits());
+	const habits = useHabitStore(useShallow((s) => Object.values(s.habits)));
 	const activeHabits = habits.filter((habit) => !habit.archived);
 
 	const sections = [
@@ -52,9 +53,17 @@ const HabitsTab = () => {
 				keyExtractor={(item) => item.id}
 				contentContainerStyle={styles.habitsContainer}
 				renderItem={({ item }) => {
-					return <HabitListCard habit={item} />;
+					return (
+						<View style={styles.habitCardContainer}>
+							<HabitListCard habit={item} />
+						</View>
+					);
 				}}
-				renderSectionHeader={({ section }) => <ListHeader heading={section.title} />}
+				renderSectionHeader={({ section }) => (
+					<View style={styles.sectionHeaderContainer}>
+						<ListHeader heading={section.title} />
+					</View>
+				)}
 				ListEmptyComponent={
 					<ListEmptyContainer>
 						<UIText style={styles.emptyListMessage}>No Habits</UIText>
@@ -86,6 +95,10 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		gap: 6,
 	},
+	sectionHeaderContainer: {
+		marginTop: 10,
+		marginBottom: 4,
+	},
 	greetingContainer: {
 		flex: 1,
 	},
@@ -98,7 +111,9 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		paddingTop: 10,
 		paddingBottom: 80,
-		gap: 6,
+	},
+	habitCardContainer: {
+		marginBottom: 6,
 	},
 	actionContainer: {
 		position: 'absolute',

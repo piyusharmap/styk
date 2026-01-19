@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
 	},
 	habitCardPressed: {
 		opacity: 0.8,
-		transform: [{ scale: 0.98 }],
+		transform: [{ scale: 0.99 }],
 	},
 	habitSection: {
 		flexDirection: 'row',

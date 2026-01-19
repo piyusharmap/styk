@@ -4,9 +4,10 @@ import { useHabitStore } from '../../store/habitStore';
 import HabitArchivedCard from '../../screens/archive/components/HabitArchivedCard';
 import { ListEmptyContainer } from '../../components/list/ListEmpty';
 import UIText from '../../components/ui/UIText';
+import { useShallow } from 'zustand/react/shallow';
 
 const ArchivesPage = () => {
-	const habits = useHabitStore((s) => s.getAllHabits());
+	const habits = useHabitStore(useShallow((s) => Object.values(s.habits)));
 	const archivedHabits = habits.filter((habit) => habit.archived);
 
 	return (

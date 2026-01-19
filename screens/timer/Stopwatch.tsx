@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		borderRadius: 25,
-		borderWidth: 1,
+		borderWidth: 2,
 	},
 	actionContainer: {
 		paddingHorizontal: 12,

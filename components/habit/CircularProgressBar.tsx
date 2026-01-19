@@ -6,7 +6,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const CircularProgressBar = ({
 	progress,
-	size = 72,
+	size = 80,
 	strokeWidth = 8,
 	activeColor,
 	backgroundColor,
@@ -28,7 +28,7 @@ const CircularProgressBar = ({
 	useEffect(() => {
 		Animated.timing(animatedProgress, {
 			toValue: progress,
-			duration: 300,
+			duration: 500,
 			easing: Easing.out(Easing.quad),
 			useNativeDriver: true,
 		}).start();

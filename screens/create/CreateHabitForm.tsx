@@ -254,6 +254,6 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 	},
 	nameLimitHighlight: {
-		fontWeight: '500',
+		fontWeight: '600',
 	},
 });

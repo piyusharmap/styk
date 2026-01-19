@@ -49,7 +49,7 @@ const ActivityTab = () => {
 
 			<HorizontalDatePicker selectedDate={selectedDate} onDateChange={setSelectedDate} />
 
-			{isLoading ? (
+			{isLoading && !activity.length ? (
 				<ActivityListSkeleton />
 			) : (
 				<FlatList
@@ -61,7 +61,7 @@ const ActivityTab = () => {
 					renderItem={({ item }) => (
 						<ActivityCard
 							activityItem={item}
-							isLoading={false}
+							isLoading={isLoading}
 							style={styles.activityCard}
 						/>
 					)}

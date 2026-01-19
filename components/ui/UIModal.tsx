@@ -52,10 +52,9 @@ export const UIModal = ({
 			transparent
 			statusBarTranslucent
 			navigationBarTranslucent
-			animationType='fade'>
+			animationType='slide'>
 			<TouchableWithoutFeedback onPress={onClose}>
-				<View
-					style={[{ backgroundColor: colors.foreground + '80' }, styles.modalContainer]}>
+				<View style={[{ backgroundColor: colors.foreground }, styles.modalContainer]}>
 					<TouchableWithoutFeedback>
 						<View style={styles.modal}>{children}</View>
 					</TouchableWithoutFeedback>

@@ -31,9 +31,9 @@ const RestoreArchiveButton = ({
 	return (
 		<UIButton
 			variant='secondary'
-			size='sm'
-			title='Restore'
+			title=''
 			iconName='RotateCcw'
+			isIconButton
 			style={style}
 			onPress={handleHabitRestore}
 			disabled={isRestoring}

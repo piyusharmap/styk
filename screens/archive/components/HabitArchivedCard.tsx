@@ -1,17 +1,13 @@
 import { View, StyleSheet } from 'react-native';
-import useTheme from '../../../theme/useTheme';
 import { Habit } from '../../../types/habitTypes';
 import { HabitTypeDetails } from '../../../constants/habit';
 import UIText from '../../../components/ui/UIText';
 import TypeIconContainer from '../../../components/habit/TypeIconContainer';
 import DeleteArchiveButton from './DeleteArchiveButton';
 import RestoreArchiveButton from './RestoreArchiveButton';
-import UISeparator from '../../../components/ui/UISeparator';
 import { formatDisplayDate } from '../../../utils/time';
 
 const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
-	const { colors } = useTheme();
-
 	const typeDetails = HabitTypeDetails[habit.target.type];
 
 	return (
@@ -22,26 +18,22 @@ const HabitArchivedCard = ({ habit }: { habit: Habit }) => {
 				},
 				styles.habitCard,
 			]}>
-			<View style={styles.habitSection}>
-				<TypeIconContainer icon={typeDetails.icon} color={habit.color} />
+			<TypeIconContainer icon={typeDetails.icon} color={habit.color} />
 
-				<View style={styles.habitInfo}>
-					<UIText style={styles.habitName} numberOfLines={1}>
-						{habit.name}
-					</UIText>
+			<View style={styles.habitInfo}>
+				<UIText style={styles.habitName} numberOfLines={1}>
+					{habit.name}
+				</UIText>
 
-					<View style={styles.habitDetails}>
-						<UIText style={styles.habitDetail} isSecondary>
-							Archived on:{' '}
-							<UIText style={{ color: colors.text }}>
-								{formatDisplayDate(habit.archivedAt!)}
-							</UIText>
+				<View style={styles.habitDetails}>
+					<UIText style={styles.habitDetail}>
+						<UIText isSecondary>Archived on:</UIText>{' '}
+						<UIText style={styles.habitDetailHighlight}>
+							{formatDisplayDate(habit.archivedAt!)}
 						</UIText>
-					</View>
+					</UIText>
 				</View>
 			</View>
-
-			<UISeparator length={'100%'} width={1} />
 
 			<View style={styles.actionContainer}>
 				<DeleteArchiveButton habitId={habit.id} />
@@ -58,14 +50,11 @@ const styles = StyleSheet.create({
 	// container styles
 	habitCard: {
 		padding: 10,
-		gap: 10,
-		borderRadius: 10,
-		overflow: 'hidden',
-	},
-	habitSection: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 8,
+		borderRadius: 10,
+		overflow: 'hidden',
 	},
 	habitInfo: {
 		flex: 1,
@@ -92,5 +81,8 @@ const styles = StyleSheet.create({
 	},
 	habitDetail: {
 		fontSize: 12,
+	},
+	habitDetailHighlight: {
+		fontWeight: '500',
 	},
 });

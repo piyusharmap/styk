@@ -105,7 +105,7 @@ const HorizontalDatePicker = ({
 				onPress={onDateChange}
 			/>
 		),
-		[selectedDate, colors, onDateChange],
+		[selectedDate, onDateChange],
 	);
 
 	const monthName = viewingMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });

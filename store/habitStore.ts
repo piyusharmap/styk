@@ -13,8 +13,8 @@ import { HabitLogService } from '../services/habitLogService';
 import { logger } from '../utils/logger';
 
 type HabitStore = {
-	habits: Habit[];
-	logs: HabitLog[];
+	habits: Record<string, Habit>;
+	logs: Record<string, HabitLog>;
 
 	// general actions
 	addHabit: (name: string, color: string, target: HabitTarget) => Promise<void>;
@@ -71,12 +71,13 @@ type HabitStore = {
 };
 
 export const useHabitStore = create<HabitStore>()((set, get) => {
+	const getLogKey = (habitId: string, date: string) => `${habitId}_${date}`;
+
 	const executeAsync = async (errorMessage: string, fn: () => Promise<void>) => {
 		try {
 			await fn();
 		} catch (error) {
 			logger.error(`[Store Error] ${errorMessage}:`, error);
-			// set a global error state later here for UI alerts
 			throw error;
 		}
 	};
@@ -90,87 +91,80 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		}
 	};
 
-	// to sync the count habit streak
 	const syncHabitStreak = async (habitId: string) => {
 		await executeAsync('failed to sync streak', async () => {
-			const habit = get().habits.find((h) => h.id === habitId);
+			const habit = get().habits[habitId];
 			if (!habit || habit.target.type !== 'count') return;
 
-			const logs = get().logs;
-
-			const newCurrentStreak = calculateCountStreak(habit, logs);
+			const allLogs = Object.values(get().logs);
+			const newCurrentStreak = calculateCountStreak(habit, allLogs);
 			const newBestStreak = Math.max(newCurrentStreak, habit.target.longestStreak || 0);
 
 			await HabitService.updateHabitStreak(habitId, newCurrentStreak, newBestStreak);
 
 			set((state) => ({
-				habits: state.habits.map((habit) =>
-					habit.id === habitId
-						? {
-								...habit,
-								target: {
-									...habit.target,
-									currentStreak: newCurrentStreak,
-									bestStreak: newBestStreak,
-								},
-							}
-						: habit,
-				),
+				habits: {
+					...state.habits,
+					[habitId]: {
+						...habit,
+						target: {
+							...habit.target,
+							currentStreak: newCurrentStreak,
+							bestStreak: newBestStreak,
+						},
+					},
+				},
 			}));
 		});
 	};
 
 	return {
-		habits: [],
-		logs: [],
+		habits: {},
+		logs: {},
+
+		getAllHabits: () => Object.values(get().habits),
+
+		getTodayHabits: () => Object.values(get().habits).filter((h) => !h.archived),
+
+		getHabitDetails: (habitId) => get().habits[habitId] || null,
 
 		// general actions
 		addHabit: async (name, color, target) => {
 			await executeAsync('failed to add habit', async () => {
 				const today = getTodayString();
-
+				const id = `${Date.now()}`;
 				const habit: Habit = {
-					id: `${Date.now()}`,
-					name: name,
-					color: color,
-					target: target,
+					id,
+					name,
+					color,
+					target,
 					createdAt: today,
 					updatedAt: today,
 				};
 
 				await HabitService.createHabit(habit);
-
 				set((state) => ({
-					habits: [...state.habits, habit],
+					habits: { ...state.habits, [id]: habit },
 				}));
 			});
 		},
 
 		updateHabit: async (habitId, name, color, target) => {
 			await executeAsync('failed to update habit', async () => {
-				const habit = get().habits.find((habit) => habit.id === habitId);
+				const habit = get().habits[habitId];
 				if (!habit) return;
 
-				const today = getTodayString();
-
 				const updatedHabit: Habit = {
-					id: habit.id,
-					name: name,
-					color: color,
-					target: {
-						...habit.target,
-						...target,
-					},
-					createdAt: habit.createdAt,
-					updatedAt: today,
+					...habit,
+					name,
+					color,
+					target: { ...habit.target, ...target },
+					updatedAt: getTodayString(),
 				};
 
 				await HabitService.updateHabit(updatedHabit);
-
 				set((state) => ({
-					habits: state.habits.map((habitItem) =>
-						habitItem.id === habit.id ? updatedHabit : habitItem,
-					),
+					habits: { ...state.habits, [habitId]: updatedHabit },
 				}));
 
 				if (habit.target.type === 'count') {
@@ -180,126 +174,95 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		},
 
 		performHabitAction: async (habitId, date, actionType) => {
-			const habit = get().habits.find((habit) => habit.id === habitId);
+			const habit = get().habits[habitId];
 			if (!habit) return;
 
-			const type = habit.target.type;
-
-			switch (type) {
-				case 'count':
-					if (actionType === 'mark') {
-						await get().incrementCountHabit(habit.id);
-					} else {
-						await get().decrementCountHabit(habit.id);
-					}
-					break;
-				case 'quit':
-					if (actionType === 'mark') {
-						await get().recordQuitRelapse(habit.id, date);
-					} else {
-						await get().revertQuitRelapse(habit.id);
-					}
-					break;
+			if (habit.target.type === 'count') {
+				if (actionType === 'mark') {
+					await get().incrementCountHabit(habitId);
+				} else {
+					await get().decrementCountHabit(habitId);
+				}
+			} else {
+				if (actionType === 'mark') {
+					await get().recordQuitRelapse(habitId, date);
+				} else {
+					await get().revertQuitRelapse(habitId);
+				}
 			}
 		},
 
 		// count habit actions
 		incrementCountHabit: async (habitId) => {
 			await executeAsync('Failed to increment habit count', async () => {
-				const habit = get().habits.find((habit) => habit.id === habitId);
+				const habit = get().habits[habitId];
 				if (!habit || habit.target.type !== 'count') return;
 
 				const today = getTodayString();
+				const logKey = getLogKey(habitId, today);
 				const now = getTodayTimestamp();
 
 				const window = getCurrentTimeWindow(habit.target.frequency);
+				if (isHabitLockedForWindow(habit, Object.values(get().logs), window)) return;
 
-				const logs = get().logs;
-				const locked = isHabitLockedForWindow(habit, logs, window);
-
-				if (locked) return;
-
-				const existingLog = logs.find(
-					(log) => log.habitId === habit.id && log.date === today,
-				);
+				const existingLog = get().logs[logKey];
+				let updatedLog: HabitLog;
 
 				if (existingLog) {
-					const historyArray = JSON.parse(existingLog.history || '[]');
-					historyArray.push(now);
-
-					const updatedLog = {
+					const history = JSON.parse(existingLog.history || '[]');
+					history.push(now);
+					updatedLog = {
 						...existingLog,
 						value: existingLog.value + 1,
-						history: JSON.stringify(historyArray),
-						updateAt: now,
+						history: JSON.stringify(history),
+						updatedAt: now,
 					};
-
-					await HabitLogService.upsertLog(updatedLog);
-
-					set({
-						logs: logs.map((log) => (log.id === updatedLog.id ? updatedLog : log)),
-					});
 				} else {
-					const newLog: HabitLog = {
-						id: `${habit.id}_${today}`,
-						habitId: habit.id,
+					updatedLog = {
+						id: logKey,
+						habitId,
 						date: today,
 						value: 1,
 						history: JSON.stringify([now]),
 						updatedAt: now,
 					};
-
-					await HabitLogService.upsertLog(newLog);
-
-					set((state) => ({
-						logs: [...state.logs, newLog],
-					}));
 				}
 
+				await HabitLogService.upsertLog(updatedLog);
+				set((state) => ({
+					logs: { ...state.logs, [logKey]: updatedLog },
+				}));
 				await syncHabitStreak(habitId);
 			});
 		},
 
 		decrementCountHabit: async (habitId) => {
 			await executeAsync('Failed to decrement habit count', async () => {
-				const habit = get().habits.find((habit) => habit.id === habitId);
-				if (!habit || habit.target.type !== 'count') return;
-
 				const today = getTodayString();
-				const now = getTodayTimestamp();
-
-				const logs = get().logs;
-
-				const existingLog = logs.find(
-					(log) => log.habitId === habit.id && log.date === today,
-				);
+				const logKey = getLogKey(habitId, today);
+				const existingLog = get().logs[logKey];
 
 				if (!existingLog) return;
 
 				if (existingLog.value > 1) {
-					const historyArray = JSON.parse(existingLog.history || '[]');
-					historyArray.pop();
-
-					const updatedLog: HabitLog = {
+					const history = JSON.parse(existingLog.history || '[]');
+					history.pop();
+					const updatedLog = {
 						...existingLog,
 						value: existingLog.value - 1,
-						history: JSON.stringify(historyArray),
-						updatedAt: now,
+						history: JSON.stringify(history),
+						updatedAt: getTodayTimestamp(),
 					};
-
 					await HabitLogService.upsertLog(updatedLog);
-
-					set({
-						logs: logs.map((log) => (log.id === updatedLog.id ? updatedLog : log)),
-					});
+					set((state) => ({ logs: { ...state.logs, [logKey]: updatedLog } }));
 				} else {
 					await HabitLogService.deleteLog(existingLog.id);
-
-					set({
-						logs: logs.filter((log) => log.id !== existingLog.id),
+					set((state) => {
+						const nextLogs = { ...state.logs };
+						delete nextLogs[logKey];
+						return { logs: nextLogs };
 					});
 				}
-
 				await syncHabitStreak(habitId);
 			});
 		},
@@ -307,214 +270,165 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		// quit habit actions
 		recordQuitRelapse: async (habitId, relapseDate) => {
 			await executeAsync('Failed to record habit relapse', async () => {
-				const habit = get().habits.find((habit) => habit.id === habitId);
+				const habit = get().habits[habitId];
 				if (!habit || habit.target.type !== 'quit') return;
 
 				const today = getTodayString();
+				const logKey = getLogKey(habitId, today);
+				if (get().logs[logKey]) return;
+
 				const now = getTodayTimestamp();
-
-				const logs = get().logs;
-
-				const existingLog = logs.find(
-					(log) => log.habitId === habit.id && log.date === today,
-				);
-
-				if (existingLog) return;
-
 				const newLog: HabitLog = {
-					id: `${habit.id}_${today}`,
-					habitId: habit.id,
+					id: logKey,
+					habitId,
 					date: today,
 					value: 1,
 					history: JSON.stringify([now]),
 					updatedAt: now,
 				};
 
-				const updatedHabit: Habit = {
+				const updatedHabit = {
 					...habit,
-					target: {
-						...habit.target,
-						startDate: relapseDate,
-					},
+					target: { ...habit.target, startDate: relapseDate },
 				};
 
 				await HabitLogService.upsertLog(newLog);
-				await HabitService.updateQuitStartDate(habit.id, relapseDate);
+				await HabitService.updateQuitStartDate(habitId, relapseDate);
 
 				set((state) => ({
-					logs: [...state.logs, newLog],
-					habits: state.habits.map((habitItem) =>
-						habitItem.id === habit.id ? updatedHabit : habitItem,
-					),
+					logs: { ...state.logs, [logKey]: newLog },
+					habits: { ...state.habits, [habitId]: updatedHabit },
 				}));
 			});
 		},
 
 		revertQuitRelapse: async (habitId) => {
 			await executeAsync('Failed to revert habit relapse', async () => {
-				const habit = get().habits.find((h) => h.id === habitId);
+				const habit = get().habits[habitId];
 				if (!habit || habit.target.type !== 'quit') return;
 
 				const today = getTodayString();
-				const logs = get().logs;
-
-				const existingLog = logs.find(
-					(log) => log.habitId === habit.id && log.date === today,
-				);
-
+				const logKey = getLogKey(habitId, today);
+				const existingLog = get().logs[logKey];
 				if (!existingLog) return;
 
 				const currentStart = new Date(habit.target.startDate);
 				currentStart.setDate(currentStart.getDate() - 1);
 				const revertDate = toDateString(currentStart);
 
-				const updatedHabit: Habit = {
+				const updatedHabit = {
 					...habit,
-					target: {
-						...habit.target,
-						startDate: revertDate,
-					},
+					target: { ...habit.target, startDate: revertDate },
 				};
 
 				await HabitLogService.deleteLog(existingLog.id);
-				await HabitService.updateQuitStartDate(habit.id, revertDate);
+				await HabitService.updateQuitStartDate(habitId, revertDate);
 
-				set((state) => ({
-					logs: state.logs.filter((log) => log.id !== existingLog.id),
-					habits: state.habits.map((habitItem) =>
-						habitItem.id === habit.id ? updatedHabit : habitItem,
-					),
-				}));
+				set((state) => {
+					const nextLogs = { ...state.logs };
+					delete nextLogs[logKey];
+					return {
+						logs: nextLogs,
+						habits: { ...state.habits, [habitId]: updatedHabit },
+					};
+				});
 			});
 		},
 
-		// habit details actions
+		// habit details action
 		isHabitSuccessful: (habitId) => {
-			const habit = get().habits.find((habit) => habit.id === habitId);
-
+			const habit = get().habits[habitId];
 			if (!habit) return false;
-
-			const window = getCurrentTimeWindow(habit.target.frequency);
-
-			const logs = get().logs;
-
-			return isHabitSuccessfulInWindow(habit, logs, window);
+			return isHabitSuccessfulInWindow(
+				habit,
+				Object.values(get().logs),
+				getCurrentTimeWindow(habit.target.frequency),
+			);
 		},
 
 		isHabitLocked: (habitId) => {
-			const habit = get().habits.find((habit) => habit.id === habitId);
-
+			const habit = get().habits[habitId];
 			if (!habit) return false;
-
-			const window = getCurrentTimeWindow(habit.target.frequency);
-
-			const logs = get().logs;
-
-			return isHabitLockedForWindow(habit, logs, window);
+			return isHabitLockedForWindow(
+				habit,
+				Object.values(get().logs),
+				getCurrentTimeWindow(habit.target.frequency),
+			);
 		},
 
 		getCountValue: (habitId) => {
-			const habit = get().habits.find((habit) => habit.id === habitId);
+			const habit = get().habits[habitId];
 			if (!habit) return 0;
 
-			// if (habit.target.type !== 'count') return 0;
-
 			const window = getCurrentTimeWindow(habit.target.frequency);
-			const logs = get().logs;
-
-			const logsInWindow = logs.filter(
-				(log) =>
-					log.habitId === habit.id && log.date >= window.start && log.date <= window.end,
-			);
-
-			return logsInWindow.reduce((sum, log) => sum + log.value, 0);
+			// We only filter the values relevant to the habit to keep it fast
+			return Object.values(get().logs)
+				.filter(
+					(log) =>
+						log.habitId === habitId &&
+						log.date >= window.start &&
+						log.date <= window.end,
+				)
+				.reduce((sum, log) => sum + log.value, 0);
 		},
 
-		getAllHabits: () => {
-			return get().habits;
-		},
-
-		getTodayHabits: () => {
-			return get().habits;
-		},
-
-		getHabitDetails: (habitId) => {
-			const habit = get().habits.find((habit) => habit.id === habitId);
-			if (!habit) return null;
-			else return habit;
-		},
-
-		// habit report actions
-		getLastXDaysReport: (habitId: string, x: number) => {
-			const habit = get().habits.find((habit) => habit.id === habitId);
+		// report actions
+		getLastXDaysReport: (habitId, x) => {
+			const habit = get().habits[habitId];
 			if (!habit) return [];
 
 			const today = getTodayString();
-			const last30Days = getLastXDays(x);
-
-			const logs = get().logs.filter((log) => log.habitId === habitId);
-			const logMap = new Map(logs.map((log) => [log.date, log.value]));
-
+			const dates = getLastXDays(x);
 			const createdAt = habit.createdAt.split('T')[0];
-			const habitType = habit.target.type;
 
-			return last30Days.map((date) => {
+			return dates.map((date) => {
+				const logKey = getLogKey(habitId, date);
+				const log = get().logs[logKey];
+				const value = log ? log.value : 0;
+
 				if (date < createdAt) {
-					if (habitType === 'count') {
-						return { date, status: 'none', value: 0, percentage: 0 };
-					} else {
-						if (date < habit.target.initialStartDate) {
-							return { date, status: 'none', value: 0, percentage: 0 };
-						} else {
-							return { date, status: 'success', value: 0, percentage: 1 };
-						}
-					}
+					const isQuitSuccess =
+						habit.target.type === 'quit' && date >= habit.target.initialStartDate;
+					return {
+						date,
+						status: isQuitSuccess ? 'success' : 'none',
+						value: 0,
+						percentage: isQuitSuccess ? 1 : 0,
+					};
 				}
 
-				const value = logMap.get(date) || 0;
 				let status: HabitLogStatus = 'none';
 				let percentage = 0;
 
-				if (habitType === 'count') {
-					const goal = habit.target.count;
-					percentage = Math.min(value / goal, 1);
-
-					if (value >= goal) {
-						status = 'success';
-					} else {
-						status = date === today ? 'incomplete' : value > 0 ? 'incomplete' : 'fail';
-					}
-				} else if (habitType === 'quit') {
+				if (habit.target.type === 'count') {
+					percentage = Math.min(value / habit.target.count, 1);
+					status =
+						value >= habit.target.count
+							? 'success'
+							: date === today || value > 0
+								? 'incomplete'
+								: 'fail';
+				} else {
 					percentage = value > 0 ? 0 : 1;
-
-					if (value > 0) {
-						status = 'fail';
-					} else {
-						status = date === today ? 'incomplete' : 'success';
-					}
+					status = value > 0 ? 'fail' : date === today ? 'incomplete' : 'success';
 				}
 
-				return {
-					date,
-					status,
-					value,
-					percentage: percentage,
-				};
+				return { date, status, value, percentage };
 			});
 		},
 
-		getDailyActivity: async (date: string) => {
-			return await evaluateAsync('Failed to fetch activity data', async () => {
-				return HabitService.getActivity(date);
-			});
+		getDailyActivity: async (date) => {
+			return await evaluateAsync('Failed to fetch activity data', () =>
+				HabitService.getActivity(date),
+			);
 		},
 
-		// habit reset/delete actions
+		// reset/delete/archive actions
 		resetData: async () => {
 			await executeAsync('Failed to reset data', async () => {
 				await HabitService.deleteAllHabits();
 
-				set({ habits: [], logs: [] });
+				set({ habits: {}, logs: {} });
 			});
 		},
 
@@ -522,55 +436,62 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			await executeAsync('Failed to delete habit', async () => {
 				await HabitService.deleteHabit(habitId);
 
-				set((state) => ({
-					habits: state.habits.filter((habit) => habit.id !== habitId),
-					logs: state.logs.filter((log) => log.habitId !== habitId),
-				}));
+				set((state) => {
+					const nextHabits = { ...state.habits };
+					delete nextHabits[habitId];
+
+					const nextLogs = Object.fromEntries(
+						Object.entries(state.logs).filter(([_, log]) => log.habitId !== habitId),
+					);
+
+					return { habits: nextHabits, logs: nextLogs };
+				});
 			});
 		},
 
 		archiveHabit: async (habitId) => {
-			await executeAsync('Failed to archive habit', async () => {
+			await executeAsync('Failed to archive', async () => {
 				const today = getTodayString();
 
 				await HabitService.archiveHabit(habitId, today);
 
 				set((state) => ({
-					habits: state.habits.map((habit) =>
-						habit.id === habitId
-							? { ...habit, archived: true, archivedAt: today }
-							: habit,
-					),
+					habits: {
+						...state.habits,
+						[habitId]: { ...state.habits[habitId], archived: true, archivedAt: today },
+					},
 				}));
 			});
 		},
 
 		restoreHabit: async (habitId) => {
-			await executeAsync('Failed to restore habit', async () => {
+			await executeAsync('Failed to restore', async () => {
 				await HabitService.restoreHabit(habitId);
 
 				set((state) => ({
-					habits: state.habits.map((habit) =>
-						habit.id === habitId
-							? { ...habit, archived: false, archivedAt: '' }
-							: habit,
-					),
+					habits: {
+						...state.habits,
+						[habitId]: { ...state.habits[habitId], archived: false, archivedAt: '' },
+					},
 				}));
 			});
 		},
 
 		// db actions
 		loadFromDB: async () => {
-			await executeAsync('Failed to load data from db', async () => {
-				const [habits, logs] = await Promise.all([
+			await executeAsync('Failed to load data', async () => {
+				const [habitsArr, logsArr] = await Promise.all([
 					HabitService.loadHabits(),
 					HabitLogService.loadLogs(),
 				]);
 
-				set({
-					habits,
-					logs,
-				});
+				const habitsRecord = habitsArr.reduce((acc, h) => ({ ...acc, [h.id]: h }), {});
+				const logsRecord = logsArr.reduce(
+					(acc, l) => ({ ...acc, [getLogKey(l.habitId, l.date)]: l }),
+					{},
+				);
+
+				set({ habits: habitsRecord, logs: logsRecord });
 			});
 		},
 	};
