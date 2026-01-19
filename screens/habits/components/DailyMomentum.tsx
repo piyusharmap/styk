@@ -16,9 +16,10 @@ const DailyMomentum = () => {
 		if (momentum.total === 0) {
 			return {
 				message: 'Add habits to begin!',
-				icon: 'Leaf' as IconType,
+				icon: 'Sprout' as IconType,
 			};
 		}
+
 		if (percentage === 100) {
 			return {
 				message: 'Perfect day reached!',
@@ -28,46 +29,25 @@ const DailyMomentum = () => {
 		if (percentage >= 50) {
 			return {
 				message: 'Over halfway there!',
+				icon: 'Rocket' as IconType,
+			};
+		}
+		if (percentage > 0) {
+			return {
+				message: 'Great start! Keep going.',
 				icon: 'BicepsFlexed' as IconType,
 			};
 		}
+
 		return {
 			message: 'Keep the streak alive!',
-			icon: 'Rocket' as IconType,
+			icon: 'Leaf' as IconType,
 		};
 	};
 
 	return (
 		<View style={styles.card}>
-			<View style={styles.infoContainer}>
-				<View style={styles.badgeContainer}>
-					<Badge
-						icon='CheckCheck'
-						badgeStyle={{
-							backgroundColor: colors.foreground,
-							borderWidth: 1,
-							borderColor: colors.border,
-						}}>
-						{momentum.completed}/{momentum.total} Done
-					</Badge>
-
-					{momentum.partiallyDone > 0 && (
-						<Badge
-							icon='TrendingUp'
-							badgeStyle={{
-								backgroundColor: colors.foreground,
-								borderWidth: 1,
-								borderColor: colors.border,
-							}}>
-							{momentum.partiallyDone} in progress
-						</Badge>
-					)}
-				</View>
-
-				<UIText style={styles.message}>{getStatusMessage().message}</UIText>
-			</View>
-
-			<View style={[{ backgroundColor: colors.secondary + '50' }, styles.progressCard]}>
+			<View style={[{ backgroundColor: colors.secondary + '30' }, styles.progressCard]}>
 				<CircularProgressBar
 					progress={percentage}
 					size={72}
@@ -78,10 +58,34 @@ const DailyMomentum = () => {
 						name={getStatusMessage().icon}
 						size={28}
 						color={colors.primary}
-						fillColor={colors.primary + '50'}
+						fillColor={colors.secondary + '80'}
 						isFilled
 					/>
 				</CircularProgressBar>
+			</View>
+
+			<View style={styles.infoContainer}>
+				<View style={styles.badgeContainer}>
+					<Badge
+						icon='CheckCheck'
+						badgeStyle={{
+							backgroundColor: colors.secondary + '50',
+						}}>
+						{momentum.completed}/{momentum.total} Done
+					</Badge>
+
+					{momentum.partiallyDone > 0 && (
+						<Badge
+							icon='TrendingUp'
+							badgeStyle={{
+								backgroundColor: colors.secondary + '50',
+							}}>
+							{momentum.partiallyDone} in Progress
+						</Badge>
+					)}
+				</View>
+
+				<UIText style={styles.message}>{getStatusMessage().message}</UIText>
 			</View>
 		</View>
 	);
@@ -104,7 +108,7 @@ const styles = StyleSheet.create({
 	},
 	infoContainer: {
 		flex: 1,
-		paddingVertical: 10,
+		paddingVertical: 4,
 		gap: 6,
 	},
 	badgeContainer: {

@@ -3,7 +3,7 @@ import React from 'react';
 import UISkeleton from '../ui/UISkeleton';
 
 const ActivityListSkeleton = () => {
-	const skeletonItems = Array.from({ length: 6 });
+	const skeletonItems = Array.from({ length: 4 });
 
 	return (
 		<ScrollView showsVerticalScrollIndicator={false}>

@@ -9,9 +9,10 @@ import NavigationBackButton from '../components/layout/NavigationBackButton';
 import { SQLiteProvider } from 'expo-sqlite';
 import { initializeDb } from '../db';
 import { useHabitStore } from '../store/habitStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { DB_NAME } from '../constants/db';
 import { useUserStore } from '../store/userStore';
+import { logger } from '../utils/logger';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,16 +23,6 @@ export const unstable_settings = {
 const RootLayout = () => {
 	const { colors } = useTheme();
 	const mode = useUserStore((s) => s.preferences.themeMode);
-
-	const [loaded] = useAppFonts();
-
-	useEffect(() => {
-		if (loaded) {
-			SplashScreen.hideAsync();
-		}
-	}, [loaded]);
-
-	if (!loaded) return null;
 
 	return (
 		<UIView style={styles.container}>
@@ -141,20 +132,41 @@ const RootLayout = () => {
 	);
 };
 
-const DBBootstrap = ({ children }: { children: React.ReactNode }) => {
+const DBBootstrap = ({ children, onReady }: { children: React.ReactNode; onReady: () => void }) => {
 	const loadFromDB = useHabitStore((s) => s.loadFromDB);
 
 	useEffect(() => {
-		loadFromDB();
+		const init = async () => {
+			try {
+				await loadFromDB();
+			} catch (error) {
+				logger.error('[DB LOAD ERROR]:', error);
+			} finally {
+				onReady();
+			}
+		};
+
+		init();
 	}, []);
 
 	return <>{children}</>;
 };
 
 const App = () => {
+	const [fontsLoaded] = useAppFonts();
+	const [dbLoaded, setDbLoaded] = useState(false);
+
+	useEffect(() => {
+		if (fontsLoaded && dbLoaded) {
+			SplashScreen.hideAsync();
+		}
+	}, [fontsLoaded, dbLoaded]);
+
+	if (!fontsLoaded) return null;
+
 	return (
 		<SQLiteProvider databaseName={DB_NAME} onInit={initializeDb} useSuspense>
-			<DBBootstrap>
+			<DBBootstrap onReady={() => setDbLoaded(true)}>
 				<RootLayout />
 			</DBBootstrap>
 		</SQLiteProvider>

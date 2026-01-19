@@ -68,7 +68,7 @@ export const Colors: Record<string, Theme> = {
 		info: '#E9BA00',
 
 		background: '#101010',
-		foreground: '#1D1D1D',
+		foreground: '#222222',
 		border: '#3D3D3D',
 
 		text: '#F2F2F2',
