@@ -10,6 +10,7 @@ import UIText from '../../components/ui/UIText';
 import { getGreeting } from '../../utils/greeting';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useShallow } from 'zustand/react/shallow';
+import DailyMomentum from '../../screens/habits/components/DailyMomentum';
 
 const HabitsTab = () => {
 	const router = useRouter();
@@ -46,6 +47,10 @@ const HabitsTab = () => {
 
 					<UIText style={styles.date}>{todayDate}</UIText>
 				</View>
+			</View>
+
+			<View style={styles.statsContainer}>
+				<DailyMomentum />
 			</View>
 
 			<SectionList
@@ -92,6 +97,7 @@ const styles = StyleSheet.create({
 	headerContainer: {
 		flexDirection: 'row',
 		paddingHorizontal: 16,
+		paddingBottom: 10,
 		alignItems: 'center',
 		gap: 6,
 	},
@@ -104,12 +110,10 @@ const styles = StyleSheet.create({
 	},
 	statsContainer: {
 		paddingHorizontal: 12,
-		paddingVertical: 10,
 	},
 	habitsContainer: {
 		flexGrow: 1,
 		paddingHorizontal: 12,
-		paddingTop: 10,
 		paddingBottom: 80,
 	},
 	habitCardContainer: {

@@ -23,7 +23,7 @@ const QuitHabitActions = ({ habit }: { habit: Habit }) => {
 			<ToggleButton
 				size={44}
 				color={habit.color}
-				iconName='RotateCcw'
+				iconName='CalendarClock'
 				onPress={handleRevertHabit}
 			/>
 
@@ -50,7 +50,7 @@ const QuitHabitActions = ({ habit }: { habit: Habit }) => {
 			<ToggleButton
 				size={44}
 				color={habit.color}
-				iconName='RefreshCcw'
+				iconName='CalendarSync'
 				onPress={handleRelapseHabit}
 			/>
 		</View>

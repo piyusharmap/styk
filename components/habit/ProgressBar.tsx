@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useHabitStore } from '../../store/habitStore';
 import { HabitTarget } from '../../types/habitTypes';
 
-const TOTAL_BARS = 40;
+const TOTAL_BARS = 44;
 
 const ProgressBar = ({
 	habitId,
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
 	},
 	bar: {
 		height: '100%',
-		width: 4,
-		borderRadius: 2,
+		width: 2,
+		borderRadius: 1,
 	},
 });

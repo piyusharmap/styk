@@ -1,0 +1,126 @@
+import { View, StyleSheet } from 'react-native';
+import useTheme from '../../../theme/useTheme';
+import UIText from '../../../components/ui/UIText';
+import CircularProgressBar from '../../../components/habit/CircularProgressBar';
+import { useHabitStore } from '../../../store/habitStore';
+import { useShallow } from 'zustand/react/shallow';
+import Badge from '../../../components/Badge';
+import Icon, { IconType } from '../../../components/icon';
+
+const DailyMomentum = () => {
+	const { colors } = useTheme();
+	const momentum = useHabitStore(useShallow((s) => s.getDailyMomentum()));
+	const percentage = Math.round(momentum.score * 100);
+
+	const getStatusMessage = () => {
+		if (momentum.total === 0) {
+			return {
+				message: 'Add habits to begin!',
+				icon: 'Leaf' as IconType,
+			};
+		}
+		if (percentage === 100) {
+			return {
+				message: 'Perfect day reached!',
+				icon: 'Star' as IconType,
+			};
+		}
+		if (percentage >= 50) {
+			return {
+				message: 'Over halfway there!',
+				icon: 'BicepsFlexed' as IconType,
+			};
+		}
+		return {
+			message: 'Keep the streak alive!',
+			icon: 'Rocket' as IconType,
+		};
+	};
+
+	return (
+		<View style={styles.card}>
+			<View style={styles.infoContainer}>
+				<View style={styles.badgeContainer}>
+					<Badge
+						icon='CheckCheck'
+						badgeStyle={{
+							backgroundColor: colors.foreground,
+							borderWidth: 1,
+							borderColor: colors.border,
+						}}>
+						{momentum.completed}/{momentum.total} Done
+					</Badge>
+
+					{momentum.partiallyDone > 0 && (
+						<Badge
+							icon='TrendingUp'
+							badgeStyle={{
+								backgroundColor: colors.foreground,
+								borderWidth: 1,
+								borderColor: colors.border,
+							}}>
+							{momentum.partiallyDone} in progress
+						</Badge>
+					)}
+				</View>
+
+				<UIText style={styles.message}>{getStatusMessage().message}</UIText>
+			</View>
+
+			<View style={[{ backgroundColor: colors.secondary + '50' }, styles.progressCard]}>
+				<CircularProgressBar
+					progress={percentage}
+					size={72}
+					strokeWidth={6}
+					activeColor={colors.primary}
+					backgroundColor={colors.secondary + '50'}>
+					<Icon
+						name={getStatusMessage().icon}
+						size={28}
+						color={colors.primary}
+						fillColor={colors.primary + '50'}
+						isFilled
+					/>
+				</CircularProgressBar>
+			</View>
+		</View>
+	);
+};
+
+export default DailyMomentum;
+
+const styles = StyleSheet.create({
+	// container styles
+	card: {
+		flexDirection: 'row',
+		alignItems: 'flex-start',
+		gap: 10,
+	},
+	progressCard: {
+		padding: 12,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 20,
+	},
+	infoContainer: {
+		flex: 1,
+		paddingVertical: 10,
+		gap: 6,
+	},
+	badgeContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 4,
+	},
+
+	// text styles
+	message: {
+		fontSize: 26,
+		fontWeight: '500',
+		lineHeight: 30,
+	},
+	scoreText: {
+		fontSize: 18,
+		fontWeight: '600',
+	},
+});

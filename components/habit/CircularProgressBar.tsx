@@ -16,7 +16,7 @@ const CircularProgressBar = ({
 	size?: number;
 	strokeWidth?: number;
 	activeColor?: string;
-	backgroundColor: ColorValue;
+	backgroundColor?: ColorValue;
 	children?: React.ReactNode;
 }) => {
 	const center = size / 2;
@@ -61,7 +61,7 @@ const CircularProgressBar = ({
 						fill='none'
 						strokeDasharray={circumference}
 						strokeDashoffset={strokeDashoffset}
-						strokeLinecap='round'
+						strokeLinecap='butt'
 					/>
 				</G>
 			</Svg>

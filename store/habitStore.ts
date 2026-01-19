@@ -1,5 +1,12 @@
 import { create } from 'zustand';
-import { Habit, HabitActivity, HabitLog, HabitLogStatus, HabitTarget } from '../types/habitTypes';
+import {
+	DailyMomentum,
+	Habit,
+	HabitActivity,
+	HabitLog,
+	HabitLogStatus,
+	HabitTarget,
+} from '../types/habitTypes';
 import {
 	calculateCountStreak,
 	getCurrentTimeWindow,
@@ -58,6 +65,7 @@ type HabitStore = {
 		value: number;
 		percentage: number;
 	}[];
+	getDailyMomentum: () => DailyMomentum;
 	getDailyActivity: (date: string) => Promise<HabitActivity[]>;
 
 	// reset/delete/archive actions
@@ -309,12 +317,23 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 				const today = getTodayString();
 				const logKey = getLogKey(habitId, today);
+
 				const existingLog = get().logs[logKey];
 				if (!existingLog) return;
 
-				const currentStart = new Date(habit.target.startDate);
-				currentStart.setDate(currentStart.getDate() - 1);
-				const revertDate = toDateString(currentStart);
+				const otherLogs = Object.values(get().logs)
+					.filter((log) => log.habitId === habitId && log.date !== today)
+					.sort((a, b) => b.date.localeCompare(a.date));
+
+				let revertDate: string;
+
+				if (otherLogs.length > 0) {
+					const lastRelapseDate = new Date(otherLogs[0].date);
+					lastRelapseDate.setDate(lastRelapseDate.getDate() + 1);
+					revertDate = toDateString(lastRelapseDate);
+				} else {
+					revertDate = habit.target.initialStartDate;
+				}
 
 				const updatedHabit = {
 					...habit,
@@ -415,6 +434,45 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 				return { date, status, value, percentage };
 			});
+		},
+
+		getDailyMomentum: () => {
+			const habits = Object.values(get().habits).filter((h) => !h.archived);
+			if (habits.length === 0) {
+				return { score: 0, completed: 0, total: 0, partiallyDone: 0 };
+			}
+
+			let totalPoints = 0;
+			let completedCount = 0;
+			let partiallyDoneCount = 0;
+
+			habits.forEach((habit) => {
+				let habitProgress = 0;
+
+				if (habit.target.type === 'quit') {
+					const hasRelapsed = !!get().logs[`${habit.id}_${getTodayString()}`];
+					habitProgress = hasRelapsed ? 0 : 1;
+				} else {
+					const current = get().getCountValue(habit.id);
+					const target = habit.target.count || 1;
+					habitProgress = Math.min(current / target, 1);
+				}
+
+				totalPoints += habitProgress;
+
+				if (habitProgress === 1) {
+					completedCount++;
+				} else if (habitProgress > 0) {
+					partiallyDoneCount++;
+				}
+			});
+
+			return {
+				score: totalPoints / habits.length,
+				completed: completedCount,
+				total: habits.length,
+				partiallyDone: partiallyDoneCount,
+			};
 		},
 
 		getDailyActivity: async (date) => {
