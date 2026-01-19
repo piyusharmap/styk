@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
 	},
 	statsContainer: {
 		paddingHorizontal: 12,
+		paddingBottom: 10,
 	},
 	habitsContainer: {
 		flexGrow: 1,
