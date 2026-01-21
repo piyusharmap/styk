@@ -28,7 +28,7 @@ const CircularProgressBar = ({
 	useEffect(() => {
 		Animated.timing(animatedProgress, {
 			toValue: progress,
-			duration: 500,
+			duration: 300,
 			easing: Easing.out(Easing.quad),
 			useNativeDriver: true,
 		}).start();

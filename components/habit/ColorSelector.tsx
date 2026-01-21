@@ -62,6 +62,6 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 	},
 	colorViewTransform: {
-		transform: [{ scale: 0.9 }],
+		transform: [{ scale: 0.8 }],
 	},
 });

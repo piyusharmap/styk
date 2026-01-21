@@ -27,7 +27,7 @@ const ProgressBar = ({
 
 			Animated.timing(animatedFilledCount, {
 				toValue: targetFilledBars,
-				duration: 500,
+				duration: 300,
 				useNativeDriver: true,
 			}).start();
 		}

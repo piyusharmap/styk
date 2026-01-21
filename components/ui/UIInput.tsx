@@ -10,6 +10,7 @@ import {
 import { useState } from 'react';
 import useTheme from '../../theme/useTheme';
 import UIText from './UIText';
+import { DM_SANS } from '../../theme/fonts';
 
 export const UIInputLabel = ({ label }: { label: string }) => {
 	return <UIText style={styles.label}>{label}</UIText>;
@@ -56,6 +57,7 @@ export const UIInput = ({
 			placeholder='Enter'
 			style={[
 				{
+					fontFamily: DM_SANS.normal['400'],
 					color: colors.text,
 					borderColor: colors.border,
 				},

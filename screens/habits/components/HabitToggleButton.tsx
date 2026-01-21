@@ -18,10 +18,15 @@ const HabitToggleButton = ({
 }) => {
 	const icon: IconType = target.type === 'count' ? 'Plus' : 'RefreshCcw';
 
-	const performHabitAction = useHabitStore((s) => s.performHabitAction);
+	const performBuildHabitAction = useHabitStore((s) => s.performBuildHabitAction);
+	const performQuitHabitAction = useHabitStore((s) => s.performQuitHabitAction);
 
 	const handleMarkHabit = () => {
-		performHabitAction(habitId, getTodayString(), 'mark');
+		if (target.type === 'count') {
+			performBuildHabitAction(habitId, 1, 'mark');
+		} else {
+			performQuitHabitAction(habitId, getTodayString(), 'relapse');
+		}
 	};
 
 	return (

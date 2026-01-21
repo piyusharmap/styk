@@ -106,7 +106,7 @@ const CreateHabitForm = () => {
 												? colors.danger
 												: colors.success,
 									},
-									styles.nameLimitHighlight,
+									styles.nameLimit,
 								]}>
 								{habitName.length}
 							</UIText>
@@ -195,6 +195,7 @@ const CreateHabitForm = () => {
 					styles.actionContainer,
 				]}>
 				<UIButton
+					variant='danger'
 					title='Reset'
 					onPress={resetForm}
 					iconName='RotateCcw'
@@ -252,8 +253,6 @@ const styles = StyleSheet.create({
 	// text styles
 	nameLimit: {
 		fontSize: 12,
-	},
-	nameLimitHighlight: {
 		fontWeight: '600',
 	},
 });

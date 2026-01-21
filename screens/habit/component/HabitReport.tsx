@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
 	legendItem: {
 		flexDirection: 'row',
 		alignItems: 'center',
+		gap: 2,
 	},
 
 	// text styles

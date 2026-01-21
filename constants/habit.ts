@@ -29,8 +29,6 @@ export const ColorOptions = [
 	'#EAB308',
 	'#84CC16',
 	'#22C55E',
-	'#10B981',
-	'#14B8A6',
 	'#06B6D4',
 	'#0EA5E9',
 	'#3B82F6',

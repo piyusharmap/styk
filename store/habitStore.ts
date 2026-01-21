@@ -31,17 +31,22 @@ type HabitStore = {
 		color: string,
 		target: HabitTarget,
 	) => Promise<void>;
-	performHabitAction: (
-		habitId: string,
-		date: string,
-		actionType?: 'mark' | 'unmark',
-	) => Promise<void>;
 
 	// count habit actions
-	incrementCountHabit: (habitId: string) => Promise<void>;
+	performBuildHabitAction: (
+		habitId: string,
+		progressCount: number,
+		actionType?: 'mark' | 'unmark',
+	) => Promise<void>;
+	incrementCountHabit: (habitId: string, count: number) => Promise<void>;
 	decrementCountHabit: (habitId: string) => Promise<void>;
 
 	// quit habit actions
+	performQuitHabitAction: (
+		habitId: string,
+		relapseDate: string,
+		actionType?: 'revert' | 'relapse',
+	) => Promise<void>;
 	recordQuitRelapse: (habitId: string, relapseDate: string) => Promise<void>;
 	revertQuitRelapse: (habitId: string) => Promise<void>;
 
@@ -181,27 +186,19 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			});
 		},
 
-		performHabitAction: async (habitId, date, actionType) => {
+		// count habit actions
+		performBuildHabitAction: async (habitId, count, actionType) => {
 			const habit = get().habits[habitId];
 			if (!habit) return;
 
-			if (habit.target.type === 'count') {
-				if (actionType === 'mark') {
-					await get().incrementCountHabit(habitId);
-				} else {
-					await get().decrementCountHabit(habitId);
-				}
+			if (actionType === 'mark') {
+				await get().incrementCountHabit(habitId, count);
 			} else {
-				if (actionType === 'mark') {
-					await get().recordQuitRelapse(habitId, date);
-				} else {
-					await get().revertQuitRelapse(habitId);
-				}
+				await get().decrementCountHabit(habitId);
 			}
 		},
 
-		// count habit actions
-		incrementCountHabit: async (habitId) => {
+		incrementCountHabit: async (habitId, progressCount) => {
 			await executeAsync('Failed to increment habit count', async () => {
 				const habit = get().habits[habitId];
 				if (!habit || habit.target.type !== 'count') return;
@@ -219,9 +216,10 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				if (existingLog) {
 					const history = JSON.parse(existingLog.history || '[]');
 					history.push(now);
+
 					updatedLog = {
 						...existingLog,
-						value: existingLog.value + 1,
+						value: existingLog.value + progressCount,
 						history: JSON.stringify(history),
 						updatedAt: now,
 					};
@@ -237,6 +235,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				}
 
 				await HabitLogService.upsertLog(updatedLog);
+
 				set((state) => ({
 					logs: { ...state.logs, [logKey]: updatedLog },
 				}));
@@ -255,16 +254,20 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				if (existingLog.value > 1) {
 					const history = JSON.parse(existingLog.history || '[]');
 					history.pop();
+
 					const updatedLog = {
 						...existingLog,
 						value: existingLog.value - 1,
 						history: JSON.stringify(history),
 						updatedAt: getTodayTimestamp(),
 					};
+
 					await HabitLogService.upsertLog(updatedLog);
+
 					set((state) => ({ logs: { ...state.logs, [logKey]: updatedLog } }));
 				} else {
 					await HabitLogService.deleteLog(existingLog.id);
+
 					set((state) => {
 						const nextLogs = { ...state.logs };
 						delete nextLogs[logKey];
@@ -276,6 +279,17 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 		},
 
 		// quit habit actions
+		performQuitHabitAction: async (habitId, relapseDate, actionType) => {
+			const habit = get().habits[habitId];
+			if (!habit) return;
+
+			if (actionType === 'relapse') {
+				await get().recordQuitRelapse(habitId, relapseDate);
+			} else {
+				await get().revertQuitRelapse(habitId);
+			}
+		},
+
 		recordQuitRelapse: async (habitId, relapseDate) => {
 			await executeAsync('Failed to record habit relapse', async () => {
 				const habit = get().habits[habitId];

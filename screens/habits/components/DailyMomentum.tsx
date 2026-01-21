@@ -47,23 +47,6 @@ const DailyMomentum = () => {
 
 	return (
 		<View style={styles.card}>
-			<View style={[{ backgroundColor: colors.secondary + '30' }, styles.progressCard]}>
-				<CircularProgressBar
-					progress={percentage}
-					size={72}
-					strokeWidth={6}
-					activeColor={colors.primary}
-					backgroundColor={colors.secondary + '50'}>
-					<Icon
-						name={getStatusMessage().icon}
-						size={28}
-						color={colors.primary}
-						fillColor={colors.secondary + '80'}
-						isFilled
-					/>
-				</CircularProgressBar>
-			</View>
-
 			<View style={styles.infoContainer}>
 				<View style={styles.badgeContainer}>
 					<Badge
@@ -86,6 +69,23 @@ const DailyMomentum = () => {
 				</View>
 
 				<UIText style={styles.message}>{getStatusMessage().message}</UIText>
+			</View>
+
+			<View style={[{ backgroundColor: colors.secondary + '30' }, styles.progressCard]}>
+				<CircularProgressBar
+					progress={percentage}
+					size={72}
+					strokeWidth={6}
+					activeColor={colors.primary}
+					backgroundColor={colors.secondary + '80'}>
+					<Icon
+						name={getStatusMessage().icon}
+						size={28}
+						color={colors.primary}
+						fillColor={colors.secondary + '80'}
+						isFilled
+					/>
+				</CircularProgressBar>
 			</View>
 		</View>
 	);
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
 
 	// text styles
 	message: {
-		fontSize: 26,
+		fontSize: 24,
 		fontWeight: '500',
 		lineHeight: 30,
 	},
