@@ -1,56 +1,71 @@
-import { Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 import useTheme from '../../theme/useTheme';
-import UIText from '../ui/UIText';
-import Icon from '../icon';
+import UIButton from '../ui/UIButton';
+import { DM_SANS } from '../../theme/fonts';
+import { parseToInteger } from '../../utils/habit';
 
-const HabitCounter = ({ count, onPress }: { count: number; onPress: (count: number) => void }) => {
+const HabitCounter = ({ count, onPress }: { count: string; onPress: (count: string) => void }) => {
 	const { colors } = useTheme();
 
 	const handleCountIncrement = () => {
-		onPress(count + 1);
+		const parsedValue = count === '' ? 0 : parseToInteger(count);
+
+		const newCount = parsedValue + 1;
+
+		onPress(newCount.toString());
 	};
 
 	const handleCountDecrement = () => {
-		if (count === 1) return;
-		onPress(count - 1);
+		const parsedValue = parseToInteger(count);
+
+		if (parsedValue <= 0 || isNaN(parsedValue)) {
+			onPress('0');
+			return;
+		}
+
+		const newCount = parsedValue - 1;
+
+		onPress(newCount.toString());
+	};
+
+	const handleInputChange = (value: string) => {
+		const cleanedValue = value.replace(/[^0-9]/g, '');
+
+		if (cleanedValue === '') {
+			onPress('');
+			return;
+		}
+
+		const newCount = parseToInteger(cleanedValue);
+		onPress(newCount.toString());
 	};
 
 	return (
-		<View
-			style={[
-				{
-					borderColor: colors.border,
-				},
-				styles.habitCounter,
-			]}>
-			<Pressable
-				style={({ pressed }) => [
-					{
-						backgroundColor: colors.foreground,
-						borderColor: colors.border,
-					},
-					styles.countButton,
-					pressed && { borderColor: colors.neutral },
-				]}
-				onPress={handleCountDecrement}>
-				<Icon name='Minus' size={18} color={colors.accent} />
-			</Pressable>
-			<View style={styles.countContainer}>
-				<UIText style={styles.count}>{count}</UIText>
+		<View style={styles.habitCounter}>
+			<UIButton title='' iconName='ChevronDown' isIconButton onPress={handleCountDecrement} />
+
+			<View
+				style={[
+					{ backgroundColor: colors.foreground + '80', borderColor: colors.border },
+					styles.countContainer,
+				]}>
+				<TextInput
+					value={count.toString()}
+					onChangeText={handleInputChange}
+					placeholderTextColor={colors.textSecondary}
+					placeholder='0'
+					keyboardType='numeric'
+					style={[
+						{
+							fontFamily: DM_SANS.normal['500'],
+							color: colors.text,
+						},
+						styles.count,
+					]}
+				/>
 			</View>
 
-			<Pressable
-				style={({ pressed }) => [
-					{
-						backgroundColor: colors.foreground,
-						borderColor: colors.border,
-					},
-					styles.countButton,
-					pressed && { borderColor: colors.neutral },
-				]}
-				onPress={handleCountIncrement}>
-				<Icon name='Plus' size={18} color={colors.accent} />
-			</Pressable>
+			<UIButton title='' iconName='ChevronUp' isIconButton onPress={handleCountIncrement} />
 		</View>
 	);
 };
@@ -60,19 +75,20 @@ export default HabitCounter;
 const styles = StyleSheet.create({
 	// container styles
 	habitCounter: {
-		paddingHorizontal: 10,
-		paddingVertical: 10,
+		padding: 10,
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		gap: 20,
+		gap: 12,
+	},
+	countContainer: {
+		minWidth: 100,
+		paddingHorizontal: 10,
+		justifyContent: 'center',
+		alignItems: 'center',
 		borderWidth: 2,
 		borderStyle: 'dashed',
 		borderRadius: 10,
-	},
-	countContainer: {
-		minWidth: 80,
-		alignItems: 'center',
 	},
 	countButton: {
 		height: 40,
@@ -85,7 +101,8 @@ const styles = StyleSheet.create({
 
 	// text styles
 	count: {
+		width: '100%',
 		fontSize: 52,
-		fontWeight: '500',
+		textAlign: 'center',
 	},
 });

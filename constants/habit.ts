@@ -29,8 +29,6 @@ export const ColorOptions = [
 	'#EAB308',
 	'#84CC16',
 	'#22C55E',
-	'#10B981',
-	'#14B8A6',
 	'#06B6D4',
 	'#0EA5E9',
 	'#3B82F6',
@@ -44,7 +42,7 @@ export const ColorOptions = [
 export const InitialTarget = {
 	type: 'count' as HabitType,
 	unit: 'time' as CountUnit,
-	count: 1,
+	count: '1',
 	frequency: 'daily' as HabitFrequency,
 	startDate: new Date(),
 	initialStartDate: new Date(),
@@ -100,15 +98,15 @@ export const UnitOptions: { label: string; value: CountUnit }[] = [
 		value: 'minute',
 	},
 	{
+		label: 'Page',
+		value: 'page',
+	},
+	{
 		label: 'Kilometer',
 		value: 'kilometer',
 	},
 	{
 		label: 'Meter',
 		value: 'meter',
-	},
-	{
-		label: 'Page',
-		value: 'page',
 	},
 ];

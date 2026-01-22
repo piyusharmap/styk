@@ -16,35 +16,49 @@ const HabitReport = ({ habitId, accentColor }: { habitId: string; accentColor: s
 		return useHabitStore.getState().getLastXDaysReport(habitId, 60);
 	}, [habitId, logs, habits]);
 
+	const getItemStyles = (percentage: number, status: string) => {
+		switch (status) {
+			case 'fail':
+				return {
+					background: colors.neutral,
+					borderColor: colors.neutral,
+					opacity: 1,
+				};
+			case 'none':
+				return {
+					background: colors.foreground,
+					borderColor: colors.border,
+					opacity: 1,
+				};
+			default:
+				return {
+					background: accentColor,
+					borderColor: accentColor,
+					opacity: Math.max(percentage, 0.15),
+				};
+		}
+	};
+
 	return (
 		<HabitInfoCard heading='Progress • Past 60 Days'>
 			<View style={styles.grid}>
-				{report.map((day) =>
-					day.status === 'fail' ? (
+				{report.map((day) => {
+					const itemStyle = getItemStyles(day.percentage, day.status);
+
+					return (
 						<View
 							key={day.date}
 							style={[
 								{
-									backgroundColor: colors.neutral,
-									borderColor: colors.neutral,
+									backgroundColor: itemStyle.background,
+									borderColor: itemStyle.borderColor,
+									opacity: itemStyle.opacity,
 								},
 								styles.gridItem,
 							]}
 						/>
-					) : (
-						<View
-							key={day.date}
-							style={[
-								{
-									backgroundColor: accentColor,
-									borderColor: accentColor,
-									opacity: Math.max(day.percentage, 0.15),
-								},
-								styles.gridItem,
-							]}
-						/>
-					),
-				)}
+					);
+				})}
 			</View>
 
 			<View style={styles.legendContainer}>
@@ -79,6 +93,7 @@ const styles = StyleSheet.create({
 		width: 16,
 		height: 16,
 		borderRadius: '100%',
+		borderWidth: 1,
 	},
 	legendContainer: {
 		flexDirection: 'row',
@@ -88,6 +103,7 @@ const styles = StyleSheet.create({
 	legendItem: {
 		flexDirection: 'row',
 		alignItems: 'center',
+		gap: 2,
 	},
 
 	// text styles

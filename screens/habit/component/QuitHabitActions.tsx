@@ -6,24 +6,24 @@ import UIText from '../../../components/ui/UIText';
 import ToggleButton from '../../../components/habit/ToggleButton';
 
 const QuitHabitActions = ({ habit }: { habit: Habit }) => {
-	const performHabitAction = useHabitStore((s) => s.performHabitAction);
-
-	if (habit.target.type !== 'quit') return null;
+	const performQuitHabitAction = useHabitStore((s) => s.performQuitHabitAction);
 
 	const handleRelapseHabit = () => {
-		performHabitAction(habit.id, getTodayString(), 'mark');
+		performQuitHabitAction(habit.id, getTodayString(), 'relapse');
 	};
 
 	const handleRevertHabit = () => {
-		performHabitAction(habit.id, getTodayString(), 'unmark');
+		performQuitHabitAction(habit.id, getTodayString(), 'revert');
 	};
+
+	if (habit.target.type !== 'quit') return null;
 
 	return (
 		<View style={styles.progressContainer}>
 			<ToggleButton
 				size={44}
 				color={habit.color}
-				iconName='CalendarClock'
+				iconName='History'
 				onPress={handleRevertHabit}
 			/>
 
@@ -50,7 +50,7 @@ const QuitHabitActions = ({ habit }: { habit: Habit }) => {
 			<ToggleButton
 				size={44}
 				color={habit.color}
-				iconName='CalendarSync'
+				iconName='RefreshCcw'
 				onPress={handleRelapseHabit}
 			/>
 		</View>

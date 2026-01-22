@@ -3,33 +3,38 @@ import CircularProgressBar from '../../../components/habit/CircularProgressBar';
 import { useHabitStore } from '../../../store/habitStore';
 import UIText from '../../../components/ui/UIText';
 import { Habit } from '../../../types/habitTypes';
-import { getTodayString } from '../../../utils/time';
 import ToggleButton from '../../../components/habit/ToggleButton';
+import { getProgressStep } from '../../../utils/habit';
 
 const BuildHabitActions = ({ habit }: { habit: Habit }) => {
 	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
 	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(habit.id));
 
-	const performHabitAction = useHabitStore((s) => s.performHabitAction);
+	const performBuildHabitAction = useHabitStore((s) => s.performBuildHabitAction);
+
+	const handleMarkHabit = () => {
+		//@ts-ignore
+		const availableCount = habit.target.count - countValue;
+		const incrementStep = getProgressStep(availableCount);
+
+		performBuildHabitAction(habit.id, incrementStep, 'mark');
+	};
+
+	const handleUnmarkHabit = () => {
+		const decrementStep = getProgressStep(countValue);
+		performBuildHabitAction(habit.id, decrementStep, 'unmark');
+	};
 
 	if (habit.target.type !== 'count') return null;
 
 	const score = (countValue / habit.target.count) * 100;
-
-	const handleMarkHabit = () => {
-		performHabitAction(habit.id, getTodayString(), 'mark');
-	};
-
-	const handleUnmarkHabit = () => {
-		performHabitAction(habit.id, getTodayString(), 'unmark');
-	};
 
 	return (
 		<View style={styles.progressContainer}>
 			<ToggleButton
 				size={44}
 				color={habit.color}
-				iconName='CalendarMinus'
+				iconName='Minus'
 				isDisabled={countValue === 0}
 				onPress={handleUnmarkHabit}
 			/>
@@ -58,7 +63,7 @@ const BuildHabitActions = ({ habit }: { habit: Habit }) => {
 			<ToggleButton
 				size={44}
 				color={habit.color}
-				iconName='CalendarPlus'
+				iconName='Plus'
 				isDisabled={isHabitLocked}
 				onPress={handleMarkHabit}
 			/>

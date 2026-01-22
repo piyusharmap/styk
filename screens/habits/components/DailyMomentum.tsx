@@ -47,13 +47,13 @@ const DailyMomentum = () => {
 
 	return (
 		<View style={styles.card}>
-			<View style={[{ backgroundColor: colors.secondary + '30' }, styles.progressCard]}>
+			<View style={[{ backgroundColor: colors.secondary + '50' }, styles.progressCard]}>
 				<CircularProgressBar
-					progress={percentage}
+					progress={Math.max(percentage, 1)}
 					size={72}
 					strokeWidth={6}
 					activeColor={colors.primary}
-					backgroundColor={colors.secondary + '50'}>
+					backgroundColor={colors.secondary}>
 					<Icon
 						name={getStatusMessage().icon}
 						size={28}
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
 	// container styles
 	card: {
 		flexDirection: 'row',
-		alignItems: 'flex-start',
+		alignItems: 'center',
 		gap: 10,
 	},
 	progressCard: {
@@ -119,12 +119,8 @@ const styles = StyleSheet.create({
 
 	// text styles
 	message: {
-		fontSize: 26,
-		fontWeight: '500',
-		lineHeight: 30,
-	},
-	scoreText: {
-		fontSize: 18,
+		fontSize: 24,
 		fontWeight: '600',
+		lineHeight: 28,
 	},
 });

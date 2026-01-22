@@ -11,8 +11,10 @@ import { getGreeting } from '../../utils/greeting';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useShallow } from 'zustand/react/shallow';
 import DailyMomentum from '../../screens/habits/components/DailyMomentum';
+import useTheme from '../../theme/useTheme';
 
 const HabitsTab = () => {
+	const { colors } = useTheme();
 	const router = useRouter();
 	const insets = useSafeAreaInsets();
 
@@ -31,8 +33,10 @@ const HabitsTab = () => {
 	].filter((section) => section.data.length > 0);
 
 	const greeting = getGreeting();
-	const todayDate = new Date().toLocaleDateString('en-US', {
+	const todayDay = new Date().toLocaleDateString('en-US', {
 		weekday: 'long',
+	});
+	const todayDate = new Date().toLocaleDateString('en-US', {
 		month: 'long',
 		day: 'numeric',
 	});
@@ -45,7 +49,11 @@ const HabitsTab = () => {
 						{greeting.emoji} {greeting.message}
 					</UIText>
 
-					<UIText style={styles.date}>{todayDate}</UIText>
+					<UIText style={styles.date}>
+						<UIText style={[{ color: colors.accent }, styles.date]}>{todayDay}</UIText>
+						{', '}
+						{todayDate}
+					</UIText>
 				</View>
 			</View>
 
@@ -110,6 +118,7 @@ const styles = StyleSheet.create({
 	},
 	statsContainer: {
 		paddingHorizontal: 12,
+		paddingTop: 6,
 		paddingBottom: 10,
 	},
 	habitsContainer: {

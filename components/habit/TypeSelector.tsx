@@ -34,7 +34,7 @@ const TypeCard = ({
 			]}
 			{...props}>
 			<View style={styles.labelContainer}>
-				<Icon name={type.icon} size={16} color={colors.accent} />
+				<Icon name={type.icon} size={20} color={colors.accent} />
 				<UIText style={styles.label}>{type.label}</UIText>
 			</View>
 
@@ -90,13 +90,14 @@ const styles = StyleSheet.create({
 	labelContainer: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		gap: 2,
+		gap: 4,
 	},
 
 	// text styles
 	label: {
 		fontSize: 16,
-		fontWeight: '500',
+		fontWeight: '600',
+		textAlign: 'center',
 	},
 	description: {
 		fontSize: 12,

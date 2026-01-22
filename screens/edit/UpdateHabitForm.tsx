@@ -27,6 +27,7 @@ import TypeSelector from '../../components/habit/TypeSelector';
 import { fromDateString, toDateString } from '../../utils/time';
 import DatePicker from '../../components/DatePicker';
 import UIText from '../../components/ui/UIText';
+import { parseToInteger } from '../../utils/habit';
 
 const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 	// form states
@@ -35,7 +36,7 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 	const [habitTarget, setHabitTarget] = useState<typeof InitialTarget>({
 		type: currentHabit.target.type,
 		unit: currentHabit.target.type === 'count' ? currentHabit.target.unit : 'time',
-		count: currentHabit.target.type === 'count' ? currentHabit.target.count : 1,
+		count: currentHabit.target.type === 'count' ? currentHabit.target.count.toString() : '1',
 		frequency: currentHabit.target.frequency,
 		startDate:
 			currentHabit.target.type === 'quit'
@@ -73,7 +74,7 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 			target = {
 				type: habitTarget.type,
 				frequency: habitTarget.frequency,
-				count: habitTarget.count,
+				count: parseToInteger(habitTarget.count),
 				unit: habitTarget.unit,
 				currentStreak: habitTarget.currentStreak,
 				longestStreak: habitTarget.longestStreak,
@@ -118,7 +119,7 @@ const UpdateHabitForm = ({ currentHabit }: { currentHabit: Habit }) => {
 												? colors.danger
 												: colors.success,
 									},
-									styles.nameLimitHighlight,
+									styles.nameLimit,
 								]}>
 								{habitName.length}
 							</UIText>
@@ -283,8 +284,6 @@ const styles = StyleSheet.create({
 	// text styles
 	nameLimit: {
 		fontSize: 12,
-	},
-	nameLimitHighlight: {
-		fontWeight: '500',
+		fontWeight: '600',
 	},
 });
