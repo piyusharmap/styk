@@ -21,6 +21,7 @@ import UnitSelector from '../../components/habit/UnitSelector';
 import FrequencySelector from '../../components/habit/FrequencySelector';
 import DatePicker from '../../components/DatePicker';
 import UIText from '../../components/ui/UIText';
+import { parseToInteger } from '../../utils/habit';
 
 const CreateHabitForm = () => {
 	// form states
@@ -28,7 +29,10 @@ const CreateHabitForm = () => {
 	const [habitColor, setHabitColor] = useState(ColorOptions[0]);
 	const [habitTarget, setHabitTarget] = useState<typeof InitialTarget>(InitialTarget);
 
-	const [formError, setFormError] = useState<string>('');
+	const [formError, setFormError] = useState<{ name: string; target: string }>({
+		name: '',
+		target: '',
+	});
 	const [isSaving, setIsSaving] = useState<boolean>(false);
 
 	const { colors } = useTheme();
@@ -36,7 +40,7 @@ const CreateHabitForm = () => {
 	const addHabit = useHabitStore((s) => s.addHabit);
 
 	const resetForm = () => {
-		setFormError('');
+		setFormError({ name: '', target: '' });
 
 		setHabitName('');
 		setHabitColor(ColorOptions[0]);
@@ -48,9 +52,15 @@ const CreateHabitForm = () => {
 			habitName.trim().length < MIN_NAME_LENGTH ||
 			habitName.trim().length > MAX_NAME_LENGTH
 		) {
-			setFormError(
-				`Name must be between ${MIN_NAME_LENGTH} and ${MAX_NAME_LENGTH} characters.`,
-			);
+			setFormError((prev) => ({
+				...prev,
+				name: `Name must be between ${MIN_NAME_LENGTH} and ${MAX_NAME_LENGTH} characters.`,
+			}));
+			return;
+		}
+
+		if (habitTarget.count === '' || parseToInteger(habitTarget.count) < 1) {
+			setFormError((prev) => ({ ...prev, target: `Habit count should be >= 1.` }));
 			return;
 		}
 
@@ -60,7 +70,7 @@ const CreateHabitForm = () => {
 			target = {
 				type: habitTarget.type,
 				frequency: habitTarget.frequency,
-				count: habitTarget.count,
+				count: parseToInteger(habitTarget.count),
 				unit: habitTarget.unit,
 				currentStreak: habitTarget.currentStreak,
 				longestStreak: habitTarget.longestStreak,
@@ -119,7 +129,7 @@ const CreateHabitForm = () => {
 						onChangeInput={setHabitName}
 						placeholder={HABIT_NAME_PLACEHOLDER}
 					/>
-					{formError && <UIInputError error={formError} />}
+					{formError.name && <UIInputError error={formError.name} />}
 				</UIInputContainer>
 
 				<UIInputContainer>
@@ -140,6 +150,7 @@ const CreateHabitForm = () => {
 						<UIInputLabel label='At least' />
 
 						<View style={styles.countDetails}>
+							{formError.target && <UIInputError error={formError.target} />}
 							<HabitCounter
 								count={habitTarget.count}
 								onPress={(count) =>

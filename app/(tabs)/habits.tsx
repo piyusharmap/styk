@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
 	},
 	statsContainer: {
 		paddingHorizontal: 12,
+		paddingTop: 6,
 		paddingBottom: 10,
 	},
 	habitsContainer: {

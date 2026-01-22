@@ -57,13 +57,6 @@ const HabitDetailsPage = () => {
 
 			<UIView style={styles.container} isBottomSafe>
 				<ScrollView contentContainerStyle={styles.content}>
-					<TypeCard
-						label={typeDetails.label}
-						description={typeDetails.description}
-						icon={typeDetails.icon}
-						color={color || colors.foreground}
-					/>
-
 					<View style={styles.dateContainer}>
 						<UIText style={styles.date}>
 							<UIText isSecondary>Created:</UIText>{' '}
@@ -72,7 +65,7 @@ const HabitDetailsPage = () => {
 							</UIText>
 						</UIText>
 
-						<UIText style={[{ color: habitDetails.color }, styles.date]}>•</UIText>
+						<UIText style={[{ color: habitDetails.color }, styles.date]}>/</UIText>
 
 						<UIText style={styles.date}>
 							<UIText isSecondary>Updated:</UIText>{' '}
@@ -81,6 +74,13 @@ const HabitDetailsPage = () => {
 							</UIText>
 						</UIText>
 					</View>
+
+					<TypeCard
+						label={typeDetails.label}
+						description={typeDetails.description}
+						icon={typeDetails.icon}
+						color={color || colors.foreground}
+					/>
 
 					<HabitInfoCard heading='Habit Name'>
 						<UIText style={styles.name}>{habitDetails?.name}</UIText>

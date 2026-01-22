@@ -38,8 +38,8 @@ type HabitStore = {
 		progressCount: number,
 		actionType?: 'mark' | 'unmark',
 	) => Promise<void>;
-	incrementCountHabit: (habitId: string, count: number) => Promise<void>;
-	decrementCountHabit: (habitId: string) => Promise<void>;
+	incrementCountHabit: (habitId: string, progressCount: number) => Promise<void>;
+	decrementCountHabit: (habitId: string, progressCount: number) => Promise<void>;
 
 	// quit habit actions
 	performQuitHabitAction: (
@@ -194,7 +194,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			if (actionType === 'mark') {
 				await get().incrementCountHabit(habitId, count);
 			} else {
-				await get().decrementCountHabit(habitId);
+				await get().decrementCountHabit(habitId, count);
 			}
 		},
 
@@ -228,7 +228,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 						id: logKey,
 						habitId,
 						date: today,
-						value: 1,
+						value: progressCount,
 						history: JSON.stringify([now]),
 						updatedAt: now,
 					};
@@ -243,7 +243,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			});
 		},
 
-		decrementCountHabit: async (habitId) => {
+		decrementCountHabit: async (habitId, progressCount) => {
 			await executeAsync('Failed to decrement habit count', async () => {
 				const today = getTodayString();
 				const logKey = getLogKey(habitId, today);
@@ -257,7 +257,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 					const updatedLog = {
 						...existingLog,
-						value: existingLog.value - 1,
+						value: existingLog.value - progressCount,
 						history: JSON.stringify(history),
 						updatedAt: getTodayTimestamp(),
 					};

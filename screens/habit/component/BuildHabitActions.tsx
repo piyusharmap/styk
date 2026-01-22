@@ -4,6 +4,7 @@ import { useHabitStore } from '../../../store/habitStore';
 import UIText from '../../../components/ui/UIText';
 import { Habit } from '../../../types/habitTypes';
 import ToggleButton from '../../../components/habit/ToggleButton';
+import { getProgressStep } from '../../../utils/habit';
 
 const BuildHabitActions = ({ habit }: { habit: Habit }) => {
 	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
@@ -12,11 +13,16 @@ const BuildHabitActions = ({ habit }: { habit: Habit }) => {
 	const performBuildHabitAction = useHabitStore((s) => s.performBuildHabitAction);
 
 	const handleMarkHabit = () => {
-		performBuildHabitAction(habit.id, 1, 'mark');
+		//@ts-ignore
+		const availableCount = habit.target.count - countValue;
+		const incrementStep = getProgressStep(availableCount);
+
+		performBuildHabitAction(habit.id, incrementStep, 'mark');
 	};
 
 	const handleUnmarkHabit = () => {
-		performBuildHabitAction(habit.id, 1, 'unmark');
+		const decrementStep = getProgressStep(countValue);
+		performBuildHabitAction(habit.id, decrementStep, 'unmark');
 	};
 
 	if (habit.target.type !== 'count') return null;

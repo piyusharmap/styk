@@ -2,44 +2,58 @@ import { StyleSheet, TextInput, View } from 'react-native';
 import useTheme from '../../theme/useTheme';
 import UIButton from '../ui/UIButton';
 import { DM_SANS } from '../../theme/fonts';
+import { parseToInteger } from '../../utils/habit';
 
-const HabitCounter = ({ count, onPress }: { count: number; onPress: (count: number) => void }) => {
+const HabitCounter = ({ count, onPress }: { count: string; onPress: (count: string) => void }) => {
 	const { colors } = useTheme();
 
 	const handleCountIncrement = () => {
-		onPress(count + 1);
+		const parsedValue = count === '' ? 0 : parseToInteger(count);
+
+		const newCount = parsedValue + 1;
+
+		onPress(newCount.toString());
 	};
 
 	const handleCountDecrement = () => {
-		if (count <= 1) return;
-		onPress(count - 1);
-	};
+		const parsedValue = parseToInteger(count);
 
-	const handleInputChange = (text: string) => {
-		const cleanedText = text.replace(/[^0-9]/g, '');
-
-		if (cleanedText === '' || cleanedText === '0') {
-			onPress(1);
+		if (parsedValue <= 0 || isNaN(parsedValue)) {
+			onPress('0');
 			return;
 		}
 
-		const newCount = parseInt(cleanedText, 10);
+		const newCount = parsedValue - 1;
 
-		if (!isNaN(newCount)) {
-			onPress(newCount);
+		onPress(newCount.toString());
+	};
+
+	const handleInputChange = (value: string) => {
+		const cleanedValue = value.replace(/[^0-9]/g, '');
+
+		if (cleanedValue === '') {
+			onPress('');
+			return;
 		}
+
+		const newCount = parseToInteger(cleanedValue);
+		onPress(newCount.toString());
 	};
 
 	return (
 		<View style={styles.habitCounter}>
 			<UIButton title='' iconName='ChevronDown' isIconButton onPress={handleCountDecrement} />
 
-			<View style={[{ borderColor: colors.border }, styles.countContainer]}>
+			<View
+				style={[
+					{ backgroundColor: colors.foreground + '80', borderColor: colors.border },
+					styles.countContainer,
+				]}>
 				<TextInput
 					value={count.toString()}
 					onChangeText={handleInputChange}
 					placeholderTextColor={colors.textSecondary}
-					placeholder=''
+					placeholder='0'
 					keyboardType='numeric'
 					style={[
 						{
@@ -87,6 +101,8 @@ const styles = StyleSheet.create({
 
 	// text styles
 	count: {
+		width: '100%',
 		fontSize: 52,
+		textAlign: 'center',
 	},
 });

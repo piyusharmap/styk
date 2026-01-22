@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
 		gap: 4,
 	},
 	colorOption: {
-		height: 40,
-		width: 40,
+		height: 32,
+		width: 32,
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 20,

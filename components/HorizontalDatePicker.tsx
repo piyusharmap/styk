@@ -135,7 +135,9 @@ const HorizontalDatePicker = ({
 						<UIText style={styles.month}>{monthName}</UIText>
 					</View>
 
-					<UIButton size='sm' title='Today' onPress={goToToday} />
+					{selectedDate !== getTodayString() && (
+						<UIButton size='sm' title='Today' onPress={goToToday} />
+					)}
 				</View>
 
 				<Pressable style={styles.navButton} onPress={() => changeMonth(1)}>
