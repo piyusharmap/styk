@@ -26,7 +26,9 @@ const HabitDetailsPage = () => {
 
 	const router = useRouter();
 	const { colors } = useTheme();
+
 	const habitDetails = useHabitStore((s) => s.getHabitDetails(id));
+	const isHabitSkipped = useHabitStore((s) => s.isHabitSkipped(id));
 
 	if (!habitDetails) return <PageLoader isBottomSafe />;
 
@@ -37,7 +39,7 @@ const HabitDetailsPage = () => {
 		<>
 			<Stack.Screen
 				options={{
-					headerStyle: { backgroundColor: color + '30' },
+					headerStyle: { backgroundColor: color + '50' },
 					headerRight(props) {
 						return (
 							<NavigationButton
@@ -57,6 +59,32 @@ const HabitDetailsPage = () => {
 
 			<UIView style={styles.container} isBottomSafe>
 				<ScrollView contentContainerStyle={styles.content}>
+					<TypeCard
+						label={typeDetails.label}
+						description={typeDetails.description}
+						icon={typeDetails.icon}
+						color={color || colors.foreground}
+					/>
+
+					<HabitInfoCard heading='Habit Name'>
+						<UIText style={styles.name}>{habitDetails?.name}</UIText>
+					</HabitInfoCard>
+
+					<StreakCard habit={habitDetails} />
+
+					{habitType === 'count' ? (
+						<HabitInfoCard
+							heading={`Progress • ${habitDetails.target.frequency} ${isHabitSkipped ? '• Skipped' : ''}`}>
+							<BuildHabitActions habit={habitDetails} />
+						</HabitInfoCard>
+					) : (
+						<HabitInfoCard heading={`Progress • ${habitDetails.target.frequency}`}>
+							<QuitHabitActions habit={habitDetails} />
+						</HabitInfoCard>
+					)}
+
+					<HabitReport habitId={id} accentColor={habitDetails.color} />
+
 					<View style={styles.dateContainer}>
 						<UIText style={styles.date}>
 							<UIText isSecondary>Created:</UIText>{' '}
@@ -74,31 +102,6 @@ const HabitDetailsPage = () => {
 							</UIText>
 						</UIText>
 					</View>
-
-					<TypeCard
-						label={typeDetails.label}
-						description={typeDetails.description}
-						icon={typeDetails.icon}
-						color={color || colors.foreground}
-					/>
-
-					<HabitInfoCard heading='Habit Name'>
-						<UIText style={styles.name}>{habitDetails?.name}</UIText>
-					</HabitInfoCard>
-
-					<StreakCard habit={habitDetails} />
-
-					{habitType === 'count' ? (
-						<HabitInfoCard heading={`Progress • ${habitDetails.target.frequency}`}>
-							<BuildHabitActions habit={habitDetails} />
-						</HabitInfoCard>
-					) : (
-						<HabitInfoCard heading={`Progress • ${habitDetails.target.frequency}`}>
-							<QuitHabitActions habit={habitDetails} />
-						</HabitInfoCard>
-					)}
-
-					<HabitReport habitId={id} accentColor={habitDetails.color} />
 				</ScrollView>
 
 				<View
@@ -137,10 +140,11 @@ const styles = StyleSheet.create({
 	},
 	actionContainer: {
 		paddingHorizontal: 12,
-		paddingTop: 6,
+		paddingTop: 8,
 		paddingBottom: 10,
 		flexDirection: 'row',
-		gap: 6,
+		justifyContent: 'center',
+		gap: 8,
 		borderTopWidth: 1,
 	},
 	actionButton: {

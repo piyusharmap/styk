@@ -57,6 +57,7 @@ export type HabitLog = {
 	habitId: string;
 	date: string;
 	value: number;
+	skipped?: boolean;
 	history: string; // e.g. "[<timestamp>, <timestamp>]"
 	updatedAt: string;
 };

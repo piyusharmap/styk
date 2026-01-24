@@ -13,7 +13,7 @@ const HabitReport = ({ habitId, accentColor }: { habitId: string; accentColor: s
 	const habits = useHabitStore((s) => s.habits);
 
 	const report = useMemo(() => {
-		return useHabitStore.getState().getLastXDaysReport(habitId, 60);
+		return useHabitStore.getState().getLastXDaysReport(habitId, 45);
 	}, [habitId, logs, habits]);
 
 	const getItemStyles = (percentage: number, status: string) => {
@@ -21,7 +21,7 @@ const HabitReport = ({ habitId, accentColor }: { habitId: string; accentColor: s
 			case 'fail':
 				return {
 					background: colors.neutral,
-					borderColor: colors.neutral,
+					borderColor: 'transparent',
 					opacity: 1,
 				};
 			case 'none':
@@ -33,14 +33,14 @@ const HabitReport = ({ habitId, accentColor }: { habitId: string; accentColor: s
 			default:
 				return {
 					background: accentColor,
-					borderColor: accentColor,
+					borderColor: 'transparent',
 					opacity: Math.max(percentage, 0.15),
 				};
 		}
 	};
 
 	return (
-		<HabitInfoCard heading='Progress • Past 60 Days'>
+		<HabitInfoCard heading='Progress • Past 45 Days'>
 			<View style={styles.grid}>
 				{report.map((day) => {
 					const itemStyle = getItemStyles(day.percentage, day.status);
@@ -90,10 +90,10 @@ const styles = StyleSheet.create({
 		gap: 4,
 	},
 	gridItem: {
-		width: 16,
-		height: 16,
+		width: 20,
+		height: 20,
 		borderRadius: '100%',
-		borderWidth: 1,
+		borderWidth: 2,
 	},
 	legendContainer: {
 		flexDirection: 'row',

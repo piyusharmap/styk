@@ -66,9 +66,11 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		gap: 28,
+		gap: 24,
 	},
 	progressInfo: {
+		paddingHorizontal: 4,
+		paddingVertical: 4,
 		alignItems: 'center',
 		gap: 10,
 	},

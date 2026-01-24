@@ -19,7 +19,7 @@ const TypeCard = ({
 			<TypeIconContainer icon={icon} color={color} />
 
 			<View style={styles.details}>
-				<UIText style={styles.title}>{label}</UIText>
+				<UIText style={styles.title}>{label} Habit</UIText>
 
 				<UIText style={styles.description} isSecondary>
 					{description}
@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
 
 	// text styles
 	title: {
-		fontSize: 18,
-		fontWeight: '500',
+		fontSize: 16,
+		fontWeight: '600',
 	},
 	description: {
 		fontSize: 12,

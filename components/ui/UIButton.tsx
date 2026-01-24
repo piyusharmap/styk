@@ -70,14 +70,13 @@ const UIButton = ({
 	return (
 		<Pressable
 			style={({ pressed }) => [
+				styles.button,
 				{
 					height: variantSize.size,
 					paddingHorizontal: variantSize.paddingH,
 					backgroundColor: variantColor.background,
-					borderRadius: variantSize.size / 2,
 				},
-				isIconButton && { width: variantSize.size },
-				styles.button,
+				isIconButton && { width: variantSize.size, borderRadius: variantSize.size / 2 },
 				pressed && !isDisabled && styles.buttonPressed,
 				isDisabled && styles.buttonDisabled,
 				style,
@@ -119,13 +118,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		gap: 6,
+		borderRadius: 8,
 	},
 	buttonPressed: {
 		opacity: 0.8,
 		transform: [{ scale: 0.98 }],
 	},
 	buttonDisabled: {
-		opacity: 0.6,
+		opacity: 0.5,
 	},
 
 	// text styles

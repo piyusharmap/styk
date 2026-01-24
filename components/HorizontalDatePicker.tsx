@@ -31,17 +31,19 @@ const DateItem = memo(
 				<Pressable
 					style={({ pressed }) => [
 						{
-							backgroundColor: colors.foreground,
+							backgroundColor: colors.foreground + '80',
 							borderColor: colors.border,
 						},
 						isSelected && {
-							borderColor: colors.primary,
+							backgroundColor: 'transparent',
+							borderColor: colors.secondary,
 						},
 						pressed && styles.dateButtonPressed,
 						styles.dateButton,
 					]}
 					onPress={() => onPress(item)}>
-					<UIText style={[isToday && { color: colors.primary }, styles.date]}>
+					<UIText
+						style={[(isToday || isSelected) && { color: colors.primary }, styles.date]}>
 						{dateObj.getDate()}
 					</UIText>
 
@@ -127,17 +129,14 @@ const HorizontalDatePicker = ({
 					<View
 						style={[
 							{
-								backgroundColor: colors.secondary + '30',
-								borderColor: colors.secondary,
+								backgroundColor: colors.foreground,
 							},
 							styles.monthDisplay,
 						]}>
 						<UIText style={styles.month}>{monthName}</UIText>
 					</View>
 
-					{selectedDate !== getTodayString() && (
-						<UIButton size='sm' title='Today' onPress={goToToday} />
-					)}
+					<UIButton size='sm' title='Today' onPress={goToToday} />
 				</View>
 
 				<Pressable style={styles.navButton} onPress={() => changeMonth(1)}>
@@ -176,7 +175,7 @@ export default HorizontalDatePicker;
 const styles = StyleSheet.create({
 	// container styles
 	container: {
-		gap: 8,
+		gap: 4,
 	},
 	header: {
 		paddingHorizontal: 12,
@@ -184,20 +183,21 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		gap: 20,
+		overflow: 'hidden',
 	},
 	monthContainer: {
+		flexShrink: 1,
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		gap: 4,
+		gap: 6,
 	},
 	monthDisplay: {
 		height: 40,
 		paddingHorizontal: 20,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderRadius: 20,
-		borderWidth: 2,
+		borderRadius: 8,
 	},
 	navButton: {
 		height: ITEM_WIDTH,

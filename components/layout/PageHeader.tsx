@@ -40,8 +40,9 @@ export const PageHeader = ({
 		<View
 			style={[
 				{
-					backgroundColor: colors.secondary + '50',
-					paddingTop: isTopSafe ? insets.top + 10 : 10,
+					backgroundColor: colors.navBackground,
+					paddingTop: isTopSafe ? insets.top + 8 : 8,
+					borderColor: colors.border,
 				},
 				styles.container,
 				style,
@@ -55,7 +56,8 @@ const styles = StyleSheet.create({
 	// container styles
 	container: {
 		paddingHorizontal: 12,
-		paddingBottom: 16,
+		paddingBottom: 12,
+		borderBottomWidth: 1,
 	},
 
 	// text styles

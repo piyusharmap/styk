@@ -36,6 +36,7 @@ export const mapHabitLog = (row: any): HabitLog => {
 		habitId: row.habit_id,
 		date: row.date,
 		value: row.value,
+		skipped: row.skipped,
 		history: row.history,
 		updatedAt: row.update_at,
 	};

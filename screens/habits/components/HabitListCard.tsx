@@ -13,8 +13,10 @@ import QuitTimeline from '../../../components/habit/QuitTimeline';
 
 const HabitListCard = ({ habit }: { habit: Habit }) => {
 	const router = useRouter();
-	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(habit.id));
 	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
+	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(habit.id));
+	const isHabitSkipped = useHabitStore((s) => s.isHabitSkipped(habit.id));
+
 	const habitType = habit.target.type;
 
 	const typeDetails = HabitTypeDetails[habitType];
@@ -71,16 +73,12 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 
 				<View style={styles.actionContainer}>
 					{isHabitLocked && habitType === 'count' ? (
-						<View
-							style={[
-								{ backgroundColor: habit.color + '30', borderColor: habit.color },
-								styles.iconContainer,
-							]}>
+						<View style={styles.iconContainer}>
 							<Icon
 								name='Flame'
-								size={20}
+								size={36}
 								color={habit.color}
-								fillColor={habit.color + '50'}
+								fillColor={habit.color + '80'}
 								isFilled
 							/>
 						</View>
@@ -89,6 +87,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 							habitId={habit.id}
 							target={habit.target}
 							color={habit.color}
+							isDisabled={isHabitSkipped}
 						/>
 					)}
 				</View>
@@ -137,12 +136,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	iconContainer: {
-		height: 40,
-		width: 40,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderWidth: 2,
-		borderRadius: 20,
 	},
 
 	// text styles

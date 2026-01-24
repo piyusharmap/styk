@@ -32,6 +32,7 @@ export const CREATE_TABLE = `
         habit_id TEXT NOT NULL,
         date TEXT NOT NULL,
         value INTEGER NOT NULL,
+        skipped INTEGER DEFAULT 0,
         history TEXT,
         updated_at TEXT NOT NULL,
         FOREIGN KEY (habit_id) REFERENCES habits (id) ON DELETE CASCADE
