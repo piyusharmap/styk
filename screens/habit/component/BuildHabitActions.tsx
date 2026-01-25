@@ -9,8 +9,11 @@ import { getProgressStep } from '../../../utils/habit';
 const BuildHabitActions = ({ habit }: { habit: Habit }) => {
 	const countValue = useHabitStore((s) => s.getCountValue(habit.id));
 	const isHabitLocked = useHabitStore((s) => s.isHabitLocked(habit.id));
+	const isHabitSkipped = useHabitStore((s) => s.isHabitSkipped(habit.id));
 
 	const performBuildHabitAction = useHabitStore((s) => s.performBuildHabitAction);
+	const skipHabit = useHabitStore((s) => s.skipBuildHabit);
+	const undoSkipHabit = useHabitStore((s) => s.undoSkipBuildHabit);
 
 	const handleMarkHabit = () => {
 		//@ts-ignore
@@ -31,13 +34,23 @@ const BuildHabitActions = ({ habit }: { habit: Habit }) => {
 
 	return (
 		<View style={styles.progressContainer}>
-			<ToggleButton
-				size={44}
-				color={habit.color}
-				iconName='Minus'
-				isDisabled={countValue === 0}
-				onPress={handleUnmarkHabit}
-			/>
+			<View style={styles.actionButtons}>
+				<ToggleButton
+					size={44}
+					color={habit.color}
+					iconName='Rewind'
+					isDisabled={!isHabitSkipped}
+					onPress={() => undoSkipHabit(habit.id)}
+				/>
+
+				<ToggleButton
+					size={44}
+					color={habit.color}
+					iconName='Minus'
+					isDisabled={countValue === 0 || isHabitSkipped}
+					onPress={handleUnmarkHabit}
+				/>
+			</View>
 
 			<CircularProgressBar
 				progress={score}
@@ -53,20 +66,37 @@ const BuildHabitActions = ({ habit }: { habit: Habit }) => {
 							{habit.target.count}
 						</UIText>
 					</UIText>
-					<UIText style={styles.unit} isSecondary>
-						{habit.target.unit}
-						{habit.target.count > 1 ? 's' : ''}
-					</UIText>
+
+					{isHabitSkipped ? (
+						<UIText style={styles.unit} isSecondary>
+							Skipped
+						</UIText>
+					) : (
+						<UIText style={styles.unit} isSecondary>
+							{habit.target.unit}
+							{habit.target.count > 1 ? 's' : ''}
+						</UIText>
+					)}
 				</View>
 			</CircularProgressBar>
 
-			<ToggleButton
-				size={44}
-				color={habit.color}
-				iconName='Plus'
-				isDisabled={isHabitLocked}
-				onPress={handleMarkHabit}
-			/>
+			<View style={styles.actionButtons}>
+				<ToggleButton
+					size={44}
+					color={habit.color}
+					iconName='Plus'
+					isDisabled={isHabitLocked || isHabitSkipped}
+					onPress={handleMarkHabit}
+				/>
+
+				<ToggleButton
+					size={44}
+					color={habit.color}
+					iconName='FastForward'
+					isDisabled={isHabitSkipped}
+					onPress={() => skipHabit(habit.id)}
+				/>
+			</View>
 		</View>
 	);
 };
@@ -80,15 +110,20 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		gap: 20,
+		gap: 16,
 	},
 	progressDetails: {
 		alignItems: 'center',
 	},
+	actionButtons: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 8,
+	},
 
 	// text styles
 	count: {
-		fontSize: 22,
+		fontSize: 24,
 		fontWeight: '600',
 	},
 	countTarget: {

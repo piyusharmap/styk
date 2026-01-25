@@ -118,8 +118,7 @@ const styles = StyleSheet.create({
 	},
 	statsContainer: {
 		paddingHorizontal: 12,
-		paddingTop: 6,
-		paddingBottom: 10,
+		paddingVertical: 6,
 	},
 	habitsContainer: {
 		flexGrow: 1,
@@ -131,7 +130,8 @@ const styles = StyleSheet.create({
 	},
 	actionContainer: {
 		position: 'absolute',
-		padding: 12,
+		paddingHorizontal: 10,
+		paddingVertical: 8,
 		bottom: 0,
 		right: 0,
 	},
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 	},
 	date: {
-		fontSize: 22,
+		fontSize: 20,
 		fontWeight: '600',
 	},
 	emptyListMessage: {

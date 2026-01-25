@@ -10,7 +10,7 @@ const ListHeader = ({ heading, style }: { heading: string; style?: StyleProp<Vie
 		<View style={[styles.listHeader, style]}>
 			<UIText style={styles.listHeading}>{heading}</UIText>
 
-			<Icon name='ArrowRight' size={14} color={colors.accent} />
+			<Icon name='ChevronsRight' size={16} color={colors.accent} />
 		</View>
 	);
 };

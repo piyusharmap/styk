@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 	button: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderRadius: 6,
+		borderRadius: 8,
 		borderWidth: 2,
 		borderStyle: 'dashed',
 	},
@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
 		transform: [{ scale: 0.98 }],
 	},
 	buttonDisabled: {
-		opacity: 0.6,
+		opacity: 0.5,
 	},
 });

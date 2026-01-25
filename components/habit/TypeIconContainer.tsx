@@ -3,7 +3,7 @@ import Icon, { IconType } from '../icon';
 
 const TypeIconContainer = ({ icon, color }: { icon: IconType; color?: string }) => {
 	return (
-		<View style={[{ backgroundColor: color + '30' }, styles.iconContainer]}>
+		<View style={[{ backgroundColor: color + '50' }, styles.iconContainer]}>
 			<Icon name={icon} size={20} color={color} />
 		</View>
 	);

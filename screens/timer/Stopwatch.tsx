@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		paddingVertical: 10,
 		flexDirection: 'row',
-		gap: 6,
+		gap: 8,
 	},
 	actionButton: {
 		flex: 1,

@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
 		transform: [{ scale: 0.98 }],
 	},
 	buttonDisabled: {
-		opacity: 0.6,
+		opacity: 0.5,
 	},
 });

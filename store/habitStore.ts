@@ -38,8 +38,10 @@ type HabitStore = {
 		progressCount: number,
 		actionType?: 'mark' | 'unmark',
 	) => Promise<void>;
-	incrementCountHabit: (habitId: string, progressCount: number) => Promise<void>;
-	decrementCountHabit: (habitId: string, progressCount: number) => Promise<void>;
+	incrementBuildHabit: (habitId: string, progressCount: number) => Promise<void>;
+	decrementBuildHabit: (habitId: string, progressCount: number) => Promise<void>;
+	skipBuildHabit: (habitId: string) => Promise<void>;
+	undoSkipBuildHabit: (habitId: string) => Promise<void>;
 
 	// quit habit actions
 	performQuitHabitAction: (
@@ -53,6 +55,7 @@ type HabitStore = {
 	// habit details action
 	isHabitSuccessful: (habitId: string) => boolean;
 	isHabitLocked: (habitId: string) => boolean;
+	isHabitSkipped: (habitId: string) => boolean;
 
 	getCountValue: (habitId: string) => number;
 
@@ -192,13 +195,13 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 			if (!habit) return;
 
 			if (actionType === 'mark') {
-				await get().incrementCountHabit(habitId, count);
+				await get().incrementBuildHabit(habitId, count);
 			} else {
-				await get().decrementCountHabit(habitId, count);
+				await get().decrementBuildHabit(habitId, count);
 			}
 		},
 
-		incrementCountHabit: async (habitId, progressCount) => {
+		incrementBuildHabit: async (habitId, progressCount) => {
 			await executeAsync('Failed to increment habit count', async () => {
 				const habit = get().habits[habitId];
 				if (!habit || habit.target.type !== 'count') return;
@@ -208,9 +211,11 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				const now = getTodayTimestamp();
 
 				const window = getCurrentTimeWindow(habit.target.frequency);
+
 				if (isHabitLockedForWindow(habit, Object.values(get().logs), window)) return;
 
 				const existingLog = get().logs[logKey];
+
 				let updatedLog: HabitLog;
 
 				if (existingLog) {
@@ -239,12 +244,16 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				set((state) => ({
 					logs: { ...state.logs, [logKey]: updatedLog },
 				}));
+
 				await syncHabitStreak(habitId);
 			});
 		},
 
-		decrementCountHabit: async (habitId, progressCount) => {
+		decrementBuildHabit: async (habitId, progressCount) => {
 			await executeAsync('Failed to decrement habit count', async () => {
+				const habit = get().habits[habitId];
+				if (!habit || habit.target.type !== 'count') return;
+
 				const today = getTodayString();
 				const logKey = getLogKey(habitId, today);
 				const existingLog = get().logs[logKey];
@@ -274,6 +283,77 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 						return { logs: nextLogs };
 					});
 				}
+
+				await syncHabitStreak(habitId);
+			});
+		},
+
+		skipBuildHabit: async (habitId) => {
+			await executeAsync('Failed to skip habit', async () => {
+				const habit = get().habits[habitId];
+				if (!habit || habit.target.type !== 'count') return;
+
+				const today = getTodayString();
+				const logKey = getLogKey(habitId, today);
+				const now = getTodayTimestamp();
+
+				const existingLog = get().logs[logKey];
+
+				let updatedLog: HabitLog;
+
+				if (existingLog) {
+					updatedLog = {
+						...existingLog,
+						skipped: true,
+						updatedAt: now,
+					};
+				} else {
+					updatedLog = {
+						id: logKey,
+						habitId,
+						date: today,
+						value: 0,
+						skipped: true,
+						history: JSON.stringify([]),
+						updatedAt: now,
+					};
+				}
+
+				await HabitLogService.upsertLog(updatedLog);
+
+				set((state) => ({
+					logs: { ...state.logs, [logKey]: updatedLog },
+				}));
+
+				await syncHabitStreak(habitId);
+			});
+		},
+
+		undoSkipBuildHabit: async (habitId) => {
+			await executeAsync('Failed to undo habit skip', async () => {
+				const habit = get().habits[habitId];
+				if (!habit || habit.target.type !== 'count') return;
+
+				const today = getTodayString();
+				const logKey = getLogKey(habitId, today);
+				const now = getTodayTimestamp();
+
+				const existingLog = get().logs[logKey];
+
+				if (!existingLog) return;
+
+				const updatedLog = {
+					...existingLog,
+					skipped: false,
+					updatedAt: now,
+				};
+
+				await HabitLogService.upsertLog(updatedLog);
+
+				set((state) => ({
+					logs: { ...state.logs, [logKey]: updatedLog },
+				}));
+
 				await syncHabitStreak(habitId);
 			});
 		},
@@ -387,6 +467,19 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 				Object.values(get().logs),
 				getCurrentTimeWindow(habit.target.frequency),
 			);
+		},
+
+		isHabitSkipped: (habitId) => {
+			const habit = get().habits[habitId];
+			if (!habit) return false;
+
+			const today = getTodayString();
+			const logKey = getLogKey(habitId, today);
+
+			const existingLog = get().logs[logKey];
+
+			if (!existingLog) return false;
+			else return existingLog.skipped!;
 		},
 
 		getCountValue: (habitId) => {

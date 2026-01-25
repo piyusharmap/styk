@@ -56,8 +56,8 @@ const ActivityCard = ({
 				) : (
 					<CircularProgressBar
 						progress={progressValue}
-						size={100}
-						strokeWidth={8}
+						size={92}
+						strokeWidth={6}
 						activeColor={activityItem.color}
 						backgroundColor={activityItem.color + '50'}>
 						{activityItem.type === 'count' ? (
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
 		transform: [{ scale: 0.99 }],
 	},
 	chartSection: {
-		marginBottom: 4,
+		marginBottom: 2,
 	},
 	progressDetails: {
 		justifyContent: 'center',
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
 	// text Styles
 	name: {
 		flex: 1,
-		fontSize: 16,
+		fontSize: 18,
 		fontWeight: '600',
 		textAlign: 'center',
 	},

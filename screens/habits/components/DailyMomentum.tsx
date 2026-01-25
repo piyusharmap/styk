@@ -23,7 +23,7 @@ const DailyMomentum = () => {
 		if (percentage === 100) {
 			return {
 				message: 'Perfect day reached!',
-				icon: 'Star' as IconType,
+				icon: 'Trophy' as IconType,
 			};
 		}
 		if (percentage >= 50) {
@@ -47,13 +47,11 @@ const DailyMomentum = () => {
 
 	return (
 		<View style={styles.card}>
-			<View style={[{ backgroundColor: colors.secondary + '50' }, styles.progressCard]}>
+			<View style={[styles.progressCard]}>
 				<CircularProgressBar
 					progress={Math.max(percentage, 1)}
-					size={72}
-					strokeWidth={6}
 					activeColor={colors.primary}
-					backgroundColor={colors.secondary}>
+					backgroundColor={colors.primary + '50'}>
 					<Icon
 						name={getStatusMessage().icon}
 						size={28}
@@ -67,19 +65,15 @@ const DailyMomentum = () => {
 			<View style={styles.infoContainer}>
 				<View style={styles.badgeContainer}>
 					<Badge
-						icon='CheckCheck'
-						badgeStyle={{
-							backgroundColor: colors.secondary + '50',
-						}}>
+						icon='CheckCircle'
+						badgeStyle={{ backgroundColor: colors.secondary + '50' }}>
 						{momentum.completed}/{momentum.total} Done
 					</Badge>
 
 					{momentum.partiallyDone > 0 && (
 						<Badge
 							icon='TrendingUp'
-							badgeStyle={{
-								backgroundColor: colors.secondary + '50',
-							}}>
+							badgeStyle={{ backgroundColor: colors.secondary + '50' }}>
 							{momentum.partiallyDone} in Progress
 						</Badge>
 					)}
@@ -101,15 +95,12 @@ const styles = StyleSheet.create({
 		gap: 10,
 	},
 	progressCard: {
-		padding: 12,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderRadius: 20,
 	},
 	infoContainer: {
 		flex: 1,
-		paddingVertical: 4,
-		gap: 6,
+		gap: 4,
 	},
 	badgeContainer: {
 		flexDirection: 'row',
@@ -119,8 +110,9 @@ const styles = StyleSheet.create({
 
 	// text styles
 	message: {
-		fontSize: 24,
+		paddingLeft: 2,
+		fontSize: 22,
 		fontWeight: '600',
-		lineHeight: 28,
+		lineHeight: 26,
 	},
 });

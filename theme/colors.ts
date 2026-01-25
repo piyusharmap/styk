@@ -38,13 +38,13 @@ export const Colors: Record<string, Theme> = {
 		info: '#C5A205',
 
 		background: '#F9F9F9',
-		foreground: '#ECECEC',
+		foreground: '#EEEEEE',
 		border: '#D9D9D9',
 
 		text: '#0E0E0E',
 		textSecondary: '#4D4D4D',
 
-		navBackground: '#F9F9F9',
+		navBackground: '#FEFEFE',
 		navText: '#0E0E0E',
 
 		tabBackground: '#FEFEFE',
@@ -74,7 +74,7 @@ export const Colors: Record<string, Theme> = {
 		text: '#F2F2F2',
 		textSecondary: '#D4D4D4',
 
-		navBackground: '#101010',
+		navBackground: '#0A0A0A',
 		navText: '#F2F2F2',
 
 		tabBackground: '#0A0A0A',

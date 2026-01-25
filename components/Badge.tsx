@@ -33,7 +33,7 @@ const Badge = ({
 		<Pressable
 			style={({ pressed }) => [
 				{
-					backgroundColor: colors.secondary + '50',
+					backgroundColor: colors.foreground,
 				},
 				pressed && isPressable && styles.badgePressed,
 				styles.badge,

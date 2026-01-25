@@ -271,10 +271,10 @@ const styles = StyleSheet.create({
 	},
 	actionContainer: {
 		paddingHorizontal: 12,
-		paddingTop: 6,
+		paddingTop: 8,
 		paddingBottom: 10,
 		flexDirection: 'row',
-		gap: 6,
+		gap: 8,
 		borderTopWidth: 1,
 	},
 	actionButton: {

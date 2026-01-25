@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 	// text styles
 	title: {
 		padding: 10,
-		fontSize: 18,
+		fontSize: 20,
 		fontWeight: '600',
 	},
 });
