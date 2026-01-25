@@ -57,7 +57,6 @@ const ActivityCard = ({
 					<CircularProgressBar
 						progress={progressValue}
 						size={92}
-						strokeWidth={6}
 						activeColor={activityItem.color}
 						backgroundColor={activityItem.color + '50'}>
 						{activityItem.type === 'count' ? (
@@ -69,10 +68,16 @@ const ActivityCard = ({
 									</UIText>
 								</UIText>
 
-								<UIText style={styles.unit}>
-									{activityItem.unit}
-									{activityItem.count > 1 ? 's' : ''}
-								</UIText>
+								{activityItem.isSkipped ? (
+									<UIText style={styles.unit} isSecondary>
+										Skipped
+									</UIText>
+								) : (
+									<UIText style={styles.unit} isSecondary>
+										{activityItem.unit}
+										{activityItem.count > 1 ? 's' : ''}
+									</UIText>
+								)}
 							</View>
 						) : (
 							<View style={styles.quitDetails}>
@@ -119,6 +124,17 @@ const ActivityCard = ({
 					{activityItem.frequency}
 				</Badge>
 			</View>
+
+			{activityItem.isSkipped && !isLoading ? (
+				<View style={styles.skipIndicator}>
+					<Icon
+						name='FastForward'
+						color={activityItem.color}
+						fillColor={activityItem.color + '50'}
+						isFilled
+					/>
+				</View>
+			) : null}
 		</Pressable>
 	);
 };
@@ -128,6 +144,7 @@ export default ActivityCard;
 const styles = StyleSheet.create({
 	// container styles
 	habitCard: {
+		position: 'relative',
 		padding: 16,
 		alignItems: 'center',
 		borderRadius: 24,
@@ -152,9 +169,16 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		gap: 4,
 	},
+	skipIndicator: {
+		position: 'absolute',
+		top: 12,
+		right: 12,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 	progressSkeleton: {
-		height: 100,
-		width: 100,
+		height: 92,
+		width: 92,
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderWidth: 8,

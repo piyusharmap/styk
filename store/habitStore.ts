@@ -478,7 +478,7 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 			const existingLog = get().logs[logKey];
 
-			if (!existingLog) return false;
+			if (!existingLog || !existingLog.skipped) return false;
 			else return existingLog.skipped!;
 		},
 
@@ -528,12 +528,16 @@ export const useHabitStore = create<HabitStore>()((set, get) => {
 
 				if (habit.target.type === 'count') {
 					percentage = Math.min(value / habit.target.count, 1);
-					status =
-						value >= habit.target.count
-							? 'success'
-							: date === today || value > 0
-								? 'incomplete'
-								: 'fail';
+
+					if (value >= habit.target.count) {
+						status = 'success';
+					} else if (date === today || value > 0) {
+						status = 'incomplete';
+					}
+
+					if (log && log.skipped) {
+						status = 'skipped';
+					}
 				} else {
 					percentage = value > 0 ? 0 : 1;
 					status = value > 0 ? 'fail' : date === today ? 'incomplete' : 'success';

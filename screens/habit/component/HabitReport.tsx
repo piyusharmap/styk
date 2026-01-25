@@ -5,6 +5,7 @@ import HabitInfoCard from '../../../components/habit/HabitInfoCard';
 import useTheme from '../../../theme/useTheme';
 import Icon from '../../../components/icon';
 import UIText from '../../../components/ui/UIText';
+import { hexToRgba } from '../../../utils/habit';
 
 const HabitReport = ({ habitId, accentColor }: { habitId: string; accentColor: string }) => {
 	const { colors } = useTheme();
@@ -22,19 +23,21 @@ const HabitReport = ({ habitId, accentColor }: { habitId: string; accentColor: s
 				return {
 					background: colors.neutral,
 					borderColor: 'transparent',
-					opacity: 1,
 				};
 			case 'none':
 				return {
 					background: colors.foreground,
 					borderColor: colors.border,
-					opacity: 1,
+				};
+			case 'skipped':
+				return {
+					background: 'transparent',
+					borderColor: accentColor,
 				};
 			default:
 				return {
-					background: accentColor,
+					background: hexToRgba(accentColor, Math.max(percentage, 0.15)),
 					borderColor: 'transparent',
-					opacity: Math.max(percentage, 0.15),
 				};
 		}
 	};
@@ -52,7 +55,6 @@ const HabitReport = ({ habitId, accentColor }: { habitId: string; accentColor: s
 								{
 									backgroundColor: itemStyle.background,
 									borderColor: itemStyle.borderColor,
-									opacity: itemStyle.opacity,
 								},
 								styles.gridItem,
 							]}
@@ -66,6 +68,12 @@ const HabitReport = ({ habitId, accentColor }: { habitId: string; accentColor: s
 					<Icon name='CircleSmall' size={16} color={accentColor} isFilled />
 
 					<UIText style={styles.label}>On Track</UIText>
+				</View>
+
+				<View style={styles.legendItem}>
+					<Icon name='CircleSmall' size={16} color={accentColor} />
+
+					<UIText style={styles.label}>Skipped</UIText>
 				</View>
 
 				<View style={styles.legendItem}>
@@ -103,7 +111,6 @@ const styles = StyleSheet.create({
 	legendItem: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 2,
 	},
 
 	// text styles

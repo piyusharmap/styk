@@ -14,11 +14,18 @@ export const HabitLogService = {
 
 	upsertLog: async (log: HabitLog) => {
 		const query = `
-			INSERT OR REPLACE INTO habit_logs (id, habit_id, date, value)
-			VALUES (?, ?, ?, ?);
+			INSERT OR REPLACE INTO habit_logs (id, habit_id, date, value, skipped, updated_at)
+			VALUES (?, ?, ?, ?, ?, ?);
 		`;
 
-		return executeSQL(query, [log.id, log.habitId, log.date, log.value]);
+		return executeSQL(query, [
+			log.id,
+			log.habitId,
+			log.date,
+			log.value,
+			log.skipped,
+			log.updatedAt,
+		]);
 	},
 
 	deleteLog: async (id: string) => {
