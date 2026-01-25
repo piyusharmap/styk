@@ -165,7 +165,8 @@ export const HabitService = {
 				t.count,
 				t.frequency,
 				t.unit,
-				COALESCE(l.value, 0) as current_value
+				COALESCE(l.value, 0) as current_value,
+				COALESCE(l.skipped, 0) as is_skipped
 			FROM habits h
 			INNER JOIN habit_targets t ON h.id = t.habit_id
 			LEFT JOIN habit_logs l ON h.id = l.habit_id AND l.date = ?

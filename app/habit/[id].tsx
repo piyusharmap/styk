@@ -74,7 +74,7 @@ const HabitDetailsPage = () => {
 
 					{habitType === 'count' ? (
 						<HabitInfoCard
-							heading={`Progress • ${habitDetails.target.frequency} ${isHabitSkipped ? '• Skipped' : ''}`}>
+							heading={`${isHabitSkipped ? 'Skipped Today' : 'Progress'} • ${habitDetails.target.frequency}`}>
 							<BuildHabitActions habit={habitDetails} />
 						</HabitInfoCard>
 					) : (

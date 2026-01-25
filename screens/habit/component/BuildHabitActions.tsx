@@ -55,7 +55,6 @@ const BuildHabitActions = ({ habit }: { habit: Habit }) => {
 			<CircularProgressBar
 				progress={score}
 				size={100}
-				strokeWidth={8}
 				activeColor={habit.color}
 				backgroundColor={habit.color + '50'}>
 				<View style={styles.progressDetails}>
@@ -93,7 +92,7 @@ const BuildHabitActions = ({ habit }: { habit: Habit }) => {
 					size={44}
 					color={habit.color}
 					iconName='FastForward'
-					isDisabled={isHabitSkipped}
+					isDisabled={isHabitLocked || isHabitSkipped}
 					onPress={() => skipHabit(habit.id)}
 				/>
 			</View>

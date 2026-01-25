@@ -37,7 +37,7 @@ const ProgressBar = ({
 		return Array.from({ length: TOTAL_BARS }).map((_, index) => {
 			const barOpacity = animatedFilledCount.interpolate({
 				inputRange: [index - 1, index, index + 0.1],
-				outputRange: [0.3, 1, 1],
+				outputRange: [0.5, 1, 1],
 				extrapolate: 'clamp',
 			});
 

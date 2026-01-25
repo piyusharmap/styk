@@ -36,7 +36,7 @@ const DateItem = memo(
 						},
 						isSelected && {
 							backgroundColor: 'transparent',
-							borderColor: colors.secondary,
+							borderColor: colors.primary,
 						},
 						pressed && styles.dateButtonPressed,
 						styles.dateButton,

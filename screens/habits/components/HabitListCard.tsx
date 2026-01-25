@@ -21,6 +21,56 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 
 	const typeDetails = HabitTypeDetails[habitType];
 
+	const renderAction = () => {
+		if (habit.target.type === 'quit') {
+			return (
+				<HabitToggleButton
+					habitId={habit.id}
+					target={habit.target}
+					color={habit.color}
+					isDisabled={isHabitSkipped}
+				/>
+			);
+		}
+
+		if (isHabitLocked) {
+			return (
+				<View style={styles.iconContainer}>
+					<Icon
+						name='Flame'
+						size={32}
+						color={habit.color}
+						fillColor={habit.color + '80'}
+						isFilled
+					/>
+				</View>
+			);
+		}
+
+		if (isHabitSkipped) {
+			return (
+				<View style={styles.iconContainer}>
+					<Icon
+						name='FastForward'
+						size={32}
+						color={habit.color}
+						fillColor={habit.color + '80'}
+						isFilled
+					/>
+				</View>
+			);
+		}
+
+		return (
+			<HabitToggleButton
+				habitId={habit.id}
+				target={habit.target}
+				color={habit.color}
+				isDisabled={isHabitSkipped}
+			/>
+		);
+	};
+
 	return (
 		<Pressable
 			style={({ pressed }) => [
@@ -51,7 +101,12 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 							<UIText style={styles.habitDetail}>
 								<UIText style={styles.habitDetail}>
 									<UIText isSecondary>
-										{isHabitLocked ? 'Completed' : 'In Progress'}:
+										{isHabitLocked
+											? 'Completed'
+											: isHabitSkipped
+												? 'Skipped Today'
+												: 'In Progress'}
+										:
 									</UIText>{' '}
 									<UIText style={styles.habitDetailHighlight}>
 										{countValue}/{habit.target.count}{' '}
@@ -71,26 +126,7 @@ const HabitListCard = ({ habit }: { habit: Habit }) => {
 					</View>
 				</View>
 
-				<View style={styles.actionContainer}>
-					{isHabitLocked && habitType === 'count' ? (
-						<View style={styles.iconContainer}>
-							<Icon
-								name='Flame'
-								size={36}
-								color={habit.color}
-								fillColor={habit.color + '80'}
-								isFilled
-							/>
-						</View>
-					) : (
-						<HabitToggleButton
-							habitId={habit.id}
-							target={habit.target}
-							color={habit.color}
-							isDisabled={isHabitSkipped}
-						/>
-					)}
-				</View>
+				<View style={styles.actionContainer}>{renderAction()}</View>
 			</View>
 
 			{habitType === 'count' ? (

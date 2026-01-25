@@ -6,7 +6,7 @@ export type CountUnit = 'time' | 'minute' | 'hour' | 'page' | 'kilometer' | 'met
 
 export type HabitWindow = { start: string; end: string };
 
-export type HabitLogStatus = 'success' | 'fail' | 'incomplete' | 'none';
+export type HabitLogStatus = 'success' | 'fail' | 'incomplete' | 'skipped' | 'none';
 
 export type MilestoneUnit = 'day' | 'month' | 'year';
 
@@ -71,6 +71,7 @@ export type HabitActivity = {
 	count: number;
 	unit: string;
 	currentValue: number;
+	isSkipped: boolean;
 	progress: number;
 };
 

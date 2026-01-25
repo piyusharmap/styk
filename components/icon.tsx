@@ -7,7 +7,7 @@ export type IconType = keyof typeof icons;
 const Icon = ({
 	name,
 	color,
-	size,
+	size = 20,
 	fillColor,
 	isFilled = false,
 }: {

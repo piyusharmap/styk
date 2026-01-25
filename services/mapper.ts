@@ -36,9 +36,9 @@ export const mapHabitLog = (row: any): HabitLog => {
 		habitId: row.habit_id,
 		date: row.date,
 		value: row.value,
-		skipped: row.skipped,
+		skipped: Boolean(row.skipped),
 		history: row.history,
-		updatedAt: row.update_at,
+		updatedAt: row.updated_at,
 	};
 };
 
@@ -63,6 +63,7 @@ export const mapDailyActivity = (row: any): HabitActivity => {
 		count: row.count,
 		unit: row.unit || '',
 		currentValue: currentValue,
+		isSkipped: row.is_skipped,
 		progress: progress,
 	};
 };
